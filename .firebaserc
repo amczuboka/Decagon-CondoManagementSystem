@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "decagon-acb25": {
+      "hosting": {
+        "Decagon": [
+          "decagon-acb25"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "decagon-acb25"
+  }
+}
