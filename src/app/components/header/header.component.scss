@@ -1,0 +1,27 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+.Menu-dropdown{
+    display: none;
+}
+
+@media (max-width: 768px) {
+  .Menu-dropdown{
+    display: block;
+  }
+  mat-toolbar{
+    display: flex;
+    align-items: center;
+    flex-flow: column nowrap;
+    height: fit-content;
+  }
+  .Menu{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .otherLinks{
+    display: none;
+  }
+
+}

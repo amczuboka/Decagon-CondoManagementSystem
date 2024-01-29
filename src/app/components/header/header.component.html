@@ -1,1 +1,19 @@
-<p>header works!</p>
+<mat-toolbar>
+  <span>(the place of the logo)</span>
+  <div class="Menu">
+    My App
+    <button mat-button [matMenuTriggerFor]="menu" class="Menu-dropdown">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+  <span class="example-spacer"></span>
+  <div class="otherLinks">
+    <span>text</span>
+    <span>texteteb </span>
+  </div>
+</mat-toolbar>
+
+<mat-menu #menu="matMenu" xPosition="before">
+  <button mat-menu-item>Item 1</button>
+  <button mat-menu-item>Item 2</button>
+</mat-menu>
