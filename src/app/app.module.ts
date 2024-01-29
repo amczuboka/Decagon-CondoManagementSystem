@@ -15,12 +15,18 @@ import { provideRemoteConfig, getRemoteConfig } from '@angular/fire/remote-confi
 import { provideStorage, getStorage } from '@angular/fire/storage';
 import { AngularFireModule } from '@angular/fire/compat';
 import { firebaseConfig } from 'src/environments/environment';
+import { LandingComponent } from './pages/landing/landing.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 @NgModule({
   
   declarations: [
-    AppComponent
+    AppComponent,
+    LandingComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
