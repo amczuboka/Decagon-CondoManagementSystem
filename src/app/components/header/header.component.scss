@@ -52,6 +52,16 @@ mat-toolbar {
   padding-left: 32px;
 }
 
+.mobile-notification {
+  display: block;
+}
+
+.mobile-menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media (max-width: 768px) {
   .Menu-dropdown {
     display: flex;
@@ -78,16 +88,6 @@ mat-toolbar {
   .otherLinks {
     display: none;
   }
-}
-
-.mobile-notification {
-  display: block;
-}
-
-.mobile-menu {
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 @media (min-width: 769px) {
