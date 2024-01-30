@@ -1,19 +1,39 @@
 <mat-toolbar>
-  <span>(the place of the logo)</span>
   <div class="Menu">
-    My App
-    <button mat-button [matMenuTriggerFor]="menu" class="Menu-dropdown">
+    <div class="brand-container">
+      <a class="navbar-brand" href="">Decagon</a>
+    </div>
+    <button
+      mat-button
+      [matMenuTriggerFor]="menu"
+      *ngIf="authService.isLoggedIn"
+      class="Menu-dropdown"
+    >
       <mat-icon>menu</mat-icon>
     </button>
   </div>
   <span class="example-spacer"></span>
-  <div class="otherLinks">
-    <span>text</span>
-    <span>texteteb </span>
+  <div *ngIf="authService.isLoggedIn" class="otherLinks">
+    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+      <li class="nav-item">
+        <a class="nav-link" aria-current="page" href="">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="user-profile">Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" (click)="authService.SignOut()">Log Out</a>
+      </li>
+    </ul>
   </div>
 </mat-toolbar>
 
-<mat-menu #menu="matMenu" xPosition="before">
-  <button mat-menu-item>Item 1</button>
-  <button mat-menu-item>Item 2</button>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item>Home</button>
+  <button mat-menu-item *ngIf="authService.isLoggedIn">
+    <a class="nav-link" href="user-profile">Profile</a>
+  </button>
+  <button mat-menu-item *ngIf="authService.isLoggedIn">
+    <a class="nav-link" (click)="authService.SignOut()">Log Out</a>
+  </button>
 </mat-menu>
