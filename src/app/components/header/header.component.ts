@@ -10,6 +10,8 @@ import { AuthService } from 'src/app/services/auth.service';
 export class HeaderComponent implements AfterViewChecked {
   authority!: string;
   myUser!: any;
+  // TODO: Retrieve notifications from the user's account
+  notifications: string[] = ['hello', 'test'];
 
   constructor(
     public authService: AuthService,

@@ -1,14 +1,18 @@
-.example-spacer {
-  flex: 1 1 auto;
+mat-toolbar {
+  display: flex;
+  width: 100%;
 }
+
 .Menu-dropdown {
   display: none;
 }
 .otherLinks {
+  margin-left: auto;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   width: 30%;
+  margin-right: 35px;
 }
 
 .navbar-nav {
@@ -22,6 +26,16 @@
       margin-right: 0;
     }
   }
+}
+
+.nav-link {
+  &:hover {
+    color: lighten(black, 50%); // lighten the text color by 10%
+  }
+}
+
+.nav-item button[matBadge] {
+  position: relative;
 }
 
 .brand-container {
@@ -62,6 +76,26 @@
     width: 100%;
   }
   .otherLinks {
+    display: none;
+  }
+}
+
+.mobile-notification {
+  display: block;
+}
+
+.mobile-menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 769px) {
+  .mobile-notification {
+    display: none;
+  }
+
+  .mobile-menu {
     display: none;
   }
 }

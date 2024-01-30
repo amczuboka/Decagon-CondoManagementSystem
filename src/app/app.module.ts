@@ -43,6 +43,8 @@ import { FooterComponent } from './components/footer/footer.component';
 import { LoginComponent } from './pages/login/login/login.component';
 import { RegisterComponent } from './pages/login/register/register.component';
 import { VerifyEmailComponent } from './pages/login/verify-email/verify-email.component';
+import { MatBadgeModule } from '@angular/material/badge';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -83,6 +85,7 @@ import { VerifyEmailComponent } from './pages/login/verify-email/verify-email.co
     NgbModule,
     MatProgressSpinnerModule,
     MatSelectModule,
+    MatBadgeModule,
   ],
   providers: [ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent],
