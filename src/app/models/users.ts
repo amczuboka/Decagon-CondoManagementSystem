@@ -1,8 +1,24 @@
 export interface User {
-    ID: string;
+    uid: string;
+    email: string;
+    photoURL: string;
+    emailVerified: boolean;
+}
+
+export interface UserDTO {
     FirstName: string;
     LastName: string;
+    ID: string;
+    Authority: Authority;
     Email: string;
-    Authority: string;
-    DeliveryIDs: string;
+    ProfilePicture: string;
+}
+
+export enum Authority {
+    Public = 'Public',
+    Individual = 'Individual',
+    Company = 'Company',
+    Employee = 'Employee',
+    CondoOwner = 'CondoOwner',
+    RentalUser = 'RentalUser',
 }

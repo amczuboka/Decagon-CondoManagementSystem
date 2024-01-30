@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
-import { AuthService, MyErrorStateMatcher } from 'src/app/services/auth.service';
+import {
+  AuthService,
+  MyErrorStateMatcher,
+} from 'src/app/services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { StorageService } from 'src/app/services/storage.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -9,9 +12,8 @@ import { StorageService } from 'src/app/services/storage.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-
   loginForm!: FormGroup;
-  
+
   //for the error message in the form
   matcher = new MyErrorStateMatcher();
 
@@ -21,7 +23,7 @@ export class LoginComponent {
   constructor(
     public authService: AuthService,
     private formBuilder: FormBuilder,
-    private storageService: StorageService
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -34,10 +36,9 @@ export class LoginComponent {
   async onSubmit() {
     // stop the process here if form is invalid
     if (this.loginForm.invalid) {
-      this.storageService.sendNotification(
-        'make sure to answer all required fields'
+      this.notificationService.sendAlert(
+        'Make sure to answer all required fields'
       );
-
       return;
     }
 
