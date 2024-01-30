@@ -1,0 +1,355 @@
+<section style="padding-top: 10px" class="vh-200 bg-image">
+  <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+          <div class="card" style="border-radius: 15px">
+            <div class="card-body p-5">
+              <h2 class="text-uppercase text-center mb-5">Create an account</h2>
+
+              <form [formGroup]="registerForm">
+                <!-- Input for first name -->
+                <div class="form-outline mb-4">
+                  <mat-form-field appearance="outline">
+                    <mat-label class="form-label" for="form3Example1cg"
+                      >First Name</mat-label
+                    >
+                    <input
+                      matInput
+                      required
+                      ngModel
+                      name="FirstName"
+                      formControlName="FirstName"
+                      [errorStateMatcher]="matcher"
+                      id="form3Example1cg"
+                      class="form-control form-control-lg"
+                    />
+                    <mat-icon
+                      matSuffix
+                      *ngIf="
+                        registerForm.controls['FirstName'].hasError(
+                          'required'
+                        ) && registerForm.controls['FirstName'].touched
+                      "
+                      >error_outline
+                    </mat-icon>
+                    <mat-error
+                      *ngIf="
+                        registerForm.controls['FirstName'].hasError('required')
+                      "
+                      >Enter your first name
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <!-- Input for last name -->
+                <div class="form-outline mb-4">
+                  <mat-form-field appearance="outline">
+                    <mat-label class="form-label" for="form3Example1cg"
+                      >Last Name</mat-label
+                    >
+                    <input
+                      matInput
+                      required
+                      ngModel
+                      name="LastName"
+                      formControlName="LastName"
+                      [errorStateMatcher]="matcher"
+                      id="form3Example1cg"
+                      class="form-control form-control-lg"
+                    />
+                    <mat-icon
+                      matSuffix
+                      *ngIf="
+                        registerForm.controls['LastName'].hasError(
+                          'required'
+                        ) && registerForm.controls['LastName'].touched
+                      "
+                      >error_outline
+                    </mat-icon>
+                    <mat-error
+                      *ngIf="
+                        registerForm.controls['LastName'].hasError('required')
+                      "
+                      >Enter your last name
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <!-- Input for email -->
+                <div class="form-outline mb-4">
+                  <mat-form-field appearance="outline">
+                    <mat-label class="form-label" for="form3Example3cg"
+                      >Email</mat-label
+                    >
+                    <input
+                      matInput
+                      required
+                      ngModel
+                      name="Email"
+                      formControlName="Email"
+                      [errorStateMatcher]="matcher"
+                      id="form3Example3cg"
+                      class="form-control form-control-lg"
+                    />
+                    <mat-icon
+                      matSuffix
+                      *ngIf="
+                        (registerForm.controls['Email'].hasError('email') ||
+                          registerForm.controls['Email'].hasError(
+                            'required'
+                          )) &&
+                        registerForm.controls['Email'].touched
+                      "
+                      >error_outline</mat-icon
+                    >
+                    <mat-error
+                      *ngIf="
+                        registerForm.controls['Email'].hasError('email') &&
+                        !registerForm.controls['Email'].hasError('required')
+                      "
+                    >
+                      Please enter a valid email address
+                    </mat-error>
+                    <mat-error
+                      *ngIf="
+                        registerForm.controls['Email'].hasError('required')
+                      "
+                    >
+                      Email is <strong>required</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <!-- Input for confirm email -->
+                <div class="form-outline mb-4">
+                  <mat-form-field appearance="outline">
+                    <mat-label class="form-label" for="form3Example3cg"
+                      >Confirm Email</mat-label
+                    >
+                    <input
+                      matInput
+                      required
+                      ngModel
+                      name="ConfirmEmail"
+                      formControlName="ConfirmEmail"
+                      [errorStateMatcher]="matcher"
+                      id="form3Example3cg"
+                      class="form-control form-control-lg"
+                    />
+                    <mat-icon
+                      matSuffix
+                      *ngIf="
+                        (emailConfirmationValidator(registerForm) ||
+                          registerForm.controls['ConfirmEmail'].hasError(
+                            'email'
+                          )) &&
+                        registerForm.controls['ConfirmEmail'].touched
+                      "
+                      >error_outline</mat-icon
+                    >
+                    <mat-error *ngIf="emailConfirmationValidator(registerForm)">
+                      {{ emailConfirmationValidator(registerForm) }}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <!-- Input for password -->
+                <div class="form-outline mb-4">
+                  <mat-form-field appearance="outline">
+                    <mat-label class="form-label" for="form3Example4cg"
+                      >Password</mat-label
+                    >
+                    <input
+                      matInput
+                      required
+                      ngModel
+                      name="Password"
+                      formControlName="Password"
+                      [errorStateMatcher]="matcher"
+                      [type]="hide ? 'password' : 'text'"
+                      id="form3Example4cg"
+                      class="form-control form-control-lg"
+                    />
+                    <mat-icon
+                      matSuffix
+                      *ngIf="
+                        (registerForm.controls['Password'].hasError(
+                          'minlength'
+                        ) ||
+                          registerForm.controls['Password'].hasError(
+                            'required'
+                          )) &&
+                        registerForm.controls['Password'].touched
+                      "
+                      >error_outline</mat-icon
+                    >
+
+                    <mat-error
+                      *ngIf="
+                        registerForm.controls['Password'].hasError('required')
+                      "
+                    >
+                      Password is <strong>required</strong>
+                    </mat-error>
+                    <mat-error
+                      *ngIf="
+                        registerForm.controls['Password'].hasError(
+                          'minlength'
+                        ) &&
+                        !registerForm.controls['Password'].hasError('required')
+                      "
+                    >
+                      Your password must be at least 6 characters long
+                    </mat-error>
+                    <button
+                      type="button"
+                      mat-icon-button
+                      matSuffix
+                      (click)="hide = !hide"
+                      [attr.aria-label]="'Hide password'"
+                      [attr.aria-pressed]="hide"
+                    >
+                      <mat-icon id="hide">{{
+                        hide ? "visibility_off" : "visibility"
+                      }}</mat-icon>
+                    </button>
+                  </mat-form-field>
+                </div>
+
+                <!-- Input for confirm password -->
+                <div class="form-outline mb-4">
+                  <mat-form-field appearance="outline">
+                    <mat-label class="form-label" for="form3Example4cg"
+                      >Confirm Password</mat-label
+                    >
+                    <input
+                      matInput
+                      required
+                      ngModel
+                      name="ConfirmPassword"
+                      formControlName="ConfirmPassword"
+                      [errorStateMatcher]="matcher"
+                      [type]="hide ? 'password' : 'text'"
+                      id="form3Example4cg"
+                      class="form-control form-control-lg"
+                    />
+                    <mat-icon
+                      matSuffix
+                      *ngIf="
+                        (passwordConfirmationValidator(registerForm) ||
+                          registerForm.controls['ConfirmPassword'].hasError(
+                            'minlength'
+                          )) &&
+                        registerForm.controls['ConfirmPassword'].touched
+                      "
+                      >error_outline</mat-icon
+                    >
+                    <mat-error
+                      *ngIf="passwordConfirmationValidator(registerForm)"
+                    >
+                      {{ passwordConfirmationValidator(registerForm) }}
+                    </mat-error>
+                    <button
+                      type="button"
+                      mat-icon-button
+                      matSuffix
+                      (click)="hide = !hide"
+                      [attr.aria-label]="'Hide password'"
+                      [attr.aria-pressed]="hide"
+                    >
+                      <mat-icon id="hide">{{
+                        hide ? "visibility_off" : "visibility"
+                      }}</mat-icon>
+                    </button>
+                  </mat-form-field>
+                </div>
+
+                <!-- Input for type of user -->
+                <mat-form-field appearance="outline" class="form-outline mb-4">
+                  <mat-label>Choose type of user</mat-label>
+                  <mat-select
+                    required
+                    name="Authority"
+                    formControlName="Authority"
+                    [errorStateMatcher]="matcher"
+                  >
+                    <mat-option value="Individual">Individual</mat-option>
+                    <mat-option value="Company">Company</mat-option>
+                    <mat-option value="Staff">Staff</mat-option>
+                  </mat-select>
+                  <mat-icon
+                    matSuffix
+                    *ngIf="
+                      registerForm.controls['Authority'].hasError('required') &&
+                      registerForm.controls['Authority'].touched
+                    "
+                    >error_outline</mat-icon
+                  >
+                  <mat-error
+                    *ngIf="
+                      registerForm.controls['Authority'].hasError('required')
+                    "
+                  >
+                    Be sure to select a type of user
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- Input for Name of Company if user of type Company -->
+                <div
+                  *ngIf="registerForm.controls['Authority'].value == 'Company'"
+                  class="form-outline mb-4"
+                >
+                  <mat-form-field appearance="outline">
+                    <mat-label class="form-label" for="form3Example4cg"
+                      >Company Name</mat-label
+                    >
+                    <input
+                      matInput
+                      required
+                      ngModel
+                      name="CompanyName"
+                      formControlName="CompanyName"
+                      id="form3Example4cg"
+                      class="form-control form-control-lg"
+                    />
+                  </mat-form-field>
+                </div>
+
+                <div class="d-flex justify-content-center">
+                  <button
+                    (click)="onSubmit()"
+                    type="submit"
+                    class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"
+                    style="
+                      background-color: #93aff6;
+                      --bs-btn-border-color: #93aff6;
+                      --bs-btn-hover-border-color: #93aff6;
+                    "
+                  >
+                    Register
+                  </button>
+                </div>
+
+                <p class="text-center text-muted mt-5 mb-0">
+                  Have already an account?
+                  <a href="/login" class="fw-bold text-body"
+                    ><u>Login here</u></a
+                  >
+                  <img
+                    class="kawaii-icon brown-icon"
+                    src="../../../assets/imgs/package.png"
+                    alt=""
+                  />
+                </p>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="loading-indicator" *ngIf="Uploading">
+          <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -17,9 +17,24 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
+  userData: any; // Save logged in user data
 
-  constructor() { }
+  constructor() {}
+
+  // Sign in with email/password
+  async SignIn(email: string, password: string) {
+    // return this.afAuth.signInWithEmailAndPassword(email, password);
+  }
+
+  // Send email verfificaiton when new user sign up
+  SendVerificationMail() {
+    // return this.afAuth.currentUser
+    //   .then((u: any) => u.sendEmailVerification())
+    //   .then(() => {
+    //     this.router.navigate(['verify-email']);
+    //   });
+  }
 }

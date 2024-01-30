@@ -1,5 +1,18 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatMenuModule } from '@angular/material/menu';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,15 +31,9 @@ import { firebaseConfig } from 'src/environments/environment';
 import { LandingComponent } from './pages/landing/landing.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatMenuModule } from '@angular/material/menu';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './pages/login/login/login.component';
-import { SignUpComponent } from './pages/login/sign-up/sign-up.component';
+import { RegisterComponent } from './pages/login/register/register.component';
+import { VerifyEmailComponent } from './pages/login/verify-email/verify-email.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +41,8 @@ import { SignUpComponent } from './pages/login/sign-up/sign-up.component';
     HeaderComponent,
     FooterComponent,
     LoginComponent,
-    SignUpComponent,
+    RegisterComponent,
+    VerifyEmailComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,6 +64,12 @@ import { SignUpComponent } from './pages/login/sign-up/sign-up.component';
     MatToolbarModule,
     MatMenuModule,
     BrowserAnimationsModule,
+    MatSnackBarModule,
+    ReactiveFormsModule,
+    FormsModule,
+    NgbModule,
+    MatProgressSpinnerModule,
+    MatSelectModule,
   ],
   providers: [ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent],
