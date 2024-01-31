@@ -11,7 +11,7 @@ export class HeaderComponent implements AfterViewChecked {
   authority!: string;
   myUser!: any;
   // TODO: Retrieve notifications from the user's account
-  notifications: string[] = ['hello', 'test'];
+  notifications: string[] = ['Here is your registration key', 'test'];
 
   constructor(
     public authService: AuthService,
