@@ -38,7 +38,7 @@ export interface EmployeeDTO extends UserDTO {
 }
 
 export enum Authority {
-  Public = 'Public',
-  Company = 'Company',
-  Employee = 'Employee',
+    Public = 'Public',
+    Company = 'Company',
+    Employee = 'Employee',
 }
