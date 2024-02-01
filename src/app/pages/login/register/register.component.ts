@@ -1,4 +1,4 @@
-import { Authority, User, UserDTO } from './../../../models/users';
+import { Authority, CompanyDTO, EmployeeDTO, User, UserDTO } from './../../../models/users';
 import { Component } from '@angular/core';
 import { Database, ref, set } from '@angular/fire/database';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -7,6 +7,7 @@ import {
   MyErrorStateMatcher,
 } from 'src/app/services/auth.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -23,7 +24,8 @@ export class RegisterComponent {
     public authService: AuthService,
     private formBuilder: FormBuilder,
     private notificationService: NotificationService,
-    private database: Database
+    private database: Database,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -34,21 +36,21 @@ export class RegisterComponent {
       LastName: ['', [Validators.required]],
       Password: ['', [Validators.required, Validators.minLength(6)]],
       ConfirmPassword: ['', [Validators.required, Validators.minLength(6)]],
-      Authority: ['Public', [Validators.required]],
-      // CompanyName: [''],
+      Authority: [Authority.Public, [Validators.required]],
+      CompanyName: [''],
       ID: [''],
     });
 
     // Subscribe to Authority field changes
-    // this.registerForm.get('Authority')!.valueChanges.subscribe((value) => {
-    //   // Trigger validation for CompanyName
-    //   this.registerForm.get('CompanyName')!.updateValueAndValidity();
+    this.registerForm.get('Authority')!.valueChanges.subscribe((value) => {
+      // Trigger validation for CompanyName
+      this.registerForm.get('CompanyName')!.updateValueAndValidity();
 
-    //   // If the selected authority is not 'Company', clear the validation error for CompanyName
-    //   if (value !== 'Company') {
-    //     this.registerForm.get('CompanyName')!.setErrors(null);
-    //   }
-    // });
+      // If the selected authority is not 'Company', clear the validation error for CompanyName
+      if (value !== Authority.Company || value !== Authority.Employee) {
+        this.registerForm.get('CompanyName')!.setErrors(null);
+      }
+    });
   }
 
   passwordConfirmationValidator(form: FormGroup) {
@@ -84,8 +86,37 @@ export class RegisterComponent {
       return;
     }
     this.Uploading = true;
-    let authority = Authority.Public;
-    let path = 'public users/';
+    let authority = this.registerForm.value.Authority;
+    let path = '';
+    if (authority == Authority.Public) {
+      path = 'public users/';
+    } else if (authority == Authority.Company) {
+      path = 'companies/';
+      const companyName = this.registerForm.value.CompanyName;
+      const existingCompany = await this.userService.checkIfCompanyExists(
+        companyName
+      );
+      if (existingCompany) {
+        this.notificationService.sendAlert(
+          `Company account for ${companyName} already exists`
+        );
+        this.Uploading = false;
+        return;
+      }
+    } else if (authority == Authority.Employee) {
+      path = 'employees/';
+      const companyName = this.registerForm.value.CompanyName;
+      const existingCompany = await this.userService.checkIfCompanyExists(
+        companyName
+      );
+      if (!existingCompany) {
+        this.notificationService.sendAlert(
+          `Company account for ${companyName} does not exist`
+        );
+        this.Uploading = false;
+        return;
+      }
+    }
     let rid: string = '';
     rid = await this.authService.SignUp(
       this.registerForm.value.Email,
@@ -98,29 +129,6 @@ export class RegisterComponent {
     }
     await this.registerUser(this.registerForm.value, rid, path);
     this.Uploading = false;
-    // this.Uploading = true;
-    // let authority = this.registerForm.value.Authority;
-    // let path = '';
-    // if (authority == 'Individual') {
-    //   path = 'individual/';
-    // } else if (authority == 'Company') {
-    //   path = 'company/';
-    // } else if (authority == 'Staff') {
-    //   path = 'staff/';
-    // }
-    // let rid: string = '';
-
-    // rid = await this.authService.SignUp(
-    //   this.registerForm.value.Email,
-    //   this.registerForm.value.Password,
-    //   authority
-    // );
-    // if (rid == '') {
-    //   this.Uploading = false;
-    //   return;
-    // }
-    // await this.registerUser(this.registerForm.value, rid, path);
-    // this.Uploading = false;
   }
 
   async registerUser(value: any, id: string, path: string) {
@@ -138,6 +146,37 @@ export class RegisterComponent {
         Authority: Authority.Public,
         Email: value.Email,
         ProfilePicture: '',
+      };
+
+      set(ref(this.database, path + id), user);
+    }
+    if (path == 'companies/') {
+      // Create new company
+      const user: CompanyDTO = {
+        FirstName: value.FirstName,
+        LastName: value.LastName,
+        ID: id,
+        Authority: Authority.Company,
+        Email: value.Email,
+        ProfilePicture: '',
+        CompanyName: value.CompanyName,
+        PropertyIds: [],
+        EmployeeIds: [],
+      };
+
+      set(ref(this.database, path + id), user);
+    }
+    if (path == 'employees/') {
+      // Create new employee
+      const user: EmployeeDTO = {
+        FirstName: value.FirstName,
+        LastName: value.LastName,
+        ID: id,
+        Authority: Authority.Employee,
+        Email: value.Email,
+        ProfilePicture: '',
+        CompanyName: value.CompanyName,
+        PropertyIds: [],
       };
 
       set(ref(this.database, path + id), user);

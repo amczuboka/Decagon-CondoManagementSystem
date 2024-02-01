@@ -12,14 +12,17 @@
       <button
         mat-button
         [matMenuTriggerFor]="menu"
-        *ngIf="authService.isLoggedIn"
+        *ngIf="authService.isLoggedIn && authService.getUser()?.emailVerified"
         class="Menu-dropdown"
       >
         <mat-icon>menu</mat-icon>
       </button>
     </div>
   </div>
-  <div *ngIf="authService.isLoggedIn" class="otherLinks">
+  <div
+    *ngIf="authService.isLoggedIn && authService.getUser()?.emailVerified"
+    class="otherLinks"
+  >
     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
       <li class="nav-item">
         <button mat-icon-button>
@@ -43,10 +46,16 @@
 
 <mat-menu #menu="matMenu">
   <button mat-menu-item>Home</button>
-  <button mat-menu-item *ngIf="authService.isLoggedIn">
+  <button
+    mat-menu-item
+    *ngIf="authService.isLoggedIn && authService.getUser()?.emailVerified"
+  >
     <a class="nav-link" href="user-profile">Profile</a>
   </button>
-  <button mat-menu-item *ngIf="authService.isLoggedIn">
+  <button
+    mat-menu-item
+    *ngIf="authService.isLoggedIn && authService.getUser()?.emailVerified"
+  >
     <a class="nav-link" href="login" (click)="authService.SignOut()">Log Out</a>
   </button>
 </mat-menu>

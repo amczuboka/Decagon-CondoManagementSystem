@@ -19,6 +19,9 @@ export class VerifyEmailComponent {
   }
 
   navigateToLogin() {
-    window.location.assign('/login');
+    if (this.authService.getUser()) {
+      this.authService.SignOut();
+    }
+    // window.location.assign('/login');
   }
 }

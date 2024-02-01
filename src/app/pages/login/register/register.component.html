@@ -266,7 +266,7 @@
                 </div>
 
                 <!-- Input for type of user -->
-                <!-- <mat-form-field appearance="outline" class="form-outline mb-4">
+                <mat-form-field appearance="outline" class="form-outline mb-4">
                   <mat-label>Choose type of user</mat-label>
                   <mat-select
                     required
@@ -274,9 +274,9 @@
                     formControlName="Authority"
                     [errorStateMatcher]="matcher"
                   >
-                    <mat-option value="Individual">Individual</mat-option>
+                    <mat-option value="Public">Public</mat-option>
                     <mat-option value="Company">Company</mat-option>
-                    <mat-option value="Staff">Staff</mat-option>
+                    <mat-option value="Employee">Employee</mat-option>
                   </mat-select>
                   <mat-icon
                     matSuffix
@@ -293,11 +293,11 @@
                   >
                     Be sure to select a type of user
                   </mat-error>
-                </mat-form-field> -->
+                </mat-form-field>
 
                 <!-- Input for Name of Company if user of type Company -->
-                <!-- <div
-                  *ngIf="registerForm.controls['Authority'].value == 'Company'"
+                <div
+                  *ngIf="registerForm.controls['Authority'].value == 'Company' || registerForm.controls['Authority'].value == 'Employee'"
                   class="form-outline mb-4"
                 >
                   <mat-form-field appearance="outline">
@@ -314,7 +314,7 @@
                       class="form-control form-control-lg"
                     />
                   </mat-form-field>
-                </div> -->
+                </div>
 
                 <div class="d-flex justify-content-center">
                   <button
@@ -336,11 +336,6 @@
                   <a href="/login" class="fw-bold text-body"
                     ><u>Login here</u></a
                   >
-                  <img
-                    class="kawaii-icon brown-icon"
-                    src="../../../assets/imgs/package.png"
-                    alt=""
-                  />
                 </p>
               </form>
             </div>
