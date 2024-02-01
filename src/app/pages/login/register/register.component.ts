@@ -182,8 +182,8 @@ export class RegisterComponent {
       set(ref(this.database, path + id), user);
     }
 
-    this.notificationService.sendNotification(
-      'User created! Make sure to confirm your email'
-    );
+    // this.notificationService.sendNotification(
+    //   'User created! Make sure to confirm your email'
+    // );
   }
 }

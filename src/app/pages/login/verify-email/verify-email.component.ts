@@ -18,6 +18,10 @@ export class VerifyEmailComponent {
     // }
   }
 
+  resendVerificationEmail(){
+    this.authService.SendVerificationMail();
+  }
+
   navigateToLogin() {
     if (this.authService.getUser()) {
       this.authService.SignOut();

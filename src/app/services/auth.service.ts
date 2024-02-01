@@ -66,7 +66,10 @@ export class AuthService {
         }
       })
       .catch((error) => {
-        console.error(error);
+        // console.error(error);
+        if (error.code == 'auth/invalid-credential') {
+          this.notificationService.sendAlert('Error: Invalid credentials');
+        }
         // Handle error here, e.g. show error message to user
       });
   }
@@ -116,6 +119,7 @@ export class AuthService {
       .then((u: any) => u.sendEmailVerification())
       .then(() => {
         this.router.navigate(['verify-email']);
+        this.notificationService.sendNotification('Email verification sent');
       });
   }
 
