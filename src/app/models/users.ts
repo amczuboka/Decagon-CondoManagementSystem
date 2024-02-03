@@ -12,6 +12,8 @@ export interface UserDTO {
   Authority: Authority;
   Email: string;
   ProfilePicture: string;
+  PhoneNumber: string;
+  UserName: string;
 }
 
 export interface CompanyDTO extends UserDTO {
@@ -21,6 +23,8 @@ export interface CompanyDTO extends UserDTO {
   Authority: Authority;
   Email: string;
   ProfilePicture: string;
+  PhoneNumber: string;
+  UserName: string;
   CompanyName: string;
   PropertyIds: string[];
   EmployeeIds: string[];
@@ -34,6 +38,8 @@ export interface EmployeeDTO extends UserDTO {
   Email: string;
   ProfilePicture: string;
   CompanyName: string;
+  PhoneNumber: string;
+  UserName: string;
   PropertyIds: string[];
 }
 

@@ -10,13 +10,14 @@ import {
   ref as ref_storage,
   uploadBytesResumable,
   getDownloadURL,
+  deleteObject,
 } from '@angular/fire/storage';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StorageService {
-  constructor() {}
+  constructor(private storage: Storage) {}
 
   /**
    * Uploads a file to Firebase Storage and returns the download URL and a temporary name.
@@ -25,14 +26,10 @@ export class StorageService {
    * @param storage - The Firebase Storage instance to use.
    * @returns A Promise that resolves to a string containing the download URL and temporary name.
    */
-  async uploadToFirestore(
-    file: any,
-    path: string,
-    storage: Storage
-  ): Promise<string> {
+  async uploadToFirestore(file: any, path: string): Promise<string> {
     let url = '';
     let tempName = '';
-    let storageRef = ref_storage(storage, path + file.name);
+    let storageRef = ref_storage(this.storage, path + file.name);
 
     try {
       url = await getDownloadURL(storageRef);
@@ -44,7 +41,7 @@ export class StorageService {
     while (url != '' || url == undefined) {
       try {
         tempName = Math.random().toString(36).substring(2);
-        storageRef = ref_storage(storage, path + tempName + file.name);
+        storageRef = ref_storage(this.storage, path + tempName + file.name);
         url = await getDownloadURL(storageRef);
       } catch (err) {
         break;
@@ -88,4 +85,32 @@ export class StorageService {
 
     return id;
   }
+
+  // /**
+  //  * Deletes a file from Firebase Storage.
+  //  * @param path - The path in Firebase Storage where the file is stored.
+  //  * @param storage - The Firebase Storage instance to use.
+  //  */
+  // async deleteFile(path: string) {
+  //   const fileRef = ref_storage(this.storage, path);
+  //   deleteObject(fileRef)
+  //     .then(() => {})
+  //     .catch((error) => {});
+  // }
+
+  /**
+ * Deletes a file from Firebase Storage.
+ * @param downloadUrl - The download URL of the file in Firebase Storage.
+ * @param storage - The Firebase Storage instance to use.
+ */
+async deleteFile(downloadUrl: string) {
+  const fileRef = ref_storage(this.storage, downloadUrl);
+  deleteObject(fileRef)
+    .then(() => {
+      console.log("File deleted successfully");
+    })
+    .catch((error) => {
+      console.error("Error deleting file:", error);
+    });
+}
 }

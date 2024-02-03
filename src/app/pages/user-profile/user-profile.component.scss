@@ -1,0 +1,51 @@
+.information {
+  font-size: 17px;
+}
+
+.information a {
+  text-decoration: none;
+  color: black;
+  /* optional animation */
+}
+.information a span {
+  transition: all 0.2s ease-in-out, opacity 0.4s linear;
+}
+.information a span:hover {
+  color: blue !important;
+}
+.information fa-icon {
+  color: red;
+}
+.heading {
+  font-size: 13px;
+}
+
+mat-label {
+  color: black;
+}
+
+/* Absolute Center Spinner */
+.loading-indicator {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+/* Transparent Overlay */
+.loading-indicator:before {
+  content: "";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+}

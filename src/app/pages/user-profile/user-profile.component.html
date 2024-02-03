@@ -1,0 +1,362 @@
+<div>
+  <!-- <div *ngIf="canEdit"> -->
+  <div *ngIf="false">
+    <form [formGroup]="profileForm">
+      <section class="vh-200">
+        <div class="container py-5 h-100">
+          <div
+            class="row d-flex justify-content-center align-items-center h-100"
+          >
+            <div class="col col-lg-9 mb-4 mb-lg-0">
+              <div
+                class="card mb-3 justify-content-center"
+                style="border-radius: 0.5rem"
+              >
+                <div class="row g-0">
+                  <div
+                    class="col-md-4 gradient-custom text-center text-white"
+                    style="
+                      border-top-left-radius: 0.5rem;
+                      border-bottom-left-radius: 0.5rem;
+                      background-color: #475db8;
+                    "
+                  >
+                    <img
+                      *ngIf="myUser.ProfilePicture"
+                      [src]="myUser.ProfilePicture"
+                      alt="Avatar"
+                      class="img-fluid my-5"
+                      style="width: 80px"
+                    />
+
+                    <img
+                      *ngIf="!myUser.ProfilePicture"
+                      src="https://mdbootstrap.com/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                      alt="Avatar"
+                      class="img-fluid my-5"
+                      style="width: 80px"
+                    />
+                    <p>
+                      <!-- FirstName -->
+                      <mat-form-field appearance="outline">
+                        <mat-label>First Name</mat-label>
+                        <input
+                          matInput
+                          required
+                          [(ngModel)]="myUser.FirstName"
+                          name="FirstName"
+                          formControlName="FirstName"
+                          [errorStateMatcher]="matcher"
+                        />
+                        <mat-icon
+                          matSuffix
+                          *ngIf="
+                            profileForm.controls['FirstName'].hasError(
+                              'required'
+                            ) && profileForm.controls['FirstName'].touched
+                          "
+                          >error_outline
+                        </mat-icon>
+                        <mat-error
+                          *ngIf="
+                            profileForm.controls['FirstName'].hasError(
+                              'required'
+                            )
+                          "
+                          >Enter your first name
+                        </mat-error>
+                      </mat-form-field>
+                      <br />
+                      <!-- last name -->
+                      <mat-form-field
+                        appearance="outline"
+                        class="example-full-width"
+                        id="LastName"
+                      >
+                        <mat-label>Last Name</mat-label>
+                        <input
+                          matInput
+                          required
+                          [(ngModel)]="myUser.LastName"
+                          name="LastName"
+                          formControlName="LastName"
+                          [errorStateMatcher]="matcher"
+                        />
+                        <mat-icon
+                          matSuffix
+                          *ngIf="
+                            profileForm.controls['LastName'].hasError(
+                              'required'
+                            ) && profileForm.controls['LastName'].touched
+                          "
+                          >error_outline</mat-icon
+                        >
+                        <mat-error
+                          *ngIf="
+                            profileForm.controls['LastName'].hasError(
+                              'required'
+                            )
+                          "
+                          >Enter your last name</mat-error
+                        >
+                      </mat-form-field>
+                      <br />
+                    </p>
+
+                    <i class="far fa-edit mb-5"></i>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body p-4">
+                      <h3>Information</h3>
+                      <hr class="mt-0 mb-4" />
+                      <h6></h6>
+                      <!-- email -->
+                      <div class="information">
+                        <span class="heading"> Email: <br /></span>
+                        {{ myUser.Email }}
+                      </div>
+                      <br />
+                      <!-- Company -->
+                      <div
+                        *ngIf="isCompanyUser || isEmployeeUser"
+                        class="information"
+                      >
+                        <span class="heading"> Company: <br /></span>
+                        {{ myUser.Company }}
+                      </div>
+                      <br />
+                      <!-- Authority -->
+                      <div class="information">
+                        <span class="heading"> Account Type:</span>
+                        {{ myUser.Authority }}
+                      </div>
+                      <br />
+
+                      <h6></h6>
+                      <!-- UserName -->
+                      <mat-form-field appearance="outline">
+                        <mat-label>UserName</mat-label>
+                        <input
+                          matInput
+                          required
+                          [(ngModel)]="myUser.UserName"
+                          name="UserName"
+                          formControlName="UserName"
+                          [errorStateMatcher]="matcher"
+                        />
+                        <mat-icon
+                          matSuffix
+                          *ngIf="
+                            profileForm.controls['UserName'].hasError(
+                              'required'
+                            ) && profileForm.controls['UserName'].touched
+                          "
+                          >error_outline
+                        </mat-icon>
+                        <mat-error
+                          *ngIf="
+                            profileForm.controls['UserName'].hasError(
+                              'required'
+                            )
+                          "
+                          >Enter your username
+                        </mat-error>
+                      </mat-form-field>
+                      <br />
+                      <!-- phone number -->
+                      <mat-form-field
+                        appearance="outline"
+                        id="spacetop"
+                        class="example-full-width"
+                        id="PhoneNumber"
+                      >
+                        <mat-label>Phone Number</mat-label>
+                        <input
+                          matInput
+                          formControlName="PhoneNumber"
+                          [(ngModel)]="myUser.PhoneNumber"
+                          name="PhoneNumber"
+                          [errorStateMatcher]="matcher"
+                          pattern="^\+?1?[-. ]?\(?([2-9][0-8][0-9])\)?[-. ]?([2-9][0-9]{2})[-. ]?([0-9]{4})$"
+                          required
+                        />
+                        <mat-icon
+                          matSuffix
+                          *ngIf="
+                            (profileForm.controls['PhoneNumber'].hasError(
+                              'required'
+                            ) ||
+                              profileForm.controls['PhoneNumber'].hasError(
+                                'pattern'
+                              ) ||
+                              profileForm.controls['PhoneNumber'].hasError(
+                                'minlength'
+                              )) &&
+                            profileForm.controls['PhoneNumber'].touched
+                          "
+                          >error_outline</mat-icon
+                        >
+                        <mat-error
+                          *ngIf="
+                            profileForm.controls['PhoneNumber'].hasError(
+                              'required'
+                            )
+                          "
+                        >
+                          Be sure to enter your phone number
+                        </mat-error>
+
+                        <mat-error
+                          *ngIf="
+                            !profileForm.controls['PhoneNumber'].hasError(
+                              'required'
+                            ) &&
+                            profileForm.controls['PhoneNumber'].hasError(
+                              'pattern'
+                            )
+                          "
+                        >
+                          Enter a proper phone number
+                        </mat-error>
+
+                        <mat-icon id="hide" matSuffix>phone</mat-icon>
+                      </mat-form-field>
+                      <br />
+
+                      <h6></h6>
+
+                      <label>
+                        <p>Change Your Profile Picture</p>
+                        <!-- TO FIX: Input does not appear because control doesn't exist, but if we create the control, then it's mandatory... -->
+                        <input
+                          name="ProfilePicture"
+                          type="file"
+                          class="form-control"
+                          formControlName="ProfilePicture"
+                          (change)="handleFileInput($event)"
+                        />
+                      </label>
+                      <br />
+                    </div>
+
+                    <button mat-button type="submit" (click)="onSubmit()">
+                      SAVE
+                    </button>
+                    <!-- <button mat-button type="button" (click)="enableForm()">
+                      CANCEL
+                    </button> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </form>
+  </div>
+
+  <!-- <div *ngIf="!canEdit"> -->
+  <div *ngIf="false">
+    <section class="vh-200">
+      <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col col-lg-9 mb-4 mb-lg-0">
+            <div
+              class="card mb-3 justify-content-center"
+              style="border-radius: 0.5rem"
+            >
+              <div class="row g-0">
+                <div
+                  class="col-md-4 gradient-custom text-center text-white"
+                  style="
+                    border-top-left-radius: 0.5rem;
+                    border-bottom-left-radius: 0.5rem;
+                    background-color: #475db8;
+                  "
+                >
+                  <img
+                    *ngIf="myUser.ProfilePicture"
+                    [src]="myUser.ProfilePicture"
+                    alt="Avatar"
+                    class="img-fluid my-5"
+                    style="width: 80px"
+                  />
+
+                  <img
+                    *ngIf="!myUser.ProfilePicture"
+                    src="https://mdbootstrap.com/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                    alt="Avatar"
+                    class="img-fluid my-5"
+                    style="width: 80px"
+                  />
+
+                  <!-- FirstName -->
+                  <div class="information">
+                    <span class="heading">First Name: <br /></span>
+                    {{ myUser.FirstName }}
+                  </div>
+                  <br />
+                  <!-- last name -->
+                  <div class="information">
+                    <span class="heading">Last Name: <br /></span>
+                    {{ myUser.LastName }}
+                  </div>
+
+                  <br />
+
+                  <i class="far fa-edit mb-5"></i>
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body p-4">
+                    <h3>Information</h3>
+                    <hr class="mt-0 mb-4" />
+                    <h6></h6>
+                    <!-- email -->
+                    <div class="information">
+                      <span class="heading"> Email: <br /></span>
+                      {{ myUser.Email }}
+                    </div>
+                    <br />
+                    <!-- Company -->
+                    <div
+                      *ngIf="isCompanyUser || isEmployeeUser"
+                      class="information"
+                    >
+                      <span class="heading"> Company: <br /></span>
+                      {{ myUser.Company }}
+                    </div>
+                    <br />
+                    <!-- Authority -->
+                    <div class="information">
+                      <span class="heading"> Account Type:</span>
+                      {{ myUser.Authority }}
+                    </div>
+                    <br />
+                    <h6></h6>
+                    <!-- phone number -->
+                    <div class="information">
+                      <span class="heading">Phone Number: <br /></span>
+                      {{ myUser.PhoneNumber }}
+                    </div>
+
+                    <br />
+
+                    <h6></h6>
+                  </div>
+
+                  <button (click)="enableForm()" mat-button type="submit">
+                    EDIT
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="loading-indicator" *ngIf="Uploading">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+  </div>
+</div>

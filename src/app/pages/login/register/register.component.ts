@@ -1,4 +1,10 @@
-import { Authority, CompanyDTO, EmployeeDTO, User, UserDTO } from './../../../models/users';
+import {
+  Authority,
+  CompanyDTO,
+  EmployeeDTO,
+  User,
+  UserDTO,
+} from './../../../models/users';
 import { Component } from '@angular/core';
 import { Database, ref, set } from '@angular/fire/database';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -145,6 +151,8 @@ export class RegisterComponent {
         ID: id,
         Authority: Authority.Public,
         Email: value.Email,
+        PhoneNumber: '',
+        UserName: value.FirstName + ' ' + value.LastName,
         ProfilePicture: '',
       };
 
@@ -159,7 +167,9 @@ export class RegisterComponent {
         Authority: Authority.Company,
         Email: value.Email,
         ProfilePicture: '',
+        PhoneNumber: '',
         CompanyName: value.CompanyName,
+        UserName: value.FirstName + value.LastName,
         PropertyIds: [],
         EmployeeIds: [],
       };
@@ -175,6 +185,8 @@ export class RegisterComponent {
         Authority: Authority.Employee,
         Email: value.Email,
         ProfilePicture: '',
+        PhoneNumber: '',
+        UserName: value.FirstName + value.LastName,
         CompanyName: value.CompanyName,
         PropertyIds: [],
       };
