@@ -1,7 +1,16 @@
 mat-toolbar {
   display: flex;
   width: 100%;
-}
+
+
+  .header-image img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+  }}
 
 .Menu-dropdown {
   display: none;

@@ -15,14 +15,25 @@
           >notifications</mat-icon
         >
       </button>
-      <button
+      <div
+        mat-card-avatar
         mat-button
-        [matMenuTriggerFor]="menu"
         *ngIf="authService.isLoggedIn && authService.getUser()?.emailVerified"
-        class="Menu-dropdown"
+        class="header-image"
       >
-        <mat-icon>menu</mat-icon>
-      </button>
+        <img
+          [matMenuTriggerFor]="menu"
+          *ngIf="myUser?.ProfilePicture"
+          [src]="myUser?.ProfilePicture"
+          alt="Avatar"
+        />
+        <img
+          [matMenuTriggerFor]="menu"
+          *ngIf="!myUser?.ProfilePicture"
+          src="https://mdbootstrap.com/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+          alt="Avatar"
+        />
+      </div>
     </div>
   </div>
   <div
@@ -44,10 +55,30 @@
         <a class="nav-link" aria-current="page" href="">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="user-profile">Profile</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#" (click)="authService.SignOut()">Log Out</a>
+        <div mat-card-avatar class="header-image">
+          <img
+            [matMenuTriggerFor]="menu"
+            *ngIf="myUser?.ProfilePicture"
+            [src]="myUser?.ProfilePicture"
+            alt="Avatar"
+          />
+          <img
+            [matMenuTriggerFor]="menu"
+            *ngIf="!myUser?.ProfilePicture"
+            src="https://mdbootstrap.com/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+            alt="Avatar"
+          />
+        </div>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <a class="nav-link" href="user-profile">Profile</a>
+          </button>
+          <button mat-menu-item>
+            <a class="nav-link" href="#" (click)="authService.SignOut()"
+              >Log Out</a
+            >
+          </button>
+        </mat-menu>
       </li>
     </ul>
   </div>
@@ -55,16 +86,10 @@
 
 <mat-menu #menu="matMenu">
   <button mat-menu-item><a class="nav-link" href="">Home</a></button>
-  <button
-    mat-menu-item
-    *ngIf="authService.isLoggedIn && authService.getUser()?.emailVerified"
-  >
+  <button mat-menu-item>
     <a class="nav-link" href="user-profile">Profile</a>
   </button>
-  <button
-    mat-menu-item
-    *ngIf="authService.isLoggedIn && authService.getUser()?.emailVerified"
-  >
-    <a class="nav-link" href="login" (click)="authService.SignOut()">Log Out</a>
+  <button mat-menu-item>
+    <a class="nav-link" href="#" (click)="authService.SignOut()">Log Out</a>
   </button>
 </mat-menu>

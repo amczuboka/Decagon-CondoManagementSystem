@@ -44,6 +44,7 @@ import { LoginComponent } from './pages/login/login/login.component';
 import { RegisterComponent } from './pages/login/register/register.component';
 import { VerifyEmailComponent } from './pages/login/verify-email/verify-email.component';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatCardModule } from '@angular/material/card';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 
 @NgModule({
@@ -88,6 +89,7 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
     MatProgressSpinnerModule,
     MatSelectModule,
     MatBadgeModule,
+    MatCardModule,
   ],
   providers: [ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent],

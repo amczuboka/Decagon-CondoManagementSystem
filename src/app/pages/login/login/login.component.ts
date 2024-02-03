@@ -1,3 +1,4 @@
+import { Authority, CompanyDTO } from './../../../models/users';
 import { Component } from '@angular/core';
 import {
   AuthService,
@@ -5,6 +6,7 @@ import {
 } from 'src/app/services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NotificationService } from 'src/app/services/notification.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +15,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 })
 export class LoginComponent {
   loginForm!: FormGroup;
+  loading: boolean = false;
 
   //for the error message in the form
   matcher = new MyErrorStateMatcher();
@@ -23,7 +26,8 @@ export class LoginComponent {
   constructor(
     public authService: AuthService,
     private formBuilder: FormBuilder,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -42,10 +46,25 @@ export class LoginComponent {
       return;
     }
 
+    this.loading = true;
     await this.authService.SignIn(
       this.loginForm.value.Email,
       this.loginForm.value.Password
     );
+    let myUser = this.authService.getUser();
+    if (myUser) {
+      if (myUser.photoURL == Authority.Company) {
+        myUser = await this.userService.getCompanyUser(myUser.uid);
+        this.userService.updateCurrentUser(myUser);
+      } else if (myUser.photoURL == Authority.Employee) {
+        myUser = await this.userService.getPublicUser(myUser.uid);
+        this.userService.updateCurrentUser(myUser);
+      } else {
+        myUser = await this.userService.getPublicUser(myUser.uid);
+        this.userService.updateCurrentUser(myUser);
+      }
+    }
+    this.loading = false;
     window.open('', '_self');
   }
 }

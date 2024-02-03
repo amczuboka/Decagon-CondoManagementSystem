@@ -31,17 +31,10 @@ export class UserProfileComponent {
 
   profileForm!: FormGroup;
 
-  submitted: boolean = false;
-  canEdit: boolean = false;
-
   public file!: any;
   profilePictureLink: string = '';
   Uploading: boolean = false;
-  path!: string;
   myUser!: any;
-  myPublicUser!: UserDTO;
-  myCompanyUser!: CompanyDTO;
-  myEmployeeUser!: EmployeeDTO;
   isPublicUser: boolean = false;
   isCompanyUser: boolean = false;
   isEmployeeUser: boolean = false;
@@ -103,17 +96,11 @@ export class UserProfileComponent {
     this.file = event.target.files[0];
   }
 
-  enableForm() {
-    this.canEdit = !this.canEdit;
-  }
-
   async onSubmit() {
     if (this.profileForm.invalid) {
       this.notificationService.sendAlert('Please fill out all required fields');
       return;
     }
-
-    this.enableForm();
 
     this.Uploading = true;
 
@@ -133,8 +120,6 @@ export class UserProfileComponent {
       );
       let myValues = result.split(',');
       let myDownloadLink = myValues[0];
-
-      // Store the download link in a separate variable instead of trying to set the value of the file input field
       this.profilePictureLink = myDownloadLink;
     }
 
@@ -154,6 +139,8 @@ export class UserProfileComponent {
     if (profilePictureControl) {
       profilePictureControl.reset();
     }
+
+    this.userService.updateCurrentUser(this.myUser);
 
     this.Uploading = false;
     this.notificationService.sendNotification('Profile Updated');

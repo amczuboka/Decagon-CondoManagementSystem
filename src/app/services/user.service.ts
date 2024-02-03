@@ -9,14 +9,20 @@ import {
 } from 'firebase/database';
 import { Authority, CompanyDTO, EmployeeDTO, UserDTO } from '../models/users';
 import { Database, update } from '@angular/fire/database';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  private currentUserSubject = new BehaviorSubject<any | null>(null);
+  currentUser$ = this.currentUserSubject.asObservable();
+
   constructor(private database: Database) {}
 
-  // TODO: Add methods to get user data from realtime database. Base off of Hexagon.
+  updateCurrentUser(user: any) {
+    this.currentUserSubject.next(user);
+  }
 
   async checkIfCompanyExists(companyName: string) {
     // Check if companies node exists

@@ -20,7 +20,9 @@
                       class="fas fa-cubes fa-2x me-3"
                       style="color: #ff6219"
                     ></i>
-                    <span class="h2 fw-bold mb-0">Decagon Condo Management</span>
+                    <span class="h2 fw-bold mb-0"
+                      >Decagon Condo Management</span
+                    >
                   </div>
 
                   <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px">
@@ -150,5 +152,8 @@
         </div>
       </div>
     </div>
+  </div>
+  <div class="loading-indicator" *ngIf="loading">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
   </div>
 </section>
