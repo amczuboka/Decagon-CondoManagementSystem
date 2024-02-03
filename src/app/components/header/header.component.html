@@ -3,7 +3,10 @@
     <div class="brand-container">
       <a class="navbar-brand" href="">Decagon</a>
     </div>
-    <div class="mobile-menu">
+    <div
+      *ngIf="authService.isLoggedIn && authService.getUser()?.emailVerified"
+      class="mobile-menu"
+    >
       <button mat-icon-button class="mobile-notification">
         <mat-icon [matBadge]="notifications.length" matBadgeColor="warn"
           >notifications</mat-icon
@@ -45,7 +48,7 @@
 </mat-toolbar>
 
 <mat-menu #menu="matMenu">
-  <button mat-menu-item>Home</button>
+  <button mat-menu-item><a class="nav-link" href="">Home</a></button>
   <button
     mat-menu-item
     *ngIf="authService.isLoggedIn && authService.getUser()?.emailVerified"
