@@ -13,11 +13,6 @@ import {
 } from './../../models/users';
 import { Component } from '@angular/core';
 import {
-  faDownload,
-  faFilePdf,
-  faFilePowerpoint,
-} from '@fortawesome/free-solid-svg-icons';
-import {
   AuthService,
   MyErrorStateMatcher,
 } from 'src/app/services/auth.service';
@@ -35,10 +30,6 @@ export class UserProfileComponent {
   matcher = new MyErrorStateMatcher();
 
   profileForm!: FormGroup;
-
-  faFilePdf = faFilePdf;
-  faFilePowerpoint = faFilePowerpoint;
-  faDownload = faDownload;
 
   submitted: boolean = false;
   canEdit: boolean = false;
@@ -163,7 +154,7 @@ export class UserProfileComponent {
     if (profilePictureControl) {
       profilePictureControl.reset();
     }
-    
+
     this.Uploading = false;
     this.notificationService.sendNotification('Profile Updated');
   }
