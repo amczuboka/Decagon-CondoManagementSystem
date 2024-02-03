@@ -8,7 +8,10 @@
       class="mobile-menu"
     >
       <button mat-icon-button class="mobile-notification">
-        <mat-icon [matBadge]="notifications.length" matBadgeColor="warn"
+        <mat-icon
+          [matBadge]="notifications.length"
+          matBadgeColor="warn"
+          aria-hidden="false"
           >notifications</mat-icon
         >
       </button>
@@ -29,7 +32,10 @@
     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
       <li class="nav-item">
         <button mat-icon-button>
-          <mat-icon [matBadge]="notifications.length" matBadgeColor="warn"
+          <mat-icon
+            [matBadge]="notifications.length"
+            matBadgeColor="warn"
+            aria-hidden="false"
             >notifications</mat-icon
           >
         </button>
