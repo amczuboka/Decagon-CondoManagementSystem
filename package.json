@@ -9,7 +9,9 @@
     "test": "ng test",
     "e2e": "ng e2e",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:run": "cypress run",
+    "test-headless": "ng test --no-watch --no-progress --browsers=ChromeHeadless",
+    "sonar": "sonar-scanner"
   },
   "private": true,
   "dependencies": {
