@@ -26,11 +26,11 @@ jobs:
     - name: Check coverage
       run: |
         $COVERAGE = npx nyc report --reporter=text-summary | Select-String -Pattern 'All files' | ForEach-Object { $_ -replace '.*\|(.*)%.*', '$1' }
+        Write-Output "Current code coverage is $COVERAGE%"
         if ([decimal]$COVERAGE -lt 80) {
-          Write-Output "Code coverage is less than 80%"
-          exit 1
+            Write-Output "Code coverage is less than 80%"
+            exit 1
         }
-
 
   # sonarcloud-check:
   #   needs: build
