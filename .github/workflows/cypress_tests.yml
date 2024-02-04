@@ -35,6 +35,7 @@ jobs:
         args: >
           -Dsonar.projectKey=amczuboka_Decagon-CondoManagementSystem
           -Dsonar.organization=decagon
+          -Dsonar.coverageReportPaths=coverage/lcov.info
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
