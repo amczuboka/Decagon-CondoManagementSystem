@@ -134,7 +134,7 @@ export class UserProfileComponent {
 
       let result = await this.storageService.uploadToFirestore(
         this.file,
-        'profile_picture/'
+        'profile_picture/' + this.myUser.ID
       );
       let myValues = result.split(',');
       let myDownloadLink = myValues[0];
