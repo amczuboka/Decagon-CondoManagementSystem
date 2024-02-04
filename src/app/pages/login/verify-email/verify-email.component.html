@@ -1,8 +1,9 @@
 <div class="centeredContent">
   <h1 class="title">Thank You for Registering</h1>
   <div>
-    <p>
-      We have sent a confirmation email to <strong>{{ authService.userData.email }}</strong
+    <p *ngIf="authService.userData">
+      We have sent a confirmation email to
+      <strong>{{ authService.userData.email }}</strong
       >.
     </p>
     <p>

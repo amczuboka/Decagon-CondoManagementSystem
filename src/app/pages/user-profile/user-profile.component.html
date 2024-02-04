@@ -1,4 +1,4 @@
-<div class="card-container">
+<div *ngIf="myUser" class="card-container">
   <mat-card class="profile-card">
     <div *ngIf="formUnsaved" class="warning">You have unsaved data.</div>
     <form [formGroup]="profileForm">

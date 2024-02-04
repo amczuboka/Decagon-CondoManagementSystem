@@ -154,6 +154,7 @@ export class RegisterComponent {
         PhoneNumber: '',
         UserName: value.FirstName + ' ' + value.LastName,
         ProfilePicture: '',
+        Notifications: [],
       };
 
       set(ref(this.database, path + id), user);
@@ -172,6 +173,7 @@ export class RegisterComponent {
         UserName: value.FirstName + value.LastName,
         PropertyIds: [],
         EmployeeIds: [],
+        Notifications: [],
       };
 
       set(ref(this.database, path + id), user);
@@ -189,6 +191,7 @@ export class RegisterComponent {
         UserName: value.FirstName + value.LastName,
         CompanyName: value.CompanyName,
         PropertyIds: [],
+        Notifications: [],
       };
 
       set(ref(this.database, path + id), user);
