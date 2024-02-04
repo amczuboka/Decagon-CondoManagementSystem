@@ -25,11 +25,12 @@ jobs:
     - run: npm run test-headless
     - name: Check coverage
       run: |
-        COVERAGE=$(npx nyc report --reporter=text-summary | grep 'All files' | cut -d '|' -f 5 | sed 's/%//')
-        if (( $(echo "$COVERAGE < 80" | bc -l) )); then
-          echo "Code coverage is less than 80%";
-          exit 1;
-        fi
+        $COVERAGE = npx nyc report --reporter=text-summary | Select-String -Pattern 'All files' | ForEach-Object { $_ -replace '.*\|(.*)%.*', '$1' }
+        if ([decimal]$COVERAGE -lt 80) {
+          Write-Output "Code coverage is less than 80%"
+          exit 1
+        }
+
 
   # sonarcloud-check:
   #   needs: build
