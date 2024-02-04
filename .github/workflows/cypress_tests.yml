@@ -23,26 +23,33 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run test-headless
+    - name: Check coverage
+      run: |
+        COVERAGE=$(npx nyc report --reporter=text-summary | grep 'All files' | cut -d '|' -f 5 | sed 's/%//')
+        if (( $(echo "$COVERAGE < 80" | bc -l) )); then
+          echo "Code coverage is less than 80%";
+          exit 1;
+        fi
 
-  sonarcloud-check:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: SonarCloud Scan
-      uses: sonarsource/sonarcloud-github-action@master
-      with:
-        projectBaseDir: .
-        args: >
-          -Dsonar.projectKey=amczuboka_Decagon-CondoManagementSystem
-          -Dsonar.organization=decagon
-          -Dsonar.coverageReportPaths=coverage/lcov.info
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  # sonarcloud-check:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - name: SonarCloud Scan
+  #     uses: sonarsource/sonarcloud-github-action@master
+  #     with:
+  #       projectBaseDir: .
+  #       args: >
+  #         -Dsonar.projectKey=amczuboka_Decagon-CondoManagementSystem
+  #         -Dsonar.organization=decagon
+  #         -Dsonar.coverageReportPaths=coverage/lcov.info
+  #     env:
+  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   cypress-run:
-    needs: sonarcloud-check
+    needs: build
     runs-on: ubuntu-22.04
     steps:
     - name: Checkout
