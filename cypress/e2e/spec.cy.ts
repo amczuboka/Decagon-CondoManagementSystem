@@ -30,6 +30,7 @@ describe('Test Profile Page', () => {
     // Click on the profile icon and then on the profile button
     cy.get('#p-icon')
       .click();
+    cy.get('#p-btn', { timeout: 10000 }).should('exist');
     cy.get('#p-btn')
       .click({ force: true });
     cy.url().should('eq', 'http://localhost:4200/user-profile');
