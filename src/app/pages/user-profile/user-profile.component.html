@@ -1,5 +1,6 @@
 <div class="card-container">
   <mat-card class="profile-card">
+    <div *ngIf="formModified" class="warning">You have unsaved data.</div>
     <form [formGroup]="profileForm">
       <mat-card-header>
         <div class="header-content">

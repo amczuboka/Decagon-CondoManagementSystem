@@ -30,6 +30,8 @@ export class UserProfileComponent {
   matcher = new MyErrorStateMatcher();
 
   profileForm!: FormGroup;
+  initialFormValue!: string;
+  formModified: boolean = false;
 
   public file!: any;
   profilePictureLink: string = '';
@@ -64,6 +66,7 @@ export class UserProfileComponent {
   }
 
   async ngOnInit() {
+    this.Uploading = true;
     await this.getUserData();
 
     if (this.myUser) {
@@ -73,7 +76,15 @@ export class UserProfileComponent {
         PhoneNumber: this.myUser.PhoneNumber,
         UserName: this.myUser.UserName,
       });
+
+      this.initialFormValue = JSON.stringify(this.profileForm.value);
+
+      this.profileForm.valueChanges.subscribe(() => {
+        this.formModified =
+          JSON.stringify(this.profileForm.value) !== this.initialFormValue;
+      });
     }
+    this.Uploading = false;
   }
 
   async getUserData() {
@@ -89,6 +100,13 @@ export class UserProfileComponent {
         this.myUser = await this.userService.getPublicUser(this.myUser.uid);
         this.isPublicUser = true;
       }
+      this.profileForm.patchValue({
+        FirstName: this.myUser.FirstName,
+        LastName: this.myUser.LastName,
+        PhoneNumber: this.myUser.PhoneNumber,
+        UserName: this.myUser.UserName,
+      });
+      this.initialFormValue = JSON.stringify(this.profileForm.value);
     }
   }
 

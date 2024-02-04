@@ -70,14 +70,12 @@
           />
         </div>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item>
-            <a class="nav-link" href="user-profile">Profile</a>
-          </button>
-          <button mat-menu-item>
-            <a class="nav-link" href="#" (click)="authService.SignOut()"
-              >Log Out</a
-            >
-          </button>
+          <a class="nav-link" href="user-profile">
+            <button mat-menu-item>Profile</button>
+          </a>
+          <a class="nav-link" href="#" (click)="authService.SignOut()">
+            <button mat-menu-item>Log Out</button>
+          </a>
         </mat-menu>
       </li>
     </ul>
@@ -85,11 +83,13 @@
 </mat-toolbar>
 
 <mat-menu #menu="matMenu">
-  <button mat-menu-item><a class="nav-link" href="">Home</a></button>
-  <button mat-menu-item>
-    <a class="nav-link" href="user-profile">Profile</a>
-  </button>
-  <button mat-menu-item>
-    <a class="nav-link" href="#" (click)="authService.SignOut()">Log Out</a>
-  </button>
+  <a class="nav-link" href="">
+    <button mat-menu-item>Home</button>
+  </a>
+  <a class="nav-link" href="user-profile">
+    <button mat-menu-item>Profile</button>
+  </a>
+  <a class="nav-link" href="#" (click)="authService.SignOut()">
+    <button mat-menu-item>Log Out</button>
+  </a>
 </mat-menu>
