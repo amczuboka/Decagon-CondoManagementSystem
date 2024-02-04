@@ -51,7 +51,7 @@ jobs:
       with:
         projectBaseDir: .
         args: >
-          -Dsonar.projectKey=decagon
+          -Dsonar.projectKey=amczuboka_Decagon-CondoManagementSystem
           -Dsonar.organization=decagon
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
