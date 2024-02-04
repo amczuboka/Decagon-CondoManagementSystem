@@ -54,7 +54,7 @@
       <li class="nav-item">
         <a class="nav-link" aria-current="page" href="">Home</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" id="p-icon">
         <div mat-card-avatar class="header-image">
           <img
             [matMenuTriggerFor]="menu"
@@ -71,7 +71,7 @@
         </div>
         <mat-menu #menu="matMenu">
           <a class="nav-link" href="user-profile">
-            <button mat-menu-item>Profile</button>
+            <button mat-menu-item id="p-btn">Profile</button>
           </a>
           <a class="nav-link" href="#" (click)="authService.SignOut()">
             <button mat-menu-item>Log Out</button>

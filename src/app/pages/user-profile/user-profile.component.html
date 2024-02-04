@@ -1,6 +1,6 @@
 <div class="card-container">
   <mat-card class="profile-card">
-    <div *ngIf="formModified" class="warning">You have unsaved data.</div>
+    <div *ngIf="formUnsaved" class="warning">You have unsaved data.</div>
     <form [formGroup]="profileForm">
       <mat-card-header>
         <div class="header-content">
@@ -132,7 +132,7 @@
         </label>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-button type="submit" (click)="onSubmit()">SAVE</button>
+        <button mat-button type="submit" (click)="onSubmit()" id="submit">SAVE</button>
       </mat-card-actions>
     </form>
     <div class="loading-indicator" *ngIf="Uploading">

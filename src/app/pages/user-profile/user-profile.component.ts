@@ -31,7 +31,7 @@ export class UserProfileComponent {
 
   profileForm!: FormGroup;
   initialFormValue!: string;
-  formModified: boolean = false;
+  formUnsaved: boolean = false;
 
   public file!: any;
   profilePictureLink: string = '';
@@ -80,7 +80,7 @@ export class UserProfileComponent {
       this.initialFormValue = JSON.stringify(this.profileForm.value);
 
       this.profileForm.valueChanges.subscribe(() => {
-        this.formModified =
+        this.formUnsaved =
           JSON.stringify(this.profileForm.value) !== this.initialFormValue;
       });
     }
@@ -162,6 +162,7 @@ export class UserProfileComponent {
 
     this.Uploading = false;
     this.notificationService.sendNotification('Profile Updated');
+    this.formUnsaved = false;
   }
 
   async onEditUser(index: any, user: any) {
