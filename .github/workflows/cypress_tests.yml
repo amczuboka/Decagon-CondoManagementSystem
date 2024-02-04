@@ -25,6 +25,7 @@ jobs:
     - run: npm run test-headless
 
   sonarcloud-check:
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -41,6 +42,7 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   cypress-run:
+    needs: sonarcloud-check
     runs-on: ubuntu-22.04
     steps:
     - name: Checkout
