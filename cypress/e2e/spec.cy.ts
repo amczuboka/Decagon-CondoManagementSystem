@@ -2,6 +2,19 @@ import {
   login
 } from './utils.cy'
 
+describe('Test Login Page', () => {
+  it('Login with correct credentials', () => {
+    login('dojefe6817@giratex.com','123456');
+    cy.url().should('eq', 'http://localhost:4200/');
+  })
+  
+  it('Login with incorrect credentials', () => {
+    login('abc@mail.com','1342416');
+    cy.get('div[matsnackbarlabel]').should('contain', 'Error: Invalid credentials');
+    cy.url().should('eq', 'http://localhost:4200/login');
+  })
+})
+
 // Acceptance test for the profile page
 // User logs in
 // User navigates to the profile page
