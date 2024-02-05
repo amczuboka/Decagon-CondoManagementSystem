@@ -4,7 +4,7 @@ import {
 
 describe('Test Login Page', () => {
   it('Login with correct credentials', () => {
-    login('dojefe6817@giratex.com','123456');
+    login('vemiji5713@bitofee.com','123456');
     cy.url().should('eq', 'http://localhost:4200/');
   })
   
@@ -23,7 +23,7 @@ describe('Test Login Page', () => {
 
 describe('Test Profile Page', () => {
   it('Navigate to profile page and change data', () => {
-    login('dojefe6817@giratex.com','123456');
+    login('vemiji5713@bitofee.com','123456');
     
     cy.url().should('eq', 'http://localhost:4200/');
 
@@ -79,15 +79,15 @@ describe('Test Profile Page', () => {
 
     cy.get('input[formControlName="FirstName"]')
       .clear()
-      .type('Nick');
+      .type('Cypress');
 
     cy.get('input[formControlName="LastName"]')
       .clear()
-      .type('Pip');
+      .type('Public');
 
     cy.get('input[formControlName="UserName"]')
       .clear()
-      .type('Oli');
+      .type('Cypress Public Test Account');
 
     cy.get('input[formControlName="PhoneNumber"]')
       .clear()
