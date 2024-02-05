@@ -47,4 +47,15 @@ describe('NotificationService', () => {
       panelClass: ['alert-snackbar'],
     });
   });
+
+  it('should set the horizontal and vertical positions', () => {
+    const horizontalPosition = 'left';
+    const verticalPosition = 'bottom';
+
+    service.horizontalPosition = horizontalPosition;
+    service.verticalPosition = verticalPosition;
+
+    expect(service.horizontalPosition).toEqual(horizontalPosition);
+    expect(service.verticalPosition).toEqual(verticalPosition);
+  });
 });

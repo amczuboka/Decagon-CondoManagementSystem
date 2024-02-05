@@ -45,7 +45,11 @@ export class UserService {
     const companiesSnapshot = await get(companiesQuery);
     const existingCompany = companiesSnapshot.val();
 
-    return existingCompany;
+    if (existingCompany) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   async getPublicUser(userId: string): Promise<UserDTO | null> {
