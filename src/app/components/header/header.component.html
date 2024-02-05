@@ -9,7 +9,9 @@
     >
       <button mat-icon-button class="mobile-notification">
         <mat-icon
-          [matBadge]="myUser.Notifications"
+          *ngIf="myUser"
+          [matBadge]="myUser?.Notifications?.length"
+          [matBadgeHidden]="!myUser?.Notifications?.length"
           matBadgeColor="warn"
           aria-hidden="false"
           >notifications</mat-icon
@@ -44,7 +46,9 @@
       <li class="nav-item">
         <button mat-icon-button>
           <mat-icon
-            [matBadge]="notifications.length"
+            *ngIf="myUser"
+            [matBadge]="myUser?.Notifications?.length"
+            [matBadgeHidden]="!myUser?.Notifications?.length"
             matBadgeColor="warn"
             aria-hidden="false"
             >notifications</mat-icon
