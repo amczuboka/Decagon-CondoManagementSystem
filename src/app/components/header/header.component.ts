@@ -14,6 +14,7 @@ export class HeaderComponent {
   authority!: string;
   myUser!: any;
   private subscription!: Subscription;
+  notifications: any[] = [];
 
   constructor(
     public authService: AuthService,
