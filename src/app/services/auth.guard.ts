@@ -6,9 +6,6 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
-// import firebase from 'firebase/compat/app';
-
-// firebase.initializeApp(environment.firebase);
 
 @Injectable({
   providedIn: 'root',
