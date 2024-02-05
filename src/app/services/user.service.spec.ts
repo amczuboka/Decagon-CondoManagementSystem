@@ -9,7 +9,7 @@ describe('UserService', () => {
   let EmployeeUser: EmployeeDTO;
   let CompanyUser: CompanyDTO;
   let index: string;
-  beforeEach(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [AppModule],
     });
@@ -24,7 +24,7 @@ describe('UserService', () => {
       ProfilePicture: '1231231234',
       PhoneNumber: '1231231234',
       UserName: 'no',
-      Notifications: ["",""],
+      Notifications: ['', ''],
     };
 
     EmployeeUser = {
@@ -41,7 +41,7 @@ describe('UserService', () => {
       PropertyIds: ['123', '123', '123'],
     };
 
-    CompanyUser={
+    CompanyUser = {
       FirstName: 'gig',
       LastName: 'ffefe',
       ID: '123',
@@ -53,10 +53,20 @@ describe('UserService', () => {
       Notifications: ['', ''],
       CompanyName: 'ABC Company',
       PropertyIds: ['123', '123', '123'],
-      EmployeeIds: ['123', '123', '123']
-    }
+      EmployeeIds: ['123', '123', '123'],
+    };
 
     index = '123';
+
+    await service.editUser(index, publicUser);
+    await service.editUser(index, EmployeeUser);
+    await service.editUser(index, CompanyUser);
+  });
+
+  afterEach(async () => {
+    await service.deleteUser(publicUser);
+    await service.deleteUser(EmployeeUser);
+    await service.deleteUser(CompanyUser);
   });
 
   it('should update the current user', () => {
@@ -73,35 +83,27 @@ describe('UserService', () => {
   it('should check if company exists', async () => {
     // Arrange
     const companyName = 'ABC Company';
-
+    const NotcompanyName = 'DEF Company';
     // Act
     const result = await service.checkIfCompanyExists(companyName);
-
+    const resultBad = await service.checkIfCompanyExists(NotcompanyName);
     // Assert
-    expect(result).toBe(false);
+    expect(result).toBe(true);
+    expect(resultBad).toBe(false);
   });
 
   it('should get public user', async () => {
- 
-    await service.editUser(index, publicUser);
     expect(await service.getPublicUser(index)).toEqual(publicUser);
-    await service.deleteUser(publicUser);
   });
 
   it('should get company user', async () => {
-
     // Act
-    await service.editUser(index, CompanyUser);
     expect(await service.getCompanyUser(index)).toEqual(CompanyUser);
-    await service.deleteUser(CompanyUser);
   });
 
   it('should get employee user', async () => {
-
     // Act
-    await service.editUser(index, EmployeeUser);
     expect(await service.getEmployeeUser(index)).toEqual(EmployeeUser);
-    await service.deleteUser(EmployeeUser);
   });
 
   it('should edit user', async () => {
@@ -118,26 +120,20 @@ describe('UserService', () => {
   });
 
   it('should delete public user', async () => {
-  
-    await service.editUser(index, publicUser);
     await service.deleteUser(publicUser);
 
     expect(await service.getPublicUser(index)).toBeNull();
   });
 
   it('should delete company user', async () => {
-
     // Act
-    await service.editUser(index, CompanyUser);
     await service.deleteUser(CompanyUser);
 
     expect(await service.getCompanyUser(index)).toBeNull();
   });
 
   it('should delete employee user', async () => {
-
     // Act
-    await service.editUser(index, EmployeeUser);
     await service.deleteUser(EmployeeUser);
 
     expect(await service.getEmployeeUser(index)).toBeNull();
