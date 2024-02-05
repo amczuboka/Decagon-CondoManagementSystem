@@ -2,7 +2,6 @@ import {
   Authority,
   CompanyDTO,
   EmployeeDTO,
-  User,
   UserDTO,
 } from './../../../models/users';
 import { Component } from '@angular/core';

@@ -57,7 +57,7 @@ export class LoginComponent {
         myUser = await this.userService.getCompanyUser(myUser.uid);
         this.userService.updateCurrentUser(myUser);
       } else if (myUser.photoURL == Authority.Employee) {
-        myUser = await this.userService.getPublicUser(myUser.uid);
+        myUser = await this.userService.getEmployeeUser(myUser.uid);
         this.userService.updateCurrentUser(myUser);
       } else {
         myUser = await this.userService.getPublicUser(myUser.uid);

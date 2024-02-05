@@ -24,6 +24,7 @@ describe('AuthService', () => {
     expect(service).toBeTruthy();
   });
 
+
   describe('SignIn', () => {
     it('should sign in the user', async () => {
       const spySetUserData = spyOn(service, 'SetUserData');
@@ -59,6 +60,8 @@ describe('AuthService', () => {
         );
       }
     });
+
+
   });
 
   describe('getUser', () => {
@@ -102,6 +105,7 @@ describe('AuthService', () => {
       expect(result).toBe('');
       expect(spy).toHaveBeenCalledWith('Error: Email already in use');
     });
+
   });
 
   describe('isLoggedIn', () => {

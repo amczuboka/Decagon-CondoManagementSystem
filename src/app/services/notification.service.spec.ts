@@ -58,4 +58,8 @@ describe('NotificationService', () => {
     expect(service.horizontalPosition).toEqual(horizontalPosition);
     expect(service.verticalPosition).toEqual(verticalPosition);
   });
+
+  it('should creat snackBar: MatSnackBar', () => {
+    expect(snackBar).toBeTruthy();
+  });
 });

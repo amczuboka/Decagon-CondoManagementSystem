@@ -1,11 +1,5 @@
 import { Injectable } from '@angular/core';
 import {
-  child,
-  Database,
-  onValue,
-  ref as ref_data,
-} from '@angular/fire/database';
-import {
   Storage,
   ref as ref_storage,
   uploadBytesResumable,
@@ -36,7 +30,6 @@ export class StorageService {
     } catch (err) {
       url = '';
     }
-    console.log(url);
 
     while (url != '' || url == undefined) {
       try {
@@ -57,46 +50,7 @@ export class StorageService {
     return downloadURL + ',' + tempName;
   }
 
-  /**
-   * Generates a unique ID for storing data in the Firebase Realtime Database.
-   * @param path - The path in the database where the ID will be used.
-   * @param database - The Firebase Database instance to use.
-   * @returns A unique ID as a string.
-   */
-  // async IDgenerator(path: string, database: Database) {
-  //   let id = '';
-  //   let isGood = false;
-  //   let data: never[] | null | undefined = [];
-  //   const dbRef = ref_data(database);
-  //   while (!isGood) {
-  //     try {
-  //       id = Math.random().toString(36).substring(2);
-  //       let databaseRef = child(dbRef, path + id);
-  //       onValue(databaseRef, (snapshot) => {
-  //         data = snapshot.val();
-  //       });
-  //       if (data == null || data == undefined || data.length == 0) {
-  //         isGood = true;
-  //       }
-  //     } catch (err) {
-  //       break;
-  //     }
-  //   }
 
-  //   return id;
-  // }
-
-  // /**
-  //  * Deletes a file from Firebase Storage.
-  //  * @param path - The path in Firebase Storage where the file is stored.
-  //  * @param storage - The Firebase Storage instance to use.
-  //  */
-  // async deleteFile(path: string) {
-  //   const fileRef = ref_storage(this.storage, path);
-  //   deleteObject(fileRef)
-  //     .then(() => {})
-  //     .catch((error) => {});
-  // }
 
   /**
    * Deletes a file from Firebase Storage.

@@ -33,7 +33,7 @@ describe('AuthguardGuard', () => {
       const user = { emailVerified: true };
       spyOn(localStorage, 'getItem').and.returnValue(JSON.stringify(user));
 
-      const result = guard.canActivate({} as ActivatedRouteSnapshot, {} as RouterStateSnapshot);
+      const result = guard.canActivate();
 
       expect(result).toBeTrue();
       expect(router.navigate).not.toHaveBeenCalled();
@@ -43,7 +43,7 @@ describe('AuthguardGuard', () => {
       const user = { emailVerified: false };
       spyOn(localStorage, 'getItem').and.returnValue(JSON.stringify(user));
 
-      const result = guard.canActivate({} as ActivatedRouteSnapshot, {} as RouterStateSnapshot);
+      const result = guard.canActivate();
 
       expect(result).toBeFalse();
       expect(router.navigate).toHaveBeenCalledWith(['verify-email']);
@@ -52,7 +52,7 @@ describe('AuthguardGuard', () => {
     it('should navigate to "login" if user is not logged in', () => {
       spyOn(localStorage, 'getItem').and.returnValue(null);
 
-      const result = guard.canActivate({} as ActivatedRouteSnapshot, {} as RouterStateSnapshot);
+      const result = guard.canActivate();
 
       expect(result).toBeFalse();
       expect(router.navigate).toHaveBeenCalledWith(['login']);

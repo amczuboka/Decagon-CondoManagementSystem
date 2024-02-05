@@ -14,7 +14,6 @@ export class HeaderComponent {
   authority!: string;
   myUser!: any;
   private subscription!: Subscription;
-  notifications: any[] = [];
 
   constructor(
     public authService: AuthService,
@@ -36,7 +35,7 @@ export class HeaderComponent {
       if (this.myUser.photoURL == Authority.Company) {
         this.myUser = await this.userService.getCompanyUser(this.myUser.uid);
       } else if (this.myUser.photoURL == Authority.Employee) {
-        this.myUser = await this.userService.getPublicUser(this.myUser.uid);
+        this.myUser = await this.userService.getEmployeeUser(this.myUser.uid);
       } else {
         this.myUser = await this.userService.getPublicUser(this.myUser.uid);
       }

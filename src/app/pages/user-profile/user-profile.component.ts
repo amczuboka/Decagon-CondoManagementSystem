@@ -1,9 +1,4 @@
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   Authority,
   CompanyDTO,
@@ -88,18 +83,28 @@ export class UserProfileComponent {
   }
 
   async getUserData() {
-    this.myUser = this.authService.getUser() as User;
+    this.myUser = await this.authService.getUser() as User;
     if (this.myUser) {
       if (this.myUser.photoURL == Authority.Company) {
         this.myUser = await this.userService.getCompanyUser(this.myUser.uid);
         this.isCompanyUser = true;
+        if (!this.myUser.PropertyIds) {
+          this.myUser.PropertyIds = [];
+        }
+        if (!this.myUser.EmployeeIds) {
+          this.myUser.EmployeeIds = [];
+        }
       } else if (this.myUser.photoURL == Authority.Employee) {
-        this.myUser = await this.userService.getPublicUser(this.myUser.uid);
+        this.myUser = await this.userService.getEmployeeUser(this.myUser.uid);
         this.isEmployeeUser = true;
+        if (!this.myUser.PropertyIds) {
+          this.myUser.PropertyIds = [];
+        }
       } else {
         this.myUser = await this.userService.getPublicUser(this.myUser.uid);
         this.isPublicUser = true;
       }
+
       if (this.myUser) {
         this.profileForm.patchValue({
           FirstName: this.myUser.FirstName,
@@ -118,12 +123,18 @@ export class UserProfileComponent {
 
   async onSubmit() {
     if (this.profileForm.invalid) {
+ 
       this.notificationService.sendAlert('Please fill out all required fields');
       return;
     }
 
     this.Uploading = true;
-
+      console.log(
+        'this.file',
+        this.file,
+        '\n this.myUser.ProfilePicture.',
+        this.myUser
+      );
     if (this.file) {
       if (
         this.myUser.ProfilePicture != '' &&
@@ -164,7 +175,7 @@ export class UserProfileComponent {
 
     this.Uploading = false;
     this.notificationService.sendNotification('Profile Updated');
-    this.formUnsaved = false;
+    this.formUnsaved = false;   
   }
 
   async onEditUser(index: any, user: any) {
@@ -183,7 +194,7 @@ export class UserProfileComponent {
         ProfilePicture: value.ProfilePicture || this.myUser.ProfilePicture,
         PhoneNumber: value.PhoneNumber,
         UserName: value.UserName,
-      };
+      }
     } else if (this.isCompanyUser) {
       user = {
         FirstName: value.FirstName,
@@ -197,7 +208,7 @@ export class UserProfileComponent {
         PropertyIds: this.myUser.PropertyIds,
         EmployeeIds: this.myUser.EmployeeIds,
         UserName: value.UserName,
-      };
+      }
     } else {
       user = {
         FirstName: value.FirstName,
@@ -210,7 +221,7 @@ export class UserProfileComponent {
         CompanyName: this.myUser.CompanyName,
         PropertyIds: this.myUser.PropertyIds,
         UserName: value.UserName,
-      };
+      }
     }
     return user;
   }
