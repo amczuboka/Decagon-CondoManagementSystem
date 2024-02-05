@@ -42,10 +42,10 @@ export class UserProfileComponent {
   isEmployeeUser: boolean = false;
 
   constructor(
-    private authService: AuthService,
-    private userService: UserService,
-    private notificationService: NotificationService,
-    private storageService: StorageService,
+    public authService: AuthService,
+    public userService: UserService,
+    public notificationService: NotificationService,
+    public storageService: StorageService,
     private formBuilder: FormBuilder
   ) {
     this.profileForm = this.formBuilder.group({
@@ -100,13 +100,15 @@ export class UserProfileComponent {
         this.myUser = await this.userService.getPublicUser(this.myUser.uid);
         this.isPublicUser = true;
       }
-      this.profileForm.patchValue({
-        FirstName: this.myUser.FirstName,
-        LastName: this.myUser.LastName,
-        PhoneNumber: this.myUser.PhoneNumber,
-        UserName: this.myUser.UserName,
-      });
-      this.initialFormValue = JSON.stringify(this.profileForm.value);
+      if (this.myUser) {
+        this.profileForm.patchValue({
+          FirstName: this.myUser.FirstName,
+          LastName: this.myUser.LastName,
+          PhoneNumber: this.myUser.PhoneNumber,
+          UserName: this.myUser.UserName,
+        });
+        this.initialFormValue = JSON.stringify(this.profileForm.value);
+      }
     }
   }
 

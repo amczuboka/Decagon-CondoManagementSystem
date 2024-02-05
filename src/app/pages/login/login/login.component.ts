@@ -26,8 +26,8 @@ export class LoginComponent {
   constructor(
     public authService: AuthService,
     private formBuilder: FormBuilder,
-    private notificationService: NotificationService,
-    private userService: UserService
+    public notificationService: NotificationService,
+    public userService: UserService
   ) {}
 
   ngOnInit(): void {

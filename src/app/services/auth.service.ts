@@ -88,7 +88,7 @@ export class AuthService {
 
       /* Call the SendVerificaitonMail() function when new user sign 
           up and returns promise */
-      this.SendVerificationMail();
+      await this.SendVerificationMail();
       this.SetUserData(result.user, authority);
 
       const user = result.user;
@@ -104,17 +104,8 @@ export class AuthService {
     return '';
   }
 
-  async changeUserAuthority(authority: string) {
-    const user = await this.afAuth.currentUser;
-    if (user) {
-      await user!.updateProfile({ photoURL: authority });
-      // TODO: update user authority in database using the user.service.ts
-      this.SetUserData(user, authority);
-    }
-  }
-
   // Send email verfificaiton when new user sign up
-  SendVerificationMail() {
+  async SendVerificationMail() {
     return this.afAuth.currentUser
       .then((u: any) => u.sendEmailVerification())
       .then(() => {

@@ -63,28 +63,28 @@ export class StorageService {
    * @param database - The Firebase Database instance to use.
    * @returns A unique ID as a string.
    */
-  async IDgenerator(path: string, database: Database) {
-    let id = '';
-    let isGood = false;
-    let data: never[] | null | undefined = [];
-    const dbRef = ref_data(database);
-    while (!isGood) {
-      try {
-        id = Math.random().toString(36).substring(2);
-        let databaseRef = child(dbRef, path + id);
-        onValue(databaseRef, (snapshot) => {
-          data = snapshot.val();
-        });
-        if (data == null || data == undefined || data.length == 0) {
-          isGood = true;
-        }
-      } catch (err) {
-        break;
-      }
-    }
+  // async IDgenerator(path: string, database: Database) {
+  //   let id = '';
+  //   let isGood = false;
+  //   let data: never[] | null | undefined = [];
+  //   const dbRef = ref_data(database);
+  //   while (!isGood) {
+  //     try {
+  //       id = Math.random().toString(36).substring(2);
+  //       let databaseRef = child(dbRef, path + id);
+  //       onValue(databaseRef, (snapshot) => {
+  //         data = snapshot.val();
+  //       });
+  //       if (data == null || data == undefined || data.length == 0) {
+  //         isGood = true;
+  //       }
+  //     } catch (err) {
+  //       break;
+  //     }
+  //   }
 
-    return id;
-  }
+  //   return id;
+  // }
 
   // /**
   //  * Deletes a file from Firebase Storage.
@@ -99,18 +99,18 @@ export class StorageService {
   // }
 
   /**
- * Deletes a file from Firebase Storage.
- * @param downloadUrl - The download URL of the file in Firebase Storage.
- * @param storage - The Firebase Storage instance to use.
- */
-async deleteFile(downloadUrl: string) {
-  const fileRef = ref_storage(this.storage, downloadUrl);
-  deleteObject(fileRef)
-    .then(() => {
-      console.log("File deleted successfully");
-    })
-    .catch((error) => {
-      console.error("Error deleting file:", error);
-    });
-}
+   * Deletes a file from Firebase Storage.
+   * @param downloadUrl - The download URL of the file in Firebase Storage.
+   * @param storage - The Firebase Storage instance to use.
+   */
+  async deleteFile(downloadUrl: string) {
+    const fileRef = ref_storage(this.storage, downloadUrl);
+    deleteObject(fileRef)
+      .then(() => {
+        console.log('File deleted successfully');
+      })
+      .catch((error) => {
+        console.error('Error deleting file:', error);
+      });
+  }
 }

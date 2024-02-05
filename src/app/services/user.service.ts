@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  DatabaseReference,
   equalTo,
   get,
   getDatabase,
@@ -8,7 +9,7 @@ import {
   ref,
 } from 'firebase/database';
 import { Authority, CompanyDTO, EmployeeDTO, UserDTO } from '../models/users';
-import { Database, update } from '@angular/fire/database';
+import { Database, remove, update } from '@angular/fire/database';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -109,6 +110,33 @@ export class UserService {
       }
     } catch (error) {
       console.error('Error updating user:', error);
+      throw error;
+    }
+  }
+
+  async deleteUser(User: any) {
+    try {
+      if (User.Authority == Authority.Public) {
+        const dbRef: DatabaseReference = ref(
+          this.database,
+          `public users/${User.ID}`
+        );
+        await remove(dbRef);
+      } else if (User.Authority == Authority.Company) {
+        const dbRef: DatabaseReference = ref(
+          this.database,
+          `companies/${User.ID}`
+        );
+        await remove(dbRef);
+      } else {
+        const dbRef: DatabaseReference = ref(
+          this.database,
+          `employees/${User.ID}`
+        );
+        await remove(dbRef);
+      }
+    } catch (error) {
+      console.error('Error deleting user:', error);
       throw error;
     }
   }

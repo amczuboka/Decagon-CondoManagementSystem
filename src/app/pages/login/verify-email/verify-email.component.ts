@@ -9,23 +9,15 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class VerifyEmailComponent {
   constructor(public authService: AuthService, private router: Router) {}
-  ngOnInit() {
-    // if (
-    //   this.authService.userData === null ||
-    //   this.authService.userData === undefined
-    // ) {
-    //   this.router.navigate(['/login']);
-    // }
-  }
+  ngOnInit() {}
 
-  resendVerificationEmail(){
-    this.authService.SendVerificationMail();
+  async resendVerificationEmail() {
+    await this.authService.SendVerificationMail();
   }
 
   navigateToLogin() {
     if (this.authService.getUser()) {
       this.authService.SignOut();
     }
-    // window.location.assign('/login');
   }
 }

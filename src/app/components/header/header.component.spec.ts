@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { HeaderComponent } from './header.component';
 import { AppModule } from 'src/app/app.module';
 
@@ -19,5 +18,11 @@ describe('HeaderComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should retrieve user data on initialization', async () => {
+    spyOn(component, 'getUserData').and.callThrough();
+    await component.ngOnInit();
+    expect(component.getUserData).toHaveBeenCalled();
   });
 });

@@ -14,12 +14,10 @@ export class HeaderComponent {
   authority!: string;
   myUser!: any;
   private subscription!: Subscription;
-  // TODO: Retrieve notifications from the user's account
-  notifications: string[] = ['Here is your registration key', 'test'];
 
   constructor(
     public authService: AuthService,
-    private userService: UserService
+    public userService: UserService
   ) {}
 
   async ngOnInit() {

@@ -29,9 +29,9 @@ export class RegisterComponent {
   constructor(
     public authService: AuthService,
     private formBuilder: FormBuilder,
-    private notificationService: NotificationService,
+    public notificationService: NotificationService,
     private database: Database,
-    private userService: UserService
+    public userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -196,9 +196,5 @@ export class RegisterComponent {
 
       set(ref(this.database, path + id), user);
     }
-
-    // this.notificationService.sendNotification(
-    //   'User created! Make sure to confirm your email'
-    // );
   }
 }
