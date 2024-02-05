@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './register.component';
 import { AppModule } from 'src/app/app.module';
-import { Database } from '@angular/fire/database';
 import { Authority } from 'src/app/models/users';
 
 describe('RegisterComponent', () => {
@@ -105,5 +104,23 @@ describe('RegisterComponent', () => {
       'rid123',
       'public users/'
     );
+  });
+
+  it('should set ConfirmEmail control error when email and confirm email do not match', () => {
+    component.registerForm.get('Email')!.setValue('test@example.com');
+    component.registerForm
+      .get('ConfirmEmail')!
+      .setValue('different@example.com');
+    component.emailConfirmationValidator(component.registerForm);
+    expect(
+      component.registerForm.get('ConfirmEmail')!.hasError('incorrect')
+    ).toBeTruthy();
+  });
+
+  it('should clear ConfirmEmail control error when email and confirm email match', () => {
+    component.registerForm.get('Email')!.setValue('test@example.com');
+    component.registerForm.get('ConfirmEmail')!.setValue('test@example.com');
+    component.emailConfirmationValidator(component.registerForm);
+    expect(component.registerForm.get('ConfirmEmail')!.errors).toBeNull();
   });
 });
