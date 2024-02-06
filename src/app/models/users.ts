@@ -44,10 +44,20 @@ export interface EmployeeDTO extends UserDTO {
   UserName: string;
   PropertyIds: string[];
   Notifications: string[];
+  Role: Role;
 }
 
 export enum Authority {
     Public = 'Public',
     Company = 'Company',
     Employee = 'Employee',
+}
+
+export enum Role {
+  None = 'None',
+  Manager = 'Manager',
+  Financial = 'Financial',
+  Maintenance = 'Maintenance',
+  Cleaning = 'Cleaning',
+  Security = 'Security',
 }

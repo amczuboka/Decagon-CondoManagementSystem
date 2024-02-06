@@ -2,6 +2,7 @@ import {
   Authority,
   CompanyDTO,
   EmployeeDTO,
+  Role,
   UserDTO,
 } from './../../../models/users';
 import { Component } from '@angular/core';
@@ -191,6 +192,7 @@ export class RegisterComponent {
         CompanyName: value.CompanyName,
         PropertyIds: [],
         Notifications: [],
+        Role: Role.None,
       };
 
       set(ref(this.database, path + id), user);

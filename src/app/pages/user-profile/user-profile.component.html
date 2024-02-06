@@ -30,6 +30,9 @@
             <mat-card-subtitle
               ><b>User Type:</b> {{ myUser.Authority }}</mat-card-subtitle
             >
+            <mat-card-subtitle *ngIf="isEmployeeUser">
+              <b>Role:</b> {{ myUser.Role }}</mat-card-subtitle
+            >
           </div>
         </div>
       </mat-card-header>
@@ -132,7 +135,9 @@
         </label>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-button type="submit" (click)="onSubmit()" id="submit">SAVE</button>
+        <button mat-button type="submit" (click)="onSubmit()" id="submit">
+          SAVE
+        </button>
       </mat-card-actions>
     </form>
     <div class="loading-indicator" *ngIf="Uploading">

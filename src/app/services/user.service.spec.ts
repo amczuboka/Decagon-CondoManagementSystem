@@ -1,7 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { UserService } from './user.service';
 import { AppModule } from '../app.module';
-import { Authority, CompanyDTO, EmployeeDTO, UserDTO } from '../models/users';
+import {
+  Authority,
+  CompanyDTO,
+  EmployeeDTO,
+  Role,
+  UserDTO,
+} from '../models/users';
 
 describe('UserService', () => {
   let service: UserService;
@@ -39,6 +45,7 @@ describe('UserService', () => {
       Notifications: ['', ''],
       CompanyName: 'ABC Company',
       PropertyIds: ['123', '123', '123'],
+      Role: Role.Manager,
     };
 
     CompanyUser = {

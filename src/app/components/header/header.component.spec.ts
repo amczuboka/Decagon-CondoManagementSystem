@@ -7,6 +7,7 @@ import { HeaderComponent } from './header.component';
 import { AppModule } from 'src/app/app.module';
 import { AuthService } from 'src/app/services/auth.service';
 import { CompanyDTO, EmployeeDTO, UserDTO } from 'src/app/models/users';
+import { of, Subscription } from 'rxjs';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -62,5 +63,40 @@ describe('HeaderComponent', () => {
     await component.getUserData();
     const Public = component.myUser as UserDTO;
     expect(Public.FirstName).toEqual('Nick');
+  });
+
+  it('should call getUserData after subscribing to currentUser$', async () => {
+    const mockUser = { firstName: 'John', lastName: 'Doe' };
+    const mockSubscription = new Subscription();
+    spyOn(component.userService.currentUser$, 'subscribe').and.callFake(
+      (observerOrNext) => {
+        if (typeof observerOrNext === 'function') {
+          observerOrNext(mockUser);
+        } else if (
+          observerOrNext &&
+          typeof observerOrNext.next === 'function'
+        ) {
+          observerOrNext.next(mockUser);
+        }
+        return mockSubscription;
+      }
+    );
+    spyOn(component, 'getUserData');
+
+    await component.ngOnInit();
+
+    expect(component.getUserData).toHaveBeenCalled();
+  });
+
+  it('should call getUserData after subscribing to currentUser$', async () => {
+    const mockSubscription = new Subscription();
+    spyOn(component.userService.currentUser$, 'subscribe').and.returnValue(
+      mockSubscription
+    );
+    spyOn(component, 'getUserData');
+
+    await component.ngOnInit();
+
+    expect(component.getUserData).toHaveBeenCalled();
   });
 });
