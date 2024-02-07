@@ -1,1 +1,38 @@
 /* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+@import "bootstrap/scss/bootstrap";
+.kawaiicolors {
+  background-color: rgb(251, 207, 170);
+  border-color: rgb(19, 70, 42);
+  color: rgb(70, 20, 19);
+  transition: all 0.5s ease-in-out;
+}
+
+.mat-mdc-snack-bar-container,
+.mdc-snackbar__label {
+  &.kawaiicolors-snackbar {
+    --mdc-snackbar-container-color: rgb(251, 207, 170);
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: rgb(70, 20, 19);
+    --mdc-snackbar-supporting-text-size: 20px;
+  }
+
+  &.alert-snackbar {
+    --mdc-snackbar-container-color: red;
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: white;
+    --mdc-snackbar-supporting-text-size: 20px;
+  }
+}
+
+.mat-mdc-snack-bar-container .mdc-snackbar__label {
+  font-size: 30px;
+}

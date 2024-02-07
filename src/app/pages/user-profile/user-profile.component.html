@@ -1,0 +1,147 @@
+<div *ngIf="myUser" class="card-container">
+  <mat-card class="profile-card">
+    <div *ngIf="formUnsaved" class="warning">You have unsaved data.</div>
+    <form [formGroup]="profileForm">
+      <mat-card-header>
+        <div class="header-content">
+          <div mat-card-avatar class="header-image">
+            <img
+              *ngIf="myUser.ProfilePicture"
+              [src]="myUser.ProfilePicture"
+              alt="Avatar"
+            />
+            <img
+              *ngIf="!myUser.ProfilePicture"
+              src="https://mdbootstrap.com/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+              alt="Avatar"
+            />
+          </div>
+          <div class="header-text">
+            <mat-card-title
+              >{{ myUser.FirstName }} {{ myUser.LastName }}</mat-card-title
+            >
+            <mat-card-subtitle
+              >Username: {{ myUser.UserName }}</mat-card-subtitle
+            >
+            <mat-card-subtitle>Email: {{ myUser.Email }}</mat-card-subtitle>
+            <mat-card-subtitle *ngIf="isCompanyUser || isEmployeeUser"
+              >Company: {{ myUser.CompanyName }}</mat-card-subtitle
+            >
+            <mat-card-subtitle
+              ><b>User Type:</b> {{ myUser.Authority }}</mat-card-subtitle
+            >
+            <mat-card-subtitle *ngIf="isEmployeeUser">
+              <b>Role:</b> {{ myUser.Role }}</mat-card-subtitle
+            >
+          </div>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <!-- First Name -->
+        <mat-form-field appearance="outline" class="profile-field">
+          <mat-label>First Name</mat-label>
+          <input
+            matInput
+            required
+            [(ngModel)]="myUser.FirstName"
+            name="FirstName"
+            formControlName="FirstName"
+            [errorStateMatcher]="matcher"
+          />
+          <mat-error
+            *ngIf="profileForm.controls['FirstName'].hasError('required')"
+            >Enter your first name</mat-error
+          >
+        </mat-form-field>
+        <!-- Last Name -->
+        <mat-form-field appearance="outline" class="profile-field">
+          <mat-label>Last Name</mat-label>
+          <input
+            matInput
+            required
+            [(ngModel)]="myUser.LastName"
+            name="LastName"
+            formControlName="LastName"
+            [errorStateMatcher]="matcher"
+          />
+          <mat-error
+            *ngIf="profileForm.controls['LastName'].hasError('required')"
+            >Enter your last name</mat-error
+          >
+        </mat-form-field>
+        <!-- UserName -->
+        <mat-form-field appearance="outline" class="profile-field">
+          <mat-label>Username</mat-label>
+          <input
+            matInput
+            required
+            [(ngModel)]="myUser.UserName"
+            name="UserName"
+            formControlName="UserName"
+            [errorStateMatcher]="matcher"
+          />
+          <mat-error
+            *ngIf="profileForm.controls['UserName'].hasError('required')"
+            >Enter your username</mat-error
+          >
+        </mat-form-field>
+        <!-- Phone Number -->
+        <mat-form-field appearance="outline" class="profile-field">
+          <mat-label>Phone Number</mat-label>
+          <input
+            matInput
+            required
+            [(ngModel)]="myUser.PhoneNumber"
+            name="PhoneNumber"
+            formControlName="PhoneNumber"
+            [errorStateMatcher]="matcher"
+            pattern="^\+?1?[-. ]?\(?([2-9][0-8][0-9])\)?[-. ]?([2-9][0-9]{2})[-. ]?([0-9]{4})$"
+          />
+          <mat-icon
+            matSuffix
+            *ngIf="
+              (profileForm.controls['PhoneNumber'].hasError('required') ||
+                profileForm.controls['PhoneNumber'].hasError('pattern') ||
+                profileForm.controls['PhoneNumber'].hasError('minlength')) &&
+              profileForm.controls['PhoneNumber'].touched
+            "
+            >error_outline</mat-icon
+          >
+          <mat-error
+            *ngIf="profileForm.controls['PhoneNumber'].hasError('required')"
+          >
+            Be sure to enter your phone number
+          </mat-error>
+          <mat-error
+            *ngIf="
+              !profileForm.controls['PhoneNumber'].hasError('required') &&
+              profileForm.controls['PhoneNumber'].hasError('pattern')
+            "
+          >
+            Enter a proper phone number
+          </mat-error>
+
+          <mat-icon id="hide" matSuffix>phone</mat-icon>
+        </mat-form-field>
+        <label>
+          <p>Change Your Profile Picture:</p>
+          <input
+            name="ProfilePicture"
+            type="file"
+            class="form-control"
+            formControlName="ProfilePicture"
+            (change)="handleFileInput($event)"
+          />
+        </label>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button type="submit" (click)="onSubmit()" id="submit">
+          SAVE
+        </button>
+      </mat-card-actions>
+    </form>
+    <div class="loading-indicator" *ngIf="Uploading">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+  </mat-card>
+</div>

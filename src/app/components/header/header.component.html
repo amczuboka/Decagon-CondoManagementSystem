@@ -1,0 +1,99 @@
+<mat-toolbar>
+  <div class="Menu">
+    <div class="brand-container">
+      <a class="navbar-brand" href="">Decagon</a>
+    </div>
+    <div
+      *ngIf="authService.isLoggedIn && authService.getUser()?.emailVerified"
+      class="mobile-menu"
+    >
+      <button mat-icon-button class="mobile-notification">
+        <mat-icon
+          *ngIf="myUser"
+          [matBadge]="myUser?.Notifications?.length"
+          [matBadgeHidden]="!myUser?.Notifications?.length"
+          matBadgeColor="warn"
+          aria-hidden="false"
+          >notifications</mat-icon
+        >
+      </button>
+      <div
+        mat-card-avatar
+        mat-button
+        *ngIf="authService.isLoggedIn && authService.getUser()?.emailVerified"
+        class="header-image"
+      >
+        <img
+          [matMenuTriggerFor]="menu"
+          *ngIf="myUser?.ProfilePicture"
+          [src]="myUser?.ProfilePicture"
+          alt="Avatar"
+        />
+        <img
+          [matMenuTriggerFor]="menu"
+          *ngIf="!myUser?.ProfilePicture"
+          src="https://mdbootstrap.com/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+          alt="Avatar"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    *ngIf="authService.isLoggedIn && authService.getUser()?.emailVerified"
+    class="otherLinks"
+  >
+    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+      <li class="nav-item">
+        <button mat-icon-button>
+          <mat-icon
+            *ngIf="myUser"
+            [matBadge]="myUser?.Notifications?.length"
+            [matBadgeHidden]="!myUser?.Notifications?.length"
+            matBadgeColor="warn"
+            aria-hidden="false"
+            >notifications</mat-icon
+          >
+        </button>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" aria-current="page" href="">Home</a>
+      </li>
+      <li class="nav-item" id="p-icon">
+        <div mat-card-avatar class="header-image">
+          <img
+            [matMenuTriggerFor]="menu"
+            *ngIf="myUser?.ProfilePicture"
+            [src]="myUser?.ProfilePicture"
+            alt="Avatar"
+          />
+          <img
+            [matMenuTriggerFor]="menu"
+            *ngIf="!myUser?.ProfilePicture"
+            src="https://mdbootstrap.com/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+            alt="Avatar"
+          />
+        </div>
+        <mat-menu #menu="matMenu">
+          <a class="nav-link" href="user-profile">
+            <button mat-menu-item id="p-btn">Profile</button>
+          </a>
+          <a class="nav-link" href="#" (click)="authService.SignOut()">
+            <button mat-menu-item>Log Out</button>
+          </a>
+        </mat-menu>
+      </li>
+    </ul>
+  </div>
+</mat-toolbar>
+
+<mat-menu #menu="matMenu">
+  <a class="nav-link" href="">
+    <button mat-menu-item>Home</button>
+  </a>
+  <a class="nav-link" href="user-profile">
+    <button mat-menu-item>Profile</button>
+  </a>
+  <a class="nav-link" href="#" (click)="authService.SignOut()">
+    <button mat-menu-item>Log Out</button>
+  </a>
+</mat-menu>

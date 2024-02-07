@@ -1,0 +1,132 @@
+.card-container {
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 20px;
+
+  .profile-card {
+    overflow: hidden;
+    width: 100%;
+    max-width: 900px;
+    margin: 0;
+    padding: 20px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25);
+
+    .warning {
+      color: red;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+
+    .header-content {
+      display: grid;
+      grid-template-columns: auto 1fr; // Define two columns: one for the image and one for the text
+      grid-gap: 10px;
+      align-items: start;
+    }
+
+    .header-image img {
+      height: 60px;
+      width: 60px;
+      border-radius: 50%;
+    }
+
+    .header-text {
+      display: flex;
+      flex-direction: column;
+      margin-left: 40px;
+    }
+
+    mat-card-header {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+    }
+
+    .profile-field {
+      width: 100%;
+    }
+
+    .loading-indicator {
+      position: fixed;
+      z-index: 999;
+      height: 2em;
+      width: 2em;
+      overflow: show;
+      margin: auto;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+    }
+
+    .loading-indicator:before {
+      content: "";
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    @media (min-width: 517px) {
+      .header-content {
+        margin-bottom: 20px;
+      }
+
+      .header-image img {
+        height: 60px;
+        width: 60px;
+      }
+    }
+
+    @media (max-width: 516px) {
+      .profile-card {
+        max-width: 100%;
+      }
+      .header-image img {
+        height: 40px;
+        width: 40px;
+      }
+      .header-text {
+        margin-left: 20px;
+      }
+    }
+
+    @media (max-width: 416px) {
+      .header-image img {
+        height: 30px;
+        width: 30px;
+      }
+      .header-text {
+        margin-left: 10px;
+      }
+    }
+
+    @media (max-width: 374px) {
+      .header-content {
+        grid-template-columns: auto 1fr; // Image takes up only as much space as it needs, text takes up the rest
+        margin-bottom: 20px;
+      }
+
+      mat-card-title,
+      mat-card-subtitle {
+        white-space: normal; // Allows the text to wrap to the next line
+        word-break: break-all; // Breaks words at any character
+        overflow-wrap: break-word; // Breaks words properly
+        font-size: 0.7em;
+      }
+    }
+  }
+}
+
+@media (max-width: 516px) {
+  .card-container {
+    height: auto;
+  }
+}

@@ -1,0 +1,63 @@
+name: Node.js CI test 3
+
+on:
+  push:
+  pull_request:
+
+jobs:
+
+  build:
+
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run test-headless
+    - name: Check coverage
+      run: |
+        $TEST_OUTPUT = npm run test-headless
+        $COVERAGE = $TEST_OUTPUT -match 'Statements\s*:\s*(\d+.\d+)%' | ForEach-Object { $_ -replace '.*Statements\s*:\s*(\d+.\d+)%.*', '$1' }
+        Write-Output "Current code coverage is $COVERAGE%"
+        if ([decimal]$COVERAGE -lt 80) {
+            Write-Output "Code coverage is less than 80%"
+            exit 1
+        }
+
+  # sonarcloud-check:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - name: SonarCloud Scan
+  #     uses: sonarsource/sonarcloud-github-action@master
+  #     with:
+  #       projectBaseDir: .
+  #       args: >
+  #         -Dsonar.projectKey=amczuboka_Decagon-CondoManagementSystem
+  #         -Dsonar.organization=decagon
+  #         -Dsonar.coverageReportPaths=coverage/lcov.info
+  #     env:
+  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  cypress-run:
+    needs: build
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Cypress run
+      uses: cypress-io/github-action@v6
+      with:
+        build: npm run build
+        start: npm start

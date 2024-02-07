@@ -1,0 +1,38 @@
+.centeredContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .authBlock {
+    width: 90%;
+    padding: 1.25rem;
+    border: 0.0625rem solid #ccc;
+    border-radius: 0.625rem;
+  }
+  
+  .formGroup {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 0.9375rem;
+  }
+  
+  .btn {
+    flex: 1;
+    padding: 1.5rem 1rem;
+    border: none;
+    border-radius: 0.3125rem;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+    margin: 0 0.5rem;
+  }

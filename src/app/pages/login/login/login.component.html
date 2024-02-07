@@ -1,0 +1,159 @@
+<section class="vh-200">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-xl-10">
+        <div class="card" style="border-radius: 1rem">
+          <div class="row g-0">
+            <div class="col-md-6 col-lg-5 d-none d-md-block">
+              <img
+                src="https://images.unsplash.com/photo-1594873604892-b599f847e859?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="login form"
+                class="img-fluid"
+                style="border-radius: 1rem 0 0 1rem"
+              />
+            </div>
+            <div class="col-md-6 col-lg-7 d-flex align-items-center">
+              <div class="card-body p-4 p-lg-5 text-black">
+                <form [formGroup]="loginForm">
+                  <div class="d-flex align-items-center mb-3 pb-1">
+                    <i
+                      class="fas fa-cubes fa-2x me-3"
+                      style="color: #ff6219"
+                    ></i>
+                    <span class="h2 fw-bold mb-0"
+                      >Decagon Condo Management</span
+                    >
+                  </div>
+
+                  <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px">
+                    Sign into your account
+                  </h5>
+
+                  <!-- Input for email -->
+                  <div class="form-outline mb-4">
+                    <mat-form-field appearance="outline">
+                      <mat-label class="form-label" for="form2Example17"
+                        >Email</mat-label
+                      >
+                      <input
+                        matInput
+                        required
+                        formControlName="Email"
+                        [errorStateMatcher]="matcher"
+                        id="form2Example17"
+                        class="form-control form-control-lg"
+                      />
+                      <mat-icon
+                        matSuffix
+                        *ngIf="
+                          (loginForm.controls['Email'].hasError('email') ||
+                            loginForm.controls['Email'].hasError('required')) &&
+                          loginForm.controls['Email'].touched
+                        "
+                        >error_outline</mat-icon
+                      >
+                      <mat-error
+                        *ngIf="
+                          loginForm.controls['Email'].hasError('email') &&
+                          !loginForm.controls['Email'].hasError('required')
+                        "
+                      >
+                        Please enter a valid email address
+                      </mat-error>
+                      <mat-error
+                        *ngIf="loginForm.controls['Email'].hasError('required')"
+                      >
+                        Email is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Input for password -->
+                  <div class="form-outline mb-4">
+                    <mat-form-field appearance="outline">
+                      <mat-label class="form-label" for="form2Example27"
+                        >Password</mat-label
+                      >
+                      <input
+                        matInput
+                        required
+                        formControlName="Password"
+                        [errorStateMatcher]="matcher"
+                        [type]="hide ? 'password' : 'text'"
+                        id="form2Example27"
+                        class="form-control form-control-lg"
+                      />
+                      <mat-icon
+                        matSuffix
+                        *ngIf="
+                          (loginForm.controls['Password'].hasError(
+                            'minlength'
+                          ) ||
+                            loginForm.controls['Password'].hasError(
+                              'required'
+                            )) &&
+                          loginForm.controls['Password'].touched
+                        "
+                        >error_outline</mat-icon
+                      >
+
+                      <mat-error
+                        *ngIf="
+                          loginForm.controls['Password'].hasError('required')
+                        "
+                      >
+                        Password is <strong>required</strong>
+                      </mat-error>
+                      <mat-error
+                        *ngIf="
+                          loginForm.controls['Password'].hasError(
+                            'minlength'
+                          ) &&
+                          !loginForm.controls['Password'].hasError('required')
+                        "
+                      >
+                        Your password must be at least 6 characters long
+                      </mat-error>
+                      <button
+                        type="button"
+                        mat-icon-button
+                        matSuffix
+                        (click)="hide = !hide"
+                        [attr.aria-label]="'Hide password'"
+                        [attr.aria-pressed]="hide"
+                      >
+                        <mat-icon id="hide">{{
+                          hide ? "visibility_off" : "visibility"
+                        }}</mat-icon>
+                      </button>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="pt-1 mb-4">
+                    <button
+                      class="btn btn-dark btn-lg btn-block"
+                      type="submit"
+                      (click)="onSubmit()"
+                    >
+                      Login
+                    </button>
+                  </div>
+
+                  <p class="mb-5 pb-lg-2" style="color: #393f81">
+                    Don't have an account?
+                    <a href="/register" style="color: #393f81">Register here</a>
+                  </p>
+                  <!-- <a href="" class="small text-muted">Terms of use.</a>
+                  <a href="" class="small text-muted">Privacy policy</a> -->
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="loading-indicator" *ngIf="loading">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
+</section>

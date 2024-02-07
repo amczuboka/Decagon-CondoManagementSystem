@@ -1,0 +1,17 @@
+
+.content{
+  display: none;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f5f5f5;
+}
+
+article,
+router-outlet {
+  flex: 1;
+  overflow: auto;
+}
