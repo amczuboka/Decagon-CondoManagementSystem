@@ -46,6 +46,7 @@ import { VerifyEmailComponent } from './pages/login/verify-email/verify-email.co
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatCardModule } from '@angular/material/card';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { BuildingComponent } from './building/building.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
     RegisterComponent,
     VerifyEmailComponent,
     UserProfileComponent,
+    BuildingComponent,
   ],
   imports: [
     BrowserModule,
