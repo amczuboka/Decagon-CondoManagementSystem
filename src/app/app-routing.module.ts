@@ -6,6 +6,7 @@ import { RegisterComponent } from './pages/login/register/register.component';
 import { VerifyEmailComponent } from './pages/login/verify-email/verify-email.component';
 import { AuthguardGuard } from './services/auth.guard';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { BuildingInfoComponent } from './pages/building-info/building-info.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent, canActivate: [AuthguardGuard] },
@@ -17,6 +18,7 @@ const routes: Routes = [
     component: UserProfileComponent,
     canActivate: [AuthguardGuard],
   },
+  { path: 'building-info', component: BuildingInfoComponent}
 ];
 
 @NgModule({
