@@ -48,6 +48,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatCardModule } from '@angular/material/card';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { BuildingInfoComponent } from './pages/building-info/building-info.component';
+import { BuildingOverviewComponent } from './components/building-overview/building-overview.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { BuildingInfoComponent } from './pages/building-info/building-info.compo
     VerifyEmailComponent,
     UserProfileComponent,
     BuildingInfoComponent,
+    BuildingOverviewComponent,
   ],
   imports: [
     BrowserModule,
