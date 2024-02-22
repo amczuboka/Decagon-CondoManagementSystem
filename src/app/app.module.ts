@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -46,6 +47,8 @@ import { VerifyEmailComponent } from './pages/login/verify-email/verify-email.co
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatCardModule } from '@angular/material/card';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { BuildingInfoComponent } from './pages/building-info/building-info.component';
+import { BuildingOverviewComponent } from './components/building-overview/building-overview.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +60,8 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
     RegisterComponent,
     VerifyEmailComponent,
     UserProfileComponent,
+    BuildingInfoComponent,
+    BuildingOverviewComponent,
   ],
   imports: [
     BrowserModule,
@@ -90,6 +95,7 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
     MatSelectModule,
     MatBadgeModule,
     MatCardModule,
+    MatTabsModule,
   ],
   providers: [ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent],
