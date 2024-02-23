@@ -1,10 +1,17 @@
+/******************************************/
+/*Padding */
+/******************************************/
+
 .tab-content{
-    padding: 50px;
+    border: 5px, solid;
+    margin:auto;
+    width: 50%;
+    padding: 20px;
 }
 
-/*#building-title-pic{
+ #building-title-pic{
     text-align: center;
-}*/
+}
 
 .heading-content, .sub-heading-content{
     padding: 15px 0px;
@@ -14,21 +21,47 @@
     padding: 15px 0px;
 }
 
+/******************************************/
+/*Displaying General Info in Two Columns*/
+/******************************************/
 .gen-info{
     display:flex;
-    width:50%;
+    width:100%;
 }
 
 .gen-info-col{
     flex:1;
     border: 2px;
-    //margin: 10px;
 }
 
 .gen-info-col:first-child{
     margin-right: 20px;
 }
 
+/******************************************/
+/*Displaying Company Info in Two Columns*/
+/******************************************/
+
+.company-info{
+    display:flex;
+    width: 80%;
+}
+
+.company-info-col{
+    flex:1;
+    border: 2px;
+}
+
+.company-info-col:first-child{
+    margin-right: 20px;
+    width:fit-content;
+}
+
+
+
+/******************************************/
+/*Radio Buttons*/
+/******************************************/
 .facility-radio-group{
     display: flex;
     flex-direction: column;
@@ -39,6 +72,8 @@
 .facility-radio-button{
     margin: 5px;
 }
+
+
 
 
 
