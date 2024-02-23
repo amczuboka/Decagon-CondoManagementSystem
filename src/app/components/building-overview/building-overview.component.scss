@@ -1,11 +1,33 @@
-#content{
-    padding: 50px;
+.tab-content{
+    padding: 60px;
 }
 
-#building-title-pic{
+/*#building-title-pic{
     text-align: center;
+}*/
+
+.heading-content, .sub-heading-content{
+    padding: 15px 0px;
 }
 
-.sub-content{
-    padding: 20px 0px;
+.bottom-tab-content{
+    padding: 15px 0px;
 }
+
+.gen-info{
+    display:flex;
+    width:50%;
+}
+
+.gen-info-col{
+    flex:1;
+    border: 2px;
+    //margin: 10px;
+}
+
+.gen-info-col:first-child{
+    margin-right: 20px;
+}
+
+
+
