@@ -1,5 +1,5 @@
 .tab-content{
-    padding: 60px;
+    padding: 50px;
 }
 
 /*#building-title-pic{
@@ -27,6 +27,17 @@
 
 .gen-info-col:first-child{
     margin-right: 20px;
+}
+
+.facility-radio-group{
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+    align-items: flex-start;
+}
+
+.facility-radio-button{
+    margin: 5px;
 }
 
 
