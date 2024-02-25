@@ -6,6 +6,8 @@ import { MatRadioModule} from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { AppModule } from 'src/app/app.module';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 describe('BuildingOverviewComponent', () => {
   let component: BuildingOverviewComponent;
@@ -13,7 +15,15 @@ describe('BuildingOverviewComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [MatDividerModule, MatRadioModule, MatCardModule, MatIconModule,AppModule],
+      imports: [
+        MatDividerModule, 
+        MatRadioModule, 
+        MatCardModule, 
+        MatIconModule,
+        AppModule,
+        MatDatepickerModule,
+        MatNativeDateModule 
+        ],
       declarations: [BuildingOverviewComponent]
     });
     fixture = TestBed.createComponent(BuildingOverviewComponent);
