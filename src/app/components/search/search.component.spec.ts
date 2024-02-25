@@ -20,4 +20,17 @@ describe('SearchComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should emit searchTextChanged event with entered search value', () => {
+    const enteredValue = 'testSearchValue';
+
+    component.enteredSearchValue = enteredValue;
+
+    component.onSearchTextChanged();
+
+    component.searchTextChanged.subscribe((value) => {
+      expect(value).toEqual(enteredValue);
+    });
+  });
+
 });
