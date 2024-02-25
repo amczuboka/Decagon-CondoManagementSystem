@@ -1,5 +1,6 @@
 .example-full-width {
   width: 100%;
+  min-width: 100%;
 }
 
 .search {
@@ -28,7 +29,7 @@
   }
 
   .mat-mdc-form-field-has-icon-prefix .mat-mdc-text-field-wrapper {
-    background-color: #EBECF0;  
+    background-color: #ebecf0;
   }
 }
 
@@ -37,4 +38,11 @@
     padding-left: 1vw;
     padding-right: 1vw;
   }
+}
+
+@media only screen and (max-width: 500px) {
+    mat-label {
+      margin-left: 5px;
+      text-overflow: ellipsis;
+    }
 }
