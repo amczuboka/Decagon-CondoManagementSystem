@@ -1,0 +1,29 @@
+.page-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: center;
+}
+
+.slogan {
+  font-size: 40px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.action-container {
+  width: 80%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #ebecf0;
+  margin-bottom: 20px;
+}
+
+.title {
+  color: #000000;
+  font-size: 24px;
+}
