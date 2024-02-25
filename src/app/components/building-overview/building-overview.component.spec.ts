@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { AppModule } from 'src/app/app.module';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatButtonModule } from '@angular/material/button';
 
 describe('BuildingOverviewComponent', () => {
   let component: BuildingOverviewComponent;
@@ -22,7 +23,8 @@ describe('BuildingOverviewComponent', () => {
         MatIconModule,
         AppModule,
         MatDatepickerModule,
-        MatNativeDateModule 
+        MatNativeDateModule ,
+        MatButtonModule
         ],
       declarations: [BuildingOverviewComponent]
     });
