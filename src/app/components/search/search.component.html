@@ -1,0 +1,14 @@
+<div class="example-full-width">
+    <mat-form-field class="search" appearance="outline">
+      <mat-label>Search by name, location and facilities</mat-label>
+        <input
+          matInput
+          placeholder="Ex. Building A"
+          name=""
+          [(ngModel)]="enteredSearchValue"
+          (input)="onSearchTextChanged()"
+        />
+      <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
+  </div>
+  

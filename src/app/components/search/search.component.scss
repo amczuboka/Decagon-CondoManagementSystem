@@ -1,0 +1,40 @@
+.example-full-width {
+  width: 100%;
+}
+
+.search {
+  width: 100%;
+  font-size: 16px;
+}
+
+.search div input {
+  width: 100%;
+}
+
+::ng-deep {
+  .mat-form-field .mat-form-field-flex {
+    background-color: white;
+    border: solid 1px rgb(200, 201, 203);
+    box-shadow: 3px 3px 15px 3px rgb(200, 201, 203);
+  }
+
+  mat-label {
+    margin-left: 30px;
+    color: black;
+  }
+
+  mat-icon {
+    padding: 0;
+  }
+
+  .mat-mdc-form-field-has-icon-prefix .mat-mdc-text-field-wrapper {
+    background-color: #EBECF0;  
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .slide {
+    padding-left: 1vw;
+    padding-right: 1vw;
+  }
+}
