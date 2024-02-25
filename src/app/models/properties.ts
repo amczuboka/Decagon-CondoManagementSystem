@@ -54,7 +54,6 @@ export enum Facilities {
     Spa = 'Spa',
     Locker = 'Locker',
     Parking = 'Parking',
-    Concierge = 'Concierge',
     Playground = 'Playground',
     MeetingRoom = 'Meeting Room',
 } 

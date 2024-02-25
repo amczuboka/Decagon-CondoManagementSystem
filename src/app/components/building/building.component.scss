@@ -1,19 +1,21 @@
 .BuildingDiv {
   width: 100%;
   display: flex;
-  justify-content: center;
+  // justify-content: center;
   flex-direction: column;
   align-items: center;
 }
 
 app-search {
+  padding-top: 5px;
   width: 80%; 
-  max-width: 100%; 
+  min-width: 80%; 
 }
 
 .cardz {
   display: flex;
   justify-content: space-around;
+  align-items: center;
   flex-flow: row wrap;
   gap: 23px 10px;
   margin-right: 10%; 
@@ -50,6 +52,10 @@ a {
   border-top-right-radius: 14px;
 }
 
+.top-card p, .total, .name {
+  margin: 0;
+}
+
 .card-content {
   border-top: 1px solid grey;
   height: 175px;
@@ -65,36 +71,37 @@ a {
   border-bottom-right-radius: 15px;
 }
 
-.card-content > .top-card > h3 {
-  margin-left: 1vw;
-  color: rgb(88, 88, 90);
+.top-card {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 10px;
+  box-sizing: border-box;
+  height: 100px;
+  margin-top: 10px;
+}
 
-  font-family: "Lora", serif;
-  font-weight: 500;
-  text-overflow: ellipsis;
+.info {
+  flex-grow: 1; 
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-left: 10px; 
+}
+
+.card-content > .top-card > p {
+  box-sizing: border-box;
+  margin-left: 1vw;
+  margin-bottom: 0;
   white-space: nowrap;
   overflow: hidden;
-}
-
-.card-content > .top-card > h4 {
-  margin-left: 1vw;
-  color: rgb(88, 88, 90);
+  text-overflow: ellipsis;
+  color: black;
   font-weight: 500;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
+  height: 20px;
 }
 
-.card-content > .top-card > P {
-  margin-left: 1vw;
-  margin-top: -10px;
-  font-size: 16px;
-  line-height: 1.2;
-  font-weight: bold;
-  font-family: "Roboto", sans-serif;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 .card-content > .watch {
   margin-left: 1vw;
   font-size: 8px;
@@ -119,6 +126,11 @@ a {
   font-size: 13px;
 }
 
+.bottom-card {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .bottom-card > p {
   margin-left: -10px;
   font-family: "Roboto", sans-serif;
@@ -126,6 +138,34 @@ a {
 
 .bottom-card mat-icon {
   font-size: 13px;
+}
+
+.facility-item {
+  height: 25px;
+  display: flex;
+  align-items: center;
+  margin-right: 5px; 
+}
+
+.facility-name {
+  margin-right: 5px;
+}
+
+.button {
+  background-color: #486380; 
+  color: white; 
+  border: none; 
+  border-radius: 10px; 
+  padding: 5px 5px; 
+  width: 80px;
+  height: 35px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 14px;
+}
+
+.button:hover {
+  background-color: #334e5a; 
 }
 
 @media only screen and (max-width: 788px) {
@@ -136,5 +176,12 @@ a {
 @media only screen and (max-width: 500px) {
   .cardz {
     justify-content: center;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .card {
+    width: 250px;
+    height: 400px;
   }
 }

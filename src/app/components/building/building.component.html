@@ -18,24 +18,29 @@
           item.Address.toLowerCase().includes(searchText.toLowerCase()) ||
           item.UnitCount.toString().includes(searchText.toLowerCase()) ||
           item.ParkingCount.toString().includes(searchText.toLowerCase()) ||
-          item.LockerCount.toString().includes(searchText.toLowerCase())
+          item.LockerCount.toString().includes(searchText.toLowerCase()) ||
+          item.Facilities.toString().toLowerCase().includes(searchText.toLowerCase())
         "
       >
         <div class="card">
           <img src="{{ item.Picture }}" alt="Image not found" class="cardimg" />
           <div class="card-content" value="">
             <div class="top-card">
-              <h3>{{ item.Name }}</h3>
-              <P style="color: #486380">{{ item.Address }}</P>
-              <h4>{{ item.UnitCount }}</h4>
+              <div class="info">
+              <p class="name" style="font-weight: bold">{{ item.Name }}</p>
+              <p style="color: #486380; font-size: 14px">{{ item.Address }}</p>
+              <p style="font-size: 14px"class="total">{{ item.UnitCount }} Condos Total, 8 available</p>
+              </div>
+              <div class="button-container">
+                <button class="button">View</button>
+              </div>
             </div>
-
-            <!-- <div class="bottom-card">
-            <div *ngIf="item=='Hybrid'"><mat-icon> transfer_within_a_station</mat-icon></div>
-            <div *ngIf="item=='Remote'"><mat-icon>wifi</mat-icon></div>
-            <div *ngIf="item=='On-site'"><mat-icon>business</mat-icon></div>
-            <p class="watch">{{ item }}</p>
-          </div> -->
+            <div class="bottom-card">
+              <div *ngFor="let facility of item.Facilities" class="facility-item">
+                <p class="facility-name">{{ facility }}</p>
+                <mat-icon class="facility-icon">{{ getFacilityIcon(facility) }}</mat-icon>
+              </div>
+            </div>
           </div>
         </div>
       </a>

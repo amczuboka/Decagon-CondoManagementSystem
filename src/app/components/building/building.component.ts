@@ -21,7 +21,7 @@ export class BuildingComponent {
       Lockers: [],
       Condos: [],
       Picture: 'assets/imgs/building1.jpg',
-      Facilities: [Facilities.Gym, Facilities.Pool],
+      Facilities: [Facilities.Locker, Facilities.Spa, Facilities.Pool, Facilities.Gym, Facilities.Playground, Facilities.MeetingRoom, Facilities.Parking],
     },
     {
       ID: '2',
@@ -37,7 +37,7 @@ export class BuildingComponent {
       Lockers: [],
       Condos: [],
       Picture: 'assets/imgs/building1.jpg',
-      Facilities: [Facilities.Parking, Facilities.Concierge],
+      Facilities: [Facilities.MeetingRoom],
     },
     {
       ID: '3',
@@ -85,7 +85,7 @@ export class BuildingComponent {
       Lockers: [],
       Condos: [],
       Picture: 'assets/imgs/building1.jpg',
-      Facilities: [Facilities.Concierge, Facilities.Pool],
+      Facilities: [Facilities.Pool],
     },
   ];
 
@@ -95,4 +95,26 @@ export class BuildingComponent {
     this.searchText = searchValue;
     console.log('a letter', this.searchText);
   }
+
+    // Function to get the corresponding icon for each facility
+    getFacilityIcon(facility: Facilities): string {
+      switch (facility) {
+        case Facilities.Gym:
+          return 'fitness_center'; 
+        case Facilities.Pool:
+          return 'pool'; 
+        case Facilities.Spa:
+          return 'spa'; 
+        case Facilities.Locker:
+          return 'locker'; 
+        case Facilities.Parking:
+          return 'local_parking'; 
+        case Facilities.Playground:
+          return 'child_friendly'; 
+        case Facilities.MeetingRoom:
+          return 'meeting_room';
+        default:
+          return '';
+      }
+    }
 }
