@@ -19,7 +19,9 @@
           item.UnitCount.toString().includes(searchText.toLowerCase()) ||
           item.ParkingCount.toString().includes(searchText.toLowerCase()) ||
           item.LockerCount.toString().includes(searchText.toLowerCase()) ||
-          item.Facilities.toString().toLowerCase().includes(searchText.toLowerCase())
+          item.Facilities.toString()
+            .toLowerCase()
+            .includes(searchText.toLowerCase())
         "
       >
         <div class="card">
@@ -27,18 +29,27 @@
           <div class="card-content" value="">
             <div class="top-card">
               <div class="info">
-              <p class="name" style="font-weight: bold">{{ item.Name }}</p>
-              <p style="color: #486380; font-size: 14px">{{ item.Address }}</p>
-              <p style="font-size: 14px"class="total">{{ item.UnitCount }} Condos Total, 8 available</p>
+                <p class="name" style="font-weight: bold">{{ item.Name }}</p>
+                <p style="color: #486380; font-size: 14px">
+                  {{ item.Address }}
+                </p>
+                <p style="font-size: 14px" class="total">
+                  {{ item.UnitCount }} Condos Total, 8 available
+                </p>
               </div>
               <div class="button-container">
                 <button class="button">View</button>
               </div>
             </div>
             <div class="bottom-card">
-              <div *ngFor="let facility of item.Facilities" class="facility-item">
+              <div
+                *ngFor="let facility of item.Facilities"
+                class="facility-item"
+              >
                 <p class="facility-name">{{ facility }}</p>
-                <mat-icon class="facility-icon">{{ getFacilityIcon(facility) }}</mat-icon>
+                <mat-icon class="facility-icon">{{
+                  getFacilityIcon(facility)
+                }}</mat-icon>
               </div>
             </div>
           </div>

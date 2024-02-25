@@ -11,7 +11,7 @@ describe('BuildingComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppModule],
-      declarations: [BuildingComponent]
+      declarations: [BuildingComponent],
     });
     fixture = TestBed.createComponent(BuildingComponent);
     component = fixture.componentInstance;
@@ -34,7 +34,9 @@ describe('BuildingComponent', () => {
 
   describe('getFacilityIcon', () => {
     it('should return correct icon for each facility', () => {
-      expect(component.getFacilityIcon(Facilities.Gym)).toEqual('fitness_center');
+      expect(component.getFacilityIcon(Facilities.Gym)).toEqual(
+        'fitness_center'
+      );
       expect(component.getFacilityIcon(Facilities.Pool)).toEqual('pool');
       expect(component.getFacilityIcon(Facilities.Spa)).toEqual('spa');
     });
