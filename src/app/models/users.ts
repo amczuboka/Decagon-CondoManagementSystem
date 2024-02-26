@@ -48,11 +48,10 @@ export interface EmployeeDTO extends UserDTO {
 }
 
 export interface Notification {
-  ID: string;
   Message: string;
   New: boolean;
-  Date: string;
-  Sender: string;
+  Date: Date;
+  SenderId: string;
 }
 
 export enum Authority {
