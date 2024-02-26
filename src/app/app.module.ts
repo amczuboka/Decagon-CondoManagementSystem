@@ -50,6 +50,7 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
 import { BuildingInfoComponent } from './pages/building-info/building-info.component';
 import { BuildingOverviewComponent } from './components/building-overview/building-overview.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -98,6 +99,7 @@ import { NotificationsComponent } from './pages/notifications/notifications.comp
     MatBadgeModule,
     MatCardModule,
     MatTabsModule,
+    MatTableModule,
   ],
   providers: [ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent],
