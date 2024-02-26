@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { User } from 'firebase/auth';
 import { Subscription } from 'rxjs';
-import { Authority } from 'src/app/models/users';
+import { Authority, Notification } from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -14,6 +14,7 @@ export class HeaderComponent {
   authority!: string;
   myUser!: any;
   private subscription!: Subscription;
+  newNotifications: Notification[] = [];
 
   constructor(
     public authService: AuthService,
@@ -33,11 +34,31 @@ export class HeaderComponent {
     this.myUser = this.authService.getUser() as User;
     if (this.myUser) {
       if (this.myUser.photoURL == Authority.Company) {
-        this.myUser = await this.userService.getCompanyUser(this.myUser.uid);
+        this.userService.subscribeToCompanyUser(this.myUser.uid, (user) => {
+          this.myUser = user;
+          this.getNewNotifications();
+        });
       } else if (this.myUser.photoURL == Authority.Employee) {
-        this.myUser = await this.userService.getEmployeeUser(this.myUser.uid);
+        this.userService.subscribeToEmployeeUser(this.myUser.uid, (user) => {
+          this.myUser = user;
+          this.getNewNotifications();
+        });
       } else {
-        this.myUser = await this.userService.getPublicUser(this.myUser.uid);
+        this.userService.subscribeToPublicUser(this.myUser.uid, (user) => {
+          this.myUser = user;
+          this.getNewNotifications();
+        });
+      }
+    }
+  }
+
+  getNewNotifications() {
+    if (this.myUser.Notifications) {
+      this.newNotifications = [];
+      for (const notification of this.myUser.Notifications) {
+        if (notification.New) {
+          this.newNotifications.push(notification);
+        }
       }
     }
   }

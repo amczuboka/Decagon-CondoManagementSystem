@@ -7,6 +7,7 @@ import {
   orderByChild,
   query,
   ref,
+  onValue,
 } from 'firebase/database';
 import { Authority, CompanyDTO, EmployeeDTO, UserDTO } from '../models/users';
 import { Database, remove, update } from '@angular/fire/database';
@@ -143,5 +144,68 @@ export class UserService {
       console.error('Error deleting user:', error);
       throw error;
     }
+  }
+
+  async subscribeToPublicUser(
+    userId: string,
+    callback: (user: UserDTO | null) => void
+  ) {
+    const db = getDatabase();
+    const userRef = ref(db, `public users/${userId}`);
+    onValue(
+      userRef,
+      (snapshot) => {
+        if (snapshot.exists()) {
+          callback(snapshot.val() as UserDTO);
+        } else {
+          callback(null);
+        }
+      },
+      {
+        onlyOnce: false,
+      }
+    );
+  }
+
+  async subscribeToCompanyUser(
+    userId: string,
+    callback: (user: CompanyDTO | null) => void
+  ) {
+    const db = getDatabase();
+    const userRef = ref(db, `companies/${userId}`);
+    onValue(
+      userRef,
+      (snapshot) => {
+        if (snapshot.exists()) {
+          callback(snapshot.val() as CompanyDTO);
+        } else {
+          callback(null);
+        }
+      },
+      {
+        onlyOnce: false,
+      }
+    );
+  }
+
+  async subscribeToEmployeeUser(
+    userId: string,
+    callback: (user: EmployeeDTO | null) => void
+  ) {
+    const db = getDatabase();
+    const userRef = ref(db, `employees/${userId}`);
+    onValue(
+      userRef,
+      (snapshot) => {
+        if (snapshot.exists()) {
+          callback(snapshot.val() as EmployeeDTO);
+        } else {
+          callback(null);
+        }
+      },
+      {
+        onlyOnce: false,
+      }
+    );
   }
 }

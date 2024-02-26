@@ -7,16 +7,18 @@
       *ngIf="authService.isLoggedIn && authService.getUser()?.emailVerified"
       class="mobile-menu"
     >
-      <button mat-icon-button class="mobile-notification">
-        <mat-icon
-          *ngIf="myUser"
-          [matBadge]="myUser?.Notifications?.length"
-          [matBadgeHidden]="!myUser?.Notifications?.length"
-          matBadgeColor="warn"
-          aria-hidden="false"
-          >notifications</mat-icon
-        >
-      </button>
+      <a class="notifications" href="notifications">
+        <button mat-icon-button class="mobile-notification">
+          <mat-icon
+            *ngIf="myUser"
+            [matBadge]="newNotifications.length"
+            [matBadgeHidden]="!newNotifications.length"
+            matBadgeColor="warn"
+            aria-hidden="false"
+            >notifications</mat-icon
+          >
+        </button>
+      </a>
       <div
         mat-card-avatar
         mat-button
@@ -44,16 +46,18 @@
   >
     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
       <li class="nav-item">
-        <button mat-icon-button>
-          <mat-icon
-            *ngIf="myUser"
-            [matBadge]="myUser?.Notifications?.length"
-            [matBadgeHidden]="!myUser?.Notifications?.length"
-            matBadgeColor="warn"
-            aria-hidden="false"
-            >notifications</mat-icon
-          >
-        </button>
+        <a class="notifications" href="notifications">
+          <button mat-icon-button>
+            <mat-icon
+              *ngIf="myUser"
+              [matBadge]="newNotifications.length"
+              [matBadgeHidden]="!newNotifications.length"
+              matBadgeColor="warn"
+              aria-hidden="false"
+              >notifications</mat-icon
+            >
+          </button>
+        </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" aria-current="page" href="">Home</a>
