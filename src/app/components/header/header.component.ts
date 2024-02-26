@@ -22,11 +22,6 @@ export class HeaderComponent {
   ) {}
 
   async ngOnInit() {
-    this.subscription = this.userService.currentUser$.subscribe((user) => {
-      if (user) {
-        this.myUser = user;
-      }
-    });
     await this.getUserData();
   }
 

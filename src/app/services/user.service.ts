@@ -156,6 +156,7 @@ export class UserService {
       userRef,
       (snapshot) => {
         if (snapshot.exists()) {
+          this.updateCurrentUser(snapshot.val() as UserDTO);
           callback(snapshot.val() as UserDTO);
         } else {
           callback(null);
@@ -177,6 +178,7 @@ export class UserService {
       userRef,
       (snapshot) => {
         if (snapshot.exists()) {
+          this.updateCurrentUser(snapshot.val() as CompanyDTO);
           callback(snapshot.val() as CompanyDTO);
         } else {
           callback(null);
@@ -198,6 +200,7 @@ export class UserService {
       userRef,
       (snapshot) => {
         if (snapshot.exists()) {
+          this.updateCurrentUser(snapshot.val() as EmployeeDTO);
           callback(snapshot.val() as EmployeeDTO);
         } else {
           callback(null);
