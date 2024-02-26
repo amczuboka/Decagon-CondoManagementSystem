@@ -34,6 +34,7 @@ export interface ParkingSpot {
     OccupantID: string;
     Number: string;
     Status: ParkingLockerStatus;
+    ParkingType: ParkingType;
     Fee: number;
 }
 
@@ -78,3 +79,8 @@ export enum Facilities {
     Playground = 'Playground',
     MeetingRoom = 'Meeting Room',
 } 
+
+export enum ParkingType {
+    Standard = 'Standard',
+    Handicap = 'Handicap',
+}
