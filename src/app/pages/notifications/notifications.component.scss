@@ -1,0 +1,44 @@
+.my-table .mat-cell,
+.my-table .mat-header-cell {
+  display: flex;
+  justify-content: center;
+  flex: 1 1 auto;
+  white-space: normal;
+  word-wrap: break-word;
+  height: auto;
+  padding: 8px;
+  text-align: center;
+}
+
+.my-table .mat-cell.mat-column-actions,
+.my-table .mat-header-cell.mat-column-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex: 0 0 100px; /* Adjust this value as needed */
+  text-align: right;
+}
+
+.my-table .mat-row,
+.my-table .mat-header-row {
+  height: auto;
+  align-items: center;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+}
+
+.button-container button {
+  margin: 5px 0;
+}
+
+@media (max-width: 700px) {
+  .button-container {
+    flex-direction: column;
+  }
+}
