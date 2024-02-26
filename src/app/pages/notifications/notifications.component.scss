@@ -14,7 +14,7 @@
 .my-table .mat-header-cell.mat-column-actions {
   display: flex;
   justify-content: flex-end;
-  flex: 0 0 100px; /* Adjust this value as needed */
+  flex: 0 0 auto;
   text-align: right;
 }
 
