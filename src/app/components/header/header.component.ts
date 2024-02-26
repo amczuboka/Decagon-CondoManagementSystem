@@ -1,7 +1,13 @@
 import { Component } from '@angular/core';
 import { User } from 'firebase/auth';
 import { Subscription } from 'rxjs';
-import { Authority, Notification } from 'src/app/models/users';
+import {
+  Authority,
+  CompanyDTO,
+  EmployeeDTO,
+  Notification,
+  UserDTO,
+} from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -26,25 +32,26 @@ export class HeaderComponent {
   }
 
   async getUserData() {
-    this.myUser = this.authService.getUser() as User;
-    if (this.myUser) {
-      if (this.myUser.photoURL == Authority.Company) {
-        this.userService.subscribeToCompanyUser(this.myUser.uid, (user) => {
+    return new Promise<void>((resolve) => {
+      this.myUser = this.authService.getUser() as User;
+      if (this.myUser) {
+        const callback = (user: any) => {
           this.myUser = user;
           this.getNewNotifications();
-        });
-      } else if (this.myUser.photoURL == Authority.Employee) {
-        this.userService.subscribeToEmployeeUser(this.myUser.uid, (user) => {
-          this.myUser = user;
-          this.getNewNotifications();
-        });
+          resolve();
+        };
+
+        if (this.myUser.photoURL == Authority.Company) {
+          this.userService.subscribeToCompanyUser(this.myUser.uid, callback);
+        } else if (this.myUser.photoURL == Authority.Employee) {
+          this.userService.subscribeToEmployeeUser(this.myUser.uid, callback);
+        } else {
+          this.userService.subscribeToPublicUser(this.myUser.uid, callback);
+        }
       } else {
-        this.userService.subscribeToPublicUser(this.myUser.uid, (user) => {
-          this.myUser = user;
-          this.getNewNotifications();
-        });
+        resolve();
       }
-    }
+    });
   }
 
   getNewNotifications() {

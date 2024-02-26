@@ -30,7 +30,6 @@ describe('UserService', () => {
       ProfilePicture: '1231231234',
       PhoneNumber: '1231231234',
       UserName: 'no',
-      Notifications: ['', ''],
     };
 
     EmployeeUser = {
@@ -42,7 +41,6 @@ describe('UserService', () => {
       ProfilePicture: '1231231234',
       PhoneNumber: '1231231234',
       UserName: 'no',
-      Notifications: ['', ''],
       CompanyName: 'ABC Company',
       PropertyIds: ['123', '123', '123'],
       Role: Role.Manager,
@@ -57,7 +55,6 @@ describe('UserService', () => {
       ProfilePicture: '1231231234',
       PhoneNumber: '1231231234',
       UserName: 'no',
-      Notifications: ['', ''],
       CompanyName: 'ABC Company',
       PropertyIds: ['123', '123', '123'],
       EmployeeIds: ['123', '123', '123'],
@@ -84,7 +81,7 @@ describe('UserService', () => {
     service.updateCurrentUser(user);
 
     // Assert
-    expect((service as any).currentUserSubject.getValue()).toEqual(user);
+    expect((service as any).currentUserSubject.value).toEqual(user);
   });
 
   it('should check if company exists', async () => {
@@ -95,8 +92,8 @@ describe('UserService', () => {
     const result = await service.checkIfCompanyExists(companyName);
     const resultBad = await service.checkIfCompanyExists(NotcompanyName);
     // Assert
-    expect(result).toBe(true);
-    expect(resultBad).toBe(false);
+    expect(result).toEqual(true);
+    expect(resultBad).toEqual(false);
   });
 
   it('should get public user', async () => {
