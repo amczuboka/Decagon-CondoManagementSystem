@@ -13,6 +13,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -51,6 +52,8 @@ import { BuildingInfoComponent } from './pages/building-info/building-info.compo
 import { BuildingOverviewComponent } from './components/building-overview/building-overview.component';
 import { SearchComponent } from './components/search/search.component';
 import { BuildingComponent } from './components/building/building.component';
+import { LockerComponent } from './components/locker/locker.component';
+import { ParkingSpotComponent } from './components/parking-spot/parking-spot.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +69,8 @@ import { BuildingComponent } from './components/building/building.component';
     BuildingOverviewComponent,
     BuildingComponent,
     SearchComponent,
+    LockerComponent,
+    ParkingSpotComponent,
   ],
   imports: [
     BrowserModule,
@@ -100,6 +105,7 @@ import { BuildingComponent } from './components/building/building.component';
     MatBadgeModule,
     MatCardModule,
     MatTabsModule,
+    MatTableModule,
   ],
   providers: [ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent],
