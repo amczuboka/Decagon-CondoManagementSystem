@@ -10,6 +10,13 @@ import { FormsModule } from '@angular/forms';
 export class BuildingOverviewComponent implements OnInit{
 
   bookFacilityForm!: FormGroup<any>;
+  selected: any;
+
+  minDate = new Date();
+  currentYear = this.minDate.getUTCFullYear();
+  currentMonth = this.minDate.getUTCMonth();
+  currentDay = this.minDate.getUTCDate();
+
 
   constructor(
     private form_builder: FormBuilder
@@ -20,7 +27,8 @@ export class BuildingOverviewComponent implements OnInit{
     this.bookFacilityForm = this.form_builder.group({
 
       date: ['', [Validators.required]],
-      facility: ['', [Validators.required]]
+      facility: ['', [Validators.required]],
+      'time-slots':[[], [Validators.required]],
         
     });
   }
