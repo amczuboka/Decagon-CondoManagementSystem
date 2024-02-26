@@ -3,10 +3,8 @@ export interface Building {
     Year: number;
     CompanyID: string;
     Name: string;
-    UnitCount: number;
-    ParkingCount: number;
-    LockerCount: number;
     Address: string;
+    Bookings: Booking[];
     Description: string;
     Parkings: ParkingSpot[];
     Lockers: Locker[];
@@ -42,7 +40,9 @@ export interface Locker {
     OccupantID: string;
     Number: string;
     Status: ParkingLockerStatus;
-    Size: LockerSize;
+    Height: number;
+    Width: number;
+    Length: number;
     Fee: number;
 }
 
@@ -57,12 +57,6 @@ export enum ParkingLockerStatus {
     Unavailable = 'Unavailable',
 }
 
-export enum LockerSize {
-  size1 = '0.23m X 0.20m X 0.025m',
-  size2 = '0.5m X 0.5m X 0.5m',
-  size3 = '1m X 1m X 1m',
-  size4 = '2m X 2m X 2m',
-}
 
 export enum CondoType {
     Sale = 'Sale',
@@ -78,3 +72,10 @@ export enum Facilities {
     Playground = 'Playground',
     MeetingRoom = 'Meeting Room',
 } 
+
+export interface Booking {
+    ID: string;
+    Facility: Facilities;
+    UserID: string;
+    Date: Date;
+}
