@@ -16,9 +16,6 @@
           searchText === '' ||
           item.Name.toLowerCase().includes(searchText.toLowerCase()) ||
           item.Address.toLowerCase().includes(searchText.toLowerCase()) ||
-          item.UnitCount.toString().includes(searchText.toLowerCase()) ||
-          item.ParkingCount.toString().includes(searchText.toLowerCase()) ||
-          item.LockerCount.toString().includes(searchText.toLowerCase()) ||
           item.Facilities.toString()
             .toLowerCase()
             .includes(searchText.toLowerCase())
@@ -34,7 +31,7 @@
                   {{ item.Address }}
                 </p>
                 <p style="font-size: 14px" class="total">
-                  {{ item.UnitCount }} Condos Total, 8 available
+                  10 Condos Total, 8 available
                 </p>
               </div>
               <div class="button-container">
