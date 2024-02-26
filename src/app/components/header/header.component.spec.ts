@@ -99,4 +99,75 @@ describe('HeaderComponent', () => {
 
     expect(component.getUserData).toHaveBeenCalled();
   });
+
+  it('should retrieve new notifications', () => {
+    component.myUser = {
+      Notifications: [
+        {
+          New: true,
+          Message: 'Notification 1',
+          Date: new Date(),
+          SenderId: '1',
+        },
+        {
+          New: false,
+          Message: 'Notification 2',
+          Date: new Date(),
+          SenderId: '2',
+        },
+        {
+          New: true,
+          Message: 'Notification 3',
+          Date: new Date(),
+          SenderId: '3',
+        },
+      ],
+    };
+
+    component.getNewNotifications();
+
+    expect(component.newNotifications).toEqual([
+      { New: true, Message: 'Notification 1', Date: new Date(), SenderId: '1' },
+      { New: true, Message: 'Notification 3', Date: new Date(), SenderId: '3' },
+    ]);
+  });
+
+  it('should not retrieve new notifications if myUser.Notifications is undefined', () => {
+    component.myUser = {};
+
+    component.getNewNotifications();
+
+    expect(component.newNotifications).toEqual([]);
+  });
+
+  it('should not retrieve new notifications if myUser.Notifications is empty', () => {
+    component.myUser = { Notifications: [] };
+
+    component.getNewNotifications();
+
+    expect(component.newNotifications).toEqual([]);
+  });
+
+  it('should not retrieve new notifications if no notification is marked as new', () => {
+    component.myUser = {
+      Notifications: [
+        {
+          New: false,
+          Message: 'Notification 1',
+          Date: new Date(),
+          SenderId: '1',
+        },
+        {
+          New: false,
+          Message: 'Notification 2',
+          Date: new Date(),
+          SenderId: '2',
+        },
+      ],
+    };
+
+    component.getNewNotifications();
+
+    expect(component.newNotifications).toEqual([]);
+  });
 });
