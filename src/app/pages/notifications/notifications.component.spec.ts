@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NotificationsComponent } from './notifications.component';
+import { AppModule } from 'src/app/app.module';
 
 describe('NotificationsComponent', () => {
   let component: NotificationsComponent;
@@ -8,7 +9,8 @@ describe('NotificationsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [NotificationsComponent]
+      imports: [AppModule],
+      declarations: [NotificationsComponent],
     });
     fixture = TestBed.createComponent(NotificationsComponent);
     component = fixture.componentInstance;
