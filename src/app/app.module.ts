@@ -49,6 +49,7 @@ import { MatCardModule } from '@angular/material/card';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { BuildingInfoComponent } from './pages/building-info/building-info.component';
 import { BuildingOverviewComponent } from './components/building-overview/building-overview.component';
+import { CondoComponent } from './components/condo/condo.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { BuildingOverviewComponent } from './components/building-overview/buildi
     UserProfileComponent,
     BuildingInfoComponent,
     BuildingOverviewComponent,
+    CondoComponent,
   ],
   imports: [
     BrowserModule,
