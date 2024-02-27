@@ -9,6 +9,13 @@ mat-toolbar {
     height: 40px;
     width: 40px;
     border-radius: 50%;
+
+    &:hover {
+      transform: scale(
+        1.1
+      ); // This will make the image slightly larger when hovered
+      transition: transform 0.1s ease-in-out; // This will animate the scaling effect
+    }
   }
 }
 
