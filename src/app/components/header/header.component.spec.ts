@@ -106,19 +106,19 @@ describe('HeaderComponent', () => {
         {
           New: true,
           Message: 'Notification 1',
-          Date: new Date(),
+          Date: new Date().getTime(),
           SenderId: '1',
         },
         {
           New: false,
           Message: 'Notification 2',
-          Date: new Date(),
+          Date: new Date().getTime(),
           SenderId: '2',
         },
         {
           New: true,
           Message: 'Notification 3',
-          Date: new Date(),
+          Date: new Date().getTime(),
           SenderId: '3',
         },
       ],
@@ -127,8 +127,8 @@ describe('HeaderComponent', () => {
     component.getNewNotifications();
 
     expect(component.newNotifications).toEqual([
-      { New: true, Message: 'Notification 1', Date: new Date(), SenderId: '1' },
-      { New: true, Message: 'Notification 3', Date: new Date(), SenderId: '3' },
+      { New: true, Message: 'Notification 1', Date: new Date().getTime(), SenderId: '1' },
+      { New: true, Message: 'Notification 3', Date: new Date().getTime(), SenderId: '3' },
     ]);
   });
 
@@ -154,13 +154,13 @@ describe('HeaderComponent', () => {
         {
           New: false,
           Message: 'Notification 1',
-          Date: new Date(),
+          Date: new Date().getTime(),
           SenderId: '1',
         },
         {
           New: false,
           Message: 'Notification 2',
-          Date: new Date(),
+          Date: new Date().getTime(),
           SenderId: '2',
         },
       ],

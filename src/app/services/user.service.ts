@@ -9,8 +9,14 @@ import {
   ref,
   onValue,
 } from 'firebase/database';
-import { Authority, CompanyDTO, EmployeeDTO, UserDTO } from '../models/users';
-import { Database, remove, update } from '@angular/fire/database';
+import {
+  Authority,
+  CompanyDTO,
+  EmployeeDTO,
+  Notification,
+  UserDTO,
+} from '../models/users';
+import { Database, remove, set, update } from '@angular/fire/database';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -210,5 +216,22 @@ export class UserService {
         onlyOnce: false,
       }
     );
+  }
+
+  async sendNotificationToUser(userId: string, notification: Notification) {
+    try {
+      const db = getDatabase();
+      const userRef = ref(db, `public users/${userId}/Notifications`);
+      const userSnapshot = await get(userRef);
+      if (userSnapshot.exists()) {
+        const notifications = userSnapshot.val();
+        notifications.push(notification);
+        await set(userRef, notifications);
+      } else {
+        await set(userRef, [notification]);
+      }
+    } catch (error) {
+      throw error;
+    }
   }
 }

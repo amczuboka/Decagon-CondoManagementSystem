@@ -74,7 +74,7 @@ describe('NotificationsComponent', () => {
     const notification: Notification = {
       Message: 'test',
       New: true,
-      Date: new Date(),
+      Date: new Date().getTime(),
       SenderId: '1',
     };
     component.myUser = { Notifications: [notification] };
@@ -94,7 +94,7 @@ describe('NotificationsComponent', () => {
     const notification = {
       Message: 'test',
       New: false,
-      Date: new Date(),
+      Date: new Date().getTime(),
       SenderId: '1',
     };
     component.myUser = { Notifications: [notification] };
@@ -114,7 +114,7 @@ describe('NotificationsComponent', () => {
     const notification: Notification = {
       Message: 'test',
       New: true,
-      Date: new Date(),
+      Date: new Date().getTime(),
       SenderId: '1',
     };
     component.myUser = { Notifications: [notification] };
@@ -136,7 +136,7 @@ describe('NotificationsComponent', () => {
     const notification: Notification = {
       Message: 'test',
       New: true,
-      Date: new Date(),
+      Date: new Date().getTime(),
       SenderId: '1',
     };
     component.myUser = { Notifications: [notification] };
