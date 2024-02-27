@@ -13,6 +13,19 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteNotificationDialogComponent } from 'src/app/components/delete-notification-dialog/delete-notification-dialog.component';
 import { of } from 'rxjs';
 
+function createNotifications(count: number): Notification[] {
+  const notifications: Notification[] = [];
+  for (let i = 0; i < count; i++) {
+    notifications.push({
+      Message: `test${i}`,
+      New: true,
+      Date: new Date().getTime(),
+      SenderId: `${i}`,
+    });
+  }
+  return notifications;
+}
+
 describe('NotificationsComponent', () => {
   let component: NotificationsComponent;
   let fixture: ComponentFixture<NotificationsComponent>;
@@ -123,25 +136,11 @@ describe('NotificationsComponent', () => {
   });
 
   it('should fetch sender names', async () => {
-    const notification1: Notification = {
-      Message: 'test1',
-      New: true,
-      Date: new Date().getTime(),
-      SenderId: '1',
-    };
-    const notification2: Notification = {
-      Message: 'test2',
-      New: true,
-      Date: new Date().getTime(),
-      SenderId: '2',
-    };
-    const notification3: Notification = {
-      Message: 'test3',
-      New: true,
-      Date: new Date().getTime(),
-      SenderId: '3',
-    };
-    component.dataSource = [notification1, notification2, notification3];
+    const notifications = createNotifications(3);
+    component.dataSource = notifications.map((n) => ({
+      ...n,
+      SenderId: n.SenderId,
+    }));
 
     const user1: UserDTO = {
       FirstName: 'John',
@@ -218,26 +217,7 @@ describe('NotificationsComponent', () => {
       CompanyName: '',
       PropertyIds: [],
       Role: Role.None,
-      Notifications: [
-        {
-          Message: 'test1',
-          New: true,
-          Date: new Date().getTime(),
-          SenderId: '1',
-        },
-        {
-          Message: 'test2',
-          New: true,
-          Date: new Date().getTime(),
-          SenderId: '2',
-        },
-        {
-          Message: 'test3',
-          New: true,
-          Date: new Date().getTime(),
-          SenderId: '3',
-        },
-      ],
+      Notifications: createNotifications(3),
     };
     component.userService.updateUser(myUser);
 
