@@ -4,7 +4,7 @@ import { BuildingDTO, CondoDTO } from '../../../models/properties';
 @Component({
   selector: 'app-condo-features',
   templateUrl: './condo-features.component.html',
-  styleUrls: ['./condo-features.component.scss']
+  styleUrls: ['./condo-features.component.scss'],
 })
 export class CondoFeaturesComponent {
   @Input() condo!: CondoDTO;
