@@ -1,1 +1,10 @@
-<p>user-info works!</p>
+<div class="user-information">
+    <img class="user-image" [src]="userInfo.ProfilePicture" alt="Profile Picture">
+    <div class="user-details">
+       <h2>{{ userInfo.FirstName + ' ' + userInfo.LastName }}</h2>
+         <a href="mailto:{{ userInfo.Email  }}">{{ userInfo.Email  }}</a>
+         <p>{{ userInfo.PhoneNumber }}</p>
+    </div>
+</div>
+
+

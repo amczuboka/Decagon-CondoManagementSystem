@@ -1,0 +1,44 @@
+.user-information {
+    display: flex;
+    align-items: center; // Vertically center the user details
+    padding: 20px;
+    border-radius: 15px; // Slightly larger border radius for a softer look
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15); // Slightly stronger shadow for emphasis
+    background-color: #fff; // Add a background color for the user information card
+  
+    .user-image {
+      width: 100px; // Reduce the size for a more balanced design
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%; // Make the image round
+      margin-right: 20px;
+    }
+  
+    .user-details {
+      h2 {
+        margin: 0;
+        font-size: 1.5rem; // Keep the size large but not too dominating
+        color: #333; // Dark gray for consistency
+      }
+  
+      p,
+      a {
+        margin: 5px 0;
+        font-size: 1rem; // Standardize font size for paragraph and links
+        color: #555; // Slightly lighter gray for less emphasis
+  
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+  
+      a {
+        text-decoration: none;
+        color: #0066cc; // Use a standard link color for recognition
+  
+        &:hover {
+          text-decoration: underline; // Underline on hover for better user experience
+        }
+      }
+    }
+  }
