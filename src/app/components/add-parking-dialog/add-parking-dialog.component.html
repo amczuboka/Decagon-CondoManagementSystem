@@ -1,1 +1,124 @@
-<p>add-parking-dialog works!</p>
+<form [formGroup]="newParking" class="normal-form">
+  <div class="card-body p-4">
+    <div class="new-item-form">
+      <h2>New Condos</h2>
+      <!--Quantity-->
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Quantity</mat-label>
+        <input
+          type="number"
+          min="1"
+          min="1"
+          matInput
+          required
+          name="Quantity"
+          formControlName="Quantity"
+        />
+        <mat-icon
+          matSuffix
+          *ngIf="
+            newParking.controls['Quantity'].hasError('required') &&
+            newParking.controls['Quantity'].touched
+          "
+          class="error-icon"
+          >error_outline</mat-icon
+        >
+        <mat-error *ngIf="newParking.controls['Quantity'].hasError('required')"
+          >Enter quantity</mat-error
+        >
+        <mat-error *ngIf="newParking.controls['Quantity'].hasError('min')"
+          >Enter at least 1</mat-error
+        >
+      </mat-form-field>
+      <br />
+      <!--Number-->
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Identification for set of Parking</mat-label>
+        <input
+          matInput
+          required
+          name="Number"
+          formControlName="Number"
+          placeholder="Ex: 1A, 2B, 3C, ..."
+        />
+        <mat-icon
+          matSuffix
+          *ngIf="
+            newParking.controls['Number'].hasError('required') &&
+            newParking.controls['Number'].touched
+          "
+          class="error-icon"
+          >error_outline</mat-icon
+        >
+        <mat-error *ngIf="newParking.controls['Number'].hasError('required')"
+          >Enter your Identification</mat-error
+        >
+      </mat-form-field>
+      <br />
+
+      <!--ParkingType-->
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Parking Type</mat-label>
+        <mat-select
+          matInput
+          required
+          name="ParkingType"
+          formControlName="ParkingType"
+        >
+          <mat-option value="Standard">Standard</mat-option>
+          <mat-option value="Handicap">Handicap</mat-option>
+        </mat-select>
+        <mat-icon
+          matSuffix
+          *ngIf="
+            newParking.controls['ParkingType'].hasError('required') &&
+            newParking.controls['ParkingType'].touched
+          "
+          class="error-icon"
+          >error_outline</mat-icon
+        >
+        <mat-error
+          *ngIf="newParking.controls['ParkingType'].hasError('required')"
+          >Select an option</mat-error
+        >
+      </mat-form-field>
+
+      <br />
+      <!--Fee-->
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Price per month</mat-label>
+        <input
+          matInput
+          required
+          type="number"
+          min="1"
+          name="Fee"
+          formControlName="Fee"
+        />
+        <mat-icon
+          matSuffix
+          *ngIf="
+            newParking.controls['Fee'].hasError('required') &&
+            newParking.controls['Fee'].touched
+          "
+          class="error-icon"
+          >error_outline</mat-icon
+        >
+        <mat-error *ngIf="newParking.controls['Fee'].hasError('required')"
+          >Enter a fee</mat-error
+        >
+
+        <mat-error *ngIf="newParking.controls['Fee'].hasError('type')"
+          >Enter a number</mat-error
+        >
+        <mat-error *ngIf="newParking.controls['Fee'].hasError('min')"
+          >Too low</mat-error
+        >
+      </mat-form-field>
+
+      <br />
+      <!--Button-->
+      <button class="btn btn-outline-dark" (click)="saveItem()">Save</button>
+    </div>
+  </div>
+</form>

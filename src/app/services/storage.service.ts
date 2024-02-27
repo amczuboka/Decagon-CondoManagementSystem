@@ -6,6 +6,7 @@ import {
   getDownloadURL,
   deleteObject,
 } from '@angular/fire/storage';
+import { Database, child, onValue, ref as ref_data } from 'firebase/database';
 
 @Injectable({
   providedIn: 'root',
@@ -50,8 +51,6 @@ export class StorageService {
     return downloadURL + ',' + tempName;
   }
 
-
-
   /**
    * Deletes a file from Firebase Storage.
    * @param downloadUrl - The download URL of the file in Firebase Storage.
@@ -68,4 +67,32 @@ export class StorageService {
       });
   }
 
+  /**
+   * Generates a unique ID for storing data in the Firebase Realtime Database.
+   * @param path - The path in the database where the ID will be used.
+   * @param database - The Firebase Database instance to use.
+   * @returns A unique ID as a string.
+   */
+  async IDgenerator(path: string, database: Database) {
+    let id = '';
+    let isGood = false;
+    let data: never[] | null | undefined = [];
+    const dbRef = ref_data(database);
+    while (!isGood) {
+      try {
+        id = Math.random().toString(36).substring(2);
+        let databaseRef = child(dbRef, path + id);
+        onValue(databaseRef, (snapshot) => {
+          data = snapshot.val();
+        });
+        if (data == null || data == undefined || data.length == 0) {
+          isGood = true;
+        }
+      } catch (err) {
+        break;
+      }
+    }
+
+    return id;
+  }
 }

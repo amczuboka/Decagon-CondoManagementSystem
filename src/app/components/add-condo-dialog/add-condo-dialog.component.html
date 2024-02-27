@@ -50,14 +50,14 @@
         >
         <mat-error
           *ngIf="newCondo.controls['SquareFootage'].hasError('required')"
-          >Enter description</mat-error
+          >Enter size</mat-error
         >
         <mat-error *ngIf="newCondo.controls['SquareFootage'].hasError('min')"
           >Too low</mat-error
         >
       </mat-form-field>
       <br />
-      <!--Bedrooms-->
+      <!--NumberOfBedrooms-->
       <mat-form-field appearance="outline" style="width: 100%">
         <mat-label>Number of Bedrooms</mat-label>
         <input
@@ -65,26 +65,26 @@
           required
           type="number"
           min="1"
-          name="Bedrooms"
-          formControlName="Bedrooms"
+          name="NumberOfBedrooms"
+          formControlName="NumberOfBedrooms"
         />
         <mat-icon
           matSuffix
           *ngIf="
-            newCondo.controls['Bedrooms'].hasError('required') &&
-            newCondo.controls['Bedrooms'].touched
+            newCondo.controls['NumberOfBedrooms'].hasError('required') &&
+            newCondo.controls['NumberOfBedrooms'].touched
           "
           class="error-icon" >error_outline</mat-icon
         >
-        <mat-error *ngIf="newCondo.controls['Bedrooms'].hasError('required')"
-          >Enter description</mat-error
+        <mat-error *ngIf="newCondo.controls['NumberOfBedrooms'].hasError('required')"
+          >Enter a number</mat-error
         >
-        <mat-error *ngIf="newCondo.controls['Bedrooms'].hasError('min')"
+        <mat-error *ngIf="newCondo.controls['NumberOfBedrooms'].hasError('min')"
           >Too low</mat-error
         >
       </mat-form-field>
       <br />
-      <!--Bathrooms-->
+      <!--NumberOfBathrooms-->
       <mat-form-field appearance="outline" style="width: 100%">
         <mat-label>Number of Bathrooms</mat-label>
         <input
@@ -92,21 +92,21 @@
           required
           type="number"
           min="1"
-          name="Bathrooms"
-          formControlName="Bathrooms"
+          name="NumberOfBathrooms"
+          formControlName="NumberOfBathrooms"
         />
         <mat-icon
           matSuffix
           *ngIf="
-            newCondo.controls['Bathrooms'].hasError('required') &&
-            newCondo.controls['Bathrooms'].touched
+            newCondo.controls['NumberOfBathrooms'].hasError('required') &&
+            newCondo.controls['NumberOfBathrooms'].touched
           "
           class="error-icon" >error_outline</mat-icon
         >
-        <mat-error *ngIf="newCondo.controls['Bathrooms'].hasError('required')"
-          >Enter description</mat-error
+        <mat-error *ngIf="newCondo.controls['NumberOfBathrooms'].hasError('required')"
+          >Enter a number</mat-error
         >
-        <mat-error *ngIf="newCondo.controls['Bathrooms'].hasError('min')"
+        <mat-error *ngIf="newCondo.controls['NumberOfBathrooms'].hasError('min')"
           >Too low</mat-error
         >
       </mat-form-field>

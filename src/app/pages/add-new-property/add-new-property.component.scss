@@ -20,42 +20,78 @@
     width: 40%;
   }
 }
-.facilities{
+.facilities {
   display: flex;
   flex-flow: row wrap;
   width: 100%;
   justify-content: space-around;
 }
 
- .responsive-dialog {
+.responsive-dialog {
   width: 50% !important;
   max-width: 50% !important;
- }
+}
 
- .add-component{
+.add-component {
   width: 50%;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
   padding-bottom: 2vw;
- }
+  gap: 10px 20px;
+}
 
- .add-component-list{
+.add-component-list {
   width: 100%;
   display: flex;
   flex-flow: column wrap;
   row-gap: 20px;
-  .condo{
+  padding-bottom: 3vw;
+  .condo {
     box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.519);
     border-radius: 10px;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.534);
+    overflow: hidden; /* Add this line */
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    width: 100%;
+    align-items: stretch;
+    .first {
+      padding-left: 1vw;
+    }
+    img {
+      width: 200px;
+      height: 200px;
+    }
+    .img {
+      display: flex;
+      flex-flow: row wrap;
+      > div {
+        padding: 1vw;
+      }
+    }
+
+    .matchimg {
+      height: 200px;
+    }
   }
- }
+  .last {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    align-self: flex-end;
+    height: 100%;
+    min-height: 150px;
+    padding: 1vw;
+  }
+}
 
 @media (max-width: 768px) {
   .responsive-dialog {
     width: 100% !important;
     max-width: 100% !important;
+    object-fit: cover;
   }
 }
 @media (max-width: 620px) {
@@ -64,4 +100,5 @@
       width: 100%;
     }
   }
+
 }

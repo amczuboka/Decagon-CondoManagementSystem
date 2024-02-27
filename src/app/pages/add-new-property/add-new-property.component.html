@@ -41,7 +41,7 @@
         </mat-form-field>
         <!-- State -->
         <mat-form-field appearance="outline">
-          <mat-label>State</mat-label>
+          <mat-label>State/Province</mat-label>
           <input matInput required name="State" formControlName="State" />
           <mat-icon
             matSuffix
@@ -53,7 +53,7 @@
             >error_outline</mat-icon
           >
           <mat-error *ngIf="Propertyform.controls['State'].hasError('required')"
-            >Enter a State</mat-error
+            >Enter a State/Province</mat-error
           >
         </mat-form-field>
         <!-- City -->
@@ -242,30 +242,85 @@
         <button class="button_setup" (click)="openAddCondoDialog()">
           Add Condo
         </button>
-        <button class="button_setup" (click)="onSubmit()">Add Locker</button>
-        <button class="button_setup" (click)="onSubmit()">Add Parking</button>
+        <button class="button_setup" (click)="openAddLockerDialog()">
+          Add Locker
+        </button>
+        <button class="button_setup" (click)="openAddParkingDialog()">
+          Add Parking
+        </button>
       </div>
       <div class="add-component-list">
         <!-- condo -->
-        <div class="condo">
-          <p>50 units</p>
-          <h2>Majestic condo unit 201</h2>
-          <br />
-          <p>2 bedrooms, 2 bathrooms</p>
+        <div class="condo" *ngFor="let condo of CondoItems; let i = index">
+          <div class="img">
+            <img src="{{ condo.PictureScr }}" alt="" />
+            <div>
+              <p>{{ condo.Quantity }} units</p>
+              <h2 *ngIf="Propertyform.controls['Name'].value">
+                {{ Propertyform.controls["Name"].value }} set unit {{ i + 1 }}
+              </h2>
+              <br />
+              <div>
+                <span>{{ condo.NumberOfBedrooms }} bedroom(s)</span
+                ><span>, {{ condo.NumberOfBedrooms }} bathroom(s)</span>
+              </div>
+            </div>
+          </div>
+          <div class="matchimg last">
+            <button
+              (click)="deleteCondoItems(condo)"
+              mat-mini-fab
+              matTooltip="Warn"
+              color="warn"
+            >
+              <mat-icon>delete_forever</mat-icon>
+            </button>
+
+            <div>
+              <span>${{ condo.Fee }}</span
+              ><span *ngIf="condo.Type == 'Rent'">/month</span>
+            </div>
+          </div>
         </div>
         <!-- locker -->
-        <div class="condo">
-          <p>50 units</p>
-          <h2>Lockers</h2>
-          <br />
-          <p>Dimension 50cm x 1.4m x 50cm</p>
+        <div class="condo" *ngFor="let locker of LockerItems">
+          <div class="first">
+            <p>{{ locker.Quantity }} units</p>
+            <h2>Lockers {{ locker.Number }}</h2>
+            <br />
+            <p>
+              Dimension {{ locker.Height }} x {{ locker.Length }} x
+              {{ locker.Width }}
+            </p>
+          </div>
+          <div class="last">
+            <button
+              mat-mini-fab
+              matTooltip="Warn"
+              (click)="deleteLockerItems(locker)"
+              color="warn"
+            >
+              <mat-icon>delete_forever</mat-icon>
+            </button>
+
+            <p>${{ locker.Fee }}/month</p>
+          </div>
         </div>
         <!-- parking -->
-        <div class="condo">
-          <p>50 units</p>
-          <h2>Parking</h2>
-          <br />
-          <p>Standard</p>
+        <div class="condo" *ngFor="let parking of ParkingItems">
+          <div class="first">
+            <p>{{parking.Quantity}} units</p>
+            <h2>Parkings {{parking.Number}}</h2>
+            <br />
+            <p>Standard</p>
+          </div>
+          <div class="last">
+            <button mat-mini-fab matTooltip="Warn" (click)="deleteParkingItems(parking)" color="warn">
+              <mat-icon>delete_forever</mat-icon>
+            </button>
+
+            <p>${{parking.Fee}}/month </p>
+          </div>
         </div>
       </div>
 
@@ -275,3 +330,7 @@
     </div>
   </form>
 </mat-dialog-content>
+
+  <div class="loading-indicator" *ngIf="loading">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>

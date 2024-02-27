@@ -15,6 +15,7 @@ export class AddCondoDialogComponent {
   form: any;
   matcher = new MyErrorStateMatcher();
   public file!: any;
+  imageSrc: string | null = null;
 
   constructor(
     public dialogRef: MatDialogRef<AddNewPropertyComponent>,
@@ -26,25 +27,37 @@ export class AddCondoDialogComponent {
   ngOnInit(): void {
     this.newCondo = this.form_builder.group({
       SquareFootage: ['', [Validators.required]],
-      Bedrooms: ['', [Validators.required]],
-      Bathrooms: ['', [Validators.required]],
+      NumberOfBedrooms: ['', [Validators.required]],
+      NumberOfBathrooms: ['', [Validators.required]],
       Type: ['', [Validators.required]],
       Fee: ['', [Validators.required]],
       Quantity: ['', [Validators.required]],
-      Picture: [null, Validators.required],
+      Picture: [null, [Validators.required]],
+      PictureScr: ['', [Validators.required]],
     });
   }
 
   handleFileInput(event: any) {
-    this.file = event.target.files[0];
+    if (event.target.files && event.target.files[0]) {
+      this.file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.imageSrc = reader.result as string;
+        this.newCondo.controls['PictureScr'].markAsDirty();
+        this.newCondo.controls['PictureScr'].setValue(this.imageSrc);
+      };
+      reader.readAsDataURL(this.file);
+    }
   }
 
   saveItem() {
-    console.log(this.newCondo.value);
+    this.newCondo.value.Picture = this.file;
     const { valid, value } = this.newCondo;
-    // if (valid) {
-    //   this.dialogRef.close(value); // Pass the new item data when closing the dialog
-    // }
-    // this.notification.sendNotification('Make sure to fill all the fields!');
+    if (valid) {
+      this.dialogRef.close(value); // Pass the new item data when closing the dialog
+    }else{
+      this.notification.sendNotification('Make sure to fill all the fields!');
+    }
+    
   }
 }

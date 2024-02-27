@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { AddCondoDialogComponent } from 'src/app/components/add-condo-dialog/add-condo-dialog.component';
+import { AddLockerDialogComponent } from 'src/app/components/add-locker-dialog/add-locker-dialog.component';
+import { AddParkingDialogComponent } from 'src/app/components/add-parking-dialog/add-parking-dialog.component';
 import { MyErrorStateMatcher } from 'src/app/services/auth.service';
 
 @Component({
@@ -19,6 +21,9 @@ export class AddNewPropertyComponent {
   currentYear = new Date().getFullYear();
   public file!: any;
   facilities = this.formBuilder.array([] as FormControl[]);
+  CondoItems: any[] = [];
+  LockerItems: any[] = [];
+  ParkingItems: any[] = [];
 
   constructor(private formBuilder: FormBuilder, public dialog: MatDialog) {}
 
@@ -31,11 +36,7 @@ export class AddNewPropertyComponent {
       City: ['', Validators.required],
       StreetNN: ['', Validators.required],
       ZipCode: ['', Validators.required],
-      // Bookings: this.fb.array([]), // You might want to create a form array or a form group for these
       Description: ['', Validators.required],
-      // Parkings: this.fb.array([]), // You might want to create a form array or a form group for these
-      // Lockers: this.fb.array([]), // You might want to create a form array or a form group for these
-      // Condos: this.fb.array([]), // You might want to create a form array or a form group for these
       Picture: [null, Validators.required],
       Facilities: this.facilities,
     });
@@ -72,12 +73,78 @@ export class AddNewPropertyComponent {
       if (newItem) {
         // Handle the newly added item here
         console.log('New item added:', newItem);
-        // this.deliveryItems.push(newItem);
+        this.CondoItems.push(newItem);
       }
     });
   }
 
+  //Function to open "add new item dialog"
+  openAddLockerDialog(): void {
+    let dialogRef = this.dialog.open(AddLockerDialogComponent, {
+      panelClass: 'responsive-dialog',
+      maxHeight: '90vh',
+    });
+
+    dialogRef.afterClosed().subscribe((newItem) => {
+      console.log('The dialog was closed');
+      if (newItem) {
+        // Handle the newly added item here
+        console.log('New item added:', newItem);
+        this.LockerItems.push(newItem);
+      }
+    });
+  }
+  //Function to open "add new item dialog"
+  openAddParkingDialog(): void {
+    let dialogRef = this.dialog.open(AddParkingDialogComponent, {
+      panelClass: 'responsive-dialog',
+      maxHeight: '90vh',
+    });
+
+    dialogRef.afterClosed().subscribe((newItem) => {
+      console.log('The dialog was closed');
+      if (newItem) {
+        // Handle the newly added item here
+        console.log('New item added:', newItem);
+        this.ParkingItems.push(newItem);
+      }
+    });
+  }
+
+  deleteCondoItems(item: any) {
+    // Delete the item from the deliveryItems array
+    this.CondoItems.splice(this.CondoItems.indexOf(item), 1);
+    console.log('Item deleted:', item);
+    console.log(this.CondoItems);
+  }
+
+  deleteLockerItems(item: any) {
+    // Delete the item from the deliveryItems array
+    this.LockerItems.splice(this.LockerItems.indexOf(item), 1);
+    console.log('Item deleted:', item);
+    console.log(this.LockerItems);
+  }
+
+  deleteParkingItems(item: any) {
+    // Delete the item from the deliveryItems array
+    this.ParkingItems.splice(this.ParkingItems.indexOf(item), 1);
+    console.log('Item deleted:', item);
+    console.log(this.ParkingItems);
+  }
+
   onSubmit() {
+    // this.loading = true;
+
+    Object.keys(this.Propertyform.controls).forEach((key) => {
+      if (this.Propertyform.controls[key].valid) {
+        console.log(key + ' is valid');
+      } else {
+        console.log(key + ' is not valid');
+      }
+    });
+
     console.log(this.Propertyform.value);
+
+    this.loading = false;
   }
 }
