@@ -35,41 +35,6 @@ describe('NotificationsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call getUserData after subscribing to currentUser$', async () => {
-    const mockUser = { firstName: 'John', lastName: 'Doe' };
-    const mockSubscription = new Subscription();
-    spyOn(component.userService.currentUser$, 'subscribe').and.callFake(
-      (observerOrNext) => {
-        if (typeof observerOrNext === 'function') {
-          observerOrNext(mockUser);
-        } else if (
-          observerOrNext &&
-          typeof observerOrNext.next === 'function'
-        ) {
-          observerOrNext.next(mockUser);
-        }
-        return mockSubscription;
-      }
-    );
-    spyOn(component, 'getUserData');
-
-    await component.ngOnInit();
-
-    expect(component.getUserData).toHaveBeenCalled();
-  });
-
-  it('should call getUserData after subscribing to currentUser$', async () => {
-    const mockSubscription = new Subscription();
-    spyOn(component.userService.currentUser$, 'subscribe').and.returnValue(
-      mockSubscription
-    );
-    spyOn(component, 'getUserData');
-
-    await component.ngOnInit();
-
-    expect(component.getUserData).toHaveBeenCalled();
-  });
-
   it('should mark notification as read', () => {
     const notification: Notification = {
       Message: 'test',

@@ -20,4 +20,8 @@ export class LandingComponent {
       this.myUser = user;
     });
   }
+
+  ngOnDestroy() {
+    this.userSubscription.unsubscribe();
+  }
 }

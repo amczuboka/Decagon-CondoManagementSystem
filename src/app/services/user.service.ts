@@ -32,11 +32,11 @@ export class UserService {
     this.getUser();
   }
 
-  updateUser(user: any) {
+  updateUser(user: UserDTO | EmployeeDTO | CompanyDTO) {
     this.myUserSubject.next(user);
   }
 
-  private getUser() {
+  getUser() {
     return new Promise<void>((resolve) => {
       let myUser = this.authService.getUser() as User;
       if (this.myUser) {
@@ -45,11 +45,11 @@ export class UserService {
           resolve();
         };
 
-        if (myUser.photoURL == Authority.Company) {
+        if (myUser && myUser.photoURL == Authority.Company) {
           this.subscribeToCompanyUser(myUser.uid, callback);
-        } else if (myUser.photoURL == Authority.Employee) {
+        } else if (myUser && myUser.photoURL == Authority.Employee) {
           this.subscribeToEmployeeUser(myUser.uid, callback);
-        } else {
+        } else if (myUser) {
           this.subscribeToPublicUser(myUser.uid, callback);
         }
       } else {

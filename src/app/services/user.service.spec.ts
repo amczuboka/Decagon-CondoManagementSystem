@@ -8,6 +8,8 @@ import {
   Role,
   UserDTO,
 } from '../models/users';
+import { BehaviorSubject } from 'rxjs';
+import { AuthService } from './auth.service';
 
 describe('UserService', () => {
   let service: UserService;
@@ -15,11 +17,14 @@ describe('UserService', () => {
   let EmployeeUser: EmployeeDTO;
   let CompanyUser: CompanyDTO;
   let index: string;
+  let authService: AuthService;
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [AppModule],
     });
     service = TestBed.inject(UserService);
+    (service as any).currentUserSubject = new BehaviorSubject(null);
+    authService = TestBed.inject(AuthService);
 
     publicUser = {
       FirstName: 'gig',
@@ -75,13 +80,22 @@ describe('UserService', () => {
 
   it('should update the current user', () => {
     // Arrange
-    const user = { name: 'John Doe' };
+    const user: UserDTO = {
+      FirstName: 'John',
+      LastName: 'Doe',
+      ID: '123',
+      Authority: Authority.Public,
+      Email: '',
+      ProfilePicture: '',
+      PhoneNumber: '',
+      UserName: '',
+    };
 
     // Act
-    service.updateCurrentUser(user);
+    service.updateUser(user);
 
     // Assert
-    expect((service as any).currentUserSubject.value).toEqual(user);
+    expect((service as any).myUserSubject.value).toEqual(user);
   });
 
   it('should check if company exists', async () => {
