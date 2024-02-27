@@ -51,6 +51,8 @@ import { BuildingInfoComponent } from './pages/building-info/building-info.compo
 import { BuildingOverviewComponent } from './components/building-overview/building-overview.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { MatTableModule } from '@angular/material/table';
+import { DeleteNotificationDialogComponent } from './components/delete-notification-dialog/delete-notification-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -65,6 +67,7 @@ import { MatTableModule } from '@angular/material/table';
     BuildingInfoComponent,
     BuildingOverviewComponent,
     NotificationsComponent,
+    DeleteNotificationDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -100,6 +103,7 @@ import { MatTableModule } from '@angular/material/table';
     MatCardModule,
     MatTabsModule,
     MatTableModule,
+    MatDialogModule,
   ],
   providers: [ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent],

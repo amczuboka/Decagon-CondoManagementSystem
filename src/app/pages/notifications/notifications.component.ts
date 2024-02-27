@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteNotificationDialogComponent } from 'src/app/components/delete-notification-dialog/delete-notification-dialog.component';
 import { Authority, User } from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
@@ -11,26 +13,14 @@ import { UserService } from 'src/app/services/user.service';
 export class NotificationsComponent {
   authority!: string;
   myUser!: any;
-  displayedColumns: string[] = [];
+  displayedColumns: string[] = ['message', 'date', 'SenderId', 'actions'];
   dataSource: any = [];
 
   constructor(
     public authService: AuthService,
-    public userService: UserService
-  ) {
-    this.updateDisplayedColumns();
-    window.addEventListener('resize', () => {
-      this.updateDisplayedColumns();
-    });
-  }
-
-  updateDisplayedColumns() {
-    if (window.innerWidth <= 700) {
-      this.displayedColumns = ['message', 'date', 'actions'];
-    } else {
-      this.displayedColumns = ['message', 'date', 'SenderId', 'actions'];
-    }
-  }
+    public userService: UserService,
+    public dialog: MatDialog
+  ) {}
 
   async ngOnInit() {
     await this.getUserData();
@@ -90,13 +80,19 @@ export class NotificationsComponent {
   }
 
   deleteNotification(notification: any) {
-    this.myUser.Notifications = this.myUser.Notifications.filter(
-      (n: any) =>
-        n.Message !== notification.Message ||
-        n.New !== notification.New ||
-        n.Date !== notification.Date ||
-        n.SenderId !== notification.SenderId
-    );
-    this.userService.editUser(this.myUser.ID, this.myUser);
+    const dialogRef = this.dialog.open(DeleteNotificationDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.myUser.Notifications = this.myUser.Notifications.filter(
+          (n: any) =>
+            n.Message !== notification.Message ||
+            n.New !== notification.New ||
+            n.Date !== notification.Date ||
+            n.SenderId !== notification.SenderId
+        );
+        this.userService.editUser(this.myUser.ID, this.myUser);
+      }
+    });
   }
 }

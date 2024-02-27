@@ -1,8 +1,17 @@
+.my-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 20px;
+  width: 90%;
+  margin: 0 auto;
+}
+
 .my-table .mat-cell,
 .my-table .mat-header-cell {
   display: flex;
   justify-content: center;
-  flex: 1 1 auto;
   white-space: normal;
   word-wrap: break-word;
   height: auto;
@@ -14,7 +23,6 @@
 .my-table .mat-header-cell.mat-column-actions {
   display: flex;
   justify-content: flex-end;
-  flex: 0 0 auto;
   text-align: right;
 }
 
@@ -30,7 +38,6 @@
   flex-direction: row;
   flex-wrap: wrap;
   margin: 0;
-  padding: 0;
 }
 
 .button-container button {
@@ -40,5 +47,6 @@
 @media (max-width: 700px) {
   .button-container {
     flex-direction: column;
+    padding-top: 15px;
   }
 }
