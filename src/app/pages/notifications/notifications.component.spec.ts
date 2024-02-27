@@ -13,7 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteNotificationDialogComponent } from 'src/app/components/delete-notification-dialog/delete-notification-dialog.component';
 import { of } from 'rxjs';
 
-// Call this function to create notifications based on the count
+// Call this function to create notifications
 function createNotifications(count: number): Notification[] {
   const notifications: Notification[] = [];
   for (let i = 0; i < count; i++) {
