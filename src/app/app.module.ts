@@ -49,6 +49,7 @@ import { MatCardModule } from '@angular/material/card';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { BuildingInfoComponent } from './pages/building-info/building-info.component';
 import { BuildingOverviewComponent } from './components/building-overview/building-overview.component';
+import { UserInfoComponent } from './pages/individual-condo/user-info/user-info.component';
 import { IndividualCondoComponent } from './pages/individual-condo/individual-condo.component';
 import { LocationComponent } from './pages/individual-condo/location/location.component';
 import { CondoFeaturesComponent } from './pages/individual-condo/condo-features/condo-features.component';
@@ -69,6 +70,7 @@ import { RouterModule } from '@angular/router';
     UserProfileComponent,
     BuildingInfoComponent,
     BuildingOverviewComponent,
+    UserInfoComponent,
     IndividualCondoComponent,
     LocationComponent,
     CondoFeaturesComponent,
@@ -77,7 +79,7 @@ import { RouterModule } from '@angular/router';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    RouterModule, 
+    RouterModule,
     NgxMapLibreGLModule,
     HttpClientModule,
     AngularFireModule.initializeApp(firebaseConfig),
