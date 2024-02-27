@@ -49,6 +49,13 @@ import { MatCardModule } from '@angular/material/card';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { BuildingInfoComponent } from './pages/building-info/building-info.component';
 import { BuildingOverviewComponent } from './components/building-overview/building-overview.component';
+import { IndividualCondoComponent } from './pages/individual-condo/individual-condo.component';
+import { LocationComponent } from './pages/individual-condo/location/location.component';
+import { CondoFeaturesComponent } from './pages/individual-condo/condo-features/condo-features.component';
+import { DescriptionComponent } from './pages/individual-condo/description/description.component';
+import { HttpClientModule } from '@angular/common/http';
+import { NgxMapLibreGLModule } from '@maplibre/ngx-maplibre-gl';
+import { RouterModule } from '@angular/router'; 
 
 @NgModule({
   declarations: [
@@ -62,10 +69,17 @@ import { BuildingOverviewComponent } from './components/building-overview/buildi
     UserProfileComponent,
     BuildingInfoComponent,
     BuildingOverviewComponent,
+    IndividualCondoComponent,
+    LocationComponent,
+    CondoFeaturesComponent,
+    DescriptionComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    RouterModule, 
+    NgxMapLibreGLModule,
+    HttpClientModule,
     AngularFireModule.initializeApp(firebaseConfig),
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideAuth(() => getAuth()),
