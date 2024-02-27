@@ -1,0 +1,52 @@
+<!-- Property Header -->
+
+<div class="container">
+  <!-- Property Header -->
+  <div class="property-header">
+    <div class="left-aligned-container">
+      <button mat-icon-button class="back-arrow-button" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h1 class="property-title">{{ building.Name }} - {{ condo.UnitNumber }}</h1>
+      <p class="property-address">{{ building.Address }}</p>
+    </div>
+    <!-- Right Aligned Container for Price and Icons -->
+    <div class="right-aligned-container">
+      <div class="property-price">
+        {{ condo.Fee | currency : "CAD" : "symbol" : "1.2-2" }}
+      </div>
+      <div class="property-icons">
+        <button mat-icon-button class="icon-favorite" (click)="favorite()">
+          <mat-icon>favorite</mat-icon>
+        </button>
+        <button mat-icon-button class="icon-share" (click)="share()">
+          <mat-icon>share</mat-icon>
+        </button>
+        <button mat-icon-button class="icon-refresh" (click)="refresh()">
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+    <!-- Property Images -->
+    <div class="property-images">
+      <img
+        src="{{condo.Picture}}"
+        alt="Main Image of Condo"
+      />
+      <!-- Additional images can be added here -->
+    </div>
+
+    <!-- Property Details Section -->
+    <div class="property-details">
+      <h2>Features</h2>
+      <app-condo-features [condo]="condo" [building]="building"></app-condo-features>
+      <h2>Description</h2>
+      <app-description [condo]="condo"></app-description>
+      <h2>Location</h2>
+      <app-location [address]="building.Address"></app-location>
+    </div>
+
+  </div>
+
