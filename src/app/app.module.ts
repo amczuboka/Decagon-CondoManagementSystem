@@ -13,6 +13,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -51,6 +54,10 @@ import { BuildingInfoComponent } from './pages/building-info/building-info.compo
 import { BuildingOverviewComponent } from './components/building-overview/building-overview.component';
 import { SearchComponent } from './components/search/search.component';
 import { BuildingComponent } from './components/building/building.component';
+import { AddNewPropertyComponent } from './pages/add-new-property/add-new-property.component';
+import { AddCondoDialogComponent } from './components/add-condo-dialog/add-condo-dialog.component';
+import { AddLockerDialogComponent } from './components/add-locker-dialog/add-locker-dialog.component';
+import { AddParkingDialogComponent } from './components/add-parking-dialog/add-parking-dialog.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +73,10 @@ import { BuildingComponent } from './components/building/building.component';
     BuildingOverviewComponent,
     BuildingComponent,
     SearchComponent,
+    AddNewPropertyComponent,
+    AddCondoDialogComponent,
+    AddLockerDialogComponent,
+    AddParkingDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -100,6 +111,8 @@ import { BuildingComponent } from './components/building/building.component';
     MatBadgeModule,
     MatCardModule,
     MatTabsModule,
+    MatCheckboxModule,
+    MatDialogModule,
   ],
   providers: [ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent],

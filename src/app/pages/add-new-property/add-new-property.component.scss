@@ -1,0 +1,67 @@
+.main-struct {
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100%;
+  padding: 5vw;
+}
+.basic-info {
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100%;
+  padding: 1vw;
+}
+
+.part1 {
+  display: flex;
+  flex-flow: row wrap;
+  width: 100%;
+  justify-content: space-between;
+  mat-form-field {
+    width: 40%;
+  }
+}
+.facilities{
+  display: flex;
+  flex-flow: row wrap;
+  width: 100%;
+  justify-content: space-around;
+}
+
+ .responsive-dialog {
+  width: 50% !important;
+  max-width: 50% !important;
+ }
+
+ .add-component{
+  width: 50%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  padding-bottom: 2vw;
+ }
+
+ .add-component-list{
+  width: 100%;
+  display: flex;
+  flex-flow: column wrap;
+  row-gap: 20px;
+  .condo{
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.519);
+    border-radius: 10px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.534);
+  }
+ }
+
+@media (max-width: 768px) {
+  .responsive-dialog {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+@media (max-width: 620px) {
+  .part1 {
+    mat-form-field {
+      width: 100%;
+    }
+  }
+}

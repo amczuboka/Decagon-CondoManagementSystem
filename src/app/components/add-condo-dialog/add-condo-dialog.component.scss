@@ -1,0 +1,27 @@
+div.container{
+    margin: 0px 40px;
+}
+.normal-form{
+    overflow-y: scroll;
+}
+
+.fill-remaining-space{
+    flex: 1 1 auto;
+}
+
+form.normal-form{
+    margin:10px;
+}
+
+.controls-container{
+    width:100%;
+    padding: 5%;
+}
+
+.controls-container > *{
+    width: 100%;
+}
+
+button{
+    align-self: center;
+}

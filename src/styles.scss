@@ -19,7 +19,7 @@ body {
 .mat-mdc-snack-bar-container,
 .mdc-snackbar__label {
   &.kawaiicolors-snackbar {
-    --mdc-snackbar-container-color: rgb(251, 207, 170);
+    --mdc-snackbar-container-color: #486380;;
     --mat-mdc-snack-bar-button-color: #fff;
     --mdc-snackbar-supporting-text-color: rgb(70, 20, 19);
     --mdc-snackbar-supporting-text-size: 20px;
@@ -36,3 +36,29 @@ body {
 .mat-mdc-snack-bar-container .mdc-snackbar__label {
   font-size: 30px;
 }
+
+.error-icon{
+  color: red;
+}
+
+.button_setup {
+  background-color: #486380; 
+  color: white; 
+  border: none; 
+  border-radius: 10px; 
+  line-height: 1.4;
+  padding: 15px 15px;
+  padding-left: 45px;
+  padding-right: 45px; 
+  width: fit-content;
+  cursor: pointer;
+  text-align: center;
+  font-size: 14px;
+}
+
+
+/* Importing Bootstrap SCSS file. */
+@import "./node_modules/bootstrap/scss/bootstrap";
+
+/* Importing Datepicker SCSS file. */
+@import "node_modules/ngx-bootstrap/datepicker/bs-datepicker";

@@ -59,7 +59,13 @@
         <a class="nav-link" aria-current="page" href="">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" aria-current="page" href="">Add New Property</a>
+        <a
+          class="nav-link"
+          aria-current="page"
+          href="add-new-property"
+          *ngIf="myUser.Authority === 'Company'"
+          >Add New Property</a
+        >
       </li>
       <li class="nav-item" id="p-icon">
         <div mat-card-avatar class="header-image">
@@ -96,7 +102,11 @@
   <a class="nav-link" href="user-profile">
     <button mat-menu-item>Profile</button>
   </a>
-    <a class="nav-link" href="user-profile">
+  <a
+    class="nav-link"
+    *ngIf="myUser.Authority === 'Company'"
+    href="add-new-property"
+  >
     <button mat-menu-item>Add New Property</button>
   </a>
   <a class="nav-link" href="#" (click)="authService.SignOut()">

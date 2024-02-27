@@ -1,0 +1,188 @@
+<form [formGroup]="newCondo" class="normal-form">
+  <div class="card-body p-4">
+    <div class="new-item-form">
+      <h2>New Condos</h2>
+      <!--Quantity-->
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Quantity</mat-label>
+        <input
+          type="number"
+          min="1"
+          matInput
+          required
+          name="Quantity"
+          formControlName="Quantity"
+        />
+        <mat-icon
+          matSuffix
+          *ngIf="
+            newCondo.controls['Quantity'].hasError('required') &&
+            newCondo.controls['Quantity'].touched
+          "
+          class="error-icon" >error_outline</mat-icon
+        >
+        <mat-error *ngIf="newCondo.controls['Quantity'].hasError('required')"
+          >Enter quantity</mat-error
+        >
+        <mat-error *ngIf="newCondo.controls['Quantity'].hasError('min')"
+          >Enter at least 1</mat-error
+        >
+      </mat-form-field>
+      <br />
+      <!--SquareFootage-->
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Square Footage</mat-label>
+        <input
+          matInput
+          required
+          type="number"
+          min="1"
+          name="SquareFootage"
+          formControlName="SquareFootage"
+        />
+        <mat-icon
+          matSuffix
+          *ngIf="
+            newCondo.controls['SquareFootage'].hasError('required') &&
+            newCondo.controls['SquareFootage'].touched
+          "
+          class="error-icon" >error_outline</mat-icon
+        >
+        <mat-error
+          *ngIf="newCondo.controls['SquareFootage'].hasError('required')"
+          >Enter description</mat-error
+        >
+        <mat-error *ngIf="newCondo.controls['SquareFootage'].hasError('min')"
+          >Too low</mat-error
+        >
+      </mat-form-field>
+      <br />
+      <!--Bedrooms-->
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Number of Bedrooms</mat-label>
+        <input
+          matInput
+          required
+          type="number"
+          min="1"
+          name="Bedrooms"
+          formControlName="Bedrooms"
+        />
+        <mat-icon
+          matSuffix
+          *ngIf="
+            newCondo.controls['Bedrooms'].hasError('required') &&
+            newCondo.controls['Bedrooms'].touched
+          "
+          class="error-icon" >error_outline</mat-icon
+        >
+        <mat-error *ngIf="newCondo.controls['Bedrooms'].hasError('required')"
+          >Enter description</mat-error
+        >
+        <mat-error *ngIf="newCondo.controls['Bedrooms'].hasError('min')"
+          >Too low</mat-error
+        >
+      </mat-form-field>
+      <br />
+      <!--Bathrooms-->
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Number of Bathrooms</mat-label>
+        <input
+          matInput
+          required
+          type="number"
+          min="1"
+          name="Bathrooms"
+          formControlName="Bathrooms"
+        />
+        <mat-icon
+          matSuffix
+          *ngIf="
+            newCondo.controls['Bathrooms'].hasError('required') &&
+            newCondo.controls['Bathrooms'].touched
+          "
+          class="error-icon" >error_outline</mat-icon
+        >
+        <mat-error *ngIf="newCondo.controls['Bathrooms'].hasError('required')"
+          >Enter description</mat-error
+        >
+        <mat-error *ngIf="newCondo.controls['Bathrooms'].hasError('min')"
+          >Too low</mat-error
+        >
+      </mat-form-field>
+      <br />
+      <!--Type-->
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Type</mat-label>
+        <mat-select matInput required name="Type" formControlName="Type">
+          <mat-option value="Rent">Rent (price/month)</mat-option>
+          <mat-option value="Sell">Sell (total price)</mat-option>
+        </mat-select>
+        <mat-icon
+          matSuffix
+          *ngIf="
+            newCondo.controls['Type'].hasError('required') &&
+            newCondo.controls['Type'].touched
+          "
+          class="error-icon" >error_outline</mat-icon
+        >
+        <mat-error *ngIf="newCondo.controls['Type'].hasError('required')"
+          >Select an option</mat-error
+        >
+      </mat-form-field>
+      <br />
+      <!--Fee-->
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Price</mat-label>
+        <input
+          matInput
+          required
+          type="number"
+          min="1"
+          name="Fee"
+          formControlName="Fee"
+        />
+        <mat-icon
+          matSuffix
+          *ngIf="
+            newCondo.controls['Fee'].hasError('required') &&
+            newCondo.controls['Fee'].touched
+          "
+          class="error-icon" >error_outline</mat-icon
+        >
+        <mat-error *ngIf="newCondo.controls['Fee'].hasError('required')"
+          >Enter description</mat-error
+        >
+        <mat-error *ngIf="newCondo.controls['Fee'].hasError('min')"
+          >Too low</mat-error
+        >
+      </mat-form-field>
+      <br />
+          <!-- Picture -->
+    <label>
+      <p>Add a Building picture</p>
+      <input
+        required
+        name="Picture"
+        type="file"
+        class="form-control"
+        formControlName="Picture"
+        (change)="handleFileInput($event)"
+        accept="image/*"
+      />
+      <mat-icon
+        matSuffix
+        *ngIf="
+          newCondo.controls['Picture'].hasError('required') &&
+          newCondo.controls['Picture'].touched
+        "
+        class="error-icon"
+        >error_outline</mat-icon
+      >
+    </label>
+    <br> <br/>
+      <!--Button-->
+      <button class="btn btn-outline-dark" (click)="saveItem()">Save</button>
+    </div>
+  </div>
+</form>

@@ -41,9 +41,9 @@ export interface Locker {
   OccupantID: string;
   Number: string;
   Status: ParkingLockerStatus;
-  Height: number;
-  Width: number;
-  Length: number;
+  Height: string;
+  Width: string;
+  Length: string;
   Fee: number;
 }
 
@@ -75,8 +75,8 @@ export enum Facilities {
 
 export interface Booking {
   ID: string;
+  OccupantID: string;
   Facility: Facilities;
-  UserID: string;
   Date: Date;
 }
 
