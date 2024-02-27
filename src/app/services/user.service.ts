@@ -14,22 +14,48 @@ import {
   CompanyDTO,
   EmployeeDTO,
   Notification,
+  User,
   UserDTO,
 } from '../models/users';
 import { Database, remove, set, update } from '@angular/fire/database';
-import { BehaviorSubject } from 'rxjs';
+import { AuthService } from './auth.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private currentUserSubject = new BehaviorSubject<any | null>(null);
-  currentUser$ = this.currentUserSubject.asObservable();
+  private myUserSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  myUser = this.myUserSubject.asObservable();
 
-  constructor(private database: Database) {}
+  constructor(private database: Database, private authService: AuthService) {
+    this.getUser();
+  }
 
-  updateCurrentUser(user: any) {
-    this.currentUserSubject.next(user);
+  updateUser(user: any) {
+    this.myUserSubject.next(user);
+  }
+
+  private getUser() {
+    return new Promise<void>((resolve) => {
+      let myUser = this.authService.getUser() as User;
+      if (this.myUser) {
+        const callback = (user: any) => {
+          this.myUser = user;
+          resolve();
+        };
+
+        if (myUser.photoURL == Authority.Company) {
+          this.subscribeToCompanyUser(myUser.uid, callback);
+        } else if (myUser.photoURL == Authority.Employee) {
+          this.subscribeToEmployeeUser(myUser.uid, callback);
+        } else {
+          this.subscribeToPublicUser(myUser.uid, callback);
+        }
+      } else {
+        resolve();
+      }
+    });
   }
 
   async checkIfCompanyExists(companyName: string) {
@@ -162,7 +188,7 @@ export class UserService {
       userRef,
       (snapshot) => {
         if (snapshot.exists()) {
-          this.updateCurrentUser(snapshot.val() as UserDTO);
+          this.updateUser(snapshot.val() as UserDTO);
           callback(snapshot.val() as UserDTO);
         } else {
           callback(null);
@@ -184,7 +210,7 @@ export class UserService {
       userRef,
       (snapshot) => {
         if (snapshot.exists()) {
-          this.updateCurrentUser(snapshot.val() as CompanyDTO);
+          this.updateUser(snapshot.val() as CompanyDTO);
           callback(snapshot.val() as CompanyDTO);
         } else {
           callback(null);
@@ -206,7 +232,7 @@ export class UserService {
       userRef,
       (snapshot) => {
         if (snapshot.exists()) {
-          this.updateCurrentUser(snapshot.val() as EmployeeDTO);
+          this.updateUser(snapshot.val() as EmployeeDTO);
           callback(snapshot.val() as EmployeeDTO);
         } else {
           callback(null);

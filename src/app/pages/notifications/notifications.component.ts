@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 import { DeleteNotificationDialogComponent } from 'src/app/components/delete-notification-dialog/delete-notification-dialog.component';
 import { Authority, Notification, User } from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
@@ -15,6 +16,7 @@ export class NotificationsComponent {
   myUser!: any;
   displayedColumns: string[] = ['message', 'date', 'SenderId', 'actions'];
   dataSource: any = [];
+  userSubscription: Subscription = new Subscription();
 
   constructor(
     public authService: AuthService,
@@ -23,32 +25,14 @@ export class NotificationsComponent {
   ) {}
 
   async ngOnInit() {
-    await this.getUserData();
-  }
-
-  async getUserData(): Promise<void> {
-    return new Promise<void>((resolve) => {
-      this.myUser = this.authService.getUser() as User;
+    this.userSubscription = this.userService.myUser.subscribe((user) => {
+      this.myUser = user;
       if (this.myUser) {
-        const callback = (user: any) => {
-          this.myUser = user;
-          this.dataSource = this.myUser.Notifications.sort((a: any, b: any) => {
-            const dateA = new Date(a.Date).getTime();
-            const dateB = new Date(b.Date).getTime();
-            return dateB - dateA;
-          });
-          resolve();
-        };
-
-        if (this.myUser.photoURL == Authority.Company) {
-          this.userService.subscribeToCompanyUser(this.myUser.uid, callback);
-        } else if (this.myUser.photoURL == Authority.Employee) {
-          this.userService.subscribeToEmployeeUser(this.myUser.uid, callback);
-        } else {
-          this.userService.subscribeToPublicUser(this.myUser.uid, callback);
-        }
-      } else {
-        resolve();
+        this.dataSource = this.myUser.Notifications.sort((a: any, b: any) => {
+          const dateA = new Date(a.Date).getTime();
+          const dateB = new Date(b.Date).getTime();
+          return dateB - dateA;
+        });
       }
     });
   }
