@@ -1,0 +1,55 @@
+<!-- condo-features.component.html -->
+<div class="feature-card">
+    <div class="features-container">
+      <div class="feature">
+        <div class="icon-container">
+          <mat-icon>home</mat-icon>
+        </div>
+        <div class="feature-details">
+          <span class="feature-label bold-label">Rooms</span>
+          <span class="feature-value">{{ condo.NumberOfBedrooms + condo.NumberOfBathrooms }}</span>
+        </div>
+      </div>
+  
+      <div class="feature">
+        <div class="icon-container">
+          <mat-icon>king_bed</mat-icon>
+        </div>
+        <div class="feature-details">
+          <span class="feature-label bold-label">Bedrooms</span>
+          <span class="feature-value">{{ condo.NumberOfBedrooms }}</span>
+        </div>
+      </div>
+  
+      <div class="feature">
+        <div class="icon-container">
+          <mat-icon>bathtub</mat-icon>
+        </div>
+        <div class="feature-details">
+          <span class="feature-label bold-label">Bathrooms</span>
+          <span class="feature-value">{{ condo.NumberOfBathrooms }}</span>
+        </div>
+      </div>
+  
+      <div class="feature">
+        <div class="icon-container">
+          <mat-icon>aspect_ratio</mat-icon>
+        </div>
+        <div class="feature-details">
+          <span class="feature-label bold-label">Square Footage</span>
+          <span class="feature-value">{{ condo.SquareFootage }}</span>
+        </div>
+      </div>
+  
+      <div class="feature">
+        <div class="icon-container">
+          <mat-icon>date_range</mat-icon>
+        </div>
+        <div class="feature-details">
+          <span class="feature-label bold-label">Year Built</span>
+          <span class="feature-value">{{ building.Year }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
