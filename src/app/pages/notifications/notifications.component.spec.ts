@@ -1,11 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NotificationsComponent } from './notifications.component';
 import { AppModule } from 'src/app/app.module';
-import { Notification } from 'src/app/models/users';
+import {
+  Authority,
+  CompanyDTO,
+  EmployeeDTO,
+  Notification,
+  Role,
+  UserDTO,
+} from 'src/app/models/users';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteNotificationDialogComponent } from 'src/app/components/delete-notification-dialog/delete-notification-dialog.component';
-import { AuthService } from 'src/app/services/auth.service';
-import { Subscription, of } from 'rxjs';
+import { of } from 'rxjs';
 
 describe('NotificationsComponent', () => {
   let component: NotificationsComponent;
@@ -114,5 +120,133 @@ describe('NotificationsComponent', () => {
 
     expect(component.myUser.Notifications).toEqual([notification]);
     expect(component.userService.editUser).not.toHaveBeenCalled();
+  });
+
+  it('should fetch sender names', async () => {
+    const notification1: Notification = {
+      Message: 'test1',
+      New: true,
+      Date: new Date().getTime(),
+      SenderId: '1',
+    };
+    const notification2: Notification = {
+      Message: 'test2',
+      New: true,
+      Date: new Date().getTime(),
+      SenderId: '2',
+    };
+    const notification3: Notification = {
+      Message: 'test3',
+      New: true,
+      Date: new Date().getTime(),
+      SenderId: '3',
+    };
+    component.dataSource = [notification1, notification2, notification3];
+
+    const user1: UserDTO = {
+      FirstName: 'John',
+      LastName: 'Doe',
+      ID: '1',
+      Authority: Authority.Public,
+      Email: '',
+      ProfilePicture: '',
+      PhoneNumber: '',
+      UserName: '',
+    };
+    const user2: CompanyDTO = {
+      FirstName: 'Jane',
+      LastName: 'Smith',
+      ID: '2',
+      Authority: Authority.Company,
+      Email: '',
+      ProfilePicture: '',
+      PhoneNumber: '',
+      UserName: '',
+      CompanyName: '',
+      PropertyIds: [],
+      EmployeeIds: [],
+    };
+    const user3: EmployeeDTO = {
+      FirstName: 'Bob',
+      LastName: 'Johnson',
+      ID: '3',
+      Authority: Authority.Employee,
+      Email: '',
+      ProfilePicture: '',
+      PhoneNumber: '',
+      UserName: '',
+      CompanyName: '',
+      PropertyIds: [],
+      Role: Role.None,
+    };
+
+    spyOn(component.userService, 'getPublicUser').and.returnValues(
+      Promise.resolve(user1),
+      Promise.resolve(null)
+    );
+    spyOn(component.userService, 'getCompanyUser').and.returnValues(
+      Promise.resolve(user2),
+      Promise.resolve(null)
+    );
+    spyOn(component.userService, 'getEmployeeUser').and.returnValues(
+      Promise.resolve(user3),
+      Promise.resolve(null),
+      Promise.resolve(null)
+    );
+
+    await component.fetchSenderNames();
+
+    expect(component.dataSource[0].SenderId).toBe('John Doe');
+    expect(component.dataSource[1].SenderId).toBe('Jane Smith');
+    expect(component.dataSource[2].SenderId).toBe('Bob Johnson');
+  });
+
+  it('should initialize component', () => {
+    const userServiceSpy = spyOn(
+      component.userService['myUserSubject'],
+      'next'
+    ).and.callThrough();
+    const myUser: EmployeeDTO = {
+      FirstName: 'John',
+      LastName: 'Doe',
+      ID: '1',
+      Authority: Authority.Employee,
+      Email: '',
+      ProfilePicture: '',
+      PhoneNumber: '',
+      UserName: '',
+      CompanyName: '',
+      PropertyIds: [],
+      Role: Role.None,
+      Notifications: [
+        {
+          Message: 'test1',
+          New: true,
+          Date: new Date().getTime(),
+          SenderId: '1',
+        },
+        {
+          Message: 'test2',
+          New: true,
+          Date: new Date().getTime(),
+          SenderId: '2',
+        },
+        {
+          Message: 'test3',
+          New: true,
+          Date: new Date().getTime(),
+          SenderId: '3',
+        },
+      ],
+    };
+    component.userService.updateUser(myUser);
+
+    spyOn(component, 'fetchSenderNames').and.callThrough();
+
+    component.ngOnInit();
+
+    expect(userServiceSpy).toHaveBeenCalledWith(myUser);
+    expect(component.dataSource).toEqual(myUser.Notifications);
+    expect(component.fetchSenderNames).toHaveBeenCalled();
   });
 });

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { DeleteNotificationDialogComponent } from 'src/app/components/delete-notification-dialog/delete-notification-dialog.component';
-import { Authority, Notification, User } from 'src/app/models/users';
+import { CompanyDTO, EmployeeDTO, UserDTO } from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -14,7 +14,8 @@ import { UserService } from 'src/app/services/user.service';
 export class NotificationsComponent {
   authority!: string;
   myUser!: any;
-  displayedColumns: string[] = ['message', 'date', 'SenderId', 'actions'];
+  loading!: boolean;
+  displayedColumns: string[] = ['message', 'date', 'sender', 'actions']; // Updated column name to 'sender'
   dataSource: any = [];
   userSubscription: Subscription = new Subscription();
 
@@ -33,8 +34,41 @@ export class NotificationsComponent {
           const dateB = new Date(b.Date).getTime();
           return dateB - dateA;
         });
+        this.fetchSenderNames();
       }
     });
+  }
+
+  async fetchSenderNames() {
+    this.loading = true;
+    for (const notification of this.dataSource) {
+      const senderId = notification.SenderId;
+      let senderName = '';
+      let user: UserDTO | CompanyDTO | EmployeeDTO | null = null;
+
+      // Search in public users
+      user = await this.userService.getPublicUser(senderId);
+      if (user) {
+        senderName = `${user.FirstName} ${user.LastName}`;
+      } else {
+        // Search in company users
+        user = await this.userService.getCompanyUser(senderId);
+        if (user) {
+          senderName = `${user.FirstName} ${user.LastName}`;
+        } else {
+          // Search in employee users
+          user = await this.userService.getEmployeeUser(senderId);
+          if (user) {
+            senderName = `${user.FirstName} ${user.LastName}`;
+          } else {
+            senderName = 'Unknown';
+          }
+        }
+      }
+
+      notification.SenderId = senderName;
+    }
+    this.loading = false;
   }
 
   markAsRead(notification: any) {

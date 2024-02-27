@@ -21,9 +21,9 @@
     </ng-container>
 
     <!-- SenderId column -->
-    <ng-container matColumnDef="SenderId">
+    <ng-container matColumnDef="sender">
       <mat-header-cell *matHeaderCellDef class="mat-column-SenderId">
-        Sender ID
+        Sender
       </mat-header-cell>
       <mat-cell *matCellDef="let notification" class="mat-column-SenderId">
         {{ notification.SenderId }}
@@ -73,4 +73,7 @@
     ></mat-header-row>
     <mat-row *matRowDef="let notification; columns: displayedColumns"></mat-row>
   </mat-table>
+  <div class="loading-indicator" *ngIf="loading">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
 </div>
