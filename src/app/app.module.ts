@@ -50,6 +50,7 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
 import { BuildingInfoComponent } from './pages/building-info/building-info.component';
 import { BuildingOverviewComponent } from './components/building-overview/building-overview.component';
 import { CondoComponent } from './components/condo/condo.component';
+import { KeyRegistrationComponent } from './components/key-registration/key-registration.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,8 @@ import { CondoComponent } from './components/condo/condo.component';
     BuildingInfoComponent,
     BuildingOverviewComponent,
     CondoComponent,
+    KeyRegistrationComponent,
+    
   ],
   imports: [
     BrowserModule,

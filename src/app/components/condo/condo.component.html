@@ -33,10 +33,10 @@
       <div class="right">
         <div class="button">
           <ng-container *ngIf="item.Type === 'Sale'; else Renter">
-            <button class="buttonItem">Request for ownership</button>
+            <button class="buttonItem" (click)="requestOwnership()">Request for ownership</button>
           </ng-container>
           <ng-template #Renter>
-            <button class="buttonItem">Request for rent</button>
+            <button class="buttonItem" (click)="requestOwnership()">Request for rent</button>
           </ng-template>
         </div>
         <div class="price">

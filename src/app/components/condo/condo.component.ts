@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Condo, Status, CondoType } from 'src/app/models/properties';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-condo',
@@ -7,6 +8,14 @@ import { Condo, Status, CondoType } from 'src/app/models/properties';
   styleUrls: ['./condo.component.scss'],
 })
 export class CondoComponent {
+
+  constructor(private router: Router) {}
+
+  requestOwnership() {
+    // Navigate to the 'key-registration' page
+    this.router.navigate(['/key-registration']);
+  }
+
   condos: Condo[] = [
     {
       ID: '100',
