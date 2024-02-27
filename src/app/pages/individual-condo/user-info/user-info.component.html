@@ -1,4 +1,4 @@
-<div class="user-information">
+<div class="user-information" *ngIf="userInfo">
     <img class="user-image" [src]="userInfo.ProfilePicture" alt="Profile Picture">
     <div class="user-details">
        <h2>{{ userInfo.FirstName + ' ' + userInfo.LastName }}</h2>
