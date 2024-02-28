@@ -1,3 +1,4 @@
+import { MatTableModule } from '@angular/material/table';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -56,6 +57,10 @@ import { BuildingInfoComponent } from './pages/building-info/building-info.compo
 import { BuildingOverviewComponent } from './components/building-overview/building-overview.component';
 import { CondoComponent } from './components/condo/condo.component';
 import { KeyRegistrationComponent } from './components/key-registration/key-registration.component';
+import { SearchComponent } from './components/search/search.component';
+import { BuildingComponent } from './components/building/building.component';
+import { LockerComponent } from './components/locker/locker.component';
+import { ParkingSpotComponent } from './components/parking-spot/parking-spot.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +76,10 @@ import { KeyRegistrationComponent } from './components/key-registration/key-regi
     BuildingOverviewComponent,
     CondoComponent,
     KeyRegistrationComponent,
-    
+    BuildingComponent,
+    SearchComponent,
+    LockerComponent,
+    ParkingSpotComponent,
   ],
   imports: [
     BrowserModule,
@@ -110,7 +118,8 @@ import { KeyRegistrationComponent } from './components/key-registration/key-regi
     MatRadioModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatChipsModule
+    MatChipsModule,
+    MatTableModule,
   ],
   providers: [ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent],
