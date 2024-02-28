@@ -50,7 +50,7 @@ export interface EmployeeDTO extends UserDTO {
 export interface Notification {
   Message: string;
   New: boolean;
-  Date: number;
+  Date: Date;
   SenderId: string;
 }
 

@@ -6,6 +6,7 @@ import {
 } from '@angular/core/testing';
 
 import { LandingComponent } from './landing.component';
+import { BuildingComponent } from 'src/app/components/building/building.component';
 import { AppModule } from 'src/app/app.module';
 import { of } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
@@ -33,7 +34,7 @@ describe('LandingComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [AppModule],
-      declarations: [LandingComponent],
+      declarations: [LandingComponent, BuildingComponent],
       providers: [{ provide: UserService, useValue: userServiceMock }],
     });
 

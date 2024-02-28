@@ -1,0 +1,50 @@
+/* Container for all features */
+.features-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Align features evenly */
+  }
+  
+  /* Individual feature */
+  .feature {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 8px; /* Add margin between rows */
+    width: calc(50% - 20px); /* Ensure two features per row with spacing */
+  }
+  
+  /* Container for the icon */
+  .icon-container {
+    background: #f2f2f2;
+    border-radius: 50%;
+    padding: 15px;
+    margin-right: 10px; /* Add margin between icon and label */
+  }
+  
+  /* Container for feature details */
+  .feature-details {
+    display: flex;
+    flex-direction: column; /* Display label and value underneath each other */
+  }
+  
+  /* Label for the feature */
+  .feature-label {
+    font-size: 0.9em;
+    color: #5f5e5e;
+    font-weight: bold;
+  }
+  
+  /* Value for the feature */
+  .feature-value {
+    font-size: 0.9em;
+    color: #777272;
+  }
+  
+  /* Icon */
+  mat-icon {
+    font-size: 1.5em;
+    color: #666;
+  }
+  
