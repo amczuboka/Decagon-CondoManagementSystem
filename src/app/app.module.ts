@@ -118,7 +118,7 @@ import { ParkingSpotComponent } from './components/parking-spot/parking-spot.com
     MatRadioModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatChipsModule
+    MatChipsModule,
     MatTableModule,
   ],
   providers: [ScreenTrackingService, UserTrackingService],

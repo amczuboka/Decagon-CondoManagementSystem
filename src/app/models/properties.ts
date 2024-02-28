@@ -4,9 +4,6 @@ export interface Building {
   CompanyID: string;
   Name: string;
   Bookings: Booking[];
-  UnitCount: number;
-  ParkingCount: number;
-  LockerCount: number;
   Address: string;
   Description: string;
   Parkings: ParkingSpot[];
