@@ -33,6 +33,7 @@ const routes: Routes = [
     component: IndividualCondoComponent,
     canActivate: [AuthguardGuard],
   },
+  { path: '**', redirectTo: '', canActivate: [AuthguardGuard] },
 ];
 
 @NgModule({
