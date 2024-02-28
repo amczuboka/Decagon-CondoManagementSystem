@@ -1,0 +1,15 @@
+.list-container {
+    // overflow-x: hidden;
+    // overflow-y: auto;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+    // padding: 20px;
+}
+
+@media(max-width: 850px) {
+    .list-container {
+        width: auto;
+        height: auto;
+    }
+}

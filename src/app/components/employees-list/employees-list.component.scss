@@ -1,0 +1,65 @@
+.card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.25);
+    background-color: #f7f6fe;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 5px;
+    
+}
+
+.even-row {
+    background-color: #f7f6fe;
+}
+
+select {
+    border-radius: 10px;
+    padding: 5px 10px;
+    background-color: #486380;
+    color: white;
+}
+option:disabled {
+    color: rgb(239, 239, 239);
+}
+
+button {
+    border-radius: 5px;
+    margin: 5px;
+    background-color: #486380;
+    color: white;
+}
+
+button.disabled {
+    background-color: #a5a5a5;
+}
+
+.name {
+    display: inline-flex;
+    align-items: center;
+}
+
+img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+@media screen and (max-width: 850px) {
+    img {
+        margin-right: 0;
+    }
+    select {
+        width: 75%;
+    }
+    
+}
