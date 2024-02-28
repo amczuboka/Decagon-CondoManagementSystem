@@ -15,14 +15,22 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'verify-email', component: VerifyEmailComponent },
-  { path: 'key-registration', component: KeyRegistrationComponent, canActivate: [AuthguardGuard]},
-  { path: 'condo', component: CondoComponent, canActivate: [AuthguardGuard]},
+  {
+    path: 'key-registration',
+    component: KeyRegistrationComponent,
+    canActivate: [AuthguardGuard],
+  },
+  { path: 'condo', component: CondoComponent, canActivate: [AuthguardGuard] },
   {
     path: 'user-profile',
     component: UserProfileComponent,
     canActivate: [AuthguardGuard],
   },
-  { path: 'building-info', component: BuildingInfoComponent}
+  {
+    path: 'building-info',
+    component: BuildingInfoComponent,
+    canActivate: [AuthguardGuard],
+  },
 ];
 
 @NgModule({
