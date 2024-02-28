@@ -1,0 +1,83 @@
+/******************************************/
+/*Padding */
+/******************************************/
+
+.tab-content{
+    border: 5px, solid;
+    margin:auto;
+    width: 50%;
+    padding: 20px;
+}
+
+ #building-title-pic{
+    text-align: center;
+}
+
+.heading-content, .sub-heading-content{
+    padding: 15px 0px;
+}
+
+.bottom-tab-content{
+    padding: 15px 0px;
+}
+
+/******************************************/
+/*Displaying General Info in Two Columns*/
+/******************************************/
+.gen-info{
+    display:flex;
+    width:100%;
+}
+
+.gen-info-col{
+    flex:1;
+    border: 2px;
+}
+
+.gen-info-col:first-child{
+    margin-right: 20px;
+}
+
+/******************************************/
+/*Displaying Company Info in Two Columns*/
+/******************************************/
+
+.company-info{
+    display:flex;
+    width: 50%;
+}
+
+.company-info-col{
+    flex:1;
+    border: 2px;
+}
+
+.company-info-col:first-child{
+    margin-right: 20px;
+    width:fit-content;
+}
+
+
+
+/******************************************/
+/*Radio Buttons*/
+/******************************************/
+.facility-radio-group{
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+    align-items: flex-start;
+}
+
+.facility-radio-button{
+    margin: 5px;
+}
+
+/******************************************/
+/*Time Slots*/
+/******************************************/
+
+.time-chips{
+    width: 80%;
+}
+
