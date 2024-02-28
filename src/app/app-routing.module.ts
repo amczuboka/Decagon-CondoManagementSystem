@@ -12,7 +12,7 @@ import { IndividualCondoComponent } from './pages/individual-condo/individual-co
 const routes: Routes = [
   {
     path: '',
-    component: IndividualCondoComponent,
+    component: LandingComponent,
     canActivate: [AuthguardGuard],
   },
   { path: 'login', component: LoginComponent },
