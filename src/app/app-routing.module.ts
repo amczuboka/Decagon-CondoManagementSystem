@@ -15,8 +15,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'verify-email', component: VerifyEmailComponent },
-  { path: 'key-registration', component: KeyRegistrationComponent},
-  { path: 'condo', component: CondoComponent},
+  { path: 'key-registration', component: KeyRegistrationComponent, canActivate: [AuthguardGuard]},
+  { path: 'condo', component: CondoComponent, canActivate: [AuthguardGuard]},
   {
     path: 'user-profile',
     component: UserProfileComponent,
