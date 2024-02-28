@@ -20,4 +20,15 @@ describe('CondoComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should navigate to key-registration page when requestOwnership() is called', () => {
+    const routerSpy = spyOn(component['router'], 'navigate'); 
+    component.requestOwnership();
+    expect(routerSpy).toHaveBeenCalledWith(['/key-registration']);
+  });
+  
+
+  
+  
+  
 });
