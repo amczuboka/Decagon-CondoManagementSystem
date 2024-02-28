@@ -3,9 +3,7 @@ export interface Building {
   Year: number;
   CompanyID: string;
   Name: string;
-  UnitCount: number;
-  ParkingCount: number;
-  LockerCount: number;
+  Bookings: Booking[];
   Address: string;
   Description: string;
   Parkings: ParkingSpot[];
@@ -78,6 +76,13 @@ export enum Facilities {
   Parking = 'Parking',
   Playground = 'Playground',
   MeetingRoom = 'Meeting Room',
+}
+
+export interface Booking {
+  ID: string;
+  Facility: Facilities;
+  UserID: string;
+  Date: Date;
 }
 
 export enum ParkingType {
