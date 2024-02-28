@@ -10,7 +10,11 @@ import { BuildingInfoComponent } from './pages/building-info/building-info.compo
 import { IndividualCondoComponent } from './pages/individual-condo/individual-condo.component';
 
 const routes: Routes = [
-  { path: '', component: LandingComponent, canActivate: [AuthguardGuard] },
+  {
+    path: '',
+    component: IndividualCondoComponent,
+    canActivate: [AuthguardGuard],
+  },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'verify-email', component: VerifyEmailComponent },
@@ -19,8 +23,16 @@ const routes: Routes = [
     component: UserProfileComponent,
     canActivate: [AuthguardGuard],
   },
-  { path: 'building-info', component: BuildingInfoComponent },
-  { path: 'individual-condo', component: IndividualCondoComponent },
+  {
+    path: 'building-info',
+    component: BuildingInfoComponent,
+    canActivate: [AuthguardGuard],
+  },
+  {
+    path: 'individual-condo',
+    component: IndividualCondoComponent,
+    canActivate: [AuthguardGuard],
+  },
 ];
 
 @NgModule({
