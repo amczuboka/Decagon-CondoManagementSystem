@@ -18,7 +18,11 @@ const routes: Routes = [
     component: UserProfileComponent,
     canActivate: [AuthguardGuard],
   },
-  { path: 'building-info', component: BuildingInfoComponent}
+  {
+    path: 'building-info',
+    component: BuildingInfoComponent,
+    canActivate: [AuthguardGuard],
+  },
 ];
 
 @NgModule({
