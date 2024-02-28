@@ -13,7 +13,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatTableModule } from '@angular/material/table';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -71,7 +75,6 @@ import { ParkingSpotComponent } from './components/parking-spot/parking-spot.com
     BuildingOverviewComponent,
     CondoComponent,
     KeyRegistrationComponent,
-
     BuildingComponent,
     SearchComponent,
     LockerComponent,
@@ -110,7 +113,11 @@ import { ParkingSpotComponent } from './components/parking-spot/parking-spot.com
     MatBadgeModule,
     MatCardModule,
     MatTabsModule,
-    MatTableModule,
+    MatDividerModule,
+    MatRadioModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatChipsModule
   ],
   providers: [ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent],
