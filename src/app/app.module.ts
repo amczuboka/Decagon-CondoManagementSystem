@@ -62,7 +62,7 @@ import { CondoFeaturesComponent } from './pages/individual-condo/condo-features/
 import { DescriptionComponent } from './pages/individual-condo/description/description.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxMapLibreGLModule } from '@maplibre/ngx-maplibre-gl';
-import { RouterModule } from '@angular/router'; 
+import { RouterModule } from '@angular/router';
 import { CondoComponent } from './components/condo/condo.component';
 import { KeyRegistrationComponent } from './components/key-registration/key-registration.component';
 import { SearchComponent } from './components/search/search.component';
