@@ -6,6 +6,9 @@ import { RegisterComponent } from './pages/login/register/register.component';
 import { VerifyEmailComponent } from './pages/login/verify-email/verify-email.component';
 import { AuthguardGuard } from './services/auth.guard';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { BuildingInfoComponent } from './pages/building-info/building-info.component';
+import { KeyRegistrationComponent } from './components/key-registration/key-registration.component';
+import { CondoComponent } from './components/condo/condo.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent, canActivate: [AuthguardGuard] },
@@ -13,8 +16,19 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'verify-email', component: VerifyEmailComponent },
   {
+    path: 'key-registration',
+    component: KeyRegistrationComponent,
+    canActivate: [AuthguardGuard],
+  },
+  { path: 'condo', component: CondoComponent, canActivate: [AuthguardGuard] },
+  {
     path: 'user-profile',
     component: UserProfileComponent,
+    canActivate: [AuthguardGuard],
+  },
+  {
+    path: 'building-info',
+    component: BuildingInfoComponent,
     canActivate: [AuthguardGuard],
   },
 ];
