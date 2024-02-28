@@ -1,0 +1,52 @@
+<div class="body">
+  <div
+    class="card"
+    *ngFor="let item of condos; let i = index"
+    data-aos="fade-up"
+    data-aos-duration="900"
+    data-aos-easing="ease-in-out-back"
+    data-aos-mirror="true"
+  >
+    <div class="seperation">
+      <hr class="item-sep" />
+    </div>
+    <div class="item">
+      <a [routerLink]="['']" [queryParams]="item">
+        <div class="image">
+          <img [src]="item.Picture" alt="Your unit image" />
+        </div>
+      </a>
+      <div class="info">
+        <div class="location">1650 rue St-Louis, St-Laurent</div>
+        <div class="name">
+          {{ item.UnitNumber }}
+        </div>
+        <div class="bedroom">
+          <hr class="text-sep" />
+          {{ item.NumberOfBedrooms }} bedroom &bull;
+          {{ item.NumberOfBathrooms }} bathrooms
+          <br />
+          {{ item.Status }}
+          <hr class="text-sep" />
+        </div>
+      </div>
+      <div class="right">
+        <div class="button">
+          <ng-container *ngIf="item.Type === 'Sale'; else Renter">
+            <button class="buttonItem" (click)="requestOwnership()">Request for ownership</button>
+          </ng-container>
+          <ng-template #Renter>
+            <button class="buttonItem" (click)="requestOwnership()">Request for rent</button>
+          </ng-template>
+        </div>
+        <div class="price">
+          <ng-container *ngIf="item.Type === 'Sale'; else Rent">
+            {{ item.Fee }}$
+          </ng-container>
+
+          <ng-template #Rent> ${{ item.Fee }}/Month </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
