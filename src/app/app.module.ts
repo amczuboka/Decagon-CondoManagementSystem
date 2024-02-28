@@ -1,3 +1,4 @@
+import { MatTableModule } from '@angular/material/table';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -13,6 +14,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -57,6 +63,12 @@ import { DescriptionComponent } from './pages/individual-condo/description/descr
 import { HttpClientModule } from '@angular/common/http';
 import { NgxMapLibreGLModule } from '@maplibre/ngx-maplibre-gl';
 import { RouterModule } from '@angular/router'; 
+import { CondoComponent } from './components/condo/condo.component';
+import { KeyRegistrationComponent } from './components/key-registration/key-registration.component';
+import { SearchComponent } from './components/search/search.component';
+import { BuildingComponent } from './components/building/building.component';
+import { LockerComponent } from './components/locker/locker.component';
+import { ParkingSpotComponent } from './components/parking-spot/parking-spot.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +87,12 @@ import { RouterModule } from '@angular/router';
     LocationComponent,
     CondoFeaturesComponent,
     DescriptionComponent,
+    CondoComponent,
+    KeyRegistrationComponent,
+    BuildingComponent,
+    SearchComponent,
+    LockerComponent,
+    ParkingSpotComponent,
   ],
   imports: [
     BrowserModule,
@@ -112,6 +130,12 @@ import { RouterModule } from '@angular/router';
     MatBadgeModule,
     MatCardModule,
     MatTabsModule,
+    MatDividerModule,
+    MatRadioModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatChipsModule,
+    MatTableModule,
   ],
   providers: [ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent],
