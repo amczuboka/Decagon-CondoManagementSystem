@@ -50,6 +50,8 @@ import { MatCardModule } from '@angular/material/card';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { BuildingInfoComponent } from './pages/building-info/building-info.component';
 import { BuildingOverviewComponent } from './components/building-overview/building-overview.component';
+import { CondoComponent } from './components/condo/condo.component';
+import { KeyRegistrationComponent } from './components/key-registration/key-registration.component';
 import { SearchComponent } from './components/search/search.component';
 import { BuildingComponent } from './components/building/building.component';
 import { LockerComponent } from './components/locker/locker.component';
@@ -67,6 +69,9 @@ import { ParkingSpotComponent } from './components/parking-spot/parking-spot.com
     UserProfileComponent,
     BuildingInfoComponent,
     BuildingOverviewComponent,
+    CondoComponent,
+    KeyRegistrationComponent,
+    
     BuildingComponent,
     SearchComponent,
     LockerComponent,
