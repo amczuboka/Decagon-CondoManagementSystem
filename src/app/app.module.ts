@@ -71,7 +71,7 @@ import { ParkingSpotComponent } from './components/parking-spot/parking-spot.com
     BuildingOverviewComponent,
     CondoComponent,
     KeyRegistrationComponent,
-    
+
     BuildingComponent,
     SearchComponent,
     LockerComponent,
