@@ -86,6 +86,7 @@ export interface Booking {
   Facility: Facilities;
   UserID: string;
   Date: Date;
+}
 
 export enum ParkingType {
   Standard = 'Standard',
