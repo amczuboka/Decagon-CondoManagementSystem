@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Condo, Status, CondoType } from 'src/app/models/properties';
+import { Condo, CondoStatus, CondoType } from 'src/app/models/properties';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./condo.component.scss'],
 })
 export class CondoComponent {
-
   constructor(private router: Router) {}
 
   requestOwnership() {
@@ -27,7 +26,7 @@ export class CondoComponent {
       Description: '',
       NumberOfBedrooms: 3,
       NumberOfBathrooms: 2,
-      Status: Status.Vacant,
+      Status: CondoStatus.Vacant,
       SquareFootage: 1100,
     },
     {
@@ -40,7 +39,7 @@ export class CondoComponent {
       Description: '',
       NumberOfBedrooms: 2,
       NumberOfBathrooms: 1,
-      Status: Status.Vacant,
+      Status: CondoStatus.Vacant,
       SquareFootage: 700,
     },
   ];
