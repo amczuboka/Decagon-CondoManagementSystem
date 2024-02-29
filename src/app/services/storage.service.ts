@@ -8,6 +8,9 @@ import {
 } from '@angular/fire/storage';
 import { Database, child, onValue, ref as ref_data } from 'firebase/database';
 
+/**
+ * Service for interacting with Firebase Storage and Realtime Database.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -16,9 +19,9 @@ export class StorageService {
 
   /**
    * Uploads a file to Firebase Storage and returns the download URL and a temporary name.
+   *
    * @param file - The file to upload.
    * @param path - The path in Firebase Storage where the file should be stored.
-   * @param storage - The Firebase Storage instance to use.
    * @returns A Promise that resolves to a string containing the download URL and temporary name.
    */
   async uploadToFirestore(file: any, path: string): Promise<string> {
@@ -48,15 +51,15 @@ export class StorageService {
     });
     const snapshot = await uploadTask;
     let downloadURL = await getDownloadURL(snapshot.ref);
-    return downloadURL + ',' + tempName;
+    return downloadURL;
   }
 
   /**
    * Deletes a file from Firebase Storage.
+   *
    * @param downloadUrl - The download URL of the file in Firebase Storage.
-   * @param storage - The Firebase Storage instance to use.
    */
-  async deleteFile(downloadUrl: string) {
+  async deleteFile(downloadUrl: string): Promise<void> {
     const fileRef = ref_storage(this.storage, downloadUrl);
     deleteObject(fileRef)
       .then(() => {
@@ -69,18 +72,22 @@ export class StorageService {
 
   /**
    * Generates a unique ID for storing data in the Firebase Realtime Database.
+   *
    * @param path - The path in the database where the ID will be used.
    * @param database - The Firebase Database instance to use.
    * @returns A unique ID as a string.
    */
-  async IDgenerator(path: string, database: Database) {
+  async IDgenerator(path: string, database: Database): Promise<string> {
     let id = '';
     let isGood = false;
     let data: never[] | null | undefined = [];
     const dbRef = ref_data(database);
     while (!isGood) {
       try {
-        id = Math.random().toString(36).substring(2);
+        id = (Math.random().toString(36).substring(2) + Date.now()).replace(
+          /\s/g,
+          ''
+        );
         let databaseRef = child(dbRef, path + id);
         onValue(databaseRef, (snapshot) => {
           data = snapshot.val();

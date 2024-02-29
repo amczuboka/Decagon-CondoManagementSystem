@@ -251,13 +251,13 @@
       </div>
       <div class="add-component-list">
         <!-- condo -->
-        <div class="condo" *ngFor="let condo of CondoItems; let i = index">
+        <div class="condo" *ngFor="let condo of CondoItems">
           <div class="img">
             <img src="{{ condo.PictureScr }}" alt="" />
             <div>
               <p>{{ condo.Quantity }} units</p>
               <h2 *ngIf="Propertyform.controls['Name'].value">
-                {{ Propertyform.controls["Name"].value }} set unit {{ i + 1 }}
+                {{ Propertyform.controls["Name"].value }} unit set {{ condo.UnitNumber }}
               </h2>
               <br />
               <div>
@@ -312,7 +312,7 @@
             <p>{{parking.Quantity}} units</p>
             <h2>Parkings {{parking.Number}}</h2>
             <br />
-            <p>Standard</p>
+            <p>{{parking.ParkingType}}</p>
           </div>
           <div class="last">
             <button mat-mini-fab matTooltip="Warn" (click)="deleteParkingItems(parking)" color="warn">

@@ -29,6 +29,30 @@
         >
       </mat-form-field>
       <br />
+            <!--UnitNumber-->
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Identification for set of condos</mat-label>
+        <input
+          matInput
+          required
+          name="UnitNumber"
+          formControlName="UnitNumber"
+          placeholder="Ex: 1A, 2B, 3C, ..."
+        />
+        <mat-icon
+          matSuffix
+          *ngIf="
+            newCondo.controls['UnitNumber'].hasError('required') &&
+            newCondo.controls['UnitNumber'].touched
+          "
+          class="error-icon"
+          >error_outline</mat-icon
+        >
+        <mat-error *ngIf="newCondo.controls['UnitNumber'].hasError('required')"
+          >Enter your Identification</mat-error
+        >
+      </mat-form-field>
+      <br />
       <!--SquareFootage-->
       <mat-form-field appearance="outline" style="width: 100%">
         <mat-label>Square Footage</mat-label>
@@ -116,7 +140,7 @@
         <mat-label>Type</mat-label>
         <mat-select matInput required name="Type" formControlName="Type">
           <mat-option value="Rent">Rent (price/month)</mat-option>
-          <mat-option value="Sell">Sell (total price)</mat-option>
+          <mat-option value="Sale">Sale (total price)</mat-option>
         </mat-select>
         <mat-icon
           matSuffix
@@ -155,6 +179,30 @@
         >
         <mat-error *ngIf="newCondo.controls['Fee'].hasError('min')"
           >Too low</mat-error
+        >
+      </mat-form-field>
+      <br />
+            <!-- Description -->
+      <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
+        <textarea
+          matInput
+          required
+          name="Description"
+          formControlName="Description"
+        ></textarea>
+        <mat-icon
+          matSuffix
+          *ngIf="
+            newCondo.controls['Description'].hasError('required') &&
+            newCondo.controls['Description'].touched
+          "
+          class="error-icon"
+          >error_outline</mat-icon
+        >
+        <mat-error
+          *ngIf="newCondo.controls['Description'].hasError('required')"
+          >Enter a Description</mat-error
         >
       </mat-form-field>
       <br />

@@ -77,7 +77,7 @@ export interface Booking {
   ID: string;
   OccupantID: string;
   Facility: Facilities;
-  Date: Date;
+  Date: number;
 }
 
 export enum ParkingType {
