@@ -55,13 +55,13 @@ export class LoginComponent {
     if (myUser) {
       if (myUser.photoURL == Authority.Company) {
         myUser = await this.userService.getCompanyUser(myUser.uid);
-        this.userService.updateCurrentUser(myUser);
+        this.userService.updateUser(myUser);
       } else if (myUser.photoURL == Authority.Employee) {
         myUser = await this.userService.getEmployeeUser(myUser.uid);
-        this.userService.updateCurrentUser(myUser);
+        this.userService.updateUser(myUser);
       } else {
         myUser = await this.userService.getPublicUser(myUser.uid);
-        this.userService.updateCurrentUser(myUser);
+        this.userService.updateUser(myUser);
       }
     }
     this.loading = false;

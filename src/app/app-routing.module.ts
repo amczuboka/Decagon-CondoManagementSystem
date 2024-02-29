@@ -10,6 +10,7 @@ import { BuildingInfoComponent } from './pages/building-info/building-info.compo
 import { IndividualCondoComponent } from './pages/individual-condo/individual-condo.component';
 import { KeyRegistrationComponent } from './components/key-registration/key-registration.component';
 import { CondoComponent } from './components/condo/condo.component';
+import { NotificationsComponent } from './pages/notifications/notifications.component';
 
 const routes: Routes = [
   {
@@ -39,6 +40,11 @@ const routes: Routes = [
   {
     path: 'individual-condo',
     component: IndividualCondoComponent,
+    canActivate: [AuthguardGuard],
+  },
+  {
+    path: 'notifications',
+    component: NotificationsComponent,
     canActivate: [AuthguardGuard],
   },
   { path: '**', redirectTo: '', canActivate: [AuthguardGuard] },

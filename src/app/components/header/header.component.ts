@@ -1,7 +1,13 @@
 import { Component } from '@angular/core';
 import { User } from 'firebase/auth';
 import { Subscription } from 'rxjs';
-import { Authority } from 'src/app/models/users';
+import {
+  Authority,
+  CompanyDTO,
+  EmployeeDTO,
+  Notification,
+  UserDTO,
+} from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -13,7 +19,8 @@ import { UserService } from 'src/app/services/user.service';
 export class HeaderComponent {
   authority!: string;
   myUser!: any;
-  private subscription!: Subscription;
+  newNotifications: Notification[] = [];
+  userSubscription: Subscription = new Subscription();
 
   constructor(
     public authService: AuthService,
@@ -21,23 +28,21 @@ export class HeaderComponent {
   ) {}
 
   async ngOnInit() {
-    this.subscription = this.userService.currentUser$.subscribe((user) => {
-      if (user) {
-        this.myUser = user;
+    this.userSubscription = this.userService.myUser.subscribe((user) => {
+      this.myUser = user;
+      if (this.myUser) {
+        this.getNewNotifications();
       }
     });
-    await this.getUserData();
   }
 
-  async getUserData() {
-    this.myUser = this.authService.getUser() as User;
-    if (this.myUser) {
-      if (this.myUser.photoURL == Authority.Company) {
-        this.myUser = await this.userService.getCompanyUser(this.myUser.uid);
-      } else if (this.myUser.photoURL == Authority.Employee) {
-        this.myUser = await this.userService.getEmployeeUser(this.myUser.uid);
-      } else {
-        this.myUser = await this.userService.getPublicUser(this.myUser.uid);
+  getNewNotifications() {
+    if (this.myUser.Notifications) {
+      this.newNotifications = [];
+      for (const notification of this.myUser.Notifications) {
+        if (notification.New) {
+          this.newNotifications.push(notification);
+        }
       }
     }
   }

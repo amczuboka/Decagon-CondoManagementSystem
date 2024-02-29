@@ -174,7 +174,7 @@ describe('UserProfileComponent', () => {
     const Public = component.myUser as UserDTO;
 
     spyOn(component.notificationService, 'sendNotification');
-    spyOn(component.userService, 'updateCurrentUser');
+    spyOn(component.userService, 'updateUser');
     spyOn(component.storageService, 'deleteFile').and.returnValue(
       Promise.resolve()
     );
@@ -200,7 +200,7 @@ describe('UserProfileComponent', () => {
     expect(component.storageService.uploadToFirestore).toHaveBeenCalled();
     expect(component.onEditUser).toHaveBeenCalled();
     expect(component.getUserData).toHaveBeenCalled();
-    expect(component.userService.updateCurrentUser).toHaveBeenCalled();
+    expect(component.userService.updateUser).toHaveBeenCalled();
     expect(component.notificationService.sendNotification).toHaveBeenCalledWith(
       'Profile Updated'
     );
@@ -214,7 +214,7 @@ describe('UserProfileComponent', () => {
     await component.ngOnInit();
     const Public = component.myUser as UserDTO;
     spyOn(component.notificationService, 'sendNotification');
-    spyOn(component.userService, 'updateCurrentUser');
+    spyOn(component.userService, 'updateUser');
     spyOn(component.storageService, 'deleteFile').and.returnValue(
       Promise.resolve()
     );
@@ -239,7 +239,7 @@ describe('UserProfileComponent', () => {
     expect(component.storageService.uploadToFirestore).not.toHaveBeenCalled();
     expect(component.onEditUser).toHaveBeenCalled();
     expect(component.getUserData).toHaveBeenCalled();
-    expect(component.userService.updateCurrentUser).toHaveBeenCalled();
+    expect(component.userService.updateUser).toHaveBeenCalled();
     expect(component.notificationService.sendNotification).toHaveBeenCalledWith(
       'Profile Updated'
     );

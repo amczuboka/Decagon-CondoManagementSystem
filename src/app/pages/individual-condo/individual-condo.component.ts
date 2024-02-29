@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { BuildingDTO, CondoDTO } from '../../models/properties';
-import { UserDTO, Authority } from '../../models/users';
+import { UserDTO, Authority, Notification } from '../../models/users';
 
 @Component({
   selector: 'app-individual-condo',
@@ -36,7 +36,26 @@ export class IndividualCondoComponent {
     Authority: Authority.Public,
     ID: '1234',
     UserName: 'marialapa',
-    Notifications: ['notification1', 'notification2'],
+    Notifications: [
+      {
+        Message: 'Your request has been approved.',
+        Date: new Date().getTime(),
+        New: true,
+        SenderId: '1234',
+      },
+      {
+        Message: 'Your request has been approved.',
+        Date: new Date().getTime(),
+        New: true,
+        SenderId: '1234',
+      },
+      {
+        Message: 'Your request has been approved.',
+        Date: new Date().getTime(),
+        New: true,
+        SenderId: '1234',
+      },
+    ],
   };
 
   loading = false;

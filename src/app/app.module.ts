@@ -69,6 +69,9 @@ import { SearchComponent } from './components/search/search.component';
 import { BuildingComponent } from './components/building/building.component';
 import { LockerComponent } from './components/locker/locker.component';
 import { ParkingSpotComponent } from './components/parking-spot/parking-spot.component';
+import { NotificationsComponent } from './pages/notifications/notifications.component';
+import { DeleteNotificationDialogComponent } from './components/delete-notification-dialog/delete-notification-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -93,6 +96,8 @@ import { ParkingSpotComponent } from './components/parking-spot/parking-spot.com
     SearchComponent,
     LockerComponent,
     ParkingSpotComponent,
+    NotificationsComponent,
+    DeleteNotificationDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -136,6 +141,7 @@ import { ParkingSpotComponent } from './components/parking-spot/parking-spot.com
     MatNativeDateModule,
     MatChipsModule,
     MatTableModule,
+    MatDialogModule,
   ],
   providers: [ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent],
