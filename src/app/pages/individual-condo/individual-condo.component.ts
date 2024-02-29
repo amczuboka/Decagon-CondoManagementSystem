@@ -39,19 +39,19 @@ export class IndividualCondoComponent {
     Notifications: [
       {
         Message: 'Your request has been approved.',
-        Date: new Date(),
+        Date: new Date().getTime(),
         New: true,
         SenderId: '1234',
       },
       {
         Message: 'Your request has been approved.',
-        Date: new Date(),
+        Date: new Date().getTime(),
         New: true,
         SenderId: '1234',
       },
       {
         Message: 'Your request has been approved.',
-        Date: new Date(),
+        Date: new Date().getTime(),
         New: true,
         SenderId: '1234',
       },
