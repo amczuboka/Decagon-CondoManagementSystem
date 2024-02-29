@@ -43,11 +43,6 @@ const routes: Routes = [
     canActivate: [AuthguardGuard],
   },
   {
-    path: 'building-info',
-    component: BuildingInfoComponent,
-    canActivate: [AuthguardGuard],
-  },
-  {
     path: 'notifications',
     component: NotificationsComponent,
     canActivate: [AuthguardGuard],
