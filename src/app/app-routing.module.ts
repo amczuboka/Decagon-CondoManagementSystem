@@ -26,7 +26,6 @@ const routes: Routes = [
     component: KeyRegistrationComponent,
     canActivate: [AuthguardGuard],
   },
-  { path: 'condo', component: CondoComponent, canActivate: [AuthguardGuard] },
   {
     path: 'user-profile',
     component: UserProfileComponent,
