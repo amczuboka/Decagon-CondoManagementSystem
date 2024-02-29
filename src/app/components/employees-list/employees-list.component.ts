@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { MatCheckbox } from '@angular/material/checkbox';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Role } from 'src/app/models/users';
 
 @Component({
@@ -29,15 +29,12 @@ export class EmployeesListComponent {
     'Building-5'
   ];
 
-  constructor() { 
+  constructor(private _snackBar: MatSnackBar) { 
     this.roles = Object.keys(Role);
-    console.log(this.employees[0].properties);
   }
 
   checkAll(checkbox: MatCheckbox) {
     this.employees.forEach(x => x.checked = checkbox.checked);
-    console.log(checkbox.checked);
-    console.log(this.employees);
   }
 
   isAllChecked() {
@@ -50,9 +47,22 @@ export class EmployeesListComponent {
 
   remeveSelectedItems() {
     this.employees = this.employees.filter(x => !x.checked);
+    // To do: Update DB
+    console.log(this.employees);
+    this.openSnackBar("Employees Removed");
   }
 
   update() {
     console.log(this.employees);
+    // To do: Update DB
+    this.openSnackBar("Employees Updated");
+  }
+
+  openSnackBar(message: string) {
+    this._snackBar.open(message, '', {
+       duration: 30000, 
+       horizontalPosition: 'center',
+       verticalPosition: 'top',
+      });
   }
 }

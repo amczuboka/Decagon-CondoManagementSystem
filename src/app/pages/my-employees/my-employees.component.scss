@@ -1,15 +1,8 @@
 .list-container {
-    // overflow-x: hidden;
-    // overflow-y: auto;
-    // display: flex;
-    // justify-content: center;
-    // align-items: center;
-    // padding: 20px;
+    font-family: 'Roboto';
 }
 
-@media(max-width: 850px) {
-    .list-container {
-        width: auto;
-        height: auto;
-    }
+p {
+    font-size: 1.5em;
+    margin: 5px;
 }
