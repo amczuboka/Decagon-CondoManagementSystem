@@ -1,10 +1,10 @@
 <div class="card-container">
     <div class="top">
         <button [disabled]="!isSomeItemsChecked()" (click)="remeveSelectedItems()" [ngClass]="{'enabled' : isSomeItemsChecked(), 'disabled' : !isSomeItemsChecked()}">Remove Selected</button>
-        <p>Employees</p>
+        <p id="desc">Employees</p>
         <button (click)="update()">Update</button>
     </div>
-    <table mat-table [dataSource]="employees">
+    <table mat-table [dataSource]="employees" aria-describedby="mydesc">
         <!-- Define the columns -->
     
         <ng-container matColumnDef="name">
