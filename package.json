@@ -27,6 +27,7 @@
     "@angular/platform-browser": "^16.2.12",
     "@angular/platform-browser-dynamic": "^16.2.12",
     "@angular/router": "^16.2.12",
+    "@maplibre/ngx-maplibre-gl": "^16.3.0",
     "@ng-bootstrap/ng-bootstrap": "^15.1.2",
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.2",

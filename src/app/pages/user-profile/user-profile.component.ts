@@ -163,7 +163,7 @@ export class UserProfileComponent {
       profilePictureControl.reset();
     }
 
-    this.userService.updateCurrentUser(this.myUser);
+    this.userService.updateUser(this.myUser);
 
     this.Uploading = false;
     this.notificationService.sendNotification('Profile Updated');

@@ -14,7 +14,7 @@ export interface UserDTO {
   ProfilePicture: string;
   PhoneNumber: string;
   UserName: string;
-  Notifications: string[];
+  Notifications?: Notification[];
 }
 
 export interface CompanyDTO extends UserDTO {
@@ -29,7 +29,7 @@ export interface CompanyDTO extends UserDTO {
   CompanyName: string;
   PropertyIds: string[];
   EmployeeIds: string[];
-  Notifications: string[];
+  Notifications?: Notification[];
 }
 
 export interface EmployeeDTO extends UserDTO {
@@ -43,14 +43,21 @@ export interface EmployeeDTO extends UserDTO {
   PhoneNumber: string;
   UserName: string;
   PropertyIds: string[];
-  Notifications: string[];
+  Notifications?: Notification[];
   Role: Role;
 }
 
+export interface Notification {
+  Message: string;
+  New: boolean;
+  Date: number;
+  SenderId: string;
+}
+
 export enum Authority {
-    Public = 'Public',
-    Company = 'Company',
-    Employee = 'Employee',
+  Public = 'Public',
+  Company = 'Company',
+  Employee = 'Employee',
 }
 
 export enum Role {

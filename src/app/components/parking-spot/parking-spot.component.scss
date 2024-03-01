@@ -1,0 +1,44 @@
+.even-row {
+  background-color: #f7f6fe;
+}
+
+.request {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  padding: 5px 10px;
+  background-color: #486380;
+  color: white;
+}
+
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  padding: 5px 10px;
+}
+
+.available {
+  background-color: #ebf9f1;
+  color: #1f9254;
+}
+
+.unavailable {
+  background-color: #fbe7e8;
+  color: #a30d11;
+}
+
+.user {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  margin-right: 5px;
+}

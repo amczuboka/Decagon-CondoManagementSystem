@@ -1,0 +1,157 @@
+.container {
+  width: 80%;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.property-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.back-arrow-button {
+  display: flex;
+  align-items: center;
+}
+
+.left-aligned-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.property-title {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.property-address {
+  font-size: 1rem;
+  color: #666;
+}
+
+.right-aligned-container {
+  display: flex;
+  align-items: center;
+  margin-left: auto; // This pushes the container to the right
+}
+
+.property-price {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin-right: 1.5rem; // Keep the spacing between price and icons
+}
+
+.property-icons {
+  display: flex;
+  gap: 0.5rem;
+
+  .icon-favorite,
+  .icon-share,
+  .icon-refresh {
+    font-size: 2rem;
+    color: #6f7f8f;
+  }
+
+  .icon-favorite {
+    color: #f37878; // Red color for favorite icon
+  }
+}
+
+.property-price {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin-right: 1rem; // Added space between price and icons
+}
+
+.property-images {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+
+  img {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.property-details,
+.contact-section {
+  margin: 2rem 0;
+}
+
+.property-details h2,
+.contact-section h2 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: 95%;
+    padding: 10px;
+  }
+
+  .property-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.5rem 0;
+  }
+
+  .property-title,
+  .property-price,
+  .property-details h2,
+  .contact-section h2 {
+    font-size: 4vw;
+  }
+
+  .property-address {
+    font-size: 3.5vw;
+  }
+
+  .property-icons .icon-favorite,
+  .property-icons .icon-share,
+  .property-icons .icon-refresh {
+    font-size: 4vw;
+  }
+
+  .property-icons a {
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .right-aligned-container {
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-left: 0;
+    margin-top: 1rem;
+  }
+
+  .property-price {
+    font-size: 4vw;
+    margin: 1rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .property-title,
+  .property-price,
+  .property-details h2,
+  .contact-section h2 {
+    font-size: 5.5vw;
+  }
+
+  .property-address {
+    font-size: 5vw;
+  }
+}

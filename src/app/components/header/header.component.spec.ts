@@ -6,20 +6,38 @@ import {
 import { HeaderComponent } from './header.component';
 import { AppModule } from 'src/app/app.module';
 import { AuthService } from 'src/app/services/auth.service';
-import { CompanyDTO, EmployeeDTO, UserDTO } from 'src/app/models/users';
-import { of, Subscription } from 'rxjs';
+import { of } from 'rxjs';
+import { UserService } from 'src/app/services/user.service';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
   let authService: AuthService;
+  let userService: UserService;
   beforeEach(() => {
+    const user = {
+      FirstName: 'John',
+      LastName: 'Doe',
+      ID: '123',
+      Authority: 'Public',
+      Email: '',
+      ProfilePicture: '',
+      PhoneNumber: '',
+      UserName: '',
+    };
+    const userServiceMock = {
+      myUser: of(user),
+      updateUser: jasmine.createSpy('updateUser').and.stub(),
+    };
+
     TestBed.configureTestingModule({
       imports: [AppModule],
       declarations: [HeaderComponent],
+      providers: [{ provide: UserService, useValue: userServiceMock }],
     });
     fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;
+    userService = TestBed.inject(UserService);
     fixture.detectChanges();
     authService = TestBed.inject(AuthService);
   });
@@ -32,71 +50,95 @@ describe('HeaderComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should retrieve user data on initialization', async () => {
-    spyOn(component, 'getUserData').and.callThrough();
-    await component.ngOnInit();
-    expect(component.getUserData).toHaveBeenCalled();
+  it('should retrieve new notifications on ngOnInit', () => {
+    spyOn(component, 'getNewNotifications');
+
+    component.ngOnInit();
+
+    userService.myUser.subscribe((value) => {
+      expect(value).toEqual(component.myUser);
+    });
+    expect(component.getNewNotifications).toHaveBeenCalled();
   });
 
-  it('should retrieve user data', async () => {
-    await authService.SignIn('dojefe6817@giratex.com', '123456');
-    await component.getUserData();
-    expect(component.myUser).toBeTruthy();
+  it('should retrieve new notifications', () => {
+    component.myUser = {
+      Notifications: [
+        {
+          New: true,
+          Message: 'Notification 1',
+          Date: new Date().getTime(),
+          SenderId: '1',
+        },
+        {
+          New: false,
+          Message: 'Notification 2',
+          Date: new Date().getTime(),
+          SenderId: '2',
+        },
+        {
+          New: true,
+          Message: 'Notification 3',
+          Date: new Date().getTime(),
+          SenderId: '3',
+        },
+      ],
+    };
+
+    component.getNewNotifications();
+
+    expect(component.newNotifications).toEqual([
+      {
+        New: true,
+        Message: 'Notification 1',
+        Date: new Date().getTime(),
+        SenderId: '1',
+      },
+      {
+        New: true,
+        Message: 'Notification 3',
+        Date: new Date().getTime(),
+        SenderId: '3',
+      },
+    ]);
   });
 
-  it('should retrieve company user data', async () => {
-    await authService.SignIn('wasaf62813@evvgo.com', '123456');
-    await component.getUserData();
-    const Company = component.myUser as CompanyDTO;
-    expect(Company.CompanyName).toEqual('Better call Saul');
+  it('should not retrieve new notifications if myUser.Notifications is undefined', () => {
+    component.myUser = {};
+
+    component.getNewNotifications();
+
+    expect(component.newNotifications).toEqual([]);
   });
 
-  it('should retrieve employee user data', async () => {
-    await authService.SignIn('sanic29650@gosarlar.com', '123456');
-    await component.getUserData();
-    const Employee = component.myUser as EmployeeDTO;
-    expect(Employee.CompanyName).toEqual('Better call Saul');
+  it('should not retrieve new notifications if myUser.Notifications is empty', () => {
+    component.myUser = { Notifications: [] };
+
+    component.getNewNotifications();
+
+    expect(component.newNotifications).toEqual([]);
   });
 
-  it('should retrieve public user data', async () => {
-    await authService.SignIn('dojefe6817@giratex.com', '123456');
-    await component.getUserData();
-    const Public = component.myUser as UserDTO;
-    expect(Public.FirstName).toEqual('Nick');
-  });
+  it('should not retrieve new notifications if no notification is marked as new', () => {
+    component.myUser = {
+      Notifications: [
+        {
+          New: false,
+          Message: 'Notification 1',
+          Date: new Date().getTime(),
+          SenderId: '1',
+        },
+        {
+          New: false,
+          Message: 'Notification 2',
+          Date: new Date().getTime(),
+          SenderId: '2',
+        },
+      ],
+    };
 
-  it('should call getUserData after subscribing to currentUser$', async () => {
-    const mockUser = { firstName: 'John', lastName: 'Doe' };
-    const mockSubscription = new Subscription();
-    spyOn(component.userService.currentUser$, 'subscribe').and.callFake(
-      (observerOrNext) => {
-        if (typeof observerOrNext === 'function') {
-          observerOrNext(mockUser);
-        } else if (
-          observerOrNext &&
-          typeof observerOrNext.next === 'function'
-        ) {
-          observerOrNext.next(mockUser);
-        }
-        return mockSubscription;
-      }
-    );
-    spyOn(component, 'getUserData');
+    component.getNewNotifications();
 
-    await component.ngOnInit();
-
-    expect(component.getUserData).toHaveBeenCalled();
-  });
-
-  it('should call getUserData after subscribing to currentUser$', async () => {
-    const mockSubscription = new Subscription();
-    spyOn(component.userService.currentUser$, 'subscribe').and.returnValue(
-      mockSubscription
-    );
-    spyOn(component, 'getUserData');
-
-    await component.ngOnInit();
-
-    expect(component.getUserData).toHaveBeenCalled();
+    expect(component.newNotifications).toEqual([]);
   });
 });

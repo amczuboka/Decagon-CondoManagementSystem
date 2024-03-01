@@ -8,6 +8,8 @@ import {
   Role,
   UserDTO,
 } from '../models/users';
+import { BehaviorSubject } from 'rxjs';
+import { AuthService } from './auth.service';
 
 describe('UserService', () => {
   let service: UserService;
@@ -15,11 +17,14 @@ describe('UserService', () => {
   let EmployeeUser: EmployeeDTO;
   let CompanyUser: CompanyDTO;
   let index: string;
+  let authService: AuthService;
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [AppModule],
     });
     service = TestBed.inject(UserService);
+    (service as any).currentUserSubject = new BehaviorSubject(null);
+    authService = TestBed.inject(AuthService);
 
     publicUser = {
       FirstName: 'gig',
@@ -30,7 +35,6 @@ describe('UserService', () => {
       ProfilePicture: '1231231234',
       PhoneNumber: '1231231234',
       UserName: 'no',
-      Notifications: ['', ''],
     };
 
     EmployeeUser = {
@@ -42,7 +46,6 @@ describe('UserService', () => {
       ProfilePicture: '1231231234',
       PhoneNumber: '1231231234',
       UserName: 'no',
-      Notifications: ['', ''],
       CompanyName: 'ABC Company',
       PropertyIds: ['123', '123', '123'],
       Role: Role.Manager,
@@ -57,7 +60,6 @@ describe('UserService', () => {
       ProfilePicture: '1231231234',
       PhoneNumber: '1231231234',
       UserName: 'no',
-      Notifications: ['', ''],
       CompanyName: 'ABC Company',
       PropertyIds: ['123', '123', '123'],
       EmployeeIds: ['123', '123', '123'],
@@ -78,13 +80,22 @@ describe('UserService', () => {
 
   it('should update the current user', () => {
     // Arrange
-    const user = { name: 'John Doe' };
+    const user: UserDTO = {
+      FirstName: 'John',
+      LastName: 'Doe',
+      ID: '123',
+      Authority: Authority.Public,
+      Email: '',
+      ProfilePicture: '',
+      PhoneNumber: '',
+      UserName: '',
+    };
 
     // Act
-    service.updateCurrentUser(user);
+    service.updateUser(user);
 
     // Assert
-    expect((service as any).currentUserSubject.getValue()).toEqual(user);
+    expect((service as any).myUserSubject.value).toEqual(user);
   });
 
   it('should check if company exists', async () => {
@@ -95,8 +106,8 @@ describe('UserService', () => {
     const result = await service.checkIfCompanyExists(companyName);
     const resultBad = await service.checkIfCompanyExists(NotcompanyName);
     // Assert
-    expect(result).toBe(true);
-    expect(resultBad).toBe(false);
+    expect(result).toEqual(true);
+    expect(resultBad).toEqual(false);
   });
 
   it('should get public user', async () => {

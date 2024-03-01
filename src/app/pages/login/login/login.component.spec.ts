@@ -55,7 +55,7 @@ describe('LoginComponent', () => {
   it('should call userService.getCompanyUser if myUser.photoURL is Authority.Company', async () => {
     spyOn(component.authService, 'SignIn');
     spyOn(component.userService, 'getCompanyUser').and.returnValue(Promise.resolve({}) as any);
-    spyOn(component.userService, 'updateCurrentUser');
+    spyOn(component.userService, 'updateUser');
     component.loginForm.setValue({
       Email: 'test@example.com',
       Password: 'password123',
@@ -66,7 +66,7 @@ describe('LoginComponent', () => {
     });
     await component.onSubmit();
     expect(component.userService.getCompanyUser).toHaveBeenCalledWith('123');
-    expect(component.userService.updateCurrentUser).toHaveBeenCalled();
+    expect(component.userService.updateUser).toHaveBeenCalled();
   });
 
   it('should call userService.getPublicUser if myUser.photoURL is Authority.Employee', async () => {
@@ -74,7 +74,7 @@ describe('LoginComponent', () => {
     spyOn(component.userService, 'getEmployeeUser').and.returnValue(
       Promise.resolve({}) as any
     );
-    spyOn(component.userService, 'updateCurrentUser');
+    spyOn(component.userService, 'updateUser');
     component.loginForm.setValue({
       Email: 'test@example.com',
       Password: 'password123',
@@ -85,7 +85,7 @@ describe('LoginComponent', () => {
     });
     await component.onSubmit();
     expect(component.userService.getEmployeeUser).toHaveBeenCalledWith('123');
-    expect(component.userService.updateCurrentUser).toHaveBeenCalled();
+    expect(component.userService.updateUser).toHaveBeenCalled();
   });
 
   it('should call userService.getPublicUser if myUser.photoURL is not Authority.Company or Authority.Employee', async () => {
@@ -93,7 +93,7 @@ describe('LoginComponent', () => {
     spyOn(component.userService, 'getPublicUser').and.returnValue(
       Promise.resolve({}) as any
     );
-    spyOn(component.userService, 'updateCurrentUser');
+    spyOn(component.userService, 'updateUser');
     component.loginForm.setValue({
       Email: 'test@example.com',
       Password: 'password123',
@@ -104,7 +104,7 @@ describe('LoginComponent', () => {
     });
     await component.onSubmit();
     expect(component.userService.getPublicUser).toHaveBeenCalledWith('123');
-    expect(component.userService.updateCurrentUser).toHaveBeenCalled();
+    expect(component.userService.updateUser).toHaveBeenCalled();
   });
 
   it('should set loading to false after form submission', async () => {

@@ -7,22 +7,55 @@ import {
   orderByChild,
   query,
   ref,
+  onValue,
 } from 'firebase/database';
-import { Authority, CompanyDTO, EmployeeDTO, UserDTO } from '../models/users';
-import { Database, remove, update } from '@angular/fire/database';
-import { BehaviorSubject } from 'rxjs';
+import {
+  Authority,
+  CompanyDTO,
+  EmployeeDTO,
+  Notification,
+  User,
+  UserDTO,
+} from '../models/users';
+import { Database, remove, set, update } from '@angular/fire/database';
+import { AuthService } from './auth.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private currentUserSubject = new BehaviorSubject<any | null>(null);
-  currentUser$ = this.currentUserSubject.asObservable();
+  private myUserSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  myUser = this.myUserSubject.asObservable();
 
-  constructor(private database: Database) {}
+  constructor(private database: Database, private authService: AuthService) {
+    this.getUser();
+  }
 
-  updateCurrentUser(user: any) {
-    this.currentUserSubject.next(user);
+  updateUser(user: UserDTO | EmployeeDTO | CompanyDTO) {
+    this.myUserSubject.next(user);
+  }
+
+  getUser() {
+    return new Promise<void>((resolve) => {
+      let myUser = this.authService.getUser() as User;
+      if (this.myUser) {
+        const callback = (user: any) => {
+          this.myUser = user;
+          resolve();
+        };
+
+        if (myUser && myUser.photoURL == Authority.Company) {
+          this.subscribeToCompanyUser(myUser.uid, callback);
+        } else if (myUser && myUser.photoURL == Authority.Employee) {
+          this.subscribeToEmployeeUser(myUser.uid, callback);
+        } else if (myUser) {
+          this.subscribeToPublicUser(myUser.uid, callback);
+        }
+      } else {
+        resolve();
+      }
+    });
   }
 
   async checkIfCompanyExists(companyName: string) {
@@ -141,6 +174,89 @@ export class UserService {
       }
     } catch (error) {
       console.error('Error deleting user:', error);
+      throw error;
+    }
+  }
+
+  async subscribeToPublicUser(
+    userId: string,
+    callback: (user: UserDTO | null) => void
+  ) {
+    const db = getDatabase();
+    const userRef = ref(db, `public users/${userId}`);
+    onValue(
+      userRef,
+      (snapshot) => {
+        if (snapshot.exists()) {
+          this.updateUser(snapshot.val() as UserDTO);
+          callback(snapshot.val() as UserDTO);
+        } else {
+          callback(null);
+        }
+      },
+      {
+        onlyOnce: false,
+      }
+    );
+  }
+
+  async subscribeToCompanyUser(
+    userId: string,
+    callback: (user: CompanyDTO | null) => void
+  ) {
+    const db = getDatabase();
+    const userRef = ref(db, `companies/${userId}`);
+    onValue(
+      userRef,
+      (snapshot) => {
+        if (snapshot.exists()) {
+          this.updateUser(snapshot.val() as CompanyDTO);
+          callback(snapshot.val() as CompanyDTO);
+        } else {
+          callback(null);
+        }
+      },
+      {
+        onlyOnce: false,
+      }
+    );
+  }
+
+  async subscribeToEmployeeUser(
+    userId: string,
+    callback: (user: EmployeeDTO | null) => void
+  ) {
+    const db = getDatabase();
+    const userRef = ref(db, `employees/${userId}`);
+    onValue(
+      userRef,
+      (snapshot) => {
+        if (snapshot.exists()) {
+          this.updateUser(snapshot.val() as EmployeeDTO);
+          callback(snapshot.val() as EmployeeDTO);
+        } else {
+          callback(null);
+        }
+      },
+      {
+        onlyOnce: false,
+      }
+    );
+  }
+
+  async sendNotificationToUser(userId: string, notification: Notification) {
+    try {
+      const db = getDatabase();
+      const userRef = ref(db, `public users/${userId}/Notifications`);
+      const userSnapshot = await get(userRef);
+      if (userSnapshot.exists()) {
+        const notifications = userSnapshot.val();
+        notifications.push(notification);
+        await set(userRef, notifications);
+      } else {
+        await set(userRef, [notification]);
+      }
+    } catch (error) {
       throw error;
     }
   }

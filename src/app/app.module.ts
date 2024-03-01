@@ -1,3 +1,4 @@
+import { MatTableModule } from '@angular/material/table';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -13,6 +14,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 
@@ -52,8 +58,22 @@ import { MatCardModule } from '@angular/material/card';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { BuildingInfoComponent } from './pages/building-info/building-info.component';
 import { BuildingOverviewComponent } from './components/building-overview/building-overview.component';
+import { UserInfoComponent } from './pages/individual-condo/user-info/user-info.component';
+import { IndividualCondoComponent } from './pages/individual-condo/individual-condo.component';
+import { LocationComponent } from './pages/individual-condo/location/location.component';
+import { CondoFeaturesComponent } from './pages/individual-condo/condo-features/condo-features.component';
+import { DescriptionComponent } from './pages/individual-condo/description/description.component';
+import { HttpClientModule } from '@angular/common/http';
+import { NgxMapLibreGLModule } from '@maplibre/ngx-maplibre-gl';
+import { RouterModule } from '@angular/router';
+import { CondoComponent } from './components/condo/condo.component';
+import { KeyRegistrationComponent } from './components/key-registration/key-registration.component';
 import { SearchComponent } from './components/search/search.component';
 import { BuildingComponent } from './components/building/building.component';
+import { LockerComponent } from './components/locker/locker.component';
+import { ParkingSpotComponent } from './components/parking-spot/parking-spot.component';
+import { NotificationsComponent } from './pages/notifications/notifications.component';
+import { DeleteNotificationDialogComponent } from './components/delete-notification-dialog/delete-notification-dialog.component';
 import { AddNewPropertyComponent } from './pages/add-new-property/add-new-property.component';
 import { AddCondoDialogComponent } from './components/add-condo-dialog/add-condo-dialog.component';
 import { AddLockerDialogComponent } from './components/add-locker-dialog/add-locker-dialog.component';
@@ -71,8 +91,19 @@ import { AddParkingDialogComponent } from './components/add-parking-dialog/add-p
     UserProfileComponent,
     BuildingInfoComponent,
     BuildingOverviewComponent,
+    UserInfoComponent,
+    IndividualCondoComponent,
+    LocationComponent,
+    CondoFeaturesComponent,
+    DescriptionComponent,
+    CondoComponent,
+    KeyRegistrationComponent,
     BuildingComponent,
     SearchComponent,
+    LockerComponent,
+    ParkingSpotComponent,
+    NotificationsComponent,
+    DeleteNotificationDialogComponent,
     AddNewPropertyComponent,
     AddCondoDialogComponent,
     AddLockerDialogComponent,
@@ -81,6 +112,9 @@ import { AddParkingDialogComponent } from './components/add-parking-dialog/add-p
   imports: [
     BrowserModule,
     AppRoutingModule,
+    RouterModule,
+    NgxMapLibreGLModule,
+    HttpClientModule,
     AngularFireModule.initializeApp(firebaseConfig),
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideAuth(() => getAuth()),
@@ -111,7 +145,12 @@ import { AddParkingDialogComponent } from './components/add-parking-dialog/add-p
     MatBadgeModule,
     MatCardModule,
     MatTabsModule,
-    MatCheckboxModule,
+    MatDividerModule,
+    MatRadioModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatChipsModule,
+    MatTableModule,
     MatDialogModule,
   ],
   providers: [ScreenTrackingService, UserTrackingService],
