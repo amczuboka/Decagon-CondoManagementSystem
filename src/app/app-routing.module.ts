@@ -48,8 +48,12 @@ const routes: Routes = [
     component: NotificationsComponent,
     canActivate: [AuthguardGuard],
   },
+  { 
+    path: 'my-employees', 
+    component: MyEmployeesComponent,
+    canActivate: [AuthguardGuard, CompanyGuard]
+  },
   { path: '**', redirectTo: '', canActivate: [AuthguardGuard] },
-  { path: 'my-employees', component: MyEmployeesComponent, canActivate: [AuthguardGuard, CompanyGuard] },
 ];
 
 @NgModule({
