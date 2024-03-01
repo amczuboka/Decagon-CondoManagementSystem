@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppModule } from 'src/app/app.module';
 
 import { MyEmployeesComponent } from './my-employees.component';
 
@@ -8,6 +9,7 @@ describe('MyEmployeesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [AppModule],
       declarations: [MyEmployeesComponent]
     });
     fixture = TestBed.createComponent(MyEmployeesComponent);
