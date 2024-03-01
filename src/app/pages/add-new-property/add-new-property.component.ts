@@ -88,10 +88,6 @@ export class AddNewPropertyComponent {
       Picture: [null, Validators.required],
       Facilities: this.facilities,
     });
-    const user:User = JSON.parse(localStorage.getItem('user')!);
-    if (user.photoURL !=='Company') {
-      window.location.href = '/';
-    }
   }
 
   /**

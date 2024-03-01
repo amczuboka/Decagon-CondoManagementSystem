@@ -4,6 +4,7 @@ import { Building } from '../models/properties';
 import { get, getDatabase, ref, set } from 'firebase/database';
 import { AuthService } from './auth.service';
 import { CompanyDTO } from '../models/users';
+import { UserService } from './user.service';
 
 /**
  * Service for managing building-related operations.
@@ -20,7 +21,8 @@ export class BuildingService {
    */
   constructor(
     public authService: AuthService,
-    public storageService: StorageService
+    public storageService: StorageService,
+    public userService: UserService,
   ) {}
 
   /**
@@ -38,21 +40,19 @@ export class BuildingService {
         db
       );
       const currentUser = this.authService.getUser(); // Get the current authenticated user
+ 
+        const user = await Promise.resolve(this.userService.getCompanyUser(currentUser.uid));
 
-      const userRef = ref(db, `companies/${currentUser.uid}`);
-      const userSnapshot = await get(userRef);
-
-      if (userSnapshot.exists()) {
-        const user = userSnapshot.val() as CompanyDTO;
-
-        if (!user.PropertyIds) {
+        if (user && !user.PropertyIds) {
           user.PropertyIds = [];
+          user.PropertyIds.push(generatedId);
+        }else{
+          throw new Error('User not found');
         }
-        user.PropertyIds.push(generatedId);
 
         // Update the user node with the updated property IDs array
-        await set(userRef, user);
-      }
+        await this.userService.editUser(user.ID, user);
+  
 
       building.ID = generatedId;
       building.CompanyID = currentUser.uid;

@@ -24,6 +24,7 @@ const routes: Routes = [
     component: BuildingInfoComponent,
     canActivate: [AuthguardGuard],
   },
+  //TODO: Add  company guard
   {
     path: 'add-new-property',
     component: AddNewPropertyComponent,
