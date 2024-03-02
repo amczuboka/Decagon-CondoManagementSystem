@@ -44,7 +44,7 @@ describe('EmployeesListComponent', () => {
 
   it('should remove selected items', () => {
     component.employees = [{ checked: true }, { checked: false }];
-    component.remeveSelectedItems();
+    component.removeSelectedItems();
     expect(component.employees.length).toBe(1);
   });
 

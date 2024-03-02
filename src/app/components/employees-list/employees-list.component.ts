@@ -45,7 +45,7 @@ export class EmployeesListComponent {
     return this.employees.some(_ => _.checked);
   }
 
-  remeveSelectedItems() {
+  removeSelectedItems() {
     this.employees = this.employees.filter(x => !x.checked);
     // To do: Update DB
     console.log(this.employees);
