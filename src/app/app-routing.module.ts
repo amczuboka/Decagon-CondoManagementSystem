@@ -46,13 +46,14 @@ const routes: Routes = [
     component: NotificationsComponent,
     canActivate: [AuthguardGuard],
   },
-  { path: '**', redirectTo: '', canActivate: [AuthguardGuard] },
   //TODO: Add  company guard
   {
     path: 'add-new-property',
     component: AddNewPropertyComponent,
     canActivate: [AuthguardGuard],
   },
+  //This has to be at the last path
+  { path: '**', redirectTo: '', canActivate: [AuthguardGuard] },
 ];
 
 @NgModule({

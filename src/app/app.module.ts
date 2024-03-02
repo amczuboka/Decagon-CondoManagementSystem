@@ -152,6 +152,7 @@ import { AddParkingDialogComponent } from './components/add-parking-dialog/add-p
     MatChipsModule,
     MatTableModule,
     MatDialogModule,
+    MatCheckboxModule,
   ],
   providers: [ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent],

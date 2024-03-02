@@ -22,7 +22,7 @@ export class BuildingService {
   constructor(
     public authService: AuthService,
     public storageService: StorageService,
-    public userService: UserService,
+    public userService: UserService
   ) {}
 
   /**
@@ -40,19 +40,19 @@ export class BuildingService {
         db
       );
       const currentUser = this.authService.getUser(); // Get the current authenticated user
- 
-        const user = await Promise.resolve(this.userService.getCompanyUser(currentUser.uid));
 
-        if (user && !user.PropertyIds) {
-          user.PropertyIds = [];
-          user.PropertyIds.push(generatedId);
-        }else{
-          throw new Error('User not found');
-        }
+      const user = await this.userService.getCompanyUser(currentUser.uid);
 
-        // Update the user node with the updated property IDs array
-        await this.userService.editUser(user.ID, user);
-  
+      if (!user) {
+        throw new Error('User not found');
+      }
+
+      if (!user.PropertyIds) {
+        user.PropertyIds = [];
+      }
+      user.PropertyIds.push(generatedId);
+      // Update the user node with the updated property IDs array
+      await this.userService.editUser(user.ID, user);
 
       building.ID = generatedId;
       building.CompanyID = currentUser.uid;
@@ -133,8 +133,6 @@ export class BuildingService {
   async deleteBuilding(buildingId: string): Promise<void> {
     try {
       let building: Building = await this.getBuilding(buildingId);
-      await this.storageService.deleteFile(building.Picture);
-      await this.storageService.deleteFile(building.Condos[0].Picture);
       const db = getDatabase();
       const userRef = ref(db, `companies/${building.CompanyID}`);
       const userSnapshot = await get(userRef);
@@ -145,6 +143,8 @@ export class BuildingService {
       }
       const buildingRef = ref(db, `buildings/${buildingId}`);
       await set(buildingRef, null);
+      await this.storageService.deleteFile(building.Picture);
+      await this.storageService.deleteFile(building.Condos[0].Picture);
     } catch (error) {
       console.error('Error deleting Building:', error);
       throw error;

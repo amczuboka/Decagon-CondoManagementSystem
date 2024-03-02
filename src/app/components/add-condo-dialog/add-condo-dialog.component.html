@@ -8,6 +8,7 @@
         <input
           type="number"
           min="1"
+          max="30000"
           matInput
           required
           name="Quantity"
@@ -19,7 +20,8 @@
             newCondo.controls['Quantity'].hasError('required') &&
             newCondo.controls['Quantity'].touched
           "
-          class="error-icon" >error_outline</mat-icon
+          class="error-icon"
+          >error_outline</mat-icon
         >
         <mat-error *ngIf="newCondo.controls['Quantity'].hasError('required')"
           >Enter quantity</mat-error
@@ -27,9 +29,12 @@
         <mat-error *ngIf="newCondo.controls['Quantity'].hasError('min')"
           >Enter at least 1</mat-error
         >
+        <mat-error *ngIf="newCondo.controls['Quantity'].hasError('max')"
+          >Too large</mat-error
+        >
       </mat-form-field>
       <br />
-            <!--UnitNumber-->
+      <!--UnitNumber-->
       <mat-form-field appearance="outline" style="width: 100%">
         <mat-label>Identification for set of condos</mat-label>
         <input
@@ -70,7 +75,8 @@
             newCondo.controls['SquareFootage'].hasError('required') &&
             newCondo.controls['SquareFootage'].touched
           "
-          class="error-icon" >error_outline</mat-icon
+          class="error-icon"
+          >error_outline</mat-icon
         >
         <mat-error
           *ngIf="newCondo.controls['SquareFootage'].hasError('required')"
@@ -98,9 +104,11 @@
             newCondo.controls['NumberOfBedrooms'].hasError('required') &&
             newCondo.controls['NumberOfBedrooms'].touched
           "
-          class="error-icon" >error_outline</mat-icon
+          class="error-icon"
+          >error_outline</mat-icon
         >
-        <mat-error *ngIf="newCondo.controls['NumberOfBedrooms'].hasError('required')"
+        <mat-error
+          *ngIf="newCondo.controls['NumberOfBedrooms'].hasError('required')"
           >Enter a number</mat-error
         >
         <mat-error *ngIf="newCondo.controls['NumberOfBedrooms'].hasError('min')"
@@ -125,12 +133,15 @@
             newCondo.controls['NumberOfBathrooms'].hasError('required') &&
             newCondo.controls['NumberOfBathrooms'].touched
           "
-          class="error-icon" >error_outline</mat-icon
+          class="error-icon"
+          >error_outline</mat-icon
         >
-        <mat-error *ngIf="newCondo.controls['NumberOfBathrooms'].hasError('required')"
+        <mat-error
+          *ngIf="newCondo.controls['NumberOfBathrooms'].hasError('required')"
           >Enter a number</mat-error
         >
-        <mat-error *ngIf="newCondo.controls['NumberOfBathrooms'].hasError('min')"
+        <mat-error
+          *ngIf="newCondo.controls['NumberOfBathrooms'].hasError('min')"
           >Too low</mat-error
         >
       </mat-form-field>
@@ -148,7 +159,8 @@
             newCondo.controls['Type'].hasError('required') &&
             newCondo.controls['Type'].touched
           "
-          class="error-icon" >error_outline</mat-icon
+          class="error-icon"
+          >error_outline</mat-icon
         >
         <mat-error *ngIf="newCondo.controls['Type'].hasError('required')"
           >Select an option</mat-error
@@ -172,7 +184,8 @@
             newCondo.controls['Fee'].hasError('required') &&
             newCondo.controls['Fee'].touched
           "
-          class="error-icon" >error_outline</mat-icon
+          class="error-icon"
+          >error_outline</mat-icon
         >
         <mat-error *ngIf="newCondo.controls['Fee'].hasError('required')"
           >Enter description</mat-error
@@ -182,7 +195,7 @@
         >
       </mat-form-field>
       <br />
-            <!-- Description -->
+      <!-- Description -->
       <mat-form-field appearance="outline">
         <mat-label>Description</mat-label>
         <textarea
@@ -200,35 +213,35 @@
           class="error-icon"
           >error_outline</mat-icon
         >
-        <mat-error
-          *ngIf="newCondo.controls['Description'].hasError('required')"
+        <mat-error *ngIf="newCondo.controls['Description'].hasError('required')"
           >Enter a Description</mat-error
         >
       </mat-form-field>
       <br />
-          <!-- Picture -->
-    <label>
-      <p>Add a Building picture</p>
-      <input
-        required
-        name="Picture"
-        type="file"
-        class="form-control"
-        formControlName="Picture"
-        (change)="handleFileInput($event)"
-        accept="image/*"
-      />
-      <mat-icon
-        matSuffix
-        *ngIf="
-          newCondo.controls['Picture'].hasError('required') &&
-          newCondo.controls['Picture'].touched
-        "
-        class="error-icon"
-        >error_outline</mat-icon
-      >
-    </label>
-    <br> <br/>
+      <!-- Picture -->
+      <label>
+        <p>Add a Building picture</p>
+        <input
+          required
+          name="Picture"
+          type="file"
+          class="form-control"
+          formControlName="Picture"
+          (change)="handleFileInput($event)"
+          accept="image/*"
+        />
+        <mat-icon
+          matSuffix
+          *ngIf="
+            newCondo.controls['Picture'].hasError('required') &&
+            newCondo.controls['Picture'].touched
+          "
+          class="error-icon"
+          >error_outline</mat-icon
+        >
+      </label>
+      <br />
+      <br />
       <!--Button-->
       <button class="btn btn-outline-dark" (click)="saveItem()">Save</button>
     </div>

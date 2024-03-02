@@ -217,6 +217,7 @@ export class AddNewPropertyComponent {
    * Validates the form, facilities, and item lists before saving the property.
    */
   async onSubmit() {
+    this.Propertyform.markAllAsTouched();
     if (this.Propertyform.invalid) {
       this.NotificationService.sendAlert('Please fill out all required fields');
       return;
