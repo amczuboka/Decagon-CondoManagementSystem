@@ -32,7 +32,7 @@ export class AddLockerDialogComponent {
     public dialogRef: MatDialogRef<AddNewPropertyComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private form_builder: FormBuilder,
-    private notification: NotificationService
+    public notification: NotificationService
   ) {}
 
   /**
@@ -68,9 +68,13 @@ export class AddLockerDialogComponent {
         Fee: this.newLocker.value.Fee,
         Quantity: this.newLocker.value.Quantity,
       };
-      this.dialogRef.close(toSend); // Pass the new item data when closing the dialog
+      this.onCloseClick(toSend); // Pass the new item data when closing the dialog
     } else {
       this.notification.sendNotification('Make sure to fill all the fields!');
     }
+  }
+
+  onCloseClick(value: any): void {
+    this.dialogRef.close(value);
   }
 }

@@ -65,7 +65,7 @@ export class AddNewPropertyComponent {
    * @param NotificationService - NotificationService for displaying notifications.
    */
   constructor(
-    private formBuilder: FormBuilder,
+    public formBuilder: FormBuilder,
     public dialog: MatDialog,
     public BuildingService: BuildingService,
     public storageService: StorageService,
@@ -88,6 +88,7 @@ export class AddNewPropertyComponent {
       Picture: [null, Validators.required],
       Facilities: this.facilities,
     });
+    this.storageService.deleteFolderContents('test_images');
   }
 
   /**
@@ -217,13 +218,15 @@ export class AddNewPropertyComponent {
    * Validates the form, facilities, and item lists before saving the property.
    */
   async onSubmit() {
+    
     this.Propertyform.markAllAsTouched();
     if (this.Propertyform.invalid) {
       this.NotificationService.sendAlert('Please fill out all required fields');
+     
       return;
     }
     if (this.facilities.value.length == 0) {
-      this.NotificationService.sendAlert('Please select at least one facility');
+      this.NotificationService.sendAlert('Please select at least one facility'); 
       return;
     }
     if (
@@ -236,6 +239,7 @@ export class AddNewPropertyComponent {
       );
       return;
     }
+    
     this.loading = true;
     const db = getDatabase();
 
@@ -245,12 +249,14 @@ export class AddNewPropertyComponent {
     let k = 0;
 
     if (this.CondoItems.length !== 0) {
+       
       const promiseCondos = this.CondoItems.map(async (condoItem) => {
         let imagelink = await this.storageService.uploadToFirestore(
           condoItem.Picture,
           'building_images/' +
             (await this.storageService.IDgenerator('buildings/', db))
         );
+       
 
         for (let i = 0; i < condoItem.Quantity; i++) {
           condos.push({
@@ -281,7 +287,7 @@ export class AddNewPropertyComponent {
             ID: '',
             OccupantID: '',
             Number: lockerItem.Number + '-' + k + '-' + i,
-            Status: ParkingLockerStatus.Unavailable,
+            Status: ParkingLockerStatus.Available,
             Height: lockerItem.Height,
             Width: lockerItem.Width,
             Length: lockerItem.Length,
@@ -300,7 +306,7 @@ export class AddNewPropertyComponent {
             ID: '',
             OccupantID: '',
             Number: parkingItem.Number + '-' + k + '-' + i,
-            Status: ParkingLockerStatus.Unavailable,
+            Status: ParkingLockerStatus.Available,
             ParkingType: parkingItem.ParkingType,
             Fee: parkingItem.Fee,
           });
@@ -327,12 +333,15 @@ export class AddNewPropertyComponent {
       ),
       Facilities: this.Propertyform.value.Facilities,
     };
- 
 
     await this.BuildingService.addBuilding(building);
 
     this.NotificationService.sendNotification('Property Added');
 
+      this.reloadPage();
+  }
+
+  reloadPage() {
     window.location.reload();
   }
 }

@@ -7,6 +7,7 @@ import {
   deleteObject,
 } from '@angular/fire/storage';
 import { Database, child, onValue, ref as ref_data } from 'firebase/database';
+import { getStorage, listAll} from 'firebase/storage';
 
 /**
  * Service for interacting with Firebase Storage and Realtime Database.
@@ -102,4 +103,26 @@ export class StorageService {
 
     return id;
   }
+
+  async deleteFolderContents(path: string): Promise<void> {
+  const storage = getStorage();
+  const folderRef = ref_storage(storage, path);
+
+  listAll(folderRef)
+    .then((res) => {
+      res.items.forEach((fileRef) => {
+        deleteObject(fileRef)
+          .then(() => {
+            console.log('File deleted successfully');
+          })
+          .catch((error) => {
+            console.error('Error deleting file:', error);
+          });
+      });
+    })
+    .catch((error) => {
+      console.error('Error listing files:', error);
+    });
+}
+
 }

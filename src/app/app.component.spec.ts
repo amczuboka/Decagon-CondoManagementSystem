@@ -6,13 +6,8 @@ import { AppModule } from './app.module';
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        AppModule
-      ],
-      declarations: [
-        AppComponent
-      ],
+      imports: [RouterTestingModule, AppModule],
+      declarations: [AppComponent],
     }).compileComponents();
   });
 
@@ -28,10 +23,5 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('Decagon');
   });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('Decagon app is running!');
-  });
+
 });

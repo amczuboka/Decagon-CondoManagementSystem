@@ -38,7 +38,7 @@ export class AddCondoDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<AddNewPropertyComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder,
-    private notification: NotificationService
+    public notification: NotificationService
   ) {}
 
   /**
@@ -82,11 +82,25 @@ export class AddCondoDialogComponent implements OnInit {
    */
   saveItem(): void {
     this.newCondo.value.Picture = this.file;
+    console.log(this.newCondo.value);
+    for (const controlName in this.newCondo.controls) {
+      const control = this.newCondo.controls[controlName];
+      console.log(
+        `Control ${controlName} has value ${control.value} and is ${
+          control.valid ? 'valid' : 'invalid'
+        }`
+      );
+    }
     const { valid, value } = this.newCondo;
     if (valid) {
-      this.dialogRef.close(value); // Pass the new item data when closing the dialog
+      this.onCloseClick(value); // Pass the new item data when closing the dialog
+      console.log('Form is valid');
     } else {
       this.notification.sendNotification('Make sure to fill all the fields!');
     }
+  }
+
+  onCloseClick(value:any): void {
+    this.dialogRef.close(value);
   }
 }
