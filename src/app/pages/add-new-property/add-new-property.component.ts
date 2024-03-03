@@ -79,7 +79,7 @@ export class AddNewPropertyComponent {
     this.Propertyform = this.formBuilder.group({
       Year: ['', Validators.required],
       Name: ['', Validators.required],
-      Contry: ['', Validators.required],
+      Country: ['', Validators.required],
       State: ['', Validators.required],
       City: ['', Validators.required],
       StreetNN: ['', Validators.required],
@@ -320,7 +320,7 @@ export class AddNewPropertyComponent {
       Year: this.Propertyform.value.Year,
       CompanyID: '',
       Name: this.Propertyform.value.Name,
-      Address: `${this.Propertyform.value.StreetNN}, ${this.Propertyform.value.City}, ${this.Propertyform.value.State}, ${this.Propertyform.value.Contry}, ${this.Propertyform.value.ZipCode}`,
+      Address: `${this.Propertyform.value.StreetNN}, ${this.Propertyform.value.City}, ${this.Propertyform.value.State}, ${this.Propertyform.value.Country}, ${this.Propertyform.value.ZipCode}`,
       Bookings: [],
       Description: this.Propertyform.value.Description,
       Parkings: parkings,

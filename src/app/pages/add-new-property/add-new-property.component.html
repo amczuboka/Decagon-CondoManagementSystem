@@ -21,22 +21,22 @@
             >Enter a name</mat-error
           >
         </mat-form-field>
-        <!-- Contry -->
+        <!-- Country -->
         <mat-form-field appearance="outline">
-          <mat-label>Contry</mat-label>
-          <input matInput required name="Contry" formControlName="Contry" />
+          <mat-label>Country</mat-label>
+          <input matInput required name="Country" formControlName="Country" />
           <mat-icon
             matSuffix
             *ngIf="
-              Propertyform.controls['Contry'].hasError('required') &&
-              Propertyform.controls['Contry'].touched
+              Propertyform.controls['Country'].hasError('required') &&
+              Propertyform.controls['Country'].touched
             "
             class="error-icon"
             >error_outline</mat-icon
           >
           <mat-error
-            *ngIf="Propertyform.controls['Contry'].hasError('required')"
-            >Enter a Contry</mat-error
+            *ngIf="Propertyform.controls['Country'].hasError('required')"
+            >Enter a Country</mat-error
           >
         </mat-form-field>
         <!-- State -->

@@ -64,7 +64,7 @@ describe('AddNewPropertyComponent', () => {
     component.ngOnInit();
     expect(component.Propertyform.get('Year')).toBeDefined();
     expect(component.Propertyform.get('Name')).toBeDefined();
-    expect(component.Propertyform.get('Contry')).toBeDefined();
+    expect(component.Propertyform.get('Country')).toBeDefined();
     expect(component.Propertyform.get('State')).toBeDefined();
     expect(component.Propertyform.get('City')).toBeDefined();
     expect(component.Propertyform.get('StreetNN')).toBeDefined();
@@ -86,9 +86,9 @@ describe('AddNewPropertyComponent', () => {
     expect(nameControl?.validator).toBe(Validators.required);
   });
 
-  it('should set the required validator for Contry control', () => {
+  it('should set the required validator for Country control', () => {
     component.ngOnInit();
-    const contryControl = component.Propertyform.get('Contry');
+    const contryControl = component.Propertyform.get('Country');
     expect(contryControl?.validator).toBe(Validators.required);
   });
 
@@ -322,7 +322,7 @@ describe('AddNewPropertyComponent', () => {
     component.Propertyform.patchValue({
       Year: 2022,
       Name: 'Test Building',
-      Contry: 'Country',
+      Country: 'Country',
       State: 'State',
       City: 'City',
       StreetNN: 'Street',
@@ -346,7 +346,7 @@ describe('AddNewPropertyComponent', () => {
     component.Propertyform.patchValue({
       Year: 2022,
       Name: 'Test Building',
-      Contry: 'Country',
+      Country: 'Country',
       State: 'State',
       City: 'City',
       StreetNN: 'Street',
@@ -404,7 +404,7 @@ describe('AddNewPropertyComponent', () => {
     component.Propertyform.patchValue({
       Year: 2022,
       Name: 'Test Building',
-      Contry: 'Country',
+      Country: 'Country',
       State: 'State',
       City: 'City',
       StreetNN: 'Street',
