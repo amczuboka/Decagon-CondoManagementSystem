@@ -5,12 +5,14 @@ import { LandingComponent } from './pages/landing/landing.component';
 import { RegisterComponent } from './pages/login/register/register.component';
 import { VerifyEmailComponent } from './pages/login/verify-email/verify-email.component';
 import { AuthguardGuard } from './services/auth.guard';
+import { CompanyGuard } from './services/company.guard';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { BuildingInfoComponent } from './pages/building-info/building-info.component';
 import { IndividualCondoComponent } from './pages/individual-condo/individual-condo.component';
 import { KeyRegistrationComponent } from './components/key-registration/key-registration.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { AddNewPropertyComponent } from './pages/add-new-property/add-new-property.component';
+import { MyEmployeesComponent } from './pages/my-employees/my-employees.component';
 
 const routes: Routes = [
   {
@@ -53,6 +55,11 @@ const routes: Routes = [
     canActivate: [AuthguardGuard],
   },
   //This has to be at the last path
+  { 
+    path: 'my-employees', 
+    component: MyEmployeesComponent,
+    canActivate: [AuthguardGuard, CompanyGuard]
+  },
   { path: '**', redirectTo: '', canActivate: [AuthguardGuard] },
 ];
 

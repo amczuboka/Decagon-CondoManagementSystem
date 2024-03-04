@@ -1,0 +1,77 @@
+.card-container {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.25);
+    background-color: #f7f6fe;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    min-width: 100%;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 5px;
+    font-family: 'Roboto', sans-serif;
+}
+
+table {
+    display: inline-table;
+    width: 100%;
+}
+
+.even-row {
+    background-color: #f7f6fe;
+}
+
+mat-select {
+    border-radius: 10px;
+    padding: 5px 10px;
+    background-color: #486380;
+    color: white;
+}
+
+mat-option {
+    background-color: #486380;
+    color: white;
+}
+
+::ng-deep .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text {
+    color: white !important;
+}
+
+::ng-deep .mat-mdc-option:focus.mdc-list-item,
+.mat-mdc-option.mat-mdc-option-active.mdc-list-item {
+    background-color: #1e2e3e !important;
+}
+
+::ng-deep .mat-mdc-option:hover:not(.mdc-list-item--disabled) {
+    background-color: #1e2e3e !important;
+}
+
+button {
+    border-radius: 5px;
+    margin: 5px;
+    background-color: #486380;
+    color: white;
+}
+
+button.disabled {
+    background-color: #a5a5a5;
+}
+
+.name {
+    display: inline-flex;
+    align-items: center;
+}
+
+img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    margin-right: 5px;
+}

@@ -1,0 +1,61 @@
+<div class="card-container">
+    <div class="top">
+        <button [disabled]="!isSomeItemsChecked()" (click)="removeSelectedItems()" [ngClass]="{'enabled' : isSomeItemsChecked(), 'disabled' : !isSomeItemsChecked()}">Remove Selected</button>
+        <p id="desc">Employees</p>
+        <button (click)="update()">Update</button>
+    </div>
+    <table mat-table [dataSource]="employees" aria-describedby="mydesc">
+        <!-- Define the columns -->
+    
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>
+                <div class="name">
+                    <mat-checkbox #checkBox [checked]="isAllChecked()" (change)="checkAll(checkBox)"></mat-checkbox>
+                    Name
+                </div>
+            </th>
+            <td mat-cell *matCellDef="let employee">
+                <div class="name">
+                    <mat-checkbox #checkBox [(ngModel)]="employee.checked"></mat-checkbox>
+                    <img src="https://mdbootstrap.com/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="">
+                    {{employee.name}}
+                </div>
+            </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef>Email</th>
+            <td mat-cell *matCellDef="let employee">{{ employee.email }}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="properties">
+            <th mat-header-cell *matHeaderCellDef>Properties</th>
+            <td mat-cell *matCellDef="let employee; let i = index">
+                <mat-select multiple [(ngModel)]="employees[i].properties">
+                    <mat-option *ngFor="let property of propertiesList" [value]="property">
+                        {{property}}
+                    </mat-option>
+                </mat-select>
+            </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="role">
+            <th mat-header-cell *matHeaderCellDef>Role</th>
+            <td mat-cell *matCellDef="let employee">
+                <mat-select [(ngModel)]="employee.role" name="{{employee.role}}">
+                    <mat-option *ngFor="let role of roles" [value]="role">
+                        {{role}}
+                    </mat-option>
+                </mat-select>
+            </td>
+        </ng-container>
+
+        <!-- Assign the column definitions to the table -->
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="
+          let row;
+          columns: columnsToDisplay;
+          let i = index
+        "[class.even-row]="i % 2 === 0"></tr>
+    </table>
+</div>

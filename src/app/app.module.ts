@@ -1,4 +1,3 @@
-import { MatTableModule } from '@angular/material/table';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -19,8 +18,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -78,6 +78,8 @@ import { AddNewPropertyComponent } from './pages/add-new-property/add-new-proper
 import { AddCondoDialogComponent } from './components/add-condo-dialog/add-condo-dialog.component';
 import { AddLockerDialogComponent } from './components/add-locker-dialog/add-locker-dialog.component';
 import { AddParkingDialogComponent } from './components/add-parking-dialog/add-parking-dialog.component';
+import { EmployeesListComponent } from './components/employees-list/employees-list.component';
+import { MyEmployeesComponent } from './pages/my-employees/my-employees.component';
 
 @NgModule({
   declarations: [
@@ -108,6 +110,8 @@ import { AddParkingDialogComponent } from './components/add-parking-dialog/add-p
     AddCondoDialogComponent,
     AddLockerDialogComponent,
     AddParkingDialogComponent,
+    EmployeesListComponent,
+    MyEmployeesComponent,
   ],
   imports: [
     BrowserModule,
