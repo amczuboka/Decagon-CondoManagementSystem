@@ -10,8 +10,8 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
 import { BuildingInfoComponent } from './pages/building-info/building-info.component';
 import { IndividualCondoComponent } from './pages/individual-condo/individual-condo.component';
 import { KeyRegistrationComponent } from './components/key-registration/key-registration.component';
-import { CondoComponent } from './components/condo/condo.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
+import { AddNewPropertyComponent } from './pages/add-new-property/add-new-property.component';
 import { MyEmployeesComponent } from './pages/my-employees/my-employees.component';
 
 const routes: Routes = [
@@ -48,6 +48,13 @@ const routes: Routes = [
     component: NotificationsComponent,
     canActivate: [AuthguardGuard],
   },
+  //TODO: Add  company guard
+  {
+    path: 'add-new-property',
+    component: AddNewPropertyComponent,
+    canActivate: [AuthguardGuard],
+  },
+  //This has to be at the last path
   { 
     path: 'my-employees', 
     component: MyEmployeesComponent,

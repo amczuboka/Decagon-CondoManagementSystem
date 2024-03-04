@@ -105,7 +105,7 @@
                 profileForm.controls['PhoneNumber'].hasError('minlength')) &&
               profileForm.controls['PhoneNumber'].touched
             "
-            >error_outline</mat-icon
+            class="error-icon" >error_outline</mat-icon
           >
           <mat-error
             *ngIf="profileForm.controls['PhoneNumber'].hasError('required')"

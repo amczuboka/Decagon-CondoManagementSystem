@@ -1,9 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  Locker,
-  LockerSize,
-  ParkingLockerStatus,
-} from 'src/app/models/properties';
+import { Locker, ParkingLockerStatus } from 'src/app/models/properties';
 import { UserDTO } from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
@@ -25,7 +21,9 @@ export class LockerComponent {
       OccupantID: 'T28vqPCtohTj2V1lJabmjHXRYYt1',
       Number: 'L001',
       Status: ParkingLockerStatus.Unavailable,
-      Size: LockerSize.size1,
+      Height: '1m',
+      Width: '1m',
+      Length: '1m',
       Fee: 50,
     },
     {
@@ -33,7 +31,9 @@ export class LockerComponent {
       OccupantID: 'T28vqPCtohTj2V1lJabmjHXRYYt1',
       Number: 'L002',
       Status: ParkingLockerStatus.Available,
-      Size: LockerSize.size2,
+      Height: '1m',
+      Width: '4m',
+      Length: '3cm',
       Fee: 75,
     },
     {
@@ -41,7 +41,9 @@ export class LockerComponent {
       OccupantID: 'T28vqPCtohTj2V1lJabmjHXRYYt1',
       Number: 'L003',
       Status: ParkingLockerStatus.Unavailable,
-      Size: LockerSize.size3,
+      Height: '1ft',
+      Width: '1m',
+      Length: '1m',
       Fee: 100,
     },
     {
@@ -49,7 +51,9 @@ export class LockerComponent {
       OccupantID: 'T28vqPCtohTj2V1lJabmjHXRYYt1',
       Number: 'L004',
       Status: ParkingLockerStatus.Unavailable,
-      Size: LockerSize.size4,
+      Height: '1m',
+      Width: '1m',
+      Length: '1m',
       Fee: 120,
     },
     {
@@ -57,7 +61,9 @@ export class LockerComponent {
       OccupantID: 'T28vqPCtohTj2V1lJabmjHXRYYt1',
       Number: 'L005',
       Status: ParkingLockerStatus.Available,
-      Size: LockerSize.size1,
+      Height: '1m',
+      Width: '1m',
+      Length: '1m',
       Fee: 55,
     },
     {
@@ -65,7 +71,9 @@ export class LockerComponent {
       OccupantID: 'T28vqPCtohTj2V1lJabmjHXRYYt1',
       Number: 'L006',
       Status: ParkingLockerStatus.Available,
-      Size: LockerSize.size2,
+      Height: '1m',
+      Width: '1m',
+      Length: '1m',
       Fee: 80,
     },
     {
@@ -73,7 +81,9 @@ export class LockerComponent {
       OccupantID: 'T28vqPCtohTj2V1lJabmjHXRYYt1',
       Number: 'L007',
       Status: ParkingLockerStatus.Unavailable,
-      Size: LockerSize.size3,
+      Height: '1m',
+      Width: '1m',
+      Length: '1m',
       Fee: 110,
     },
     {
@@ -81,7 +91,9 @@ export class LockerComponent {
       OccupantID: 'T28vqPCtohTj2V1lJabmjHXRYYt1',
       Number: 'L008',
       Status: ParkingLockerStatus.Unavailable,
-      Size: LockerSize.size4,
+      Height: '1m',
+      Width: '1m',
+      Length: '1m',
       Fee: 130,
     },
     {
@@ -89,7 +101,9 @@ export class LockerComponent {
       OccupantID: 'T28vqPCtohTj2V1lJabmjHXRYYt1',
       Number: 'L009',
       Status: ParkingLockerStatus.Available,
-      Size: LockerSize.size1,
+      Height: '1m',
+      Width: '1m',
+      Length: '1m',
       Fee: 60,
     },
     {
@@ -97,7 +111,9 @@ export class LockerComponent {
       OccupantID: 'T28vqPCtohTj2V1lJabmjHXRYYt1',
       Number: 'L010',
       Status: ParkingLockerStatus.Available,
-      Size: LockerSize.size2,
+      Height: '1m',
+      Width: '1m',
+      Length: '1m',
       Fee: 85,
     },
   ];

@@ -31,7 +31,7 @@
                           'required'
                         ) && registerForm.controls['FirstName'].touched
                       "
-                      >error_outline
+                      class="error-icon" >error_outline
                     </mat-icon>
                     <mat-error
                       *ngIf="
@@ -65,7 +65,7 @@
                           'required'
                         ) && registerForm.controls['LastName'].touched
                       "
-                      >error_outline
+                      class="error-icon" >error_outline
                     </mat-icon>
                     <mat-error
                       *ngIf="
@@ -101,7 +101,7 @@
                           )) &&
                         registerForm.controls['Email'].touched
                       "
-                      >error_outline</mat-icon
+                      class="error-icon" >error_outline</mat-icon
                     >
                     <mat-error
                       *ngIf="
@@ -146,7 +146,7 @@
                           )) &&
                         registerForm.controls['ConfirmEmail'].touched
                       "
-                      >error_outline</mat-icon
+                      class="error-icon" >error_outline</mat-icon
                     >
                     <mat-error *ngIf="emailConfirmationValidator(registerForm)">
                       {{ emailConfirmationValidator(registerForm) }}
@@ -182,7 +182,7 @@
                           )) &&
                         registerForm.controls['Password'].touched
                       "
-                      >error_outline</mat-icon
+                      class="error-icon" >error_outline</mat-icon
                     >
 
                     <mat-error
@@ -243,7 +243,7 @@
                           )) &&
                         registerForm.controls['ConfirmPassword'].touched
                       "
-                      >error_outline</mat-icon
+                      class="error-icon" >error_outline</mat-icon
                     >
                     <mat-error
                       *ngIf="passwordConfirmationValidator(registerForm)"
@@ -284,7 +284,7 @@
                       registerForm.controls['Authority'].hasError('required') &&
                       registerForm.controls['Authority'].touched
                     "
-                    >error_outline</mat-icon
+                    class="error-icon" >error_outline</mat-icon
                   >
                   <mat-error
                     *ngIf="

@@ -128,6 +128,8 @@ export class UserProfileComponent {
     }
 
     this.Uploading = true;
+
+    let user = this.formatUser(this.profileForm.value);
     console.log(
       'this.file',
       this.file,
@@ -144,19 +146,10 @@ export class UserProfileComponent {
         await this.storageService.deleteFile(this.myUser.ProfilePicture);
       }
 
-      let result = await this.storageService.uploadToFirestore(
+      user.ProfilePicture = await this.storageService.uploadToFirestore(
         this.file,
         'profile_picture/' + this.myUser.ID
       );
-      let myValues = result.split(',');
-      let myDownloadLink = myValues[0];
-      this.profilePictureLink = myDownloadLink;
-    }
-
-    let user = this.formatUser(this.profileForm.value);
-    // Only update the ProfilePicture property if a file is selected
-    if (this.profilePictureLink) {
-      user.ProfilePicture = this.profilePictureLink;
     }
 
     await this.onEditUser(this.myUser.ID, user);

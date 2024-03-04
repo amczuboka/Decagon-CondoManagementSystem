@@ -18,7 +18,7 @@
 
   <ng-container matColumnDef="Size">
     <th mat-header-cell *matHeaderCellDef>Size</th>
-    <td mat-cell *matCellDef="let locker">{{ locker.Size }}</td>
+    <td mat-cell *matCellDef="let locker">{{ locker.Height }},{{locker.Width}},{{locker.Length}}</td>
   </ng-container>
 
   <ng-container matColumnDef="Price per month">
