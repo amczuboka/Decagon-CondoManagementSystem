@@ -20,17 +20,17 @@ export interface BuildingDTO {
 }
 
 export interface Condo {
-  ID: string;
-  Type: CondoType;
-  OccupantID: string;
-  UnitNumber: string;
-  Fee: number;
-  Picture: string;
-  Description: string;
-  NumberOfBedrooms: number;
-  NumberOfBathrooms: number;
-  Status: CondoStatus;
-  SquareFootage: number;
+    ID: string; 
+    Type: CondoType;
+    OccupantID: string;
+    UnitNumber: string;
+    Fee: number;
+    Picture: string;
+    Description: string;
+    NumberOfBedrooms: number;
+    NumberOfBathrooms: number;
+    Status: CondoStatus;
+    SquareFootage: number;
 }
 
 export interface CondoDTO {
@@ -49,6 +49,17 @@ export interface ParkingSpot {
   Number: string;
   Status: ParkingLockerStatus;
   ParkingType: ParkingType;
+  Fee: number;
+}
+
+export interface Locker {
+  ID: string;
+  OccupantID: string;
+  Number: string;
+  Status: ParkingLockerStatus;
+  Height: string;
+  Width: string;
+  Length: string;
   Fee: number;
 }
 
@@ -80,15 +91,17 @@ export enum Facilities {
 
 export interface Booking {
   ID: string;
+  OccupantID: string;
   Facility: Facilities;
-  UserID: string;
-  Date: Date;
+  Date: number;
 }
 
 export enum ParkingType {
   Standard = 'Standard',
   Handicap = 'Handicap',
 }
+
+
 
 export interface ParkingSpot {
   ID: string;
@@ -99,18 +112,4 @@ export interface ParkingSpot {
   Fee: number;
 }
 
-export interface Locker {
-  ID: string;
-  OccupantID: string;
-  Number: string;
-  Status: ParkingLockerStatus;
-  Size: LockerSize;
-  Fee: number;
-}
 
-export enum LockerSize {
-  size1 = '0.23m X 0.20m X 0.025m',
-  size2 = '0.5m X 0.5m X 0.5m',
-  size3 = '1m X 1m X 1m',
-  size4 = '2m X 2m X 2m',
-}

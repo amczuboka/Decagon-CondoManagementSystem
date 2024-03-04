@@ -10,7 +10,7 @@ import { UserDTO, Authority, Notification } from '../../models/users';
 export class IndividualCondoComponent {
   building: BuildingDTO = {
     Name: 'Majestic Condo',
-    Address: '2800 Boulevard Cote Vertu Ouest, Saint-Laurent, QC H4R 2M5',
+    Address: '2800 Boulevard Cote Vertu Ouest, Montreal, Quebec, Canada, H4R 2M5',
     Year: 2007,
   };
 

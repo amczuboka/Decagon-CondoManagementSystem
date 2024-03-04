@@ -18,6 +18,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
@@ -73,7 +74,10 @@ import { LockerComponent } from './components/locker/locker.component';
 import { ParkingSpotComponent } from './components/parking-spot/parking-spot.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { DeleteNotificationDialogComponent } from './components/delete-notification-dialog/delete-notification-dialog.component';
-import { MatDialogModule } from '@angular/material/dialog';
+import { AddNewPropertyComponent } from './pages/add-new-property/add-new-property.component';
+import { AddCondoDialogComponent } from './components/add-condo-dialog/add-condo-dialog.component';
+import { AddLockerDialogComponent } from './components/add-locker-dialog/add-locker-dialog.component';
+import { AddParkingDialogComponent } from './components/add-parking-dialog/add-parking-dialog.component';
 import { EmployeesListComponent } from './components/employees-list/employees-list.component';
 import { MyEmployeesComponent } from './pages/my-employees/my-employees.component';
 
@@ -102,6 +106,10 @@ import { MyEmployeesComponent } from './pages/my-employees/my-employees.componen
     ParkingSpotComponent,
     NotificationsComponent,
     DeleteNotificationDialogComponent,
+    AddNewPropertyComponent,
+    AddCondoDialogComponent,
+    AddLockerDialogComponent,
+    AddParkingDialogComponent,
     EmployeesListComponent,
     MyEmployeesComponent,
   ],
