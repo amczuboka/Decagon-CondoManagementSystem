@@ -1,336 +1,337 @@
-<mat-dialog-content>
-  <form [formGroup]="Propertyform" class="main-struct">
-    <h1>Add new Buildings</h1>
-    <div class="basic-info">
-      <h2>Basic Information</h2>
-      <div class="part1">
-        <!-- name -->
-        <mat-form-field appearance="outline">
-          <mat-label>Building Name</mat-label>
-          <input matInput required name="Name" formControlName="Name" />
-          <mat-icon
-            matSuffix
-            *ngIf="
-              Propertyform.controls['Name'].hasError('required') &&
-              Propertyform.controls['Name'].touched
-            "
-            class="error-icon"
-            >error_outline</mat-icon
-          >
-          <mat-error *ngIf="Propertyform.controls['Name'].hasError('required')"
-            >Enter a name</mat-error
-          >
-        </mat-form-field>
-        <!-- Country -->
-        <mat-form-field appearance="outline">
-          <mat-label>Country</mat-label>
-          <input matInput required name="Country" formControlName="Country" />
-          <mat-icon
-            matSuffix
-            *ngIf="
-              Propertyform.controls['Country'].hasError('required') &&
-              Propertyform.controls['Country'].touched
-            "
-            class="error-icon"
-            >error_outline</mat-icon
-          >
-          <mat-error
-            *ngIf="Propertyform.controls['Country'].hasError('required')"
-            >Enter a Country</mat-error
-          >
-        </mat-form-field>
-        <!-- State -->
-        <mat-form-field appearance="outline">
-          <mat-label>State/Province</mat-label>
-          <input matInput required name="State" formControlName="State" />
-          <mat-icon
-            matSuffix
-            *ngIf="
-              Propertyform.controls['State'].hasError('required') &&
-              Propertyform.controls['State'].touched
-            "
-            class="error-icon"
-            >error_outline</mat-icon
-          >
-          <mat-error *ngIf="Propertyform.controls['State'].hasError('required')"
-            >Enter a State/Province</mat-error
-          >
-        </mat-form-field>
-        <!-- City -->
-        <mat-form-field appearance="outline">
-          <mat-label>City</mat-label>
-          <input matInput required name="City" formControlName="City" />
-          <mat-icon
-            matSuffix
-            *ngIf="
-              Propertyform.controls['City'].hasError('required') &&
-              Propertyform.controls['City'].touched
-            "
-            class="error-icon"
-            >error_outline</mat-icon
-          >
-          <mat-error *ngIf="Propertyform.controls['City'].hasError('required')"
-            >Enter a City</mat-error
-          >
-        </mat-form-field>
-        <!-- StreetNN -->
-        <mat-form-field appearance="outline">
-          <mat-label>Property Street Number and Name</mat-label>
-          <input matInput required name="StreetNN" formControlName="StreetNN" />
-          <mat-icon
-            matSuffix
-            *ngIf="
-              Propertyform.controls['StreetNN'].hasError('required') &&
-              Propertyform.controls['StreetNN'].touched
-            "
-            class="error-icon"
-            >error_outline</mat-icon
-          >
-          <mat-error
-            *ngIf="Propertyform.controls['StreetNN'].hasError('required')"
-            >Enter a City</mat-error
-          >
-        </mat-form-field>
-        <!-- ZipCode -->
-        <mat-form-field appearance="outline">
-          <mat-label>ZipCode</mat-label>
-          <input
-            matInput
-            required
-            name="ZipCode"
-            formControlName="ZipCode"
-            pattern="^[a-zA-Z0-9-\s]{3,10}$"
-          />
-          <mat-icon
-            matSuffix
-            *ngIf="
-              Propertyform.controls['ZipCode'].hasError('required') &&
-              Propertyform.controls['ZipCode'].touched
-            "
-            class="error-icon"
-            >error_outline</mat-icon
-          >
-          <mat-error
-            *ngIf="Propertyform.controls['ZipCode'].hasError('required')"
-            >Enter a ZipCode</mat-error
-          >
-          <mat-error
-            *ngIf="Propertyform.controls['ZipCode'].hasError('pattern')"
-            >Enter a correct ZipCode</mat-error
-          >
-        </mat-form-field>
-        <!-- Year built -->
-        <mat-form-field appearance="outline">
-          <mat-label>Year built</mat-label>
-          <input
-            matInput
-            required
-            name="Year"
-            formControlName="Year"
-            type="number"
-            min="1700"
-            [max]="currentYear"
-          />
-          <mat-icon
-            matSuffix
-            *ngIf="
-              Propertyform.controls['Year'].hasError('required') &&
-              Propertyform.controls['Year'].touched
-            "
-            class="error-icon"
-            >error_outline</mat-icon
-          >
-          <mat-error *ngIf="Propertyform.controls['Year'].hasError('required')"
-            >Enter a year</mat-error
-          >
-          <mat-error *ngIf="Propertyform.controls['Year'].hasError('min')"
-            >the number is too low</mat-error
-          >
-          <mat-error *ngIf="Propertyform.controls['Year'].hasError('max')"
-            >the number is too high</mat-error
-          >
-        </mat-form-field>
-      </div>
-      <!-- Description -->
+<form [formGroup]="Propertyform" class="main-struct">
+  <h1>Add new Buildings</h1>
+  <div class="basic-info">
+    <h2>Basic Information</h2>
+    <div class="part1">
+      <!-- name -->
       <mat-form-field appearance="outline">
-        <mat-label>Description</mat-label>
-        <textarea
-          matInput
-          required
-          name="Description"
-          formControlName="Description"
-        ></textarea>
+        <mat-label>Building Name</mat-label>
+        <input matInput required name="Name" formControlName="Name" />
         <mat-icon
           matSuffix
           *ngIf="
-            Propertyform.controls['Description'].hasError('required') &&
-            Propertyform.controls['Description'].touched
+            Propertyform.controls['Name'].hasError('required') &&
+            Propertyform.controls['Name'].touched
+          "
+          class="error-icon"
+          >error_outline</mat-icon
+        >
+        <mat-error *ngIf="Propertyform.controls['Name'].hasError('required')"
+          >Enter a name</mat-error
+        >
+      </mat-form-field>
+      <!-- Country -->
+      <mat-form-field appearance="outline">
+        <mat-label>Country</mat-label>
+        <input matInput required name="Country" formControlName="Country" />
+        <mat-icon
+          matSuffix
+          *ngIf="
+            Propertyform.controls['Country'].hasError('required') &&
+            Propertyform.controls['Country'].touched
+          "
+          class="error-icon"
+          >error_outline</mat-icon
+        >
+        <mat-error *ngIf="Propertyform.controls['Country'].hasError('required')"
+          >Enter a Country</mat-error
+        >
+      </mat-form-field>
+      <!-- State -->
+      <mat-form-field appearance="outline">
+        <mat-label>State/Province</mat-label>
+        <input matInput required name="State" formControlName="State" />
+        <mat-icon
+          matSuffix
+          *ngIf="
+            Propertyform.controls['State'].hasError('required') &&
+            Propertyform.controls['State'].touched
+          "
+          class="error-icon"
+          >error_outline</mat-icon
+        >
+        <mat-error *ngIf="Propertyform.controls['State'].hasError('required')"
+          >Enter a State/Province</mat-error
+        >
+      </mat-form-field>
+      <!-- City -->
+      <mat-form-field appearance="outline">
+        <mat-label>City</mat-label>
+        <input matInput required name="City" formControlName="City" />
+        <mat-icon
+          matSuffix
+          *ngIf="
+            Propertyform.controls['City'].hasError('required') &&
+            Propertyform.controls['City'].touched
+          "
+          class="error-icon"
+          >error_outline</mat-icon
+        >
+        <mat-error *ngIf="Propertyform.controls['City'].hasError('required')"
+          >Enter a City</mat-error
+        >
+      </mat-form-field>
+      <!-- StreetNN -->
+      <mat-form-field appearance="outline">
+        <mat-label>Property Street Number and Name</mat-label>
+        <input matInput required name="StreetNN" formControlName="StreetNN" />
+        <mat-icon
+          matSuffix
+          *ngIf="
+            Propertyform.controls['StreetNN'].hasError('required') &&
+            Propertyform.controls['StreetNN'].touched
           "
           class="error-icon"
           >error_outline</mat-icon
         >
         <mat-error
-          *ngIf="Propertyform.controls['Description'].hasError('required')"
-          >Enter a Description</mat-error
+          *ngIf="Propertyform.controls['StreetNN'].hasError('required')"
+          >Enter a City</mat-error
         >
       </mat-form-field>
-      <!-- Picture -->
-      <label>
-        <p>Add a Building picture</p>
+      <!-- ZipCode -->
+      <mat-form-field appearance="outline">
+        <mat-label>ZipCode</mat-label>
         <input
+          matInput
           required
-          name="Picture"
-          type="file"
-          class="form-control"
-          formControlName="Picture"
-          (change)="handleFileInput($event)"
-          accept="image/*"
+          name="ZipCode"
+          formControlName="ZipCode"
+          pattern="^[a-zA-Z0-9-\s]{3,10}$"
         />
         <mat-icon
           matSuffix
           *ngIf="
-            Propertyform.controls['Picture'].hasError('required') &&
-            Propertyform.controls['Picture'].touched
+            Propertyform.controls['ZipCode'].hasError('required') &&
+            Propertyform.controls['ZipCode'].touched
           "
           class="error-icon"
           >error_outline</mat-icon
         >
-      </label>
-      <br />
-      <h2>Facilities</h2>
-      <!-- Facilities -->
-      <section class="facilities">
-        <p>
-          <mat-checkbox
-            (change)="onCheckboxChange($event)"
-            value="Gym"
-            color="warn"
-            >Gym</mat-checkbox
-          >
-        </p>
-        <p>
-          <mat-checkbox
-            (change)="onCheckboxChange($event)"
-            value="Pool"
-            color="primary"
-            >Pool</mat-checkbox
-          >
-        </p>
-        <p>
-          <mat-checkbox
-            (change)="onCheckboxChange($event)"
-            value="Spa"
-            color="warn"
-            >Spa</mat-checkbox
-          >
-        </p>
-        <p>
-          <mat-checkbox (change)="onCheckboxChange($event)" value="Playground"
-            >Playground</mat-checkbox
-          >
-        </p>
-        <p>
-          <mat-checkbox
-            value="Meeting Room"
-            color="primary"
-            (change)="onCheckboxChange($event)"
-            >Meeting Room</mat-checkbox
-          >
-        </p>
-      </section>
-      <div class="add-component">
-        <button class="button_setup" (click)="openAddCondoDialog()">
-          Add Condo
-        </button>
-        <button class="button_setup" (click)="openAddLockerDialog()">
-          Add Locker
-        </button>
-        <button class="button_setup" (click)="openAddParkingDialog()">
-          Add Parking
-        </button>
-      </div>
-      <div class="add-component-list">
-        <!-- condo -->
-        <div class="condo" *ngFor="let condo of CondoItems">
-          <div class="img">
-            <img src="{{ condo.PictureScr }}" alt="" />
-            <div>
-              <p>{{ condo.Quantity }} units</p>
-              <h2 *ngIf="Propertyform.controls['Name'].value">
-                {{ Propertyform.controls["Name"].value }} unit set {{ condo.UnitNumber }}
-              </h2>
-              <br />
-              <div>
-                <span>{{ condo.NumberOfBedrooms }} bedroom(s)</span
-                ><span>, {{ condo.NumberOfBedrooms }} bathroom(s)</span>
-              </div>
-            </div>
-          </div>
-          <div class="matchimg last">
-            <button
-              (click)="deleteCondoItems(condo)"
-              mat-mini-fab
-              matTooltip="Warn"
-              color="warn"
-            >
-              <mat-icon>delete_forever</mat-icon>
-            </button>
-
-            <div>
-              <span>${{ condo.Fee }}</span
-              ><span *ngIf="condo.Type == 'Rent'">/month</span>
-            </div>
-          </div>
-        </div>
-        <!-- locker -->
-        <div class="condo" *ngFor="let locker of LockerItems">
-          <div class="first">
-            <p>{{ locker.Quantity }} units</p>
-            <h2>Lockers {{ locker.Number }}</h2>
-            <br />
-            <p>
-              Dimension {{ locker.Height }} x {{ locker.Length }} x
-              {{ locker.Width }}
-            </p>
-          </div>
-          <div class="last">
-            <button
-              mat-mini-fab
-              matTooltip="Warn"
-              (click)="deleteLockerItems(locker)"
-              color="warn"
-            >
-              <mat-icon>delete_forever</mat-icon>
-            </button>
-
-            <p>${{ locker.Fee }}/month</p>
-          </div>
-        </div>
-        <!-- parking -->
-        <div class="condo" *ngFor="let parking of ParkingItems">
-          <div class="first">
-            <p>{{parking.Quantity}} units</p>
-            <h2>Parkings {{parking.Number}}</h2>
-            <br />
-            <p>{{parking.ParkingType}}</p>
-          </div>
-          <div class="last">
-            <button mat-mini-fab matTooltip="Warn" (click)="deleteParkingItems(parking)" color="warn">
-              <mat-icon>delete_forever</mat-icon>
-            </button>
-
-            <p>${{parking.Fee}}/month </p>
-          </div>
-        </div>
-      </div>
-
-      <button type="submit" class="button_setup" (click)="onSubmit()">
-        Submit
+        <mat-error *ngIf="Propertyform.controls['ZipCode'].hasError('required')"
+          >Enter a ZipCode</mat-error
+        >
+        <mat-error *ngIf="Propertyform.controls['ZipCode'].hasError('pattern')"
+          >Enter a correct ZipCode</mat-error
+        >
+      </mat-form-field>
+      <!-- Year built -->
+      <mat-form-field appearance="outline">
+        <mat-label>Year built</mat-label>
+        <input
+          matInput
+          required
+          name="Year"
+          formControlName="Year"
+          type="number"
+          min="1700"
+          [max]="currentYear"
+        />
+        <mat-icon
+          matSuffix
+          *ngIf="
+            Propertyform.controls['Year'].hasError('required') &&
+            Propertyform.controls['Year'].touched
+          "
+          class="error-icon"
+          >error_outline</mat-icon
+        >
+        <mat-error *ngIf="Propertyform.controls['Year'].hasError('required')"
+          >Enter a year</mat-error
+        >
+        <mat-error *ngIf="Propertyform.controls['Year'].hasError('min')"
+          >the number is too low</mat-error
+        >
+        <mat-error *ngIf="Propertyform.controls['Year'].hasError('max')"
+          >the number is too high</mat-error
+        >
+      </mat-form-field>
+    </div>
+    <!-- Description -->
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea
+        matInput
+        required
+        name="Description"
+        formControlName="Description"
+      ></textarea>
+      <mat-icon
+        matSuffix
+        *ngIf="
+          Propertyform.controls['Description'].hasError('required') &&
+          Propertyform.controls['Description'].touched
+        "
+        class="error-icon"
+        >error_outline</mat-icon
+      >
+      <mat-error
+        *ngIf="Propertyform.controls['Description'].hasError('required')"
+        >Enter a Description</mat-error
+      >
+    </mat-form-field>
+    <!-- Picture -->
+    <label>
+      <p>Add a Building picture</p>
+      <input
+        required
+        name="Picture"
+        type="file"
+        class="form-control"
+        formControlName="Picture"
+        (change)="handleFileInput($event)"
+        accept="image/*"
+      />
+      <mat-icon
+        matSuffix
+        *ngIf="
+          Propertyform.controls['Picture'].hasError('required') &&
+          Propertyform.controls['Picture'].touched
+        "
+        class="error-icon"
+        >error_outline</mat-icon
+      >
+    </label>
+    <br />
+    <h2>Facilities</h2>
+    <!-- Facilities -->
+    <section class="facilities">
+      <p>
+        <mat-checkbox
+          (change)="onCheckboxChange($event)"
+          value="Gym"
+          color="warn"
+          >Gym</mat-checkbox
+        >
+      </p>
+      <p>
+        <mat-checkbox
+          (change)="onCheckboxChange($event)"
+          value="Pool"
+          color="primary"
+          >Pool</mat-checkbox
+        >
+      </p>
+      <p>
+        <mat-checkbox
+          (change)="onCheckboxChange($event)"
+          value="Spa"
+          color="warn"
+          >Spa</mat-checkbox
+        >
+      </p>
+      <p>
+        <mat-checkbox (change)="onCheckboxChange($event)" value="Playground"
+          >Playground</mat-checkbox
+        >
+      </p>
+      <p>
+        <mat-checkbox
+          value="Meeting Room"
+          color="primary"
+          (change)="onCheckboxChange($event)"
+          >Meeting Room</mat-checkbox
+        >
+      </p>
+    </section>
+    <div class="add-component">
+      <button class="button_setup" (click)="openAddCondoDialog()">
+        Add Condo
+      </button>
+      <button class="button_setup" (click)="openAddLockerDialog()">
+        Add Locker
+      </button>
+      <button class="button_setup" (click)="openAddParkingDialog()">
+        Add Parking
       </button>
     </div>
-  </form>
-</mat-dialog-content>
+    <div class="add-component-list">
+      <!-- condo -->
+      <div class="condo" *ngFor="let condo of CondoItems">
+        <div class="img">
+          <img src="{{ condo.PictureScr }}" alt="" />
+          <div>
+            <p>{{ condo.Quantity }} units</p>
+            <h2 *ngIf="Propertyform.controls['Name'].value">
+              {{ Propertyform.controls["Name"].value }} unit set
+              {{ condo.UnitNumber }}
+            </h2>
+            <br />
+            <div>
+              <span>{{ condo.NumberOfBedrooms }} bedroom(s)</span
+              ><span>, {{ condo.NumberOfBedrooms }} bathroom(s)</span>
+            </div>
+          </div>
+        </div>
+        <div class="matchimg last">
+          <button
+            (click)="deleteCondoItems(condo)"
+            mat-mini-fab
+            matTooltip="Warn"
+            color="warn"
+          >
+            <mat-icon>delete_forever</mat-icon>
+          </button>
 
-  <div class="loading-indicator" *ngIf="loading">
-    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+          <div>
+            <span>${{ condo.Fee }}</span
+            ><span *ngIf="condo.Type == 'Rent'">/month</span>
+          </div>
+        </div>
+      </div>
+      <!-- locker -->
+      <div class="condo" *ngFor="let locker of LockerItems">
+        <div class="first">
+          <p>{{ locker.Quantity }} units</p>
+          <h2>Lockers {{ locker.Number }}</h2>
+          <br />
+          <p>
+            Dimension {{ locker.Height }} x {{ locker.Length }} x
+            {{ locker.Width }}
+          </p>
+        </div>
+        <div class="last">
+          <button
+            mat-mini-fab
+            matTooltip="Warn"
+            (click)="deleteLockerItems(locker)"
+            color="warn"
+          >
+            <mat-icon>delete_forever</mat-icon>
+          </button>
+
+          <p>${{ locker.Fee }}/month</p>
+        </div>
+      </div>
+      <!-- parking -->
+      <div class="condo" *ngFor="let parking of ParkingItems">
+        <div class="first">
+          <p>{{ parking.Quantity }} units</p>
+          <h2>Parkings {{ parking.Number }}</h2>
+          <br />
+          <p>{{ parking.ParkingType }}</p>
+        </div>
+        <div class="last">
+          <button
+            mat-mini-fab
+            matTooltip="Warn"
+            (click)="deleteParkingItems(parking)"
+            color="warn"
+          >
+            <mat-icon>delete_forever</mat-icon>
+          </button>
+
+          <p>${{ parking.Fee }}/month</p>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="button_setup" (click)="onSubmit()">
+      Submit
+    </button>
   </div>
+</form>
+
+<div class="loading-indicator" *ngIf="loading">
+  <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+</div>
