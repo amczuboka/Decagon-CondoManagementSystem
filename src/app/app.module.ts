@@ -1,4 +1,3 @@
-import { MatTableModule } from '@angular/material/table';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -19,6 +18,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -72,6 +74,8 @@ import { ParkingSpotComponent } from './components/parking-spot/parking-spot.com
 import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { DeleteNotificationDialogComponent } from './components/delete-notification-dialog/delete-notification-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { EmployeesListComponent } from './components/employees-list/employees-list.component';
+import { MyEmployeesComponent } from './pages/my-employees/my-employees.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +102,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     ParkingSpotComponent,
     NotificationsComponent,
     DeleteNotificationDialogComponent,
+    EmployeesListComponent,
+    MyEmployeesComponent,
   ],
   imports: [
     BrowserModule,
@@ -142,6 +148,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatChipsModule,
     MatTableModule,
     MatDialogModule,
+    MatCheckboxModule,
   ],
   providers: [ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent],
