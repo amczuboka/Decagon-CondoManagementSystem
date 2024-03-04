@@ -1,0 +1,264 @@
+<form [formGroup]="newLocker" class="normal-form">
+  <div class="card-body p-4">
+    <div class="new-item-form">
+      <h2>New Lockers</h2>
+      <!--Quantity-->
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Quantity</mat-label>
+        <input
+          type="number"
+          min="1"
+          max="30000"
+          matInput
+          required
+          name="Quantity"
+          formControlName="Quantity"
+        />
+        <mat-icon
+          matSuffix
+          *ngIf="
+            newLocker.controls['Quantity'].hasError('required') &&
+            newLocker.controls['Quantity'].touched
+          "
+          class="error-icon"
+          >error_outline</mat-icon
+        >
+        <mat-error *ngIf="newLocker.controls['Quantity'].hasError('required')"
+          >Enter quantity</mat-error
+        >
+        <mat-error *ngIf="newLocker.controls['Quantity'].hasError('min')"
+          >Enter at least 1</mat-error
+        >
+      </mat-form-field>
+      <br />
+      <!--Number-->
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Identification for set of lockers</mat-label>
+        <input
+          matInput
+          required
+          name="Number"
+          formControlName="Number"
+          placeholder="Ex: 1A, 2B, 3C, ..."
+        />
+        <mat-icon
+          matSuffix
+          *ngIf="
+            newLocker.controls['Number'].hasError('required') &&
+            newLocker.controls['Number'].touched
+          "
+          class="error-icon"
+          >error_outline</mat-icon
+        >
+        <mat-error *ngIf="newLocker.controls['Number'].hasError('required')"
+          >Enter your Identification</mat-error
+        >
+      </mat-form-field>
+      <br />
+      <!--Height-->
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Height</mat-label>
+        <input
+          matInput
+          required
+          type="number"
+          min="1"
+          name="Height"
+          formControlName="Height"
+        />
+        <mat-icon
+          matSuffix
+          *ngIf="
+            newLocker.controls['Height'].hasError('required') &&
+            newLocker.controls['Height'].touched
+          "
+          class="error-icon"
+          >error_outline</mat-icon
+        >
+        <mat-error *ngIf="newLocker.controls['Height'].hasError('required')"
+          >Enter the Height</mat-error
+        >
+        <mat-error *ngIf="newLocker.controls['Height'].hasError('min')"
+          >Enter too low</mat-error
+        >
+      </mat-form-field>
+      <br />
+
+      <!--HeightUnit-->
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Height Unit</mat-label>
+        <mat-select
+          matInput
+          required
+          name="HeightUnit"
+          formControlName="HeightUnit"
+        >
+          <mat-option value="cm">cm</mat-option>
+          <mat-option value="m">m</mat-option>
+          <mat-option value="ft">ft</mat-option>
+          <mat-option value="inch">inch</mat-option>
+        </mat-select>
+        <mat-icon
+          matSuffix
+          *ngIf="
+            newLocker.controls['HeightUnit'].hasError('required') &&
+            newLocker.controls['HeightUnit'].touched
+          "
+          class="error-icon"
+          >error_outline</mat-icon
+        >
+        <mat-error *ngIf="newLocker.controls['HeightUnit'].hasError('required')"
+          >Select an option</mat-error
+        >
+      </mat-form-field>
+
+      <!--Width-->
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Width</mat-label>
+        <input
+          matInput
+          required
+          type="number"
+          min="1"
+          name="Width"
+          formControlName="Width"
+        />
+        <mat-icon
+          matSuffix
+          *ngIf="
+            newLocker.controls['Width'].hasError('required') &&
+            newLocker.controls['Width'].touched
+          "
+          class="error-icon"
+          >error_outline</mat-icon
+        >
+        <mat-error *ngIf="newLocker.controls['Width'].hasError('required')"
+          >Enter the Width</mat-error
+        >
+        <mat-error *ngIf="newLocker.controls['Width'].hasError('min')"
+          >Enter too low</mat-error
+        >
+      </mat-form-field>
+      <br />
+
+      <!--WidthUnit-->
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Width Unit</mat-label>
+        <mat-select
+          matInput
+          required
+          name="WidthUnit"
+          formControlName="WidthUnit"
+        >
+          <mat-option value="cm">cm</mat-option>
+          <mat-option value="m">m</mat-option>
+          <mat-option value="ft">ft</mat-option>
+          <mat-option value="inch">inch</mat-option>
+        </mat-select>
+        <mat-icon
+          matSuffix
+          *ngIf="
+            newLocker.controls['HeightUnit'].hasError('required') &&
+            newLocker.controls['HeightUnit'].touched
+          "
+          class="error-icon"
+          >error_outline</mat-icon
+        >
+        <mat-error *ngIf="newLocker.controls['HeightUnit'].hasError('required')"
+          >Select an option</mat-error
+        >
+      </mat-form-field>
+
+      <!--Length-->
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Length</mat-label>
+        <input
+          matInput
+          required
+          type="number"
+          min="1"
+          name="Width"
+          formControlName="Length"
+        />
+        <mat-icon
+          matSuffix
+          *ngIf="
+            newLocker.controls['Length'].hasError('required') &&
+            newLocker.controls['Length'].touched
+          "
+          class="error-icon"
+          >error_outline</mat-icon
+        >
+        <mat-error *ngIf="newLocker.controls['Length'].hasError('required')"
+          >Enter the Length</mat-error
+        >
+        <mat-error *ngIf="newLocker.controls['Length'].hasError('min')"
+          >Enter too low</mat-error
+        >
+      </mat-form-field>
+
+      <br />
+
+      <!--LengthUnit-->
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Length Unit</mat-label>
+        <mat-select
+          matInput
+          required
+          name="LengthUnit"
+          formControlName="LengthUnit"
+        >
+          <mat-option value="cm">cm</mat-option>
+          <mat-option value="m">m</mat-option>
+          <mat-option value="ft">ft</mat-option>
+          <mat-option value="inch">inch</mat-option>
+        </mat-select>
+        <mat-icon
+          matSuffix
+          *ngIf="
+            newLocker.controls['HeightUnit'].hasError('required') &&
+            newLocker.controls['HeightUnit'].touched
+          "
+          class="error-icon"
+          >error_outline</mat-icon
+        >
+        <mat-error *ngIf="newLocker.controls['HeightUnit'].hasError('required')"
+          >Select an option</mat-error
+        >
+      </mat-form-field>
+
+      <br />
+      <!--Fee-->
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Price per month</mat-label>
+        <input
+          matInput
+          required
+          type="number"
+          min="1"
+          name="Fee"
+          formControlName="Fee"
+        />
+        <mat-icon
+          matSuffix
+          *ngIf="
+            newLocker.controls['Fee'].hasError('required') &&
+            newLocker.controls['Fee'].touched
+          "
+          class="error-icon"
+          >error_outline</mat-icon
+        >
+        <mat-error *ngIf="newLocker.controls['Fee'].hasError('required')"
+          >Enter description</mat-error
+        >
+        <mat-error *ngIf="newLocker.controls['Fee'].hasError('min')"
+          >Too low</mat-error
+        >
+      </mat-form-field>
+
+      <br />
+      <!--Button-->
+      <button class="btn btn-outline-dark" (click)="saveItem()">Save</button>
+    </div>
+  </div>
+</form>
