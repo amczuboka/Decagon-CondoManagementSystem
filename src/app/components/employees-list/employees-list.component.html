@@ -1,6 +1,6 @@
 <div class="card-container">
     <div class="top">
-        <button [disabled]="!isSomeItemsChecked()" (click)="removeSelectedItems()" [ngClass]="{'enabled' : isSomeItemsChecked(), 'disabled' : !isSomeItemsChecked()}">Remove Selected</button>
+        <button [disabled]="!isSomeItemsChecked()" (click)="removeSelectedItems()" [ngClass]="{'enabled' : isSomeItemsChecked(), 'disabled' : !isSomeItemsChecked()}">Delete Selected</button>
         <p id="desc">Employees</p>
         <button (click)="update()">Update</button>
     </div>
