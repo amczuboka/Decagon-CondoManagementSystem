@@ -9,7 +9,7 @@ import { CompanyGuard } from './services/company.guard';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { BuildingInfoComponent } from './pages/building-info/building-info.component';
 import { IndividualCondoComponent } from './pages/individual-condo/individual-condo.component';
-import { KeyRegistrationComponent } from './components/key-registration/key-registration.component';
+import { KeyRegistrationComponent } from './pages/key-registration/key-registration.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { AddNewPropertyComponent } from './pages/add-new-property/add-new-property.component';
 import { MyEmployeesComponent } from './pages/my-employees/my-employees.component';
