@@ -2,16 +2,17 @@
   <app-search (searchTextChanged)="onSearchTextEntered($event)"></app-search>
 
   <div class="cardz">
+    <div *ngIf="!availableBuildings || availableBuildings.length === 0">
+      No buildings available.
+    </div>
     <div
-      *ngFor="let item of buildings; let i = index"
+      *ngFor="let item of availableBuildings; let i = index"
       data-aos="fade-up"
       data-aos-duration="900"
       data-aos-easing="ease-in-out-back"
       data-aos-mirror="true"
     >
       <a
-        [routerLink]="['']"
-        [queryParams]="item"
         *ngIf="
           searchText === '' ||
           item.Name.toLowerCase().includes(searchText.toLowerCase()) ||
@@ -34,7 +35,7 @@
                   10 Condos Total, 8 available
                 </p>
               </div>
-              <div class="button-container">
+              <div class="button-container" (click)="navigateToBuildingInfo(item)">
                 <button class="button">View</button>
               </div>
             </div>

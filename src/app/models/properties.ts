@@ -101,8 +101,6 @@ export enum ParkingType {
   Handicap = 'Handicap',
 }
 
-
-
 export interface ParkingSpot {
   ID: string;
   OccupantID: string;

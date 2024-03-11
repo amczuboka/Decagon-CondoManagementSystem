@@ -2,7 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BuildingComponent } from './building.component';
 import { AppModule } from 'src/app/app.module';
-import { Facilities } from 'src/app/models/properties';
+import { Building, Facilities } from 'src/app/models/properties';
+import { Router } from '@angular/router';
 
 describe('BuildingComponent', () => {
   let component: BuildingComponent;
@@ -49,4 +50,34 @@ describe('BuildingComponent', () => {
       expect(result).toEqual('pool');
     });
   });
-});
+
+    describe('Naviguation', () => {
+      let router: Router;
+
+      beforeEach(() => {
+        router = TestBed.inject(Router);
+      });
+
+      it('should navigate to building-info page with the selected building as a query parameter', () => {
+        const item: Building = {
+          ID: '1', Name: 'Building 1',
+          Year: 0,
+          CompanyID: '',
+          Address: '',
+          Bookings: [],
+          Description: '',
+          Parkings: [],
+          Lockers: [],
+          Condos: [],
+          Picture: '',
+          Facilities: []
+        };
+        const queryParams = { building: JSON.stringify(item) };
+        const navigateSpy = spyOn(router, 'navigate');
+
+        component.navigateToBuildingInfo(item);
+
+        expect(navigateSpy).toHaveBeenCalledWith(['/building-info'], { queryParams });
+      });
+    });
+  });

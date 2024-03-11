@@ -1,98 +1,43 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Building, Facilities } from 'src/app/models/properties';
+import { BuildingService } from 'src/app/services/building.service';
 @Component({
   selector: 'app-building',
   templateUrl: './building.component.html',
   styleUrls: ['./building.component.scss'],
 })
 export class BuildingComponent {
-  buildings: Building[] = [
-    {
-      ID: '1',
-      Year: 2010,
-      Description:
-        'Building A is a 10-unit building with no parking or lockers. It has a gym and a pool.',
-      CompanyID: 'A123',
-      Name: 'Building A',
-      Address: '123 Main St',
-      Parkings: [],
-      Lockers: [],
-      Condos: [],
-      Picture: 'assets/imgs/building1.jpg',
-      Facilities: [
-        Facilities.Locker,
-        Facilities.Spa,
-        Facilities.Pool,
-        Facilities.Gym,
-        Facilities.Playground,
-        Facilities.MeetingRoom,
-        Facilities.Parking,
-      ],
-      Bookings: [],
-    },
-    {
-      ID: '2',
-      Year: 2010,
-      Description:
-        'Building A is a 10-unit building with no parking or lockers. It has a gym and a pool.',
-      CompanyID: 'B456',
-      Name: 'Building B',
-      Address: '456 Oak St',
-      Parkings: [],
-      Lockers: [],
-      Condos: [],
-      Picture: 'assets/imgs/building1.jpg',
-      Facilities: [Facilities.MeetingRoom],
-      Bookings: [],
-    },
-    {
-      ID: '3',
-      Description:
-        'Building A is a 10-unit building with no parking or lockers. It has a gym and a pool.',
-      Year: 2012,
-      CompanyID: 'C789',
-      Name: 'Building C',
-      Address: '789 Elm St',
-      Parkings: [],
-      Lockers: [],
-      Condos: [],
-      Picture: 'assets/imgs/building1.jpg',
-      Facilities: [Facilities.Playground, Facilities.MeetingRoom],
-      Bookings: [],
-    },
-    {
-      ID: '4',
-      Description:
-        'Building A is a 10-unit building with no parking or lockers. It has a gym and a pool.',
-      Year: 2015,
-      CompanyID: 'D101',
-      Name: 'Building D',
-      Address: '101 Pine St',
-      Parkings: [],
-      Lockers: [],
-      Condos: [],
-      Picture: 'assets/imgs/building1.jpg',
-      Facilities: [Facilities.Parking, Facilities.Gym],
-      Bookings: [],
-    },
-    {
-      ID: '5',
-      Description:
-        'Building A is a 10-unit building with no parking or lockers. It has a gym and a pool.',
-      Year: 2020,
-      CompanyID: 'E202',
-      Name: 'Building E',
-      Address: '202 Cedar St',
-      Parkings: [],
-      Lockers: [],
-      Condos: [],
-      Picture: 'assets/imgs/building1.jpg',
-      Facilities: [Facilities.Pool],
-      Bookings: [],
-    },
-  ];
-
+  availableBuildings: Building[] | null = [];
   searchText: string = '';
+
+  constructor(
+    public buildingService: BuildingService,
+    private router: Router,
+  ) {}
+
+  private buildingsSubscription: Subscription = new Subscription();;
+  
+  ngOnInit() {
+    // Subscribe to the buildings$ observable
+    this.buildingsSubscription = this.buildingService.buildings$.subscribe((buildings) => {
+      if (buildings) {
+        console.log(buildings);
+        this.availableBuildings = Object.values(buildings);
+      } else {
+        // Handle case when buildings array is null
+        console.log('Buildings array is null');
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    // Unsubscribe from the observable to avoid memory leaks
+    if (this.buildingsSubscription) {
+      this.buildingsSubscription.unsubscribe();
+    }
+  }
 
   // Event handler for when search text changes
   onSearchTextEntered(searchValue: string) {
@@ -124,4 +69,18 @@ export class BuildingComponent {
         return '';
     }
   }
+
+    /**
+   * Navigate to the building-info page for the selected building item
+   *
+   * @param item - The building item to view the info for
+   */
+    navigateToBuildingInfo(item: Building): void {
+      // Prepare navigation extras with the selected building item as a query parameter
+      let building: any = { queryParams: { building: JSON.stringify(item) } };
+
+
+      // Navigate to the building-info page with the specified navigation extras
+      this.router.navigate(['/building-info'], building);
+    }
 }

@@ -27,8 +27,4 @@ describe('CondoComponent', () => {
     expect(routerSpy).toHaveBeenCalledWith(['/key-registration']);
   });
   
-
-  
-  
-  
 });
