@@ -1,6 +1,6 @@
 import { login } from './utils.cy';
 
-describe('Test Notification Bar', () => {
+describe('Test Notifications', () => {
   // Acceptance test for the notification bar
   // User logs in
   // User checks the notification bar
@@ -45,18 +45,20 @@ describe('Test Notification Bar', () => {
 
     cy.get('.nav-item a.notifications').click({ force: true });
 
-    cy.wait(2000);
-
-    cy.get('.my-table').within(() => {
-      cy.get('mat-row')
-        .contains('First Notification')
-        .parent()
-        .within(() => {
-          cy.get('.mat-column-date').should('contain', '2024-02-26');
-          cy.get('.mat-column-SenderId').should('contain', 'Unknown');
-          cy.get('button').contains('Mark as Read');
+    cy.get('.my-table')
+      .should('exist')
+      .then(() => {
+        cy.get('.my-table').within(() => {
+          cy.get('mat-row')
+            .contains('First Notification')
+            .parent()
+            .within(() => {
+              cy.get('.mat-column-date').should('contain', '2024-02-26');
+              cy.get('.mat-column-SenderId').should('contain', 'Unknown');
+              cy.get('button').contains('Mark as Read');
+            });
         });
-    });
+      });
   });
 
   // Acceptance test for marking a notification as read
