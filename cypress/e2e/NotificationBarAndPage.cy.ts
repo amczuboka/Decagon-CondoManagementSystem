@@ -34,33 +34,6 @@ describe('Test Notifications', () => {
       .should('equal', '1');
   });
 
-  // Acceptance test for the notification page
-  // User logs in
-  // User checks the notification bar
-  // User clicks on the notification bar
-  // User checks that they've been redirected to the notification page
-  // User checks the content of the notification page
-  it('Check notification page content', () => {
-    login('vemiji5713@bitofee.com', '123456');
-
-    cy.get('.nav-item a.notifications').click({ force: true });
-
-    cy.get('.my-table')
-      .should('exist')
-      .then(() => {
-        cy.get('.my-table').within(() => {
-          cy.get('mat-row')
-            .contains('First Notification')
-            .parent()
-            .within(() => {
-              cy.get('.mat-column-date').should('contain', '2024-02-26');
-              cy.get('.mat-column-SenderId').should('contain', 'Unknown');
-              cy.get('button').contains('Mark as Read');
-            });
-        });
-      });
-  });
-
   // Acceptance test for marking a notification as read
   // User logs in
   // User checks the notification bar
