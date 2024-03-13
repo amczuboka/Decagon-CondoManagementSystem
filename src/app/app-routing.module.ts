@@ -53,12 +53,12 @@ const routes: Routes = [
     component: AddNewPropertyComponent,
     canActivate: [AuthguardGuard, CompanyGuard],
   },
-  //This has to be at the last path
   {
     path: 'my-employees',
     component: MyEmployeesComponent,
     canActivate: [AuthguardGuard, CompanyGuard],
-  },
+  }, 
+  //This has to be at the last path
   { path: '**', redirectTo: '', canActivate: [AuthguardGuard] },
 ];
 
