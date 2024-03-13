@@ -1,5 +1,17 @@
 import { login } from './utils.cy';
 
+const checkBadge = (badgeHidden: boolean, value: string) => {
+  if (badgeHidden) {
+    cy.get('.nav-item a.notifications button').should(
+      'not.have.attr',
+      'matBadgeHidden'
+    );
+  }
+  cy.get('.nav-item a.notifications button mat-icon')
+    .invoke('attr', 'data-badge')
+    .should('equal', value);
+};
+
 describe('Test Notifications', () => {
   // Acceptance test for the notification bar
   // User logs in
@@ -25,13 +37,7 @@ describe('Test Notifications', () => {
     cy.get('.nav-item a.notifications').should('be.visible');
 
     cy.get('.nav-item a.notifications').should('be.visible');
-    cy.get('.nav-item a.notifications button').should(
-      'not.have.attr',
-      'matBadgeHidden'
-    );
-    cy.get('.nav-item a.notifications button mat-icon')
-      .invoke('attr', 'data-badge')
-      .should('equal', '1');
+    checkBadge(true, '1');
   });
 
   // Acceptance test for marking a notification as read
@@ -57,9 +63,7 @@ describe('Test Notifications', () => {
         });
     });
 
-    cy.get('.nav-item a.notifications button mat-icon')
-      .invoke('attr', 'data-badge')
-      .should('equal', '0');
+    checkBadge(false, '0');
   });
 
   // Acceptance test for marking a notification as unread
@@ -84,12 +88,7 @@ describe('Test Notifications', () => {
           cy.get('button').contains('Mark as Unread').click();
         });
     });
-    cy.get('.nav-item a.notifications button').should(
-      'not.have.attr',
-      'matBadgeHidden'
-    );
-    cy.get('.nav-item a.notifications button mat-icon')
-      .invoke('attr', 'data-badge')
-      .should('equal', '1');
+
+    checkBadge(true, '1');
   });
 });
