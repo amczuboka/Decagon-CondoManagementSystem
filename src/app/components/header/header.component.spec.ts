@@ -141,4 +141,13 @@ describe('HeaderComponent', () => {
 
     expect(component.newNotifications).toEqual([]);
   });
+
+  it('should log out', async () => {
+    spyOn(authService, 'SignOut').and.callThrough();
+
+    await component.logOut();
+
+    expect(userService.updateUser).toHaveBeenCalledWith(null);
+    expect(authService.SignOut).toHaveBeenCalled();
+  });
 });
