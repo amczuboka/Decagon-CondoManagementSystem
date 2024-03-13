@@ -48,17 +48,16 @@ const routes: Routes = [
     component: NotificationsComponent,
     canActivate: [AuthguardGuard],
   },
-  //TODO: Add  company guard
   {
     path: 'add-new-property',
     component: AddNewPropertyComponent,
-    canActivate: [AuthguardGuard],
+    canActivate: [AuthguardGuard, CompanyGuard],
   },
   //This has to be at the last path
-  { 
-    path: 'my-employees', 
+  {
+    path: 'my-employees',
     component: MyEmployeesComponent,
-    canActivate: [AuthguardGuard, CompanyGuard]
+    canActivate: [AuthguardGuard, CompanyGuard],
   },
   { path: '**', redirectTo: '', canActivate: [AuthguardGuard] },
 ];

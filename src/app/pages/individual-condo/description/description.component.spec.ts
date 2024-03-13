@@ -1,15 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DescriptionComponent } from './description.component';
-import { CondoDTO } from '../../../models/properties';
+import { Condo } from '../../../models/properties';
 
 describe('DescriptionComponent', () => {
   let component: DescriptionComponent;
   let fixture: ComponentFixture<DescriptionComponent>;
-  let mockCondo: Partial<CondoDTO>; 
+  let mockCondo: Partial<Condo>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DescriptionComponent]
+      declarations: [DescriptionComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DescriptionComponent);
@@ -17,10 +17,10 @@ describe('DescriptionComponent', () => {
 
     // Initialize mock data
     mockCondo = {
-      Description: 'Spacious condo with great amenities'
+      Description: 'Spacious condo with great amenities',
     };
-    
-    component.condo = mockCondo as CondoDTO; 
+
+    component.condo = mockCondo as Condo;
     fixture.detectChanges();
   });
 
