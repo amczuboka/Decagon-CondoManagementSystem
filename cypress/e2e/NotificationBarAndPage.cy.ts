@@ -45,6 +45,8 @@ describe('Test Notification Bar', () => {
 
     cy.get('.nav-item a.notifications').click({ force: true });
 
+    cy.wait(2000);
+
     cy.get('.my-table').within(() => {
       cy.get('mat-row')
         .contains('First Notification')
@@ -68,6 +70,8 @@ describe('Test Notification Bar', () => {
     login('vemiji5713@bitofee.com', '123456');
 
     cy.get('.nav-item a.notifications').click({ force: true });
+
+    cy.wait(2000);
 
     cy.get('.my-table').within(() => {
       cy.get('mat-row')
@@ -94,6 +98,8 @@ describe('Test Notification Bar', () => {
     login('vemiji5713@bitofee.com', '123456');
 
     cy.get('.nav-item a.notifications').click({ force: true });
+
+    cy.wait(2000);
 
     cy.get('.my-table').within(() => {
       cy.get('mat-row')
