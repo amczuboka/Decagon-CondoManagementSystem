@@ -49,13 +49,13 @@
         <a class="notifications" href="notifications">
           <button mat-icon-button>
             <mat-icon
-              *ngIf="myUser"
-              [matBadge]="newNotifications.length"
-              [matBadgeHidden]="!newNotifications.length"
-              matBadgeColor="warn"
-              aria-hidden="false"
-              >notifications</mat-icon
-            >
+            *ngIf="myUser"
+            [matBadge]="newNotifications.length"
+            [matBadgeHidden]="!newNotifications.length"
+            matBadgeColor="warn"
+            aria-hidden="false"
+            [attr.data-badge]="newNotifications.length"
+          >notifications</mat-icon>
           </button>
         </a>
       </li>
@@ -113,7 +113,7 @@
   >
     <button mat-menu-item>Add New Property</button>
   </a>
-  <a class="nav-link" href="#" (click)="authService.SignOut()">
+  <a class="nav-link" href="#" (click)="logOut()">
     <button mat-menu-item>Log Out</button>
   </a>
 </mat-menu>
