@@ -13,6 +13,7 @@ import { KeyRegistrationComponent } from './pages/key-registration/key-registrat
 import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { AddNewPropertyComponent } from './pages/add-new-property/add-new-property.component';
 import { MyEmployeesComponent } from './pages/my-employees/my-employees.component';
+import { PaymentComponent } from './payment/payment.component';
 
 const routes: Routes = [
   {
@@ -52,6 +53,11 @@ const routes: Routes = [
   {
     path: 'add-new-property',
     component: AddNewPropertyComponent,
+    canActivate: [AuthguardGuard],
+  },
+  {
+    path: 'payment',
+    component: PaymentComponent,
     canActivate: [AuthguardGuard],
   },
   //This has to be at the last path
