@@ -57,7 +57,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatCardModule } from '@angular/material/card';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { BuildingInfoComponent } from './pages/building-info/building-info.component';
-import { BuildingOverviewComponent } from './components/building-overview/building-overview.component';
+import { BuildingOverviewComponent } from './pages/building-info/building-overview/building-overview.component';
 import { UserInfoComponent } from './pages/individual-condo/user-info/user-info.component';
 import { IndividualCondoComponent } from './pages/individual-condo/individual-condo.component';
 import { LocationComponent } from './pages/individual-condo/location/location.component';
@@ -66,19 +66,19 @@ import { DescriptionComponent } from './pages/individual-condo/description/descr
 import { HttpClientModule } from '@angular/common/http';
 import { NgxMapLibreGLModule } from '@maplibre/ngx-maplibre-gl';
 import { RouterModule } from '@angular/router';
-import { CondoComponent } from './components/condo/condo.component';
-import { KeyRegistrationComponent } from './components/key-registration/key-registration.component';
+import { CondoComponent } from './pages/building-info/condo/condo.component';
+import { KeyRegistrationComponent } from './pages/key-registration/key-registration.component';
 import { SearchComponent } from './components/search/search.component';
 import { BuildingComponent } from './components/building/building.component';
-import { LockerComponent } from './components/locker/locker.component';
-import { ParkingSpotComponent } from './components/parking-spot/parking-spot.component';
+import { LockerComponent } from './pages/building-info/locker/locker.component';
+import { ParkingSpotComponent } from './pages/building-info/parking-spot/parking-spot.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
-import { DeleteNotificationDialogComponent } from './components/delete-notification-dialog/delete-notification-dialog.component';
+import { DeleteNotificationDialogComponent } from './pages/notifications/delete-notification-dialog/delete-notification-dialog.component';
 import { AddNewPropertyComponent } from './pages/add-new-property/add-new-property.component';
-import { AddCondoDialogComponent } from './components/add-condo-dialog/add-condo-dialog.component';
-import { AddLockerDialogComponent } from './components/add-locker-dialog/add-locker-dialog.component';
-import { AddParkingDialogComponent } from './components/add-parking-dialog/add-parking-dialog.component';
-import { EmployeesListComponent } from './components/employees-list/employees-list.component';
+import { AddCondoDialogComponent } from './pages/add-new-property/add-condo-dialog/add-condo-dialog.component';
+import { AddLockerDialogComponent } from './pages/add-new-property/add-locker-dialog/add-locker-dialog.component';
+import { AddParkingDialogComponent } from './pages/add-new-property/add-parking-dialog/add-parking-dialog.component';
+import { EmployeesListComponent } from './pages/my-employees/employees-list/employees-list.component';
 import { MyEmployeesComponent } from './pages/my-employees/my-employees.component';
 
 @NgModule({

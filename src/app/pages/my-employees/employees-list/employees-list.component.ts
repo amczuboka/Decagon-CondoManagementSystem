@@ -49,7 +49,7 @@ export class EmployeesListComponent {
     this.employees = this.employees.filter(x => !x.checked);
     // To do: Update DB
     console.log(this.employees);
-    this.openSnackBar("Employees Removed");
+    this.openSnackBar("Employees Deleted");
   }
 
   update() {

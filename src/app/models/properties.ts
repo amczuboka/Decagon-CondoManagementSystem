@@ -13,12 +13,6 @@ export interface Building {
   Facilities: Facilities[];
 }
 
-export interface BuildingDTO {
-  Year: number;
-  Name: string;
-  Address: string;
-}
-
 export interface Condo {
     ID: string; 
     Type: CondoType;
@@ -31,16 +25,6 @@ export interface Condo {
     NumberOfBathrooms: number;
     Status: CondoStatus;
     SquareFootage: number;
-}
-
-export interface CondoDTO {
-  UnitNumber: string;
-  Fee: number;
-  Picture: string;
-  Description: string;
-  NumberOfBedrooms: number;
-  NumberOfBathrooms: number;
-  SquareFootage: number;
 }
 
 export interface ParkingSpot {
@@ -100,14 +84,3 @@ export enum ParkingType {
   Standard = 'Standard',
   Handicap = 'Handicap',
 }
-
-export interface ParkingSpot {
-  ID: string;
-  OccupantID: string;
-  Number: string;
-  Status: ParkingLockerStatus;
-  ParkingType: ParkingType;
-  Fee: number;
-}
-
-

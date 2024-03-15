@@ -8,9 +8,9 @@ import {
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { getDatabase } from 'firebase/database';
-import { AddCondoDialogComponent } from 'src/app/components/add-condo-dialog/add-condo-dialog.component';
-import { AddLockerDialogComponent } from 'src/app/components/add-locker-dialog/add-locker-dialog.component';
-import { AddParkingDialogComponent } from 'src/app/components/add-parking-dialog/add-parking-dialog.component';
+import { AddCondoDialogComponent } from 'src/app/pages/add-new-property/add-condo-dialog/add-condo-dialog.component';
+import { AddLockerDialogComponent } from 'src/app/pages/add-new-property/add-locker-dialog/add-locker-dialog.component';
+import { AddParkingDialogComponent } from 'src/app/pages/add-new-property/add-parking-dialog/add-parking-dialog.component';
 import {
   Building,
   Condo,

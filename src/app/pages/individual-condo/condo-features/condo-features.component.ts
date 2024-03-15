@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { BuildingDTO, CondoDTO } from '../../../models/properties';
+import { Building, Condo } from '../../../models/properties';
 
 @Component({
   selector: 'app-condo-features',
@@ -7,8 +7,8 @@ import { BuildingDTO, CondoDTO } from '../../../models/properties';
   styleUrls: ['./condo-features.component.scss'],
 })
 export class CondoFeaturesComponent {
-  @Input() condo!: CondoDTO;
-  @Input() building!: BuildingDTO;
+  @Input() condo!: Condo;
+  @Input() building!: Building;
 
   constructor() {}
 }

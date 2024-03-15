@@ -32,7 +32,7 @@ export class UserService {
     this.getUser();
   }
 
-  updateUser(user: UserDTO | EmployeeDTO | CompanyDTO) {
+  updateUser(user: UserDTO | EmployeeDTO | CompanyDTO | null) {
     this.myUserSubject.next(user);
   }
 

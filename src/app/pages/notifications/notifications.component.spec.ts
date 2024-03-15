@@ -10,7 +10,7 @@ import {
   UserDTO,
 } from 'src/app/models/users';
 import { MatDialog } from '@angular/material/dialog';
-import { DeleteNotificationDialogComponent } from 'src/app/components/delete-notification-dialog/delete-notification-dialog.component';
+import { DeleteNotificationDialogComponent } from 'src/app/pages/notifications/delete-notification-dialog/delete-notification-dialog.component';
 import { of } from 'rxjs';
 
 // Call this function to create notifications based on the count
