@@ -11,19 +11,29 @@
   padding: 1rem 0;
 }
 
-.back-arrow-button {
-  display: flex;
-  align-items: center;
-}
-
 .left-aligned-container {
   display: flex;
   flex-direction: column;
 }
 
+.title-with-edit {
+  display: flex;
+  align-items: center; // Align the title and the edit button
+}
+
 .property-title {
   font-size: 1.8rem;
   margin-bottom: 0.5rem;
+  display: flex; // Makes the title and button inline
+  align-items: center; // Align the text and button
+}
+
+.icon-edit {
+  margin-left: 0.5rem; // Space between the title and the edit button
+  font-size: 24px; // Size of the edit icon
+  height: auto; 
+  width: auto;
+  padding: 0; // Remove padding to align icon properly
 }
 
 .property-address {
@@ -46,25 +56,28 @@
 
 .property-icons {
   display: flex;
+  align-items: center; // Ensure vertical alignment
   gap: 0.5rem;
 
   .icon-favorite,
   .icon-share,
-  .icon-refresh {
-    font-size: 2rem;
-    color: #6f7f8f;
+  .icon-refresh { 
+    font-size: 24px; // Size of icons
+    color: #6f7f8f; // Same color for all icons
   }
 
   .icon-favorite {
-    color: #f37878; // Red color for favorite icon
+    color: #f37878; // Specific color for favorite icon
   }
 }
 
-.property-price {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #333;
-  margin-right: 1rem; // Added space between price and icons
+button[mat-icon-button] {
+  // Aligns the height of all buttons, if that's a concern
+  height: 48px; // Adjust height as necessary to align
+  width: 48px; // Adjust width as necessary to align
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .property-images {
@@ -118,7 +131,8 @@
 
   .property-icons .icon-favorite,
   .property-icons .icon-share,
-  .property-icons .icon-refresh {
+  .property-icons .icon-refresh,
+  .icon-edit { // Adjusted for responsiveness
     font-size: 4vw;
   }
 
@@ -141,6 +155,7 @@
     font-size: 4vw;
     margin: 1rem 0;
   }
+
 }
 
 @media (max-width: 480px) {
@@ -154,4 +169,5 @@
   .property-address {
     font-size: 5vw;
   }
+
 }
