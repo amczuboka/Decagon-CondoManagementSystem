@@ -17,7 +17,7 @@ import { MyEmployeesComponent } from './pages/my-employees/my-employees.componen
 const routes: Routes = [
   {
     path: '',
-    component: IndividualCondoComponent,
+    component: LandingComponent,
     canActivate: [AuthguardGuard],
   },
   { path: 'login', component: LoginComponent },
