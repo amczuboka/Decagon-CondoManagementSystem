@@ -21,7 +21,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-
+import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -138,6 +138,7 @@ import { MyEmployeesComponent } from './pages/my-employees/my-employees.componen
     MatIconModule,
     MatButtonModule,
     MatToolbarModule,
+    CommonModule,
     MatMenuModule,
     BrowserAnimationsModule,
     MatSnackBarModule,

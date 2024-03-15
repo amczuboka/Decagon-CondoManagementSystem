@@ -17,7 +17,7 @@ import { MyEmployeesComponent } from './pages/my-employees/my-employees.componen
 const routes: Routes = [
   {
     path: '',
-    component: LandingComponent,
+    component: IndividualCondoComponent,
     canActivate: [AuthguardGuard],
   },
   { path: 'login', component: LoginComponent },
@@ -39,7 +39,7 @@ const routes: Routes = [
     canActivate: [AuthguardGuard],
   },
   {
-    path: 'individual-condo',
+    path: 'individual-condo/:buildingId/:condoId',
     component: IndividualCondoComponent,
     canActivate: [AuthguardGuard],
   },
@@ -57,7 +57,7 @@ const routes: Routes = [
     path: 'my-employees',
     component: MyEmployeesComponent,
     canActivate: [AuthguardGuard, CompanyGuard],
-  }, 
+  },
   //This has to be at the last path
   { path: '**', redirectTo: '', canActivate: [AuthguardGuard] },
 ];
