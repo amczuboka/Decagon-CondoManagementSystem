@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import {
   ParkingSpot,
 } from 'src/app/models/properties';
@@ -15,22 +15,24 @@ export class ParkingSpotComponent {
   authority!: string;
   users: { [key: string]: UserDTO } = {};
   myUser!: any;
-  dataSource: ParkingSpot[] = []; 
   @Input() parkings!: ParkingSpot[];
+  @Input() sourcePage!: string;
 
   constructor(
-    public authService: AuthService,
-    public userService: UserService
+    private authService: AuthService,
+    private userService: UserService
   ) {}
 
-  async ngOnInit() {
+  async ngOnChanges(changes: SimpleChanges) {
+    if (changes['parkings'] && changes['parkings'].currentValue) {
     // Fetch user information for each locker's occupant
-    if (this.parkings) {
-      this.dataSource = this.parkings;
-      await Promise.all(this.parkings.map(async (parking) => {
+      for (const parking of this.parkings) {
+        console.log(parking.OccupantID);
         if (parking.OccupantID) {
           try {
-            const user = await this.userService.getPublicUser(parking.OccupantID);
+            const user = await this.userService.getPublicUser(
+              parking.OccupantID
+            );
             if (user) {
               this.users[parking.OccupantID] = user;
             }
@@ -38,9 +40,11 @@ export class ParkingSpotComponent {
             console.error('Failed to get user', error);
           }
         }
-      }));
+      }
     }
-  
+  }
+
+  async ngOnInit() {  
     // Fetch the current user
     try {
       this.myUser = await this.authService.getUser(); // Add await here

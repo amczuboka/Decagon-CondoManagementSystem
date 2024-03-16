@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { Locker } from 'src/app/models/properties';
 import { UserDTO } from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
@@ -14,19 +14,23 @@ export class LockerComponent {
   users: { [key: string]: UserDTO } = {};
   myUser!: any;
   @Input() lockers!: Locker[];
+  @Input() sourcePage!: string;
 
   constructor(
-    public authService: AuthService,
-    public userService: UserService
+    private authService: AuthService,
+    private userService: UserService
   ) {}
 
-  async ngOnInit() {
+  async ngOnChanges(changes: SimpleChanges) {
+    if (changes['lockers'] && changes['lockers'].currentValue) {
     // Fetch user information for each locker's occupant
-    if (this.lockers) {
-      await Promise.all(this.lockers.map(async (locker) => {
+      for (const locker of this.lockers) {
+        console.log(locker.OccupantID);
         if (locker.OccupantID) {
           try {
-            const user = await this.userService.getPublicUser(locker.OccupantID);
+            const user = await this.userService.getPublicUser(
+              locker.OccupantID
+            );
             if (user) {
               this.users[locker.OccupantID] = user;
             }
@@ -34,20 +38,22 @@ export class LockerComponent {
             console.error('Failed to get user', error);
           }
         }
-      }));
-    }
-
-        // Fetch the current user
-        try {
-          this.myUser = await this.authService.getUser(); // Add await here
-          if (this.myUser) {
-            this.authority = this.myUser.photoURL;
-          } else {
-            this.authority = '';
-          }
-        } catch (error) {
-          console.error(error);
-          this.authority = '';
-        }
       }
+    }
   }
+
+  async ngOnInit() {
+    // Fetch the current user
+    try {
+      this.myUser = await this.authService.getUser();
+      if (this.myUser) {
+        this.authority = this.myUser.photoURL;
+      } else {
+        this.authority = '';
+      }
+    } catch (error) {
+      console.error(error);
+      this.authority = '';
+    }
+  }
+}
