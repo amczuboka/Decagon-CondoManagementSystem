@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { PaymentComponent } from './payment.component';
+import { AppModule } from 'src/app/app.module';
 
 describe('PaymentComponent', () => {
   let component: PaymentComponent;
@@ -8,6 +8,7 @@ describe('PaymentComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [ AppModule ],
       declarations: [PaymentComponent],
     });
     fixture = TestBed.createComponent(PaymentComponent);
