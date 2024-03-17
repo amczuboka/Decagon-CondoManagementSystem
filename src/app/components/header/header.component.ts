@@ -46,4 +46,9 @@ export class HeaderComponent {
       }
     }
   }
+
+  async logOut() {
+    this.userService.updateUser(null);
+    await this.authService.SignOut();
+  }
 }

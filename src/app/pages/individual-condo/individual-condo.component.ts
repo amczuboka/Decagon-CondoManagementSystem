@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { BuildingDTO, CondoDTO } from '../../models/properties';
+import {
+  Building,
+  Condo,
+  CondoStatus,
+  CondoType,
+} from '../../models/properties';
 import { UserDTO, Authority, Notification } from '../../models/users';
 
 @Component({
@@ -8,13 +13,23 @@ import { UserDTO, Authority, Notification } from '../../models/users';
   styleUrls: ['./individual-condo.component.scss'],
 })
 export class IndividualCondoComponent {
-  building: BuildingDTO = {
+  building: Building = {
     Name: 'Majestic Condo',
-    Address: '2800 Boulevard Cote Vertu Ouest, Montreal, Quebec, Canada, H4R 2M5',
+    Address:
+      '2800 Boulevard Cote Vertu Ouest, Montreal, Quebec, Canada, H4R 2M5',
     Year: 2007,
+    ID: '',
+    CompanyID: '',
+    Bookings: [],
+    Description: '',
+    Parkings: [],
+    Lockers: [],
+    Condos: [],
+    Picture: '',
+    Facilities: [],
   };
 
-  condo: CondoDTO = {
+  condo: Condo = {
     UnitNumber: ' Unit 201',
     Fee: 325000,
     Picture:
@@ -24,6 +39,10 @@ export class IndividualCondoComponent {
     NumberOfBedrooms: 2,
     NumberOfBathrooms: 1,
     SquareFootage: 1000,
+    ID: '',
+    Type: CondoType.Sale,
+    OccupantID: '',
+    Status: CondoStatus.Vacant,
   };
 
   userInfo: UserDTO = {
