@@ -110,6 +110,7 @@ export class PaymentComponent {
           Validators.pattern(/^[0-9]*$/),
         ],
       ],
+      Cardholder: ['', [Validators.required, Validators.minLength(1)]],
     });
   }
 }

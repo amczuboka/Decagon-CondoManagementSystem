@@ -201,8 +201,8 @@
               matInput
               required
               ngModel
-              name="Name"
-              formControlName="Name"
+              name="Cardholder"
+              formControlName="Cardholder"
               [errorStateMatcher]="matcher"
               id="form2Example17"
               class="form-control form-control-lg"
@@ -210,24 +210,24 @@
             <mat-icon
               matSuffix
               *ngIf="
-                (paymentForm.controls['Name'].hasError('minlength') ||
-                  paymentForm.controls['Name'].hasError('required')) &&
-                paymentForm.controls['Name'].touched
+                (paymentForm.controls['Cardholder'].hasError('minlength') ||
+                  paymentForm.controls['Cardholder'].hasError('required')) &&
+                paymentForm.controls['Cardholder'].touched
               "
               >error_outline</mat-icon
             >
             <mat-error
               *ngIf="
-                paymentForm.controls['Name'].hasError('minlength') &&
-                !paymentForm.controls['Name'].hasError('required')
+                paymentForm.controls['Cardholder'].hasError('minlength') &&
+                !paymentForm.controls['Cardholder'].hasError('required')
               "
             >
-              Please enter a valid name
+              Please enter a valid cardholder name
             </mat-error>
             <mat-error
               *ngIf="paymentForm.controls['Name'].hasError('required')"
             >
-              Name is <strong>required</strong>
+            Cardholder Name is <strong>required</strong>
             </mat-error>
           </mat-form-field>
         </div>
