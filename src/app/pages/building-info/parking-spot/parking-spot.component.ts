@@ -20,7 +20,7 @@ export class ParkingSpotComponent {
 
   constructor(
     private authService: AuthService,
-    private userService: UserService
+    public userService: UserService
   ) {}
 
   async ngOnChanges(changes: SimpleChanges) {

@@ -21,7 +21,7 @@ export class BuildingService {
    * @param storageService - StorageService for handling file uploads and deletions.
    */
 
-  private buildingsSubject: BehaviorSubject<Building[] | null> =
+  public buildingsSubject: BehaviorSubject<Building[] | null> =
     new BehaviorSubject<Building[] | null>(null);
   buildings$: Observable<Building[] | null> =
     this.buildingsSubject.asObservable();

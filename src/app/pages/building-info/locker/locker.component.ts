@@ -18,7 +18,7 @@ export class LockerComponent {
 
   constructor(
     private authService: AuthService,
-    private userService: UserService
+    public userService: UserService
   ) {}
 
   async ngOnChanges(changes: SimpleChanges) {

@@ -27,17 +27,10 @@ export class BuildingComponent {
 
   async ngOnInit() {
     // Fetch the current user
-    try {
       this.myUser = await this.authService.getUser();
       if (this.myUser) {
         this.authority = this.myUser.photoURL;
-      } else {
-        this.authority = '';
-      }
-    } catch (error) {
-      console.error(error);
-      this.authority = '';
-    }
+      } 
 
     // Subscribe to the buildings$ observable
     this.buildingsSubscription = this.buildingService.buildings$.subscribe(
@@ -85,7 +78,7 @@ export class BuildingComponent {
   // Parameters:
   // - facility: The type of facility (enum Facilities)
   // Returns: The corresponding material icon name as a string
-  getFacilityIcon(facility: Facilities): string {
+  getFacilityIcon(facility: string): string {
     switch (facility) {
       case Facilities.Gym:
         return 'fitness_center';
@@ -121,9 +114,7 @@ export class BuildingComponent {
     };
 
     // Navigate to the building-info page with the specified navigation extras
-    this.router
-      .navigate(['/building-info'], info)
-      .catch((error) => console.error(error));
+    this.router.navigate(['/building-info'], info)
   }
 
   /**

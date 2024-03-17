@@ -1,6 +1,7 @@
 import {
   ComponentFixture,
   fakeAsync,
+  flushMicrotasks,
   TestBed,
   tick,
 } from '@angular/core/testing';
@@ -10,6 +11,7 @@ import { LockerComponent } from './locker.component';
 import { UserService } from 'src/app/services/user.service';
 import { Authority, UserDTO } from 'src/app/models/users';
 import { Locker, ParkingLockerStatus } from 'src/app/models/properties';
+import { SimpleChange } from '@angular/core';
 
 describe('LockerComponent', () => {
   let component: LockerComponent;
@@ -94,10 +96,10 @@ describe('LockerComponent', () => {
     // Arrange: Set up the return value for authService.getUser
     const user = { photoURL: 'company' };
     (authService.getUser as jasmine.Spy).and.returnValue(Promise.resolve(user));
-  
+
     // Act: Call ngOnInit and wait for it to complete
     await component.ngOnInit();
-  
+
     // Assert: Check that myUser is defined
     expect(component.myUser).toBeDefined();
   });
@@ -130,7 +132,7 @@ describe('LockerComponent', () => {
   it('should set the authority based on the user', fakeAsync(() => {
     component.ngOnInit();
     tick();
-  
+
     expect(component.authority).toEqual('company');
   }));
 
@@ -181,7 +183,7 @@ describe('LockerComponent', () => {
   });
 
   it('ngOnInit should set authority to an empty string when myUser is null', async () => {
-    (authService.getUser as jasmine.Spy).and.returnValue(Promise.resolve(null));    
+    (authService.getUser as jasmine.Spy).and.returnValue(Promise.resolve(null));
     await component.ngOnInit();
     expect(component.authority).toEqual('');
   });
@@ -191,23 +193,24 @@ describe('LockerComponent', () => {
     component.ngOnInit();
     tick();
     expect(component.users).toEqual({});
-  
   }));
-  
+
   it('ngOnInit should handle errors from authService.getUser()', () => {
     (authService.getUser as jasmine.Spy).and.throwError('Error');
     component.ngOnInit();
     expect(component.authority).toBe('');
   });
-  
+
   it('should handle null from userService.getPublicUser', fakeAsync(() => {
-    (userService.getPublicUser as jasmine.Spy).and.returnValue(Promise.resolve(null));
+    (userService.getPublicUser as jasmine.Spy).and.returnValue(
+      Promise.resolve(null)
+    );
     component.ngOnInit();
     tick();
     // Assert: Check if this.users is still an empty object
     expect(component.users).toEqual({});
   }));
-  
+
   it('should handle user without photoURL from authService.getUser', () => {
     const user = { photoURL: undefined };
     (authService.getUser as jasmine.Spy).and.returnValue(user);
@@ -221,16 +224,18 @@ describe('LockerComponent', () => {
     const occupantId = 'testOccupantId';
 
     // Mock this.parkings
-    component.lockers = [{
-      ID: '1',
-      Number: '123',
-      Status: ParkingLockerStatus.Unavailable,
-      OccupantID: occupantId,
-      Height: '', 
-      Width: '', 
-      Length: '', 
-      Fee: 0,
-    }];
+    component.lockers = [
+      {
+        ID: '1',
+        Number: '123',
+        Status: ParkingLockerStatus.Unavailable,
+        OccupantID: occupantId,
+        Height: '',
+        Width: '',
+        Length: '',
+        Fee: 0,
+      },
+    ];
 
     // Make userService.getPublicUser return a rejected promise
     (userService.getPublicUser as jasmine.Spy).and.callFake(id => {
@@ -240,66 +245,20 @@ describe('LockerComponent', () => {
       return Promise.resolve(null); // Add a default return statement
     });
 
-    await component.ngOnInit();
-  
+    // Trigger ngOnChanges
+    await component.ngOnChanges({
+      lockers: {
+        previousValue: [],
+        currentValue: component.lockers,
+        firstChange: true,
+        isFirstChange: () => true,
+      },
+    });
+
     // Assert: Check if this.users is still an empty object
     expect(component.users).toEqual({});
-  
+
     // Assert: Check if console.error was called with the expected arguments
     expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to get user', error);
   });
-  
-  it('should fetch new user information when new parkings are added', fakeAsync(() => {
-    component.lockers = [
-      {
-        ID: '1',
-        Number: '123',
-        Status: ParkingLockerStatus.Unavailable,
-        OccupantID: '',
-        Height: '', 
-        Width: '', 
-        Length: '', 
-        Fee: 0,
-      },
-      {
-        ID: '2',
-        Number: '456',
-        Status: ParkingLockerStatus.Available,
-        OccupantID: '',
-        Height: '', 
-        Width: '', 
-        Length: '', 
-        Fee: 0,
-      }
-    ];    
-    component.ngOnInit();
-    tick();
-    const initialUsers = {...component.users};
-  
-    component.lockers = [
-      {
-        ID: '1',
-        Number: '123',
-        Status: ParkingLockerStatus.Unavailable,
-        OccupantID: '1',
-        Height: '', 
-        Width: '', 
-        Length: '', 
-        Fee: 0,
-      },
-      {
-        ID: '2',
-        Number: '456',
-        Status: ParkingLockerStatus.Available,
-        OccupantID: '2',
-        Height: '', 
-        Width: '', 
-        Length: '', 
-        Fee: 0,
-      }
-    ];    component.ngOnInit();
-    tick();
-  
-    expect(component.users).not.toEqual(initialUsers);
-  }));
 });

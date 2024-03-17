@@ -3,7 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import {
   Building,
   Condo,
+  CondoStatus,
   Locker,
+  ParkingLockerStatus,
   ParkingSpot,
   sourcePage,
 } from 'src/app/models/properties';
@@ -33,55 +35,45 @@ export class BuildingInfoComponent {
 
   async ngOnInit() {
     // Fetch the current user
-    try {
-      this.myUser = await this.authService.getUser();
-      if (this.myUser) {
-        this.authority = this.myUser.photoURL;
-      } else {
-        this.authority = '';
-      }
-    } catch (error) {
-      console.error(error);
-      this.authority = '';
+    this.myUser = await this.authService.getUser();
+    if (this.myUser) {
+      this.authority = this.myUser.photoURL;
     }
 
+    //Get the query Params that were passed by the building component
     this.route.queryParams.subscribe((params) => {
-      try {
-        this.building = JSON.parse(params['building']);
-        this.sourcePage = params['sourcePage'];
-      } catch (error) {
-        this.condos = [];
-        this.lockers = [];
-        this.parkings = [];
-        console.error('Invalid building parameter', 'Error');
-        return;
-      }
+      this.building = JSON.parse(params['building']);
+      this.sourcePage = params['sourcePage'];
 
+      //Subscribe to the building with the building.ID for real time updates
       this.buildingService.subscribeToBuildingById(this.building.ID).subscribe({
         next: (updatedBuilding: any) => {
           if (updatedBuilding) {
+            this.building = updatedBuilding;
             if (this.sourcePage == sourcePage.availablePage) {
               this.condos = Object.values(
                 updatedBuilding.Condos || {}
               ) as Condo[];
               this.condos = this.condos.filter(
-                (condo: Condo) => condo.Status === 'Vacant'
+                (condo: Condo) => condo.Status === CondoStatus.Vacant
               );
 
               this.lockers = Object.values(
                 updatedBuilding.Lockers || {}
               ) as Locker[];
               this.lockers = this.lockers.filter(
-                (locker: Locker) => locker.Status === 'Available'
+                (locker: Locker) =>
+                  locker.Status === ParkingLockerStatus.Available
               );
 
               this.parkings = Object.values(
                 updatedBuilding.Parkings || {}
               ) as ParkingSpot[];
               this.parkings = this.parkings.filter(
-                (parking: ParkingSpot) => parking.Status === 'Available'
+                (parking: ParkingSpot) =>
+                  parking.Status === ParkingLockerStatus.Available
               );
-            } else if (this.sourcePage == sourcePage.propertiesPage) {
+            } else {
               if (this.authority == Authority.Company) {
                 this.condos = Object.values(
                   updatedBuilding.Condos || {}
@@ -94,37 +86,31 @@ export class BuildingInfoComponent {
                 this.parkings = Object.values(
                   updatedBuilding.Parkings || {}
                 ) as ParkingSpot[];
-
-              } else if (this.authority == Authority.Public) {
-                this.condos = Object.values(updatedBuilding.Condos || {}) as Condo[];
-                this.condos = this.condos.filter((condo: Condo) => condo.OccupantID === this.myUser.uid);
-
-                this.lockers = Object.values(updatedBuilding.Lockers || {}) as Locker[];
-                this.lockers = this.lockers.filter((locker: Locker) => locker.OccupantID === this.myUser.uid);
-
-                this.parkings = Object.values(updatedBuilding.Parkings || {}) as ParkingSpot[];
-                this.parkings = this.parkings.filter((parking: ParkingSpot) => parking.OccupantID === this.myUser.uid);
               } else {
-                this.condos = [];
-                this.lockers = [];
-                this.parkings = [];
+                this.condos = Object.values(
+                  updatedBuilding.Condos || {}
+                ) as Condo[];
+                this.condos = this.condos.filter(
+                  (condo: Condo) => condo.OccupantID === this.myUser.uid
+                );
+
+                this.lockers = Object.values(
+                  updatedBuilding.Lockers || {}
+                ) as Locker[];
+                this.lockers = this.lockers.filter(
+                  (locker: Locker) => locker.OccupantID === this.myUser.uid
+                );
+
+                this.parkings = Object.values(
+                  updatedBuilding.Parkings || {}
+                ) as ParkingSpot[];
+                this.parkings = this.parkings.filter(
+                  (parking: ParkingSpot) =>
+                    parking.OccupantID === this.myUser.uid
+                );
               }
-            } else {
-              this.condos = [];
-              this.lockers = [];
-              this.parkings = [];
             }
-          } else {
-            this.condos = [];
-            this.lockers = [];
-            this.parkings = [];
           }
-        },
-        error: (error: any) => {
-          console.error(error);
-          this.condos = [];
-          this.lockers = [];
-          this.parkings = [];
         },
       });
     });
