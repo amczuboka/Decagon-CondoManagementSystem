@@ -64,6 +64,14 @@ export class IndividualCondoComponent implements OnInit {
     }
   }
 
+  isAuthorizedCompany(): boolean {
+    // Check if user logged in and user's company ID matches the building's company ID
+     if (this.userInfo && 'CompanyID' in this.userInfo) {
+       return this.userInfo.CompanyID === this.building?.CompanyID;
+     }
+     return false;
+  }
+
   async fetchUserInfo(): Promise<void> {
     if (this.condo?.Status === 'Vacant') {
       this.userInfo = await this.userService.getCompanyUser(
