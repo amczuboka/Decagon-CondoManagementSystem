@@ -10,7 +10,7 @@
       <h1 class="property-title">
         {{ building?.Name }} - {{ condo?.UnitNumber }}
         <button
-          *ngIf="condo?.Status == 'Vacant' && userInfo?.Authority === 'Company'"
+           *ngIf="condo?.Status == 'Vacant' && isAuthorizedCompany()"
           mat-icon-button
           (click)="openEditCondoDialog()"
         >
