@@ -81,6 +81,7 @@ import { AddParkingDialogComponent } from './pages/add-new-property/add-parking-
 import { EmployeesListComponent } from './pages/my-employees/employees-list/employees-list.component';
 import { MyEmployeesComponent } from './pages/my-employees/my-employees.component';
 import { PaymentComponent } from './pages/payment/payment.component';
+import { MyPropertiesComponent } from './pages/my-properties/my-properties.component';
 
 @NgModule({
   declarations: [
@@ -114,6 +115,7 @@ import { PaymentComponent } from './pages/payment/payment.component';
     EmployeesListComponent,
     MyEmployeesComponent,
     PaymentComponent,
+    MyPropertiesComponent,
   ],
   imports: [
     BrowserModule,

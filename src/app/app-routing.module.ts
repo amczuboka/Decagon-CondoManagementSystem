@@ -14,6 +14,7 @@ import { NotificationsComponent } from './pages/notifications/notifications.comp
 import { AddNewPropertyComponent } from './pages/add-new-property/add-new-property.component';
 import { MyEmployeesComponent } from './pages/my-employees/my-employees.component';
 import { PaymentComponent } from './pages/payment/payment.component';
+import { MyPropertiesComponent } from './pages/my-properties/my-properties.component';
 
 const routes: Routes = [
   {
@@ -64,6 +65,11 @@ const routes: Routes = [
     component: MyEmployeesComponent,
     canActivate: [AuthguardGuard, CompanyGuard],
   }, 
+  {
+    path: 'my-properties',
+    component: MyPropertiesComponent,
+    canActivate: [AuthguardGuard],
+  },
   //This has to be at the last path
   { path: '**', redirectTo: '', canActivate: [AuthguardGuard] },
 ];

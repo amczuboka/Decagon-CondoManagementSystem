@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
-import { Building } from '../models/properties';
-import { get, getDatabase, ref, set } from 'firebase/database';
+import { Building, Condo } from '../models/properties';
+import { get, getDatabase, onValue, ref, set } from 'firebase/database';
 import { AuthService } from './auth.service';
 import { CompanyDTO } from '../models/users';
 import { UserService } from './user.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 /**
  * Service for managing building-related operations.
@@ -19,11 +20,28 @@ export class BuildingService {
    * @param authService - AuthService for handling authentication.
    * @param storageService - StorageService for handling file uploads and deletions.
    */
+
+  public buildingsSubject: BehaviorSubject<Building[] | null> =
+    new BehaviorSubject<Building[] | null>(null);
+  buildings$: Observable<Building[] | null> =
+    this.buildingsSubject.asObservable();
+
+  private buildingSubject: BehaviorSubject<Building | null> =
+    new BehaviorSubject<Building | null>(null);
+  building$: Observable<Building | null> = this.buildingSubject.asObservable();
+
+  private condosSubject: BehaviorSubject<Condo[] | null> = new BehaviorSubject<
+    Condo[] | null
+  >(null);
+  condos$: Observable<Condo[] | null> = this.condosSubject.asObservable();
+
   constructor(
     public authService: AuthService,
     public storageService: StorageService,
     public userService: UserService
-  ) {}
+  ) {
+    this.subscribeToBuildings();
+  }
 
   /**
    * Adds a new building to the database.
@@ -147,6 +165,71 @@ export class BuildingService {
       await this.storageService.deleteFile(building.Condos[0].Picture);
     } catch (error) {
       console.error('Error deleting Building:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Retrieves all deliveries from the 'buildings' node and calls when with real time updatein Firebase Realtime Database.
+   * @returns A callback returning an array of all Building objects.
+   */
+  subscribeToBuildings() {
+    const db = getDatabase();
+    const buildingsRef = ref(db, 'buildings');
+
+    onValue(buildingsRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const buildings = snapshot.val() as Building[];
+        this.buildingsSubject.next(buildings);
+      } else {
+        this.buildingsSubject.next(null);
+      }
+    });
+  }
+
+  /**
+   * Subscribe to real-time updates for a specific building.
+   *
+   * @param buildingId - ID of the building to subscribe to.
+   * @returns An observable that emits updates for the specified building.
+   */
+  subscribeToBuildingById(buildingId: string): Observable<Building | null> {
+    const db = getDatabase();
+    const buildingRef = ref(db, `buildings/${buildingId}`);
+
+    onValue(buildingRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const building = snapshot.val() as Building;
+        this.buildingSubject.next(building);
+      } else {
+        this.buildingSubject.next(null);
+      }
+    });
+
+    return this.building$;
+  }
+  /**
+   * Retrieves all deliveries from the 'buildings' node in Firebase Realtime Database.
+   * @returns A Promise resolving to an array of all Building objects.
+   */
+  async getAllBuildings(): Promise<Building[]> {
+    try {
+      const db = getDatabase();
+      const buildingsRef = ref(db, 'buildings');
+
+      const snapshot = await get(buildingsRef);
+      const buildings: Building[] = [];
+
+      if (snapshot.exists()) {
+        snapshot.forEach((childSnapshot) => {
+          const building = childSnapshot.val() as Building;
+          buildings.push(building);
+        });
+      }
+
+      return buildings;
+    } catch (error) {
+      console.error('Error getting all buildings:', error);
       throw error;
     }
   }
