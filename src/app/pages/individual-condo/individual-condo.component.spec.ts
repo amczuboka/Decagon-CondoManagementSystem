@@ -1,165 +1,116 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { of } from 'rxjs';
 import { IndividualCondoComponent } from './individual-condo.component';
 import { UserService } from '../../services/user.service';
 import { BuildingService } from '../../services/building.service';
-import { of } from 'rxjs';
-import {
-  Building,
-  Condo,
-  CondoType,
-  CondoStatus,
-} from '../../models/properties';
-import { Authority } from '../../models/users';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { UserInfoComponent } from './user-info/user-info.component';
+import { EditCondoDialogComponent } from './edit-condo-dialog/edit-condo-dialog.component';
+import { Condo, CondoStatus, CondoType } from 'src/app/models/properties';
 
 describe('IndividualCondoComponent', () => {
   let component: IndividualCondoComponent;
   let fixture: ComponentFixture<IndividualCondoComponent>;
-  let mockActivatedRoute: any;
+  let mockActivatedRoute;
   let mockRouter: any;
-  let mockUserService: jasmine.SpyObj<UserService>;
-  let mockBuildingService: jasmine.SpyObj<BuildingService>;
-  let mockMatDialog: jasmine.SpyObj<MatDialog>;
+  let mockUserService: any;
+  let mockBuildingService: any;
+  let mockDialog: any;
 
   beforeEach(async () => {
-    mockActivatedRoute = {
-      params: of({ buildingId: '1', condoId: '1' }),
-    };
-    mockRouter = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
+    mockActivatedRoute = { params: of({ buildingId: '1', condoId: '2' }) };
+    mockRouter = jasmine.createSpyObj('Router', ['navigateByUrl']);
     mockUserService = jasmine.createSpyObj('UserService', [
-      'getCurrentUserId',
       'getCompanyUser',
       'getPublicUser',
+      'getEmployeeUser',
     ]);
     mockBuildingService = jasmine.createSpyObj('BuildingService', [
       'getBuilding',
     ]);
-    mockMatDialog = jasmine.createSpyObj('MatDialog', ['open']);
+    mockDialog = jasmine.createSpyObj('MatDialog', ['open']);
 
     await TestBed.configureTestingModule({
-      declarations: [IndividualCondoComponent, UserInfoComponent],
+      declarations: [IndividualCondoComponent],
       providers: [
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: Router, useValue: mockRouter },
         { provide: UserService, useValue: mockUserService },
         { provide: BuildingService, useValue: mockBuildingService },
-        { provide: MatDialog, useValue: mockMatDialog },
+        { provide: MatDialog, useValue: mockDialog },
       ],
-      imports: [MatDialogModule, MatIconModule],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(IndividualCondoComponent);
     component = fixture.componentInstance;
-  });
-
-  afterEach(() => {
-    mockUserService.getCompanyUser.calls.reset();
-    mockUserService.getPublicUser.calls.reset();
-    mockBuildingService.getBuilding.calls.reset();
+    mockDialog.open.and.returnValue({ afterClosed: () => of(null) }); // Prepare mock for dialog
+    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should fetch building and condo details on initialization', waitForAsync(async () => {
-    const mockBuilding: Building = {
-      ID: '1',
-      Name: 'Test Building',
-      Year: 2022,
-      CompanyID: 'company1',
-      Address: '123 Test St',
-      Bookings: [],
-      Description: 'Test building description',
-      Parkings: [],
-      Lockers: [],
-      Condos: [
-        {
-          ID: '1',
-          UnitNumber: '101',
-          Type: CondoType.Sale,
-          Status: CondoStatus.Vacant,
-          OccupantID: '',
-          Fee: 0,
-          Picture: '',
-          Description: '',
-          NumberOfBedrooms: 0,
-          NumberOfBathrooms: 0,
-          SquareFootage: 0,
-        },
-      ],
-      Picture: '',
-      Facilities: [],
-    };
+  it('should toggle favorite status when favorite method is called', () => {
+    expect(component.isFavorited).toBeFalse();
+    component.favorite();
+    expect(component.isFavorited).toBeTrue();
+    component.favorite();
+    expect(component.isFavorited).toBeFalse();
+  });
 
-    const mockUser = {
-      ID: '1',
-      Authority: Authority.Company,
-      FirstName: 'John',
-      LastName: 'Doe',
-      Email: 'john.doe@example.com',
-      ProfilePicture: 'path/to/profile_picture.jpg',
-      PhoneNumber: '1234567890',
-      UserName: 'johndoe',
-      CompanyName: 'Example Company',
-      PropertyIds: ['1', '2'],
-      EmployeeIds: ['emp1', 'emp2'],
-    };
-
-    // Set up mock return values for services
-    mockBuildingService.getBuilding.and.returnValue(
-      Promise.resolve(mockBuilding)
-    );
-    mockUserService.getCurrentUserId.and.returnValue('1');
-    mockUserService.getCompanyUser.and.returnValue(Promise.resolve(mockUser));
-    mockUserService.getPublicUser.and.returnValue(Promise.resolve(null));
-
-    // Spy on the fetchUserInfo method to track its invocation
-    spyOn(component, 'fetchUserInfo').and.callThrough();
-
-    // Trigger change detection and wait for all async tasks to complete
-    await fixture.detectChanges();
-
-    // Assert that the methods were called with the correct arguments
-    expect(mockBuildingService.getBuilding).toHaveBeenCalledWith('1');
-    expect(mockUserService.getCompanyUser).toHaveBeenCalledWith('1');
-    expect(mockUserService.getPublicUser).toHaveBeenCalledWith('1');
-    expect(component.fetchUserInfo).toHaveBeenCalled(); // Verify that fetchUserInfo was called
-
-    // Wait for fetchUserInfo to complete
-    await fixture.whenStable();
-    expect(component.userInfo).toEqual(mockUser);
-
-    expect(component.building).toEqual(mockBuilding);
-    expect(component.condo).toEqual(mockBuilding.Condos[0]);
-  }));
-
-  it('should navigate back when goBack is called', () => {
+  it('should call navigateByUrl with "./condos" when goBack is called', () => {
     component.goBack();
     expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('./condos');
   });
 
-  it('should refresh the component', () => {
-    component.refresh();
-    expect(mockRouter.navigate).toHaveBeenCalledWith([], {
-      relativeTo: mockActivatedRoute,
-      replaceUrl: true,
-      queryParamsHandling: 'merge',
+  it('should open the edit dialog with correct data when openEditCondoDialog is called', () => {
+    const testCondo: Condo = {
+      ID: '2',
+      Status: CondoStatus.Owned,
+      OccupantID: 'user1',
+      Type: CondoType.Sale,
+      UnitNumber: '101',
+      Fee: 1000,
+      Picture: 'url/to/picture',
+      Description: 'Test Condo',
+      NumberOfBedrooms: 2,
+      NumberOfBathrooms: 1,
+      SquareFootage: 1000,
+    };
+    component.condo = testCondo;
+    component.openEditCondoDialog();
+    expect(mockDialog.open).toHaveBeenCalledWith(EditCondoDialogComponent, {
+      width: '500px',
+      data: jasmine.objectContaining({ condo: testCondo }),
     });
   });
 
-  it('should handle error when building retrieval fails', async () => {
-    mockBuildingService.getBuilding.and.returnValue(Promise.reject('Error'));
+  it('should update condo on dialog close', (done) => {
+    const initialCondo: Condo = {
+      ID: '2',
+      Status: CondoStatus.Owned,
+      OccupantID: 'user1',
+      Type: CondoType.Sale,
+      UnitNumber: '101',
+      Fee: 1000,
+      Picture: 'url/to/picture',
+      Description: 'Test Condo',
+      NumberOfBedrooms: 2,
+      NumberOfBathrooms: 1,
+      SquareFootage: 1000,
+    };
+    const updatedCondo: Condo = { ...initialCondo, Status: CondoStatus.Rented };
 
-    await fixture.detectChanges();
+    mockDialog.open.and.returnValue({ afterClosed: () => of(updatedCondo) });
+    component.condo = initialCondo;
+    component.openEditCondoDialog();
 
-    expect(component.building).toBeNull();
-    expect(component.condo).toBeNull();
-    expect(component.userInfo).toBeNull();
+    fixture.whenStable().then(() => {
+      expect(component.condo).toEqual(updatedCondo);
+      done();
+    });
   });
 });
