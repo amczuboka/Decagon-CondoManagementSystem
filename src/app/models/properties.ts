@@ -84,3 +84,8 @@ export enum ParkingType {
   Standard = 'Standard',
   Handicap = 'Handicap',
 }
+
+export enum sourcePage {
+  availablePage = "availablePage",
+  propertiesPage = "propertiesPage"
+};

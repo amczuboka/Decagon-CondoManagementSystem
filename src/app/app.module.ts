@@ -80,6 +80,7 @@ import { AddLockerDialogComponent } from './pages/add-new-property/add-locker-di
 import { AddParkingDialogComponent } from './pages/add-new-property/add-parking-dialog/add-parking-dialog.component';
 import { EmployeesListComponent } from './pages/my-employees/employees-list/employees-list.component';
 import { MyEmployeesComponent } from './pages/my-employees/my-employees.component';
+import { MyPropertiesComponent } from './pages/my-properties/my-properties.component';
 import { EditCondoDialogComponent } from './pages/individual-condo/edit-condo-dialog/edit-condo-dialog.component';
 
 @NgModule({
@@ -113,6 +114,7 @@ import { EditCondoDialogComponent } from './pages/individual-condo/edit-condo-di
     AddParkingDialogComponent,
     EmployeesListComponent,
     MyEmployeesComponent,
+    MyPropertiesComponent,
     EditCondoDialogComponent,
   ],
   imports: [

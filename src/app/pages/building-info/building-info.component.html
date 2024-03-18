@@ -14,7 +14,7 @@
     <!-------------------------------------------------------------------------------------------------------------------------------------------------------------->
     <mat-tab label="Condos"> 
 
-        <app-condo></app-condo>
+        <app-condo [condos]="condos" [sourcePage]="sourcePage"></app-condo>
 
     </mat-tab>
     
@@ -23,7 +23,7 @@
     <!-------------------------------------------------------------------------------------------------------------------------------------------------------------->
     <mat-tab label="Lockers"> 
         
-        <app-locker></app-locker>
+        <app-locker [lockers]="lockers" [sourcePage]="sourcePage"></app-locker>
 
     </mat-tab>
     
@@ -32,7 +32,7 @@
     <!-------------------------------------------------------------------------------------------------------------------------------------------------------------->
     <mat-tab label="Parking"> 
 
-        <app-parking-spot></app-parking-spot>
+        <app-parking-spot [parkings]="parkings" [sourcePage]="sourcePage"></app-parking-spot>
 
     </mat-tab>
 
