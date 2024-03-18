@@ -10,9 +10,9 @@
       <h1 class="property-title">
         {{ building?.Name }} - {{ condo?.UnitNumber }}
         <button
-          *ngIf="condo?.Status !== 'Vacant' && userInfo?.Authority === 'Company'"
+          *ngIf="condo?.Status == 'Vacant' && userInfo?.Authority === 'Company'"
           mat-icon-button
-          (click)="editCondo()"
+          (click)="openEditCondoDialog()"
         >
           <mat-icon>edit</mat-icon>
         </button>
@@ -26,7 +26,7 @@
         {{ condo?.Fee | currency : "CAD" : "symbol" : "1.2-2" }}
       </div>
       <div class="property-icons">
-        <button mat-icon-button class="icon-favorite" (click)="favorite()">
+        <button mat-icon-button class="icon-favorite" [class.favorite-icon-red]="isFavorited" (click)="favorite()">
           <mat-icon>favorite</mat-icon>
         </button>
         <button mat-icon-button class="icon-share" (click)="share()">
@@ -65,7 +65,7 @@
      <ng-container *ngIf="userInfo"></ng-container>
     <div class="contact-section">
       <h2>Contact Information</h2>
-     <app-user-info [userInfo]="userInfo!"></app-user-info>
+     <app-user-info [userInfo]="userInfo!" [condo] ="condo!"></app-user-info>
     </div>
   </div>
 
@@ -75,3 +75,11 @@
     <div>Error loading condo or building information. Please try again later.</div>
   </ng-template>
 </ng-template>
+
+<!-- Edit Condo Dialog -->
+<app-edit-condo-dialog
+ *ngIf="editDialogOpen && condo"
+  [condo]="condo"
+  (condoEdited)="condoEdited.emit($event)"
+  (dialogClosed)="closeEditDialog()"
+></app-edit-condo-dialog>
