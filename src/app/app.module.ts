@@ -80,6 +80,7 @@ import { AddLockerDialogComponent } from './pages/add-new-property/add-locker-di
 import { AddParkingDialogComponent } from './pages/add-new-property/add-parking-dialog/add-parking-dialog.component';
 import { EmployeesListComponent } from './pages/my-employees/employees-list/employees-list.component';
 import { MyEmployeesComponent } from './pages/my-employees/my-employees.component';
+import { MyPropertiesComponent } from './pages/my-properties/my-properties.component';
 
 @NgModule({
   declarations: [
@@ -112,6 +113,7 @@ import { MyEmployeesComponent } from './pages/my-employees/my-employees.componen
     AddParkingDialogComponent,
     EmployeesListComponent,
     MyEmployeesComponent,
+    MyPropertiesComponent,
   ],
   imports: [
     BrowserModule,

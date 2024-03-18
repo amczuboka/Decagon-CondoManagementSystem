@@ -2,6 +2,9 @@
   <app-search (searchTextChanged)="onSearchTextEntered($event)"></app-search>
 
   <div class="cardz">
+    <div *ngIf="!buildings || buildings.length === 0">
+      No buildings have been created.
+    </div>
     <div
       *ngFor="let item of buildings; let i = index"
       data-aos="fade-up"
@@ -10,8 +13,6 @@
       data-aos-mirror="true"
     >
       <a
-        [routerLink]="['']"
-        [queryParams]="item"
         *ngIf="
           searchText === '' ||
           item.Name.toLowerCase().includes(searchText.toLowerCase()) ||
@@ -31,10 +32,10 @@
                   {{ item.Address }}
                 </p>
                 <p style="font-size: 14px" class="total">
-                  10 Condos Total, 8 available
+                  {{ calculateTotalCondos(item) }} Condos Total, {{ calculateAvailableCondos(item) }} available
                 </p>
               </div>
-              <div class="button-container">
+              <div class="button-container" (click)="navigateToBuildingInfo(item)">
                 <button class="button">View</button>
               </div>
             </div>
