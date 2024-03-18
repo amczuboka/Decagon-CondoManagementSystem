@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { UserDTO } from '../../../models/users';
+import { UserDTO, Authority } from '../../../models/users';
 import { Condo } from '../../../models/properties';
 
 @Component({
