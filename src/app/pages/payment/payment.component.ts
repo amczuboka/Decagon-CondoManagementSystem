@@ -10,22 +10,8 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
+import { MyErrorStateMatcher } from 'src/app/services/auth.service';
 import { AuthService } from '../../services/auth.service';
-
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(
-    control: FormControl | null,
-    form: FormGroupDirective | NgForm | null
-  ): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(
-      control &&
-      control.invalid &&
-      (control.dirty || control.touched || isSubmitted)
-    );
-  }
-}
 
 export function phoneNumberValidator(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
