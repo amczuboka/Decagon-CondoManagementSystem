@@ -261,9 +261,5 @@ export class UserService {
     }
   }
 
-  getCurrentUserId(): string | null {
-    const user = this.authService.getUser();
-    return user ? user.uid : null;
-  }
   
 }
