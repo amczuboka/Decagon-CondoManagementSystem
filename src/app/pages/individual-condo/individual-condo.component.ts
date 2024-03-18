@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BuildingService } from 'src/app/services/building.service';
 import { UserService } from 'src/app/services/user.service';
 import { Building, Condo } from '../../models/properties';
-import { UserDTO } from '../../models/users';
+import { UserDTO, CompanyDTO } from '../../models/users';
 import { ActivatedRoute, Router } from '@angular/router';
+import { EditCondoDialogComponent } from '../individual-condo/edit-condo-dialog/edit-condo-dialog.component';
 
 @Component({
   selector: 'app-individual-condo',
@@ -12,9 +13,12 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./individual-condo.component.scss'],
 })
 export class IndividualCondoComponent implements OnInit {
+  @Output() condoEdited: EventEmitter<any> = new EventEmitter<any>();
   building: Building | null = null;
   condo: Condo | null = null;
-  userInfo: UserDTO | null = null;
+  userInfo: UserDTO | CompanyDTO | null = null;
+  editDialogOpen: boolean = false;
+  isFavorited: boolean = false;
 
   constructor(
     private dialog: MatDialog,
@@ -61,15 +65,19 @@ export class IndividualCondoComponent implements OnInit {
   }
 
   async fetchUserInfo(): Promise<void> {
-    const userId = this.userService.getCurrentUserId();
-    console.log('Current user ID:', userId); // Log current user ID
-    if (userId) {
-      let userDetails: UserDTO | null = null;
-      userDetails =
-        (await this.userService.getCompanyUser(userId)) ||
-        (await this.userService.getPublicUser(userId));
-      this.userInfo = userDetails || null; // Set user info if found
-      console.log('User details:', userDetails); // Log user details
+    if (this.condo?.Status === 'Vacant') {
+      this.userInfo = await this.userService.getCompanyUser(
+        this.building?.CompanyID || ''
+      );
+    } else {
+      this.userInfo = await this.userService.getPublicUser(
+        this.condo?.OccupantID || ''
+      );
+      if (!this.userInfo) {
+        this.userInfo = await this.userService.getEmployeeUser(
+          this.condo?.OccupantID || ''
+        );
+      }
     }
   }
 
@@ -82,18 +90,39 @@ export class IndividualCondoComponent implements OnInit {
   }
 
   favorite() {
-    console.log('Functionality not implemented yet.');
+    this.isFavorited = !this.isFavorited;
+    console.log('Item favorited.');
   }
 
   refresh() {
-    this.router.navigate([], {
-      relativeTo: this.route,
-      replaceUrl: true,
-      queryParamsHandling: 'merge',
+    window.location.reload();
+  }
+
+  openEditCondoDialog(): void {
+    const dialogRef = this.dialog.open(EditCondoDialogComponent, {
+      width: '500px',
+      data: {
+        condo: this.condo,
+        building: this.building,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result: Condo | undefined) => {
+      if (result) {
+        // Update the condo data after editing
+        this.condo = result;
+      }
     });
   }
 
-  editCondo() {
-    console.log('Functionality not implemented yet.');
+  closeEditDialog(): void {
+    this.editDialogOpen = false;
+  }
+
+  handleCondoEdited(event: any): void {
+    console.log('Condo edited:', event);
+    const updatedCondoData: Condo = event;
+    if (this.condo) {
+      this.condo = updatedCondoData;
+    }
   }
 }
