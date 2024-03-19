@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-declare var mapboxgl: any;
+declare const mapboxgl: any;
 
 @Component({
   selector: 'app-location',
