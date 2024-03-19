@@ -7,7 +7,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { AppModule } from 'src/app/app.module';
 
 
-
 describe('BuildingOverviewComponent', () => {
   let component: BuildingOverviewComponent;
   let fixture: ComponentFixture<BuildingOverviewComponent>;

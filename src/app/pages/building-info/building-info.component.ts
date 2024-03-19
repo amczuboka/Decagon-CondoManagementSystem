@@ -25,7 +25,7 @@ export class BuildingInfoComponent {
   parkings!: ParkingSpot[];
   sourcePage!: string;
   myUser!: any;
-  authority!: string;
+  authority!: string;  
 
   constructor(
     private route: ActivatedRoute,
