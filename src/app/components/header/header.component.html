@@ -63,14 +63,14 @@
         <a class="nav-link" aria-current="page" href="">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" *ngIf="myUser.Authority != 'Employee'" href="my-properties">My Properties</a>
+        <a class="nav-link" *ngIf="authority != 'Employee'" href="my-properties">My Properties</a>
       </li>
       <li class="nav-item">
         <a
           class="nav-link"
           aria-current="page"
           href="add-new-property"
-          *ngIf="myUser.Authority === 'Company'"
+          *ngIf="authority === 'Company'"
           >Add New Property</a
         >
       </li>
@@ -107,14 +107,14 @@
     <button mat-menu-item>Home</button>
   </a>
   <a class="nav-link" href="my-properties">
-    <button mat-menu-item *ngIf="myUser.Authority != 'Employee'">My Properties</button>
+    <button mat-menu-item *ngIf="authority != 'Employee'">My Properties</button>
   </a>
   <a class="nav-link" href="user-profile">
     <button mat-menu-item>Profile</button>
   </a>
   <a
     class="nav-link"
-    *ngIf="myUser.Authority === 'Company'"
+    *ngIf="authority === 'Company'"
     href="add-new-property"
   >
     <button mat-menu-item>Add New Property</button>
