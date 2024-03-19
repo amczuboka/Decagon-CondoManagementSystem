@@ -9,13 +9,9 @@
       </button>
       <h1 class="property-title">
         {{ building?.Name }} - {{ condo?.UnitNumber }}
-        <button
-           *ngIf="condo?.Status == 'Vacant' && isAuthorizedCompany()"
-          mat-icon-button
-          (click)="openEditCondoDialog()"
-        >
+       <button *ngIf="isEditAllowed()" mat-icon-button class="edit-button" (click)="openEditCondoDialog()">
           <mat-icon>edit</mat-icon>
-        </button>
+      </button>
       </h1>
       <p class="property-address">{{ building?.Address }}</p>
     </div>

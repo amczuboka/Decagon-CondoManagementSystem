@@ -6,6 +6,7 @@ import { Building, Condo } from '../../models/properties';
 import { UserDTO, CompanyDTO } from '../../models/users';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EditCondoDialogComponent } from '../individual-condo/edit-condo-dialog/edit-condo-dialog.component';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-individual-condo',
@@ -17,15 +18,18 @@ export class IndividualCondoComponent implements OnInit {
   building: Building | null = null;
   condo: Condo | null = null;
   userInfo: UserDTO | CompanyDTO | null = null;
+  loggedInUserInfo: UserDTO | CompanyDTO | null = null;
   editDialogOpen: boolean = false;
   isFavorited: boolean = false;
+  loggedInUser!: any;
 
   constructor(
     private dialog: MatDialog,
     private buildingService: BuildingService,
     private userService: UserService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -64,14 +68,6 @@ export class IndividualCondoComponent implements OnInit {
     }
   }
 
-  isAuthorizedCompany(): boolean {
-    // Check if user logged in and user's company ID matches the building's company ID
-     if (this.userInfo && 'CompanyID' in this.userInfo) {
-       return this.userInfo.CompanyID === this.building?.CompanyID;
-     }
-     return false;
-  }
-
   async fetchUserInfo(): Promise<void> {
     if (this.condo?.Status === 'Vacant') {
       this.userInfo = await this.userService.getCompanyUser(
@@ -106,6 +102,43 @@ export class IndividualCondoComponent implements OnInit {
     window.location.reload();
   }
 
+  async fetchLoggedInUser() {
+    try {
+      this.loggedInUser = await this.authService.getUser();
+      if (this.loggedInUser) {
+        const classification = await this.userService.classifyUser(
+          this.loggedInUser.uid
+        );
+        if (classification === 'company') {
+          this.loggedInUserInfo = await this.userService.getCompanyUser(
+            this.loggedInUser.uid
+          );
+        }
+        return this.loggedInUser;
+      }
+      return null;
+    } catch (error) {
+      console.error('Error fetching logged-in user:', error);
+      return null;
+    }
+  }
+
+  isEditAllowed(): boolean {
+    if (
+      this.loggedInUserInfo &&
+      this.loggedInUserInfo.Authority === 'Company'
+    ) {
+      const companyUser = this.loggedInUserInfo as CompanyDTO;
+      console.log('Company user:', companyUser);
+      if (
+        companyUser.PropertyIds?.includes(this.building?.ID || '') &&
+        this.condo?.Status === 'Vacant'
+      )
+        return true;
+    }
+    console.log('Is edit allowed: false');
+    return false;
+  }
   openEditCondoDialog(): void {
     const dialogRef = this.dialog.open(EditCondoDialogComponent, {
       width: '500px',
