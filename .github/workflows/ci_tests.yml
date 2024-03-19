@@ -27,6 +27,7 @@ jobs:
       run: |
         $TEST_OUTPUT = npm run test-headless
         $COVERAGE = $TEST_OUTPUT -match 'Statements\s*:\s*(\d+.\d+)%' | ForEach-Object { $_ -replace '.*Statements\s*:\s*(\d+.\d+)%.*', '$1' }
+        $COVERAGE = $COVERAGE[0] # Take the first element of the array
         Write-Output "Current code coverage is $COVERAGE%"
         if ([decimal]$COVERAGE -lt 80) {
             Write-Output "Code coverage is less than 80%"
