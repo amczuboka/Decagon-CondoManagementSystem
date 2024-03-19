@@ -10,6 +10,7 @@ import { EditCondoDialogComponent } from './edit-condo-dialog/edit-condo-dialog.
 import { Condo, CondoStatus, CondoType } from 'src/app/models/properties';
 import { AuthService } from 'src/app/services/auth.service';
 import { Authority } from 'src/app/models/users';
+import { Location } from '@angular/common';
 
 describe('IndividualCondoComponent', () => {
   let component: IndividualCondoComponent;
@@ -20,6 +21,7 @@ describe('IndividualCondoComponent', () => {
   let mockBuildingService: any;
   let mockDialog: any;
   let mockAuthService: any;
+  let mockLocation: any;
 
   beforeEach(async () => {
     mockActivatedRoute = { params: of({ buildingId: '1', condoId: '2' }) };
@@ -34,7 +36,8 @@ describe('IndividualCondoComponent', () => {
     ]);
     mockDialog = jasmine.createSpyObj('MatDialog', ['open']);
     mockAuthService = jasmine.createSpyObj('AuthService', ['getUser']);
-
+    mockLocation = jasmine.createSpyObj('Location', ['back']);
+    
     await TestBed.configureTestingModule({
       declarations: [IndividualCondoComponent],
       providers: [
@@ -44,6 +47,7 @@ describe('IndividualCondoComponent', () => {
         { provide: BuildingService, useValue: mockBuildingService },
         { provide: MatDialog, useValue: mockDialog },
         { provide: AuthService, useValue: mockAuthService },
+        { provide: Location, useValue: mockLocation },
       ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
@@ -66,9 +70,9 @@ describe('IndividualCondoComponent', () => {
     expect(component.isFavorited).toBeFalse();
   });
 
-  it('should call navigateByUrl with "./condos" when goBack is called', () => {
+  it('should call Location.back when goBack is called', () => {
     component.goBack();
-    expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('./condos');
+    expect(mockLocation.back).toHaveBeenCalled();
   });
 
   it('should open the edit dialog with correct data when openEditCondoDialog is called and editing is allowed', () => {
