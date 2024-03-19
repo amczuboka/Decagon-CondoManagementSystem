@@ -15,8 +15,9 @@
   white-space: normal;
   word-wrap: break-word;
   height: auto;
-  padding: 8px;
+  padding: 16px;
   text-align: center;
+  border-bottom: 1px solid #ddd;
 }
 
 .my-table .mat-cell.mat-column-actions,
@@ -34,14 +35,22 @@
 
 .button-container {
   display: flex;
-  justify-content: flex-end;
-  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
   flex-wrap: wrap;
   margin: 0;
 }
 
 .button-container button {
-  margin: 5px 0;
+  margin: 5px;
+  padding: 10px;
+  color: white;
+  min-height: 60px; // This will ensure the buttons have a minimum height
+  flex-grow: 1;
+}
+
+.fab-button {
+  max-width: 56px;
 }
 
 @media (max-width: 700px) {

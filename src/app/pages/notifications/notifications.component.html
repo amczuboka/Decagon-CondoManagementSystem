@@ -52,15 +52,30 @@
       >
         <div class="button-container">
           <button
-            mat-button
+            class="action-button"
+            mat-raised-button
             color="primary"
+            *ngIf="
+              (notification.Type === NotificationType.RentRequest ||
+                notification.Type === NotificationType.OwnershipRequest) &&
+              notification.New
+            "
+            (click)="acceptRequest(notification)"
+          >
+            Accept Request
+          </button>
+          <button
+            class="action-button"
+            mat-raised-button
+            color="accent"
             *ngIf="notification.New"
             (click)="markAsRead(notification)"
           >
             Mark as Read
           </button>
           <button
-            mat-button
+            class="action-button"
+            mat-raised-button
             color="accent"
             *ngIf="!notification.New"
             (click)="markAsUnread(notification)"
@@ -68,7 +83,8 @@
             Mark as Unread
           </button>
           <button
-            mat-button
+            class="fab-button"
+            mat-fab
             color="warn"
             (click)="deleteNotification(notification)"
           >

@@ -33,7 +33,7 @@ export class CondoComponent {
     // Create a new notification
     const notification: Notification = {
       Date: new Date().getTime(),
-      Message: `Request for ownership of unit ${item.UnitNumber} in ${this.building.Name}.`,
+      Message: `Request for ownership of unit ${item.UnitNumber} in ${this.building.Name} with ID ${item.ID}`,
       New: true,
       SenderId: this.myUser.ID,
       SenderName: `${this.myUser.FirstName} ${this.myUser.LastName}`,
@@ -53,7 +53,7 @@ export class CondoComponent {
     // Create a new notification
     const notification: Notification = {
       Date: new Date().getTime(),
-      Message: `Request for rental of unit ${item.UnitNumber} in ${this.building.Name}.`,
+      Message: `Request for rental of unit ${item.UnitNumber} in ${this.building.Name} with ID ${item.ID}`,
       New: true,
       SenderId: this.myUser.ID,
       SenderName: `${this.myUser.FirstName} ${this.myUser.LastName}`,
