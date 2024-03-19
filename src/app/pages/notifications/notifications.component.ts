@@ -2,16 +2,9 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { DeleteNotificationDialogComponent } from 'src/app/pages/notifications/delete-notification-dialog/delete-notification-dialog.component';
-import {
-  Authority,
-  CompanyDTO,
-  EmployeeDTO,
-  Notification,
-  UserDTO,
-} from 'src/app/models/users';
+import { Authority, Notification } from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { NotificationType } from 'src/app/models/users';
 import { NotificationService } from 'src/app/services/notification.service';
 
@@ -24,7 +17,7 @@ export class NotificationsComponent {
   authority!: string;
   myUser!: any;
   loading!: boolean;
-  displayedColumns: string[] = ['type', 'message', 'date', 'sender', 'actions']; // Updated column name to 'sender'
+  displayedColumns: string[] = ['type', 'message', 'date', 'sender', 'actions'];
   dataSource: any = [];
   userSubscription: Subscription = new Subscription();
   NotificationType = NotificationType;
@@ -33,24 +26,10 @@ export class NotificationsComponent {
     public authService: AuthService,
     public userService: UserService,
     public dialog: MatDialog,
-    public notificationService: NotificationService,
-    public breakpointObserver: BreakpointObserver
+    public notificationService: NotificationService
   ) {}
 
   async ngOnInit() {
-    this.breakpointObserver.observe(Breakpoints.Handset).subscribe((result) => {
-      if (result.matches) {
-        this.displayedColumns = ['message', 'date', 'sender', 'actions'];
-      } else {
-        this.displayedColumns = [
-          'type',
-          'message',
-          'date',
-          'sender',
-          'actions',
-        ];
-      }
-    });
     this.userSubscription = this.userService.myUser.subscribe((user) => {
       this.myUser = user;
       if (this.myUser) {
@@ -69,8 +48,6 @@ export class NotificationsComponent {
 
   ngOnDestroy() {
     this.userSubscription.unsubscribe();
-    this.userSubscription.unsubscribe();
-    this.breakpointObserver.ngOnDestroy();
   }
 
   markAsRead(notification: Notification) {
