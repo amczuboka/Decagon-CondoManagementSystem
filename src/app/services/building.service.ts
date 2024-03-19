@@ -5,6 +5,7 @@ import { get, getDatabase, ref, set } from 'firebase/database';
 import { AuthService } from './auth.service';
 import { CompanyDTO } from '../models/users';
 import { UserService } from './user.service';
+import { Condo } from '../models/properties';
 
 /**
  * Service for managing building-related operations.
@@ -105,6 +106,57 @@ export class BuildingService {
     }
   }
 
+  async getAllBuildingsWithCondos(): Promise<Building[]> {
+    try {
+      const db = getDatabase();
+      const buildingsRef = ref(db, 'buildings');
+      const buildingsSnapshot = await get(buildingsRef);
+  
+      if (buildingsSnapshot.exists()) {
+        const buildings: Building[] = [];
+  
+        // Iterate through each building
+        buildingsSnapshot.forEach((buildingChild) => {
+          const buildingData = buildingChild.val() as Building;
+  
+          // Extract the building ID from the building data
+          const buildingId = buildingData.ID; // Assuming 'ID' is the property name
+  
+          // Construct the building object
+          const building: Building = {
+            ...buildingData,
+            ID: buildingId
+          };
+  
+          // Fetch condos for this building
+          const condos : Condo[]=[];
+          const condosSnapshot = buildingChild.child('Condos');
+          condosSnapshot.forEach((condoChild) => {
+            const condoData = condoChild.val();
+            const condo: Condo = {
+              id: condoChild.key,
+              ...condoData,
+            };
+            condos.push(condo);
+          });
+  
+          // Assign condos to the building
+          building.Condos = condos;
+  
+          // Push the building with condos to the array
+          buildings.push(building);
+        });
+  
+        return buildings;
+      } else {
+        throw new Error('No buildings found');
+      }
+    } catch (error) {
+      console.error('Error getting buildings with condos:', error);
+      throw error;
+    }
+  }
+
   /**
    * Updates an existing building in the database.
    *
@@ -123,6 +175,35 @@ export class BuildingService {
     }
   }
 
+  /**
+   * Updates an existing building in the database.
+   *
+   * @param condoId - Updated CondoID.
+   * @param buildingId - BuildingId.
+   * @param occupantId - occupant id.
+   * @returns A Promise that resolves when the condo is successfully updated.
+   * @throws Error if there is an issue updating the condo.
+   */
+  async updateCondo(buildingId: string, condoId: string, occupantId: string): Promise<void> {
+    try {
+      const db = getDatabase();
+      const buildingRef= ref(db, `buildings/${buildingId}/Condos`);
+      const condosSnapshot = await get(buildingRef);
+
+      if (condosSnapshot.exists()) {
+        condosSnapshot.forEach((condoChild) => {
+          const condoData = condoChild.val();
+          if (condoData.ID === condoId) {
+            const occupantIdRef = ref(db, `buildings/${buildingId}/Condos/${condoChild.key}/OccupantID`);
+            set(occupantIdRef, occupantId);
+          }
+        })
+      }
+    } catch (error) {
+      console.error('Error updating Building:', error);
+      throw error;
+    }
+  }
   /**
    * Deletes a building and its associated files from the database.
    *

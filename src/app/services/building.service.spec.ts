@@ -316,5 +316,37 @@ describe('BuildingService', () => {
       building2.Condos[0].Picture
     );
   });
+  it('should retrieve all buildings with condos successfully', async () => {
+    // Arrange
+    await service.addBuilding(building);
+  
+    // Act
+    const result = await service.getAllBuildingsWithCondos();
+  
+    // Assert
+    expect(result.length).toBeGreaterThan(0);
+    expect(result[0].Condos.length).toBeGreaterThan(0);
+  
+    // Clean up
+    await service.deleteBuilding(building.ID);
+  });
+  
+  it('should update condo occupant successfully', async () => {
+    // Arrange
+    await service.addBuilding(building);
+  
+    const updatedOccupantId = 'newOccupantId';
+  
+    // Act
+    await service.updateCondo(building.ID, building.Condos[0].ID, updatedOccupantId);
+  
+    // Assert
+    const updatedBuilding = await service.getBuilding(building.ID);
+    expect(updatedBuilding.Condos[0].OccupantID).toEqual(updatedOccupantId);
+  
+    // Clean up
+    await service.deleteBuilding(building.ID);
+  });
 });
 ////////////////////////// 2nd test //////////////////////////
+
