@@ -45,11 +45,14 @@
                   Request for rent
                 </button>
               </ng-template>
-              <div>
+              <!-- <div>
                 <a [routerLink]="['/individual-condo', building.ID, item.ID]" [queryParams]="item" > <button class="buttonItem">View Details</button> </a>
-              </div>
+              </div> -->
             </div>
           </ng-container>
+          <div>
+            <a [routerLink]="['/individual-condo', building.ID, item.ID]" [queryParams]="item" > <button class="buttonItem">View Details</button> </a>
+          </div>
           <div class="price">
             <ng-container *ngIf="item.Type === 'Sale'; else Rent">
               {{ item.Fee }}$
