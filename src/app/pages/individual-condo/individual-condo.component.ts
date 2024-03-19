@@ -5,7 +5,7 @@ import {
   CondoStatus,
   CondoType,
 } from '../../models/properties';
-import { UserDTO, Authority, Notification } from '../../models/users';
+import { UserDTO, Authority } from '../../models/users';
 
 @Component({
   selector: 'app-individual-condo',

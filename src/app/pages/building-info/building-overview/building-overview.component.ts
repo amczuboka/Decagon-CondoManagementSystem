@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, ReactiveFormsModule, FormBuilder, FormControl } from '@angular/forms'
-import { FormsModule } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms'
 
 @Component({
   selector: 'app-building-overview',

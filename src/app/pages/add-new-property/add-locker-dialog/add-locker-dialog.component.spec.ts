@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AddLockerDialogComponent } from './add-locker-dialog.component';
-import { NotificationService } from 'src/app/services/notification.service';
 import { AppModule } from 'src/app/app.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -9,7 +8,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 describe('AddLockerDialogComponent', () => {
   let component: AddLockerDialogComponent;
   let fixture: ComponentFixture<AddLockerDialogComponent>;
-  let notificationService: NotificationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -18,12 +16,10 @@ describe('AddLockerDialogComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: {} },
         { provide: MAT_DIALOG_DATA, useValue: {} },
-        { provide: NotificationService },
       ],
     });
     fixture = TestBed.createComponent(AddLockerDialogComponent);
     component = fixture.componentInstance;
-    notificationService = TestBed.inject(NotificationService);
     fixture.detectChanges();
   });
 
