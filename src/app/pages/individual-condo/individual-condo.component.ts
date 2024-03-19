@@ -92,6 +92,7 @@ export class IndividualCondoComponent implements OnInit {
   goBack(): void {
    this.location.back();
   }
+  
   share() {
     console.log('Functionality not implemented yet.');
   }
