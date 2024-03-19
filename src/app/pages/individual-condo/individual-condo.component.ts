@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EditCondoDialogComponent } from '../individual-condo/edit-condo-dialog/edit-condo-dialog.component';
 import { Authority } from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-individual-condo',
@@ -29,7 +30,8 @@ export class IndividualCondoComponent implements OnInit {
     private userService: UserService,
     private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private location: Location
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -88,8 +90,7 @@ export class IndividualCondoComponent implements OnInit {
   }
 
   goBack(): void {
-    // Navigate to previous route
-    this.router.navigateByUrl('./condos');
+   this.location.back();
   }
   share() {
     console.log('Functionality not implemented yet.');
