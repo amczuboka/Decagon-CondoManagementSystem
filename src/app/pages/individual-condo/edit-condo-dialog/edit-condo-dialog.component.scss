@@ -1,23 +1,25 @@
 .container {
   margin: 0px 40px;
+}
+.edit-condo-form {
 
-  .edit-condo-form {
-    h2 {
-      text-align: center;
-      font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-    }
-    .controls-container {
-      width: 100%;
-      padding: 5%;
-
-      #save-button {
-        margin-right: 20cm;
-      }
-
-      #cancel-button {
-        margin-left: 15px;
-      }
-    }
+  h2 {
+    appearance: outline;
+    width: 100%;
+    text-align: center;
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+      "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   }
+  .controls-container {
+    width: 100%;
+    padding: 5%;
+  }
+}
+#save-button {
+  margin-right: 0px; /* Adjust as needed */
+  margin-bottom: 10px; /* Add margin bottom to separate buttons vertically */
+}
+#cancel-button {
+  margin-left: 10px; /* Adjust as needed */
+  margin-bottom: 10px; /* Add margin bottom to separate buttons vertically */
 }
