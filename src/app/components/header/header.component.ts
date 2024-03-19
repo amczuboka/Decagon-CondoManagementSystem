@@ -38,8 +38,8 @@ export class HeaderComponent {
   }
 
   getNewNotifications() {
+    this.newNotifications = [];
     if (this.myUser.Notifications) {
-      this.newNotifications = [];
       for (const notification of this.myUser.Notifications) {
         if (notification.New) {
           this.newNotifications.push(notification);

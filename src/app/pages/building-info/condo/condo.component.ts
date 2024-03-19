@@ -35,11 +35,10 @@ export class CondoComponent {
       Date: new Date().getTime(),
       Message: `Request for ownership of unit ${item.UnitNumber} in ${this.building.Name}.`,
       New: true,
-      SenderId: this.myUser.uid,
+      SenderId: this.myUser.ID,
+      SenderName: `${this.myUser.FirstName} ${this.myUser.LastName}`,
       Type: NotificationType.OwnershipRequest,
     };
-    console.log(this.building.CompanyID, notification);
-    console.log(item.UnitNumber, this.building.Name, this.myUser.uid);
     await this.userService.sendNotificationToUser(
       this.building.CompanyID,
       Authority.Company,
@@ -56,11 +55,10 @@ export class CondoComponent {
       Date: new Date().getTime(),
       Message: `Request for rental of unit ${item.UnitNumber} in ${this.building.Name}.`,
       New: true,
-      SenderId: this.myUser.uid,
+      SenderId: this.myUser.ID,
+      SenderName: `${this.myUser.FirstName} ${this.myUser.LastName}`,
       Type: NotificationType.RentRequest,
     };
-    console.log(this.building.CompanyID, notification);
-    console.log(item.UnitNumber, this.building.Name, this.myUser.uid);
     await this.userService.sendNotificationToUser(
       this.building.CompanyID,
       Authority.Company,
@@ -77,6 +75,19 @@ export class CondoComponent {
       this.myUser = await this.authService.getUser();
       if (this.myUser) {
         this.authority = this.myUser.photoURL;
+        if (this.authority == Authority.Public) {
+          this.userService.getPublicUser(this.myUser.uid).then((user) => {
+            this.myUser = user;
+          });
+        } else if (this.authority == Authority.Employee) {
+          this.userService.getEmployeeUser(this.myUser.uid).then((user) => {
+            this.myUser = user;
+          });
+        } else if (this.authority == Authority.Company) {
+          this.userService.getCompanyUser(this.myUser.uid).then((user) => {
+            this.myUser = user;
+          });
+        }
       } else {
         this.authority = '';
       }

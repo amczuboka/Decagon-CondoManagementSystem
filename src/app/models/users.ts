@@ -52,6 +52,7 @@ export interface Notification {
   New: boolean;
   Date: number;
   SenderId: string;
+  SenderName: string;
   Type: NotificationType;
 }
 
