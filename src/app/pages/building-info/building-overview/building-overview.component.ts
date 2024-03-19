@@ -1,5 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { Building, CondoStatus, ParkingLockerStatus } from 'src/app/models/properties';
+import { CompanyDTO } from 'src/app/models/users';
+import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-building-overview',
@@ -10,6 +13,14 @@ import { Building, CondoStatus, ParkingLockerStatus } from 'src/app/models/prope
 export class BuildingOverviewComponent {
   @Input() building!: Building;
   @Input() sourcePage!: string;
+  myCompany: CompanyDTO | null=null;
+  authority!: string;
+
+  constructor(
+    private authService: AuthService,
+    public userService: UserService
+  ) {}
+
   
     /**
    * Calculate the total number of condos in the building
@@ -28,11 +39,11 @@ export class BuildingOverviewComponent {
    * @param building - The building object
    * @returns The number of available condos
    */
-  calculateAvailableCondos(building: Building): number {
-    const condos = Object.values(building.Condos);
-    const availableCondos = condos.filter((condo) => condo.Status == CondoStatus.Vacant).length;
-    return availableCondos;
-  }
+    calculateAvailableCondos(building: Building): number {
+      const condos = Object.values(building.Condos);
+      const availableCondos = condos.filter((condo) => condo.Status == CondoStatus.Vacant).length;
+      return availableCondos;
+    }
 
     /**
    * Calculate the total number of parking spots in the building

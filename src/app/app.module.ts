@@ -82,6 +82,7 @@ import { EmployeesListComponent } from './pages/my-employees/employees-list/empl
 import { MyEmployeesComponent } from './pages/my-employees/my-employees.component';
 import { MyPropertiesComponent } from './pages/my-properties/my-properties.component';
 import { BookingsComponent } from './pages/building-info/bookings/bookings.component';
+import { BookingCardComponent } from './pages/building-info/bookings/booking-card/booking-card.component';
 
 @NgModule({
   declarations: [
@@ -116,6 +117,7 @@ import { BookingsComponent } from './pages/building-info/bookings/bookings.compo
     MyEmployeesComponent,
     MyPropertiesComponent,
     BookingsComponent,
+    BookingCardComponent,
   ],
   imports: [
     BrowserModule,
