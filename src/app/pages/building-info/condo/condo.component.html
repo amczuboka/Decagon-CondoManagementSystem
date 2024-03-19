@@ -31,6 +31,7 @@
             <hr class="text-sep" />
           </div>
         </div>
+        
         <div class="right">
           <ng-container *ngIf="authority == 'Public'">
             <div class="button">
@@ -44,13 +45,15 @@
                   Request for rent
                 </button>
               </ng-template>
+              <div>
+                <a [routerLink]="['/individual-condo', building.ID, item.ID]" [queryParams]="item" > <button class="buttonItem">View Details</button> </a>
+              </div>
             </div>
           </ng-container>
           <div class="price">
             <ng-container *ngIf="item.Type === 'Sale'; else Rent">
               {{ item.Fee }}$
             </ng-container>
-
             <ng-template #Rent> ${{ item.Fee }}/Month </ng-template>
           </div>
         </div>
