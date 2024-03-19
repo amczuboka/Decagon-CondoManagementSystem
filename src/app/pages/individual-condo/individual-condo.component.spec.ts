@@ -8,6 +8,8 @@ import { UserService } from '../../services/user.service';
 import { BuildingService } from '../../services/building.service';
 import { EditCondoDialogComponent } from './edit-condo-dialog/edit-condo-dialog.component';
 import { Condo, CondoStatus, CondoType } from 'src/app/models/properties';
+import { AuthService } from 'src/app/services/auth.service';
+import { Authority } from 'src/app/models/users';
 
 describe('IndividualCondoComponent', () => {
   let component: IndividualCondoComponent;
@@ -17,6 +19,7 @@ describe('IndividualCondoComponent', () => {
   let mockUserService: any;
   let mockBuildingService: any;
   let mockDialog: any;
+  let mockAuthService: any;
 
   beforeEach(async () => {
     mockActivatedRoute = { params: of({ buildingId: '1', condoId: '2' }) };
@@ -30,6 +33,7 @@ describe('IndividualCondoComponent', () => {
       'getBuilding',
     ]);
     mockDialog = jasmine.createSpyObj('MatDialog', ['open']);
+    mockAuthService = jasmine.createSpyObj('AuthService', ['getUser']);
 
     await TestBed.configureTestingModule({
       declarations: [IndividualCondoComponent],
@@ -39,6 +43,7 @@ describe('IndividualCondoComponent', () => {
         { provide: UserService, useValue: mockUserService },
         { provide: BuildingService, useValue: mockBuildingService },
         { provide: MatDialog, useValue: mockDialog },
+        { provide: AuthService, useValue: mockAuthService },
       ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
@@ -66,10 +71,10 @@ describe('IndividualCondoComponent', () => {
     expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('./condos');
   });
 
-  it('should open the edit dialog with correct data when openEditCondoDialog is called', () => {
+  it('should open the edit dialog with correct data when openEditCondoDialog is called and editing is allowed', () => {
     const testCondo: Condo = {
       ID: '2',
-      Status: CondoStatus.Owned,
+      Status: CondoStatus.Vacant,
       OccupantID: 'user1',
       Type: CondoType.Sale,
       UnitNumber: '101',
@@ -80,7 +85,29 @@ describe('IndividualCondoComponent', () => {
       NumberOfBathrooms: 1,
       SquareFootage: 1000,
     };
+
+    const loggedInUserInfo = {
+      Authority: Authority.Company,
+    };
+
+    mockAuthService.getUser.and.returnValue(loggedInUserInfo);
+    component.building = {
+      ID: '1',
+      Year: 2022,
+      Name: 'Test Building',
+      Address: '123 Main St',
+      Bookings: [],
+      CompanyID: 'company1',
+      Description: 'Lorem ipsum',
+      Parkings: [],
+      Lockers: [],
+      Condos: [],
+      Picture: 'url/to/picture',
+      Facilities: [],
+    };
     component.condo = testCondo;
+    spyOn(component, 'isEditAllowed').and.returnValue(true);
+
     component.openEditCondoDialog();
     expect(mockDialog.open).toHaveBeenCalledWith(EditCondoDialogComponent, {
       width: '500px',
@@ -88,10 +115,10 @@ describe('IndividualCondoComponent', () => {
     });
   });
 
-  it('should update condo on dialog close', (done) => {
-    const initialCondo: Condo = {
+  it('should not open the edit dialog when openEditCondoDialog is called and editing is not allowed', () => {
+    const testCondo: Condo = {
       ID: '2',
-      Status: CondoStatus.Owned,
+      Status: CondoStatus.Vacant,
       OccupantID: 'user1',
       Type: CondoType.Sale,
       UnitNumber: '101',
@@ -102,15 +129,30 @@ describe('IndividualCondoComponent', () => {
       NumberOfBathrooms: 1,
       SquareFootage: 1000,
     };
-    const updatedCondo: Condo = { ...initialCondo, Status: CondoStatus.Rented };
 
-    mockDialog.open.and.returnValue({ afterClosed: () => of(updatedCondo) });
-    component.condo = initialCondo;
+    const loggedInUserInfo = {
+      Authority: Authority.Public,
+    };
+
+    mockAuthService.getUser.and.returnValue(loggedInUserInfo);
+    component.building = {
+      ID: '1',
+      Year: 2022,
+      Name: 'Test Building',
+      Address: '123 Main St',
+      Bookings: [],
+      CompanyID: 'company1',
+      Description: 'Lorem ipsum',
+      Parkings: [],
+      Lockers: [],
+      Condos: [],
+      Picture: 'url/to/picture',
+      Facilities: [],
+    };
+    component.condo = testCondo;
+    spyOn(component, 'isEditAllowed').and.returnValue(false);
+
     component.openEditCondoDialog();
-
-    fixture.whenStable().then(() => {
-      expect(component.condo).toEqual(updatedCondo);
-      done();
-    });
+    expect(mockDialog.open).not.toHaveBeenCalled();
   });
 });

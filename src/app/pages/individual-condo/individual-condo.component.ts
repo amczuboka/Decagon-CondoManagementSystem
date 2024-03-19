@@ -6,6 +6,7 @@ import { Building, Condo } from '../../models/properties';
 import { UserDTO, CompanyDTO } from '../../models/users';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EditCondoDialogComponent } from '../individual-condo/edit-condo-dialog/edit-condo-dialog.component';
+import { Authority } from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -22,7 +23,6 @@ export class IndividualCondoComponent implements OnInit {
   editDialogOpen: boolean = false;
   isFavorited: boolean = false;
   loggedInUser!: any;
-
   constructor(
     private dialog: MatDialog,
     private buildingService: BuildingService,
@@ -38,6 +38,8 @@ export class IndividualCondoComponent implements OnInit {
       const condoId = params['condoId'];
       await this.fetchBuildingAndCondoDetails(buildingId, condoId);
       await this.fetchUserInfo();
+      this.loggedInUser = await this.fetchLoggedInUser();
+      // this.myUser = await this.authService.getUser();
     });
   }
 
@@ -101,11 +103,11 @@ export class IndividualCondoComponent implements OnInit {
   refresh() {
     window.location.reload();
   }
-
   async fetchLoggedInUser() {
     try {
       this.loggedInUser = await this.authService.getUser();
       if (this.loggedInUser) {
+        // Use 'this.loggedInUser' for checking
         const classification = await this.userService.classifyUser(
           this.loggedInUser.uid
         );
@@ -114,7 +116,7 @@ export class IndividualCondoComponent implements OnInit {
             this.loggedInUser.uid
           );
         }
-        return this.loggedInUser;
+        return this.loggedInUser; // Use 'this.loggedInUser'
       }
       return null;
     } catch (error) {
@@ -124,35 +126,45 @@ export class IndividualCondoComponent implements OnInit {
   }
 
   isEditAllowed(): boolean {
+    // Check if the user is logged in and a company user
     if (
       this.loggedInUserInfo &&
-      this.loggedInUserInfo.Authority === 'Company'
+      this.loggedInUserInfo.Authority === Authority.Company
     ) {
+      // Type assertion to CompanyDTO to access PropertyIds
       const companyUser = this.loggedInUserInfo as CompanyDTO;
-      console.log('Company user:', companyUser);
+      // Check if the company user has authority to edit this condo
       if (
         companyUser.PropertyIds?.includes(this.building?.ID || '') &&
         this.condo?.Status === 'Vacant'
-      )
+      ) {
         return true;
+      }
     }
-    console.log('Is edit allowed: false');
+    // If not a company user or does not have authority to edit, return false
     return false;
   }
+
   openEditCondoDialog(): void {
-    const dialogRef = this.dialog.open(EditCondoDialogComponent, {
-      width: '500px',
-      data: {
-        condo: this.condo,
-        building: this.building,
-      },
-    });
-    dialogRef.afterClosed().subscribe((result: Condo | undefined) => {
-      if (result) {
-        // Update the condo data after editing
-        this.condo = result;
-      }
-    });
+    // Check if editing is allowed for the current user
+    if (this.isEditAllowed()) {
+      // Open the edit dialog with the condo and building data
+      const dialogRef = this.dialog.open(EditCondoDialogComponent, {
+        width: '500px',
+        data: {
+          condo: this.condo,
+          building: this.building,
+        },
+      });
+      // Subscribe to dialog close event to handle edited data
+      dialogRef.afterClosed().subscribe((result: Condo | undefined) => {
+        if (result) {
+          this.condo = result;
+        }
+      });
+    } else {
+      console.error('You are not authorized to edit this condo.');
+    }
   }
 
   closeEditDialog(): void {
