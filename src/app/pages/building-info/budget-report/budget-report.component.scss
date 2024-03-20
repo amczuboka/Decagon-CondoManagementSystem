@@ -1,0 +1,67 @@
+.title {
+  font-size: 50px;
+  margin-bottom: 20px;
+  margin-top: 30px;
+  font-family: 'Newsreader', serif;
+  margin-left: 100px;
+  position: relative;
+}
+
+.title-container {
+  position: relative;
+}
+
+.title-divider {
+  margin-left: 100px;
+  margin-right: 100px;
+}
+
+.table-wrapper {
+  position: relative;
+  margin: 0 auto;
+  width: 80%;
+  margin-top: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: white; 
+}
+
+tr:nth-child(even) {
+  background-color: #f7f6fe;
+}
+
+.total-row {
+  background-color: #cccccc;
+  color: black;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.total-cell {
+  padding: 10px;
+  margin-right: auto;
+}
+
+.total-condo-fee {
+  margin-right: 260px;
+}
+
+.total-operation-cost {
+  margin-right: 218px;
+}
+
+.total-profit {
+  margin-right: 102px;
+}

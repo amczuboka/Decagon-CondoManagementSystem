@@ -13,6 +13,8 @@ import { KeyRegistrationComponent } from './pages/key-registration/key-registrat
 import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { AddNewPropertyComponent } from './pages/add-new-property/add-new-property.component';
 import { MyEmployeesComponent } from './pages/my-employees/my-employees.component';
+import { BudgetReportComponent } from './pages/building-info/budget-report/budget-report.component';
+import { LockerComponent } from './pages/building-info/locker/locker.component';
 
 const routes: Routes = [
   {
@@ -29,6 +31,11 @@ const routes: Routes = [
     canActivate: [AuthguardGuard],
   },
   {
+    path: 'budget-report',
+    component: BudgetReportComponent,
+    canActivate: [AuthguardGuard],
+  },
+  {
     path: 'user-profile',
     component: UserProfileComponent,
     canActivate: [AuthguardGuard],
@@ -36,6 +43,11 @@ const routes: Routes = [
   {
     path: 'building-info',
     component: BuildingInfoComponent,
+    canActivate: [AuthguardGuard],
+  },
+  {
+    path: 'locker',
+    component: LockerComponent,
     canActivate: [AuthguardGuard],
   },
   {

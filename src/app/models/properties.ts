@@ -1,3 +1,5 @@
+import { BuildingInfoComponent } from "../pages/building-info/building-info.component";
+
 export interface Building {
   ID: string;
   Year: number;
@@ -61,6 +63,13 @@ export interface Locker {
   Width: string;
   Length: string;
   Fee: number;
+}
+
+export interface BudgetReport{
+  Profit?: number;
+  BuildingName: string;  
+  CondoFeeRevenue: number;
+  OperationCosts: number;
 }
 
 export enum CondoStatus {
