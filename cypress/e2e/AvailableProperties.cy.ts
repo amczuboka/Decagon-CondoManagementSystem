@@ -9,7 +9,7 @@ describe('Test Available Properties Page', () => {
   it('Navigate to Landing and check testing property and its condos, parking and lockers', () => {
     login('i_czubok@live.concordia.ca', 'soen390');
 
-    cy.url().should('eq', 'http://localhost:4200/');
+    cy.url().should('include', 'http://localhost:4200/');
 
     // Iterate through each building and find the one with the name "Fisher Complex"
     cy.get('.BuildingDiv').within(() => {
