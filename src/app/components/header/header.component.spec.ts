@@ -8,6 +8,7 @@ import { AppModule } from 'src/app/app.module';
 import { AuthService } from 'src/app/services/auth.service';
 import { of } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
+import { NotificationType } from 'src/app/models/users';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -62,25 +63,33 @@ describe('HeaderComponent', () => {
   });
 
   it('should retrieve new notifications', () => {
+    let date = new Date().getTime();
+    let trimmedDate = Number(date.toString().substring(0, 11));
     component.myUser = {
       Notifications: [
         {
           New: true,
           Message: 'Notification 1',
-          Date: new Date().getTime(),
+          Date: trimmedDate,
           SenderId: '1',
+          SenderName: 'test1',
+          Type: NotificationType.Default,
         },
         {
           New: false,
           Message: 'Notification 2',
-          Date: new Date().getTime(),
+          Date: trimmedDate,
           SenderId: '2',
+          SenderName: 'test2',
+          Type: NotificationType.Default,
         },
         {
           New: true,
           Message: 'Notification 3',
-          Date: new Date().getTime(),
+          Date: trimmedDate,
           SenderId: '3',
+          SenderName: 'test3',
+          Type: NotificationType.Default,
         },
       ],
     };
@@ -91,14 +100,18 @@ describe('HeaderComponent', () => {
       {
         New: true,
         Message: 'Notification 1',
-        Date: new Date().getTime(),
+        Date: trimmedDate,
         SenderId: '1',
+        SenderName: 'test1',
+        Type: NotificationType.Default,
       },
       {
         New: true,
         Message: 'Notification 3',
-        Date: new Date().getTime(),
+        Date: trimmedDate,
         SenderId: '3',
+        SenderName: 'test3',
+        Type: NotificationType.Default,
       },
     ]);
   });
@@ -120,19 +133,25 @@ describe('HeaderComponent', () => {
   });
 
   it('should not retrieve new notifications if no notification is marked as new', () => {
+    let date = new Date().getTime();
+    let trimmedDate = Number(date.toString().substring(0, 11));
     component.myUser = {
       Notifications: [
         {
           New: false,
           Message: 'Notification 1',
-          Date: new Date().getTime(),
+          Date: trimmedDate,
           SenderId: '1',
+          SenderName: 'test1',
+          Type: NotificationType.Default,
         },
         {
           New: false,
           Message: 'Notification 2',
-          Date: new Date().getTime(),
+          Date: trimmedDate,
           SenderId: '2',
+          SenderName: 'test2',
+          Type: NotificationType.Default,
         },
       ],
     };

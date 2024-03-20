@@ -17,7 +17,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  authority!: string;
+  authority: string = Authority.Public;
   myUser!: any;
   newNotifications: Notification[] = [];
   userSubscription: Subscription = new Subscription();
@@ -31,14 +31,15 @@ export class HeaderComponent {
     this.userSubscription = this.userService.myUser.subscribe((user) => {
       this.myUser = user;
       if (this.myUser) {
+        this.authority = this.myUser.Authority;
         this.getNewNotifications();
       }
     });
   }
 
   getNewNotifications() {
+    this.newNotifications = [];
     if (this.myUser.Notifications) {
-      this.newNotifications = [];
       for (const notification of this.myUser.Notifications) {
         if (notification.New) {
           this.newNotifications.push(notification);

@@ -3,11 +3,10 @@ import { NotificationsComponent } from './notifications.component';
 import { AppModule } from 'src/app/app.module';
 import {
   Authority,
-  CompanyDTO,
   EmployeeDTO,
   Notification,
+  NotificationType,
   Role,
-  UserDTO,
 } from 'src/app/models/users';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteNotificationDialogComponent } from 'src/app/pages/notifications/delete-notification-dialog/delete-notification-dialog.component';
@@ -22,6 +21,8 @@ function createNotifications(count: number): Notification[] {
       New: true,
       Date: new Date().getTime(),
       SenderId: `${i}`,
+      SenderName: `test${i}`,
+      Type: NotificationType.Default,
     });
   }
   return notifications;
@@ -55,19 +56,34 @@ describe('NotificationsComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should unsubscribe from userSubscription on ngOnDestroy', () => {
+    spyOn(component.userSubscription, 'unsubscribe');
+    component.ngOnDestroy();
+    expect(component.userSubscription.unsubscribe).toHaveBeenCalled();
+  });
+
   it('should mark notification as read', () => {
     const notification: Notification = {
       Message: 'test',
       New: true,
       Date: new Date().getTime(),
       SenderId: '1',
+      SenderName: 'test',
+      Type: NotificationType.Default,
     };
     component.myUser = { Notifications: [notification] };
     spyOn(component.userService, 'editUser');
     component.markAsRead(notification);
     expect(notification.New).toBe(false);
     expect(component.myUser.Notifications).toEqual([
-      { Message: 'test', New: false, Date: notification.Date, SenderId: '1' },
+      {
+        Message: 'test',
+        New: false,
+        Date: notification.Date,
+        SenderId: '1',
+        SenderName: 'test',
+        Type: NotificationType.Default,
+      },
     ]);
     expect(component.userService.editUser).toHaveBeenCalledWith(
       component.myUser.ID,
@@ -76,18 +92,27 @@ describe('NotificationsComponent', () => {
   });
 
   it('should mark notification as unread', () => {
-    const notification = {
+    const notification: Notification = {
       Message: 'test',
       New: false,
       Date: new Date().getTime(),
       SenderId: '1',
+      SenderName: 'test',
+      Type: NotificationType.Default,
     };
     component.myUser = { Notifications: [notification] };
     spyOn(component.userService, 'editUser');
     component.markAsUnread(notification);
     expect(notification.New).toBe(true);
     expect(component.myUser.Notifications).toEqual([
-      { Message: 'test', New: true, Date: notification.Date, SenderId: '1' },
+      {
+        Message: 'test',
+        New: true,
+        Date: notification.Date,
+        SenderId: '1',
+        SenderName: 'test',
+        Type: NotificationType.Default,
+      },
     ]);
     expect(component.userService.editUser).toHaveBeenCalledWith(
       component.myUser.ID,
@@ -101,6 +126,8 @@ describe('NotificationsComponent', () => {
       New: true,
       Date: new Date().getTime(),
       SenderId: '1',
+      SenderName: 'test',
+      Type: NotificationType.Default,
     };
     component.myUser = { Notifications: [notification] };
     spyOn(component.userService, 'editUser');
@@ -123,6 +150,8 @@ describe('NotificationsComponent', () => {
       New: true,
       Date: new Date().getTime(),
       SenderId: '1',
+      SenderName: 'test',
+      Type: NotificationType.Default,
     };
     component.myUser = { Notifications: [notification] };
     spyOn(component.userService, 'editUser');
@@ -134,71 +163,6 @@ describe('NotificationsComponent', () => {
 
     expect(component.myUser.Notifications).toEqual([notification]);
     expect(component.userService.editUser).not.toHaveBeenCalled();
-  });
-
-  it('should fetch sender names', async () => {
-    const notifications = createNotifications(3);
-    component.dataSource = notifications.map((n) => ({
-      ...n,
-      SenderId: n.SenderId,
-    }));
-
-    const user1: UserDTO = {
-      FirstName: 'John',
-      LastName: 'Doe',
-      ID: '1',
-      Authority: Authority.Public,
-      Email: '',
-      ProfilePicture: '',
-      PhoneNumber: '',
-      UserName: '',
-    };
-    const user2: CompanyDTO = {
-      FirstName: 'Jane',
-      LastName: 'Smith',
-      ID: '2',
-      Authority: Authority.Company,
-      Email: '',
-      ProfilePicture: '',
-      PhoneNumber: '',
-      UserName: '',
-      CompanyName: '',
-      PropertyIds: [],
-      EmployeeIds: [],
-    };
-    const user3: EmployeeDTO = {
-      FirstName: 'Bob',
-      LastName: 'Johnson',
-      ID: '3',
-      Authority: Authority.Employee,
-      Email: '',
-      ProfilePicture: '',
-      PhoneNumber: '',
-      UserName: '',
-      CompanyName: '',
-      PropertyIds: [],
-      Role: Role.None,
-    };
-
-    spyOn(component.userService, 'getPublicUser').and.returnValues(
-      Promise.resolve(user1),
-      Promise.resolve(null)
-    );
-    spyOn(component.userService, 'getCompanyUser').and.returnValues(
-      Promise.resolve(user2),
-      Promise.resolve(null)
-    );
-    spyOn(component.userService, 'getEmployeeUser').and.returnValues(
-      Promise.resolve(user3),
-      Promise.resolve(null),
-      Promise.resolve(null)
-    );
-
-    await component.fetchSenderNames();
-
-    expect(component.dataSource[0].SenderId).toBe('John Doe');
-    expect(component.dataSource[1].SenderId).toBe('Jane Smith');
-    expect(component.dataSource[2].SenderId).toBe('Bob Johnson');
   });
 
   it('should initialize component', () => {
@@ -222,12 +186,60 @@ describe('NotificationsComponent', () => {
     };
     component.userService.updateUser(myUser);
 
-    spyOn(component, 'fetchSenderNames').and.callThrough();
-
     component.ngOnInit();
 
     expect(userServiceSpy).toHaveBeenCalledWith(myUser);
     expect(component.dataSource).toEqual(myUser.Notifications);
-    expect(component.fetchSenderNames).toHaveBeenCalled();
+  });
+
+  it('should accept request and send notification', async () => {
+    const notification: Notification = {
+      Message:
+        'Request for rental of unit 1E-0-1 in Majestic hotel with ID tqdya2o0n9d1709505373223',
+      New: true,
+      Date: new Date().getTime(),
+      SenderId: '1',
+      SenderName: 'test',
+      Type: NotificationType.Default,
+    };
+
+    component.myUser = {
+      FirstName: 'John',
+      LastName: 'Doe',
+      ID: '1',
+      Authority: Authority.Company,
+      Email: '',
+      ProfilePicture: '',
+      PhoneNumber: '',
+      UserName: '',
+      CompanyName: 'test',
+      PropertyIds: [],
+      EmployeeIds: [],
+      Notifications: [notification],
+    };
+
+    const userServiceSpy = spyOn(
+      component.userService,
+      'sendNotificationToUser'
+    ).and.returnValue(Promise.resolve());
+    const markAsReadSpy = spyOn(component, 'markAsRead');
+    const notificationServiceSpy = spyOn(
+      component.notificationService,
+      'sendNotification'
+    );
+
+    await component.acceptRequest(notification);
+
+    // Check if the message was correctly processed
+    const expectedMessage =
+      'Request accepted for rental of unit 1E-0-1 in Majestic hotel. Please go to the registration page and enter the key to complete the registration process. Here is your registration key: tqdya2o0n9d1709505373223';
+    expect(userServiceSpy.calls.mostRecent().args[2].Message).toEqual(
+      expectedMessage
+    );
+
+    expect(markAsReadSpy).toHaveBeenCalledWith(notification);
+    expect(notificationServiceSpy).toHaveBeenCalledWith(
+      'Request accepted. Registration key sent to test'
+    );
   });
 });

@@ -6,6 +6,7 @@
   padding-top: 20px;
   width: 90%;
   margin: 0 auto;
+  overflow-x: auto;
 }
 
 .my-table .mat-cell,
@@ -15,8 +16,9 @@
   white-space: normal;
   word-wrap: break-word;
   height: auto;
-  padding: 8px;
+  padding: 16px;
   text-align: center;
+  border-bottom: 1px solid #ddd;
 }
 
 .my-table .mat-cell.mat-column-actions,
@@ -24,6 +26,10 @@
   display: flex;
   justify-content: flex-end;
   text-align: right;
+}
+
+.mat-column-message {
+  padding: 10px;
 }
 
 .my-table .mat-row,
@@ -34,43 +40,36 @@
 
 .button-container {
   display: flex;
-  justify-content: flex-end;
-  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
   flex-wrap: wrap;
   margin: 0;
 }
 
 .button-container button {
-  margin: 5px 0;
+  margin: 5px;
+  padding: 10px;
+  color: white;
+  min-height: 60px; // This will ensure the buttons have a minimum height
+  flex-grow: 1;
 }
 
-@media (max-width: 700px) {
+.fab-button {
+  max-width: 56px;
+}
+
+@media only screen and (max-width: 736px) {
+  mat-header-row,
+  mat-row {
+    width: 200%; //you can also set it in px,em, etc...
+  }
+
+  .my-container {
+    align-items: flex-start;
+  }
+
   .button-container {
     flex-direction: column;
     padding-top: 15px;
   }
-}
-
-.loading-indicator {
-  position: fixed;
-  z-index: 999;
-  height: 2em;
-  width: 2em;
-  overflow: show;
-  margin: auto;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-}
-
-.loading-indicator:before {
-  content: "";
-  display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
 }
