@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Newsreader&display=swap');
+h1 {
+    font-family: 'Newsreader', serif;
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+}
+
+.heading {
+    padding-top: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #486380;
+    margin-bottom: 20px;
+}
+
+.types {
+    padding-bottom: 25px;
+}
+
+.comments {
+    padding-bottom: 30px;
+}
+
+
+mat-select {
+    border-radius: 10px;
+    padding: 5px 10px;
+    background-color: #486380;
+    color: white;
+    width: 250px;
+}
+
+mat-option {
+    background-color: #486380;
+    color: white;
+}
+
+::ng-deep .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text {
+    color: white !important;
+}
+
+::ng-deep .mat-mdc-option:focus.mdc-list-item,
+.mat-mdc-option.mat-mdc-option-active.mdc-list-item {
+    background-color: #1e2e3e !important;
+}
+
+::ng-deep .mat-mdc-option:hover:not(.mdc-list-item--disabled) {
+    background-color: #1e2e3e !important;
+}
+
+::ng-deep .mat-mdc-select-placeholder {
+    color: white !important;
+}
+
+#comment-area {
+    width: 100%;
+    height: 200px;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #f7f6fe;
+    color: black;
+    border-width: 1px;
+    resize: none;
+}
+
+button {
+    width: 120px;
+}
