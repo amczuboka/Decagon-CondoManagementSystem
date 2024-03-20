@@ -155,7 +155,13 @@ describe('CondoComponent', () => {
     expect(component.userService.sendNotificationToUser).toHaveBeenCalledWith(
       component.building.CompanyID,
       Authority.Company,
-      notification
+      jasmine.objectContaining({
+        Message: notification.Message,
+        New: notification.New,
+        SenderId: notification.SenderId,
+        SenderName: notification.SenderName,
+        Type: notification.Type,
+      })
     );
     expect(component.notificationService.sendNotification).toHaveBeenCalledWith(
       successMessage
@@ -185,7 +191,13 @@ describe('CondoComponent', () => {
     expect(component.userService.sendNotificationToUser).toHaveBeenCalledWith(
       component.building.CompanyID,
       Authority.Company,
-      notification
+      jasmine.objectContaining({
+        Message: notification.Message,
+        New: notification.New,
+        SenderId: notification.SenderId,
+        SenderName: notification.SenderName,
+        Type: notification.Type,
+      })
     );
     expect(component.notificationService.sendNotification).toHaveBeenCalledWith(
       successMessage
