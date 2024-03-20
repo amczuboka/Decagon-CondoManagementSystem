@@ -9,8 +9,17 @@ import { AuthService } from 'src/app/services/auth.service';
 import { AppModule } from 'src/app/app.module';
 import { LockerComponent } from './locker.component';
 import { UserService } from 'src/app/services/user.service';
-import { Authority, Notification, NotificationType, UserDTO } from 'src/app/models/users';
-import { Building, Locker, ParkingLockerStatus } from 'src/app/models/properties';
+import {
+  Authority,
+  Notification,
+  NotificationType,
+  UserDTO,
+} from 'src/app/models/users';
+import {
+  Building,
+  Locker,
+  ParkingLockerStatus,
+} from 'src/app/models/properties';
 
 describe('LockerComponent', () => {
   let component: LockerComponent;
@@ -78,7 +87,7 @@ describe('LockerComponent', () => {
       Lockers: [],
       Condos: [],
       Picture: '',
-      Facilities: []
+      Facilities: [],
     };
 
     myUser = {
@@ -350,25 +359,32 @@ describe('LockerComponent', () => {
   });
 
   it('should send rental request notification and display success message', async () => {
+    let date = new Date().getTime();
+    let trimmedDate = Number(date.toString().substring(0, 11));
     const notification: Notification = {
-      Date: new Date().getTime(),
+      Date: trimmedDate,
       Message: `Request for rental of locker ${locker.Number} in ${component.building.Name} with ID ${locker.ID}`,
       New: true,
       SenderId: component.myUser.ID,
       SenderName: `${component.myUser.FirstName} ${component.myUser.LastName}`,
       Type: NotificationType.RentRequest,
     };
-    const successMessage = 'Your request for rental has been sent. You will be notified when it is approved.';
-    spyOn(component.userService, 'sendNotificationToUser').and.returnValue(Promise.resolve());
+    const successMessage =
+      'Your request for rental has been sent. You will be notified when it is approved.';
+    spyOn(component.userService, 'sendNotificationToUser').and.returnValue(
+      Promise.resolve()
+    );
     spyOn(component.notificationService, 'sendNotification');
-  
+
     await component.requestRent(locker);
-  
+
     expect(component.userService.sendNotificationToUser).toHaveBeenCalledWith(
       component.building.CompanyID,
       Authority.Company,
       notification
     );
-    expect(component.notificationService.sendNotification).toHaveBeenCalledWith(successMessage);
+    expect(component.notificationService.sendNotification).toHaveBeenCalledWith(
+      successMessage
+    );
   });
 });

@@ -3,8 +3,17 @@ import { AppModule } from 'src/app/app.module';
 
 import { CondoComponent } from './condo.component';
 import { AuthService } from 'src/app/services/auth.service';
-import { Building, Condo, CondoStatus, CondoType } from 'src/app/models/properties';
-import { Authority, Notification, NotificationType } from 'src/app/models/users';
+import {
+  Building,
+  Condo,
+  CondoStatus,
+  CondoType,
+} from 'src/app/models/properties';
+import {
+  Authority,
+  Notification,
+  NotificationType,
+} from 'src/app/models/users';
 
 describe('CondoComponent', () => {
   let component: CondoComponent;
@@ -48,7 +57,7 @@ describe('CondoComponent', () => {
       Lockers: [],
       Condos: [],
       Picture: '',
-      Facilities: []
+      Facilities: [],
     };
     myUser = {
       ID: '1',
@@ -124,48 +133,62 @@ describe('CondoComponent', () => {
   });
 
   it('should send ownership request notification and display success message', async () => {
+    let date = new Date().getTime();
+    let trimmedDate = Number(date.toString().substring(0, 11));
     const notification: Notification = {
-      Date: new Date().getTime(),
+      Date: trimmedDate,
       Message: `Request for ownership of unit ${condo.UnitNumber} in ${component.building.Name} with ID ${condo.ID}`,
       New: true,
       SenderId: component.myUser.ID,
       SenderName: `${component.myUser.FirstName} ${component.myUser.LastName}`,
       Type: NotificationType.OwnershipRequest,
     };
-    const successMessage = 'Your request for ownership has been sent. You will be notified when it is approved.';
-    spyOn(component.userService, 'sendNotificationToUser').and.returnValue(Promise.resolve());
+    const successMessage =
+      'Your request for ownership has been sent. You will be notified when it is approved.';
+    spyOn(component.userService, 'sendNotificationToUser').and.returnValue(
+      Promise.resolve()
+    );
     spyOn(component.notificationService, 'sendNotification');
-  
+
     await component.requestOwnership(condo);
-  
+
     expect(component.userService.sendNotificationToUser).toHaveBeenCalledWith(
       component.building.CompanyID,
       Authority.Company,
       notification
     );
-    expect(component.notificationService.sendNotification).toHaveBeenCalledWith(successMessage);
+    expect(component.notificationService.sendNotification).toHaveBeenCalledWith(
+      successMessage
+    );
   });
 
   it('should send rental request notification and display success message', async () => {
+    let date = new Date().getTime();
+    let trimmedDate = Number(date.toString().substring(0, 11));
     const notification: Notification = {
-      Date: new Date().getTime(),
+      Date: trimmedDate,
       Message: `Request for rental of unit ${condo.UnitNumber} in ${component.building.Name} with ID ${condo.ID}`,
       New: true,
       SenderId: component.myUser.ID,
       SenderName: `${component.myUser.FirstName} ${component.myUser.LastName}`,
       Type: NotificationType.RentRequest,
     };
-    const successMessage = 'Your request for rental has been sent. You will be notified when it is approved.';
-    spyOn(component.userService, 'sendNotificationToUser').and.returnValue(Promise.resolve());
+    const successMessage =
+      'Your request for rental has been sent. You will be notified when it is approved.';
+    spyOn(component.userService, 'sendNotificationToUser').and.returnValue(
+      Promise.resolve()
+    );
     spyOn(component.notificationService, 'sendNotification');
-  
+
     await component.requestRent(condo);
-  
+
     expect(component.userService.sendNotificationToUser).toHaveBeenCalledWith(
       component.building.CompanyID,
       Authority.Company,
       notification
     );
-    expect(component.notificationService.sendNotification).toHaveBeenCalledWith(successMessage);
+    expect(component.notificationService.sendNotification).toHaveBeenCalledWith(
+      successMessage
+    );
   });
 });

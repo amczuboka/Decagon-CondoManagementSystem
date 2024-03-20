@@ -356,8 +356,10 @@ describe('ParkingSpotComponent', () => {
   });
 
   it('should send rental request notification and display success message', async () => {
+    let date = new Date().getTime();
+    let trimmedDate = Number(date.toString().substring(0, 11));
     const notification: Notification = {
-      Date: new Date().getTime(),
+      Date: trimmedDate,
       Message: `Request for rental of parking spot ${parkingSpot.Number} in ${component.building.Name} with ID ${parkingSpot.ID}`,
       New: true,
       SenderId: component.myUser.ID,
