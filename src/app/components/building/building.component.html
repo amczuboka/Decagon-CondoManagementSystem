@@ -28,11 +28,11 @@
             <div class="top-card">
               <div class="info">
                 <p class="name" style="font-weight: bold">{{ item.Name }}</p>
-                <p style="color: #486380; font-size: 14px">
+                <p class="address" style="color: #486380; font-size: 14px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
                   {{ item.Address }}
                 </p>
                 <p style="font-size: 14px" class="total">
-                  {{ calculateTotalCondos(item) }} Condos Total, {{ calculateAvailableCondos(item) }} available
+                  {{ calculateTotalCondos(item) }} Total, {{ calculateAvailableCondos(item) }} available
                 </p>
               </div>
               <div class="button-container" (click)="navigateToBuildingInfo(item)">
