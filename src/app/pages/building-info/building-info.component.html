@@ -5,7 +5,7 @@
     <!-------------------------------------------------------------------------------------------------------------------------------------------------------------->
     <mat-tab label="Overview"> 
         
-        <app-building-overview [building]="building" [sourcePage]="sourcePage"></app-building-overview>
+        <app-building-overview *ngIf="building" [building]="building" [sourcePage]="sourcePage"></app-building-overview>
         
     </mat-tab>
 

@@ -10,17 +10,30 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./building-overview.component.scss']
 })
 
-export class BuildingOverviewComponent{
+export class BuildingOverviewComponent {
   @Input() building!: Building;
   @Input() sourcePage!: string;
   authority!: string;
-
+  company: CompanyDTO | null=null;
 
   constructor(
     private authService: AuthService,
     public userService: UserService
   ) {}
 
+  async ngOnInit() {
+    await this.fetchCompany();
+  }
+
+  async fetchCompany(){
+    this.company = await this.userService.getCompanyUser(this.building.CompanyID);
+  }
+
+  /**
+   * Get Facility Icon
+   * @param facility 
+   * @returns facility icon
+   */
   getFacilityIcon(facility: string): string {
     switch (facility) {
       case Facilities.Gym:
