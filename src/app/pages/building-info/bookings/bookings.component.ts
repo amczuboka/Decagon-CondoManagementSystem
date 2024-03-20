@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-bookings',
-  templateUrl: './bookings.component.html',
+  templateUrl:'./bookings.component.html',
   styleUrls: ['./bookings.component.scss']
 })
 export class BookingsComponent {

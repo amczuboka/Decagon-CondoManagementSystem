@@ -1,3 +1,14 @@
+
+/******************************************/
+/*Facility Info */
+/******************************************/
+
+.facility-item {
+    display: flex; 
+    justify-content: space-between; 
+    align-items:center;
+  }
+
 /******************************************/
 /*Padding */
 /******************************************/
@@ -58,26 +69,4 @@
 }
 
 
-
-/******************************************/
-/*Radio Buttons*/
-/******************************************/
-.facility-radio-group{
-    display: flex;
-    flex-direction: column;
-    margin: 15px 0;
-    align-items: flex-start;
-}
-
-.facility-radio-button{
-    margin: 5px;
-}
-
-/******************************************/
-/*Time Slots*/
-/******************************************/
-
-.time-chips{
-    width: 80%;
-}
 

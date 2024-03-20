@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { Building, CondoStatus, ParkingLockerStatus } from 'src/app/models/properties';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { Building, Facilities, CondoStatus, ParkingLockerStatus } from 'src/app/models/properties';
 import { CompanyDTO } from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
@@ -10,18 +10,38 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./building-overview.component.scss']
 })
 
-export class BuildingOverviewComponent {
+export class BuildingOverviewComponent{
   @Input() building!: Building;
   @Input() sourcePage!: string;
-  myCompany: CompanyDTO | null=null;
   authority!: string;
+
 
   constructor(
     private authService: AuthService,
     public userService: UserService
   ) {}
 
-  
+  getFacilityIcon(facility: string): string {
+    switch (facility) {
+      case Facilities.Gym:
+        return 'fitness_center';
+      case Facilities.Pool:
+        return 'pool';
+      case Facilities.Spa:
+        return 'spa';
+      case Facilities.Locker:
+        return 'locker';
+      case Facilities.Parking:
+        return 'local_parking';
+      case Facilities.Playground:
+        return 'child_friendly';
+      case Facilities.MeetingRoom:
+        return 'meeting_room';
+      default:
+        return '';
+    }
+  }
+
     /**
    * Calculate the total number of condos in the building
    *

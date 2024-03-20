@@ -6,7 +6,8 @@
         <div class="top-tab-content" id="building-title-pic">
             <h2>{{ building.Name }}</h2>
             <p>{{ building.Address }}</p> 
-            <img [src]="building.Picture" alt="building image not found" />
+            <img [src]="building.Picture" alt="building image not found" style="height:500px;"/>
+            
         </div>
         
         <!--Building Overview Main-->
@@ -30,18 +31,40 @@
                         <!--Column 1-->
                         <div class="gen-info-col">
                             <ul>
-                                <li>{{ calculateTotalCondos(building) }} Condos Total, {{ calculateAvailableCondos(building) }} Available</li>
-                                <li>{{ calculateTotalParkings(building) }} Parking Spaces Total, {{ calculateAvailableLockers(building) }} Available</li>
-                                <li>{{ calculateTotalLockers(building) }} Lockers Total, {{ calculateAvailableParkings(building) }} Available</li>
+                                <li>Built in {{ building.Year }}</li>
+                                <li>{{ calculateTotalCondos(building) }} Condos Total</li>
+                                <li>{{ calculateTotalParkings(building) }} Parking Spaces Total</li>
+                                <li>{{ calculateTotalLockers(building) }} Lockers Total</li>
                             </ul>
                         </div>
                         <!--Column 2-->
                         <div class="gen-info-col">
                             <ul>
-                                <li>35 000 square feet</li>
-                                <li>Built in {{ building.Year }}</li>
+                                <li>{{ calculateAvailableCondos(building) }} Condos Available</li>
+                                <li>{{ calculateAvailableLockers(building) }} Parking Spaces Available</li>
+                                <li>{{ calculateAvailableParkings(building) }} Lockers Available</li>
                             </ul>
                         </div>
+
+                    </div>
+                    
+                </div>
+            </div>
+
+            <!--Facilities-->
+            <div class="heading-content">
+                <h2>Facilities</h2>
+                <mat-divider></mat-divider>
+                <div class="sub-heading-content">
+                    <div class="facility-item">
+                            <div
+                                *ngFor="let facility of building.Facilities"
+                            >
+                                <div>
+                                    {{ facility }}
+                                    <mat-icon>{{ getFacilityIcon(facility) }}</mat-icon>
+                                </div>
+                            </div>
 
                     </div>
                     
