@@ -1,37 +1,51 @@
 <section class="vh-100">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 col-lg-7">
-          <div class="card-body text-black">
-            <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; font-size: 24px;">
-              Registration Key
-            </h5>
-  
-            <!-- Input for registration key -->
-            <div class="form-outline mb-2">
-              <mat-form-field appearance="outline">
-                <mat-label class="form-label" for="registrationKey">Enter Key</mat-label>
-                <input
-                  matInput
-                  id="registrationKey"
-                  class="form-control form-control-lg"
-                  placeholder="Enter Key"
-                  #inputRef
-                />
-              </mat-form-field>
-            </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-lg-7">
+        <div class="card-body text-black">
+          <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; font-size: 24px;">
+            Registration Key
+          </h5>
 
-            <div class="d-flex justify-content-between align-items-center">
-              <button
-                class="btn btn-dark btn-lg"
-                type="button"
-                (click)="handleButtonClick()"
-              >
-                Register
-              </button>
-            </div>
+          <!-- Input for registration key -->
+          <div class="form-outline mb-2">
+            <mat-form-field appearance="outline">
+              <mat-label class="form-label" for="registrationKey">Enter Key</mat-label>
+              <input
+                matInput
+                id="registrationKey"
+                class="form-control form-control-lg"
+                placeholder="Enter Key"
+                #inputRef
+              />
+            </mat-form-field>
+          </div>
+
+          <!-- Dropdown for registration type -->
+          <div class="form-outline mb-2">
+            <mat-form-field appearance="outline">
+              <mat-label class="form-label" for="registrationType">Select Registration Type</mat-label>
+              <mat-select [(ngModel)]="registrationType">
+                <mat-option value="condo">Condo</mat-option>
+                <mat-option value="parking">Parking</mat-option>
+                <mat-option value="locker">Locker</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center">
+            <button
+              class="btn btn-dark btn-lg"
+              type="button"
+              (click)="handleButtonClick()"
+            >
+              Register
+            </button>
+
           </div>
         </div>
       </div>
     </div>
+  </div>
 </section>
+

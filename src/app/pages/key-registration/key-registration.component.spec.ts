@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
 import { KeyRegistrationComponent } from './key-registration.component';
 import { AppModule } from 'src/app/app.module';
 import { BuildingService } from 'src/app/services/building.service';
@@ -8,18 +8,29 @@ import { BehaviorSubject, of } from 'rxjs';
 import { User } from 'src/app/models/users';
 import { Building, Condo, CondoStatus } from 'src/app/models/properties';
 import { CondoType } from 'src/app/models/properties';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { ElementRef } from '@angular/core';
 
 describe('KeyRegistrationComponent', () => {
   let component: KeyRegistrationComponent;
   let fixture: ComponentFixture<KeyRegistrationComponent>;
   let buildingService: BuildingService;
   let authService: AuthService;
+  let userService: UserService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppModule],
+      imports: [AppModule, MatSelectModule, MatFormFieldModule, MatInputModule, MatButtonModule],
       declarations: [KeyRegistrationComponent],
-      providers: [BuildingService, AuthService, UserService]
+      providers: [
+        BuildingService,
+        AuthService,
+        UserService,
+        { provide: ElementRef, useValue: { nativeElement: { value: 'testKey' } } } // Mocking ElementRef
+      ]
     }).compileComponents();
   });
 
@@ -28,106 +39,91 @@ describe('KeyRegistrationComponent', () => {
     component = fixture.componentInstance;
     buildingService = TestBed.inject(BuildingService);
     authService = TestBed.inject(AuthService);
+    userService = TestBed.inject(UserService);
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  describe('handleButtonClick', () => {
-    it('should alert if input value is empty', async () => {
-      spyOn(window, 'alert');
-      component.inputElement.nativeElement.value = '';
-      await component.handleButtonClick();
-      expect(window.alert).toHaveBeenCalledWith('Input value is empty!');
-    });
-
-    it('should update condo occupant ID if condo found', async () => {
-      const user: User = { uid: 'testUserId', email: 'test@example.com', photoURL: '', emailVerified: true };
-      spyOn(authService, 'getUser').and.returnValue(Promise.resolve(user));
-
-      const buildingsWithCondos: Building[] = [
-        {
-          ID: 'buildingId',
-          Year: 2022,
-          CompanyID: 'companyId',
-          Name: 'Test Building',
-          Address: 'Test Address',
-          Bookings: [],
-          Description: 'Test Description',
-          Parkings: [],
-          Lockers: [],
-          Condos: [{ ID: 'condoId', Type: CondoType.Sale, OccupantID: '', UnitNumber: '', Fee: 0, Picture: '', Description: '', NumberOfBedrooms: 0, NumberOfBathrooms: 0, Status: CondoStatus.Vacant, SquareFootage: 0 }],
-          Picture: '',
-          Facilities: []
-        }
-      ];
-      spyOn(buildingService, 'getAllBuildingsWithCondos').and.returnValue(Promise.resolve(buildingsWithCondos));
-      spyOn(buildingService, 'updateCondo').and.returnValue(Promise.resolve());
-
-      component.inputElement.nativeElement.value = 'condoId';
-      await component.handleButtonClick();
-
-      expect(buildingService.updateCondo).toHaveBeenCalledWith('buildingId', 'condoId', 'testUserId');
-    });
-
-    it('should log error if user not logged in', async () => {
-      spyOn(console, 'error');
-      spyOn(authService, 'getUser').and.returnValue(Promise.resolve(null));
-
-      component.inputElement.nativeElement.value = 'condoId';
-      await component.handleButtonClick();
-
-      expect(console.error).toHaveBeenCalledWith('No user is currently logged in');
-    });
-
-    it('should log error if error fetching buildings with condos', async () => {
-      spyOn(console, 'error');
-      spyOn(authService, 'getUser').and.returnValue(Promise.resolve({ uid: 'testUserId' }));
-      spyOn(buildingService, 'getAllBuildingsWithCondos').and.throwError('Test error');
-
-      component.inputElement.nativeElement.value = 'condoId';
-      await component.handleButtonClick();
-
-      expect(console.error).toHaveBeenCalledWith('Error fetching buildings with condos:', jasmine.any(Error));
-    });
+  it('should handle empty input', async () => {
+    spyOn(window, 'alert');
+    component.inputElement.nativeElement.value = ''; // Set input value to empty string
+    await component.handleButtonClick();
+    expect(window.alert).toHaveBeenCalledWith('Input value is empty!');
   });
 
-  describe('getAllBuildingsWithCondos', () => {
-    it('should fetch buildings with condos successfully', async () => {
-      const buildingsWithCondos: Building[] = [
-        {
-          ID: 'buildingId',
-          Year: 2022,
-          CompanyID: 'companyId',
-          Name: 'Test Building',
-          Address: 'Test Address',
-          Bookings: [],
-          Description: 'Test Description',
-          Parkings: [],
-          Lockers: [],
-          Condos: [],
-          Picture: '',
-          Facilities: []
-        }
-      ];
-      spyOn(buildingService, 'getAllBuildingsWithCondos').and.returnValue(Promise.resolve(buildingsWithCondos));
+  it('should log error if user not logged in', async () => {
+    spyOn(console, 'error');
+    spyOn(authService, 'getUser').and.returnValue(Promise.resolve(null));
 
-      await component.getAllBuildings();
+    component.inputElement.nativeElement.value = 'condoId';
+    await component.handleButtonClick();
 
-      // Check that the method returns the expected data
-      expect(buildingService.getAllBuildingsWithCondos).toHaveBeenCalled();
-    });
-
-    it('should log error if error fetching buildings with condos', async () => {
-      spyOn(console, 'error');
-      spyOn(buildingService, 'getAllBuildingsWithCondos').and.throwError('Test error');
-
-      await component.getAllBuildings();
-
-      expect(console.error).toHaveBeenCalledWith('Error fetching buildings with condos:', jasmine.any(Error));
-    });
+    expect(console.error).toHaveBeenCalledWith('No user is currently logged in');
   });
-});
+
+
+  it('should register condo successfully', async () => {
+    const fakeUser = { uid: 'testUserID' } as User; // Mock user
+    spyOn(authService, 'getUser').and.returnValue(Promise.resolve(fakeUser));
+    spyOn(component, 'registerForItem').and.callThrough(); // Use callThrough to let the method execute
+  
+    component.registrationType = 'condo'; // Set registration type to condo
+    component.inputElement.nativeElement.value = 'testKey'; // Set existing item
+  
+    await component.handleButtonClick();
+  
+    expect(authService.getUser).toHaveBeenCalled();
+    expect(component.registerForItem).toHaveBeenCalledWith('testKey', 'testUserID', 'Condos');
+  });
+  
+  it('should handle item not found', async () => {
+    const fakeUser = { uid: 'testUserID' } as User; // Mock user
+    spyOn(authService, 'getUser').and.returnValue(Promise.resolve(fakeUser));
+    spyOn(component, 'registerForItem').and.callThrough(); // Use callThrough to let the method execute
+  
+    // Mock buildings without the item
+    const buildings: Building[] = [
+      { 
+        ID: 'building1', 
+        Year: 2022, 
+        CompanyID: 'company1',
+        Name: 'Building 1', 
+        Address: 'Address 1',
+        Bookings: [], 
+        Description: 'Description 1',
+        Parkings: [], 
+        Lockers: [], 
+        Condos: [], 
+        Picture: 'picture1',
+        Facilities: []
+      },
+      { 
+        ID: 'building2', 
+        Year: 2023, 
+        CompanyID: 'company2',
+        Name: 'Building 2', 
+        Address: 'Address 2',
+        Bookings: [], 
+        Description: 'Description 2',
+        Parkings: [], 
+        Lockers: [], 
+        Condos: [], 
+        Picture: 'picture2',
+        Facilities: []
+      }
+    ];
+  
+    spyOn(buildingService, 'getAllBuildingsWithItems').and.returnValue(Promise.resolve(buildings));
+  
+    component.registrationType = 'condo'; // Set registration type to condo
+    component.inputElement.nativeElement.value = 'nonExistingItem'; // Set non-existing item
+    spyOn(window, 'alert');
+    await component.handleButtonClick();
+    expect(component.registerForItem).toHaveBeenCalled();
+    expect(window.alert).toHaveBeenCalledWith('Condo not found!');
+  });
+
+  });
 

@@ -22,22 +22,16 @@ import { User } from 'firebase/auth';
   styleUrls: ['./key-registration.component.scss']
 })
 export class KeyRegistrationComponent {
+  
+  @ViewChild('inputRef') inputElement!: ElementRef<HTMLInputElement>;
+  registrationType: 'condo' | 'parking' | 'locker' = 'condo';
 constructor(private buildingService: BuildingService,
   private authService: AuthService,
-  private userService: UserService,  ) { }
-
-  @ViewChild('inputRef') inputElement!: ElementRef<HTMLInputElement>;
-
-async getAllBuildings() {
-  try {
-    const buildingsWithCondos = await this.buildingService.getAllBuildingsWithCondos();
-    console.log(buildingsWithCondos);
-  } catch (error) {
-    console.error('Error fetching buildings with condos:', error);
-  }
-}
+  private userService: UserService, 
+  ) { }
 
 async handleButtonClick() {
+  
   const value = this.inputElement.nativeElement.value.trim();
   if (!value) {
     alert('Input value is empty!');
@@ -46,29 +40,42 @@ async handleButtonClick() {
 
   try {
     const user = await this.authService.getUser();
-    if(!user) {
+    if (!user) {
       console.error('No user is currently logged in');
       return;
     }
     const currentID = user.uid;
-    const buildingsWithCondos = await this.buildingService.getAllBuildingsWithCondos();
-    let found = false;
-    for (const building of buildingsWithCondos) {
-      for (const condo of building.Condos) { 
-       
-        if (condo.ID === value) {
-          condo.OccupantID = currentID;
-          this.buildingService.updateCondo(building.ID,condo.ID,currentID)
-          found = true;
-          break;
-        }
-      }
-      if (found) {
+
+    switch (this.registrationType) {
+      case 'condo':
+        await this.registerForItem(value, currentID, 'Condos');
         break;
-      }
+      case 'parking':
+        await this.registerForItem(value, currentID, 'Parkings');
+        break;
+      case 'locker':
+        await this.registerForItem(value, currentID, 'Lockers');
+        break;
+      default:
+        console.error('Invalid registration type');
     }
   } catch (error) {
-    console.error('Error fetching buildings with condos:', error);
+    console.error('Error registering:', error);
   }
+}
+
+async registerForItem(itemId: string, currentUserId: string, itemType: 'Condos' | 'Parkings' | 'Lockers') {
+  const buildingsWithItems = await this.buildingService.getAllBuildingsWithItems(itemType);
+  for (const building of buildingsWithItems) {
+    for (const item of building[itemType]) {
+      if (item.ID === itemId) {
+        item.OccupantID = currentUserId;
+        await this.buildingService.updateItem(building.ID, itemType, item.ID, currentUserId);
+        alert('Successfully registered!');
+        return;
+      }
+    }
+  }
+  alert(`${itemType.slice(0, -1)} not found!`);
 }
 }
