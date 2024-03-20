@@ -1,43 +1,105 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Route, Router } from '@angular/router';
+import { Building } from 'src/app/models/properties';
+import { Authority, NotificationType } from 'src/app/models/users';
+import { AuthService } from 'src/app/services/auth.service';
+import { NotificationService } from 'src/app/services/notification.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-request-page',
   templateUrl: './request-page.component.html',
-  styleUrls: ['./request-page.component.scss']
+  styleUrls: ['./request-page.component.scss'],
 })
 export class RequestPageComponent {
-
   requestForm!: FormGroup;
-  requestTypes = ['Move In / Move Out', 'Intercome Changes', 'Report Violation / Deficiency', 'Request Access', 'General Questions'];
+  //   requestTypes = ['Move In / Move Out', 'Intercome Changes', 'Report Violation / Deficiency', 'Request Access', 'General Questions'];
+  requestTypes: string[] = Object.values(NotificationType);
 
-  constructor(private formBuilder: FormBuilder, private _snackBar: MatSnackBar) { }
+  building!: Building;
+  myUser!: any;
+  authority!: string;
 
-  ngOnInit(): void {
-      this.requestForm = this.formBuilder.group({
-          RequestType: ['', Validators.required],
-          Comments: [''],
-      });
-  }
+  constructor(
+    public formBuilder: FormBuilder,
+    public route: ActivatedRoute,
+    public router: Router,
+    public authService: AuthService,
+    public userService: UserService,
+    public notificationService: NotificationService
+  ) {}
 
-  onSubmit(): void {
-      console.warn('Your order has been submitted', this.requestForm.value);
-      if (this.requestForm.invalid) {
-          console.log('Form is invalid');
-          this.openSnackBar('You must select a request type.');
+  async ngOnInit() {
+    this.route.queryParams.subscribe((params) => {
+      if (params['building']) {
+        this.building = JSON.parse(params['building']);
       } else {
-          console.log('Form is valid');
-          this.openSnackBar('Your request has been submitted.');
+        this.router.navigate(['/']);
       }
+    });
+
+    this.requestForm = this.formBuilder.group({
+      RequestType: ['', Validators.required],
+      Comments: [''],
+    });
+
+    // Fetch the current user
+    try {
+      this.myUser = await this.authService.getUser();
+      if (this.myUser) {
+        this.authority = this.myUser.photoURL;
+        if (this.authority == Authority.Public) {
+          this.userService.getPublicUser(this.myUser.uid).then((user) => {
+            this.myUser = user;
+          });
+        } else if (this.authority == Authority.Employee) {
+          this.userService.getEmployeeUser(this.myUser.uid).then((user) => {
+            this.myUser = user;
+          });
+        } else if (this.authority == Authority.Company) {
+          this.userService.getCompanyUser(this.myUser.uid).then((user) => {
+            this.myUser = user;
+          });
+        }
+      } else {
+        this.authority = '';
+      }
+    } catch (error) {
+      console.error(error);
+      this.authority = '';
+    }
   }
 
-  openSnackBar(message: string) {
-    this._snackBar.open(message, '', {
-       duration: 5000, 
-       horizontalPosition: 'center',
-       verticalPosition: 'top',
-      });
+  async onSubmit() {
+    console.warn('Your order has been submitted', this.requestForm.value);
+    if (this.requestForm.invalid) {
+      console.log('Form is invalid');
+      this.notificationService.sendAlert('You must select a request type.');
+    } else {
+      console.log('Form is valid');
+      await this.sendRequest();
+      this.requestForm.reset();
+      this.notificationService.sendNotification(
+        'Your request has been submitted.'
+      );
+    }
   }
 
+  async sendRequest() {
+    // Create a new notification
+    const notification: any = {
+      Date: new Date().getTime(),
+      Message: `${this.requestForm.value.Comments}`,
+      New: true,
+      SenderId: this.myUser.ID,
+      SenderName: `${this.myUser.FirstName} ${this.myUser.LastName}`,
+      Type: this.requestForm.value.RequestType as NotificationType,
+    };
+    await this.userService.sendNotificationToUser(
+      this.building.CompanyID,
+      Authority.Company,
+      notification
+    );
+  }
 }
