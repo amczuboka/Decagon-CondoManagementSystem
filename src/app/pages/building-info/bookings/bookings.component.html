@@ -1,72 +1,74 @@
-<div class="tab-content">
+<ng-container *ngIf="sourcePage === 'availablePage' || sourcePage === 'propertiesPage'">
+    <div class="tab-content">
 
-    <!--Book Facility Time-->
-    <div class="heading-content">
-        <h2>Book Facility Time</h2>
-        <mat-divider></mat-divider>
-        <div class="sub-heading-content">
-            <p>Book time at one of our amazing facilities now!</p>
+        <!--Book Facility Time-->
+        <div class="heading-content">
+            <h2>Book Facility Time</h2>
+            <mat-divider></mat-divider>
+            <div class="sub-heading-content">
+                <p>Book time at one of our amazing facilities now!</p>
 
-            <!--Form to book time at a facility-->
-            <form [formGroup]="bookFacilityForm">
+                <!--Form to book time at a facility-->
+                <form [formGroup]="bookFacilityForm">
 
+                    
+                    <!--Radio Buttons-->
+                    <mat-radio-group 
+                        class="facility-radio-group"
+                        formControlName="facility"
+                    >
+                        <mat-radio-button class="facility-radio-button" value="Spa">Spa</mat-radio-button>
+                        <mat-radio-button class="facility-radio-button" value="Sky Lounge">Sky Lounge</mat-radio-button>
+                        <mat-radio-button class="facility-radio-button" value="Restaurant">Restaurant</mat-radio-button>
+                    </mat-radio-group>
+
+                    <!--Datepicker-->
+                    <div class="datepicker">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Choose a date</mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="date" [min]="minDate"/>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field> 
+                    </div>
+
+                    <!--Time-->
+                    <div class="time-chips">
+
+                        <mat-chip-listbox formControlName="time-slots">
+                            <mat-chip-option>9:00 am</mat-chip-option>
+                            <mat-chip-option>10:00 am</mat-chip-option>
+                            <mat-chip-option>11:00 am</mat-chip-option>
+                            <mat-chip-option>12:00 pm</mat-chip-option>
+                            <mat-chip-option>1:00 am</mat-chip-option>
+                            <mat-chip-option>2:00 pm</mat-chip-option>
+                            <mat-chip-option>3:00 pm</mat-chip-option>
+                            <mat-chip-option>4:00 pm</mat-chip-option>
+                        </mat-chip-listbox>
+
+                    </div>  
                 
-                <!--Radio Buttons-->
-                <mat-radio-group 
-                    class="facility-radio-group"
-                    formControlName="facility"
-                >
-                    <mat-radio-button class="facility-radio-button" value="Spa">Spa</mat-radio-button>
-                    <mat-radio-button class="facility-radio-button" value="Sky Lounge">Sky Lounge</mat-radio-button>
-                    <mat-radio-button class="facility-radio-button" value="Restaurant">Restaurant</mat-radio-button>
-                </mat-radio-group>
+                    <br><br>
+                    <!--Button-->
+                    <button mat-raised-button color="primary">Save</button>
+                    
+                </form>
 
-                <!--Datepicker-->
-                <div class="datepicker">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Choose a date</mat-label>
-                        <input matInput [matDatepicker]="picker" formControlName="date" [min]="minDate"/>
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field> 
-                </div>
+            </div>
+        </div>
 
-                <!--Time-->
-                <div class="time-chips">
-
-                    <mat-chip-listbox formControlName="time-slots">
-                        <mat-chip-option>9:00 am</mat-chip-option>
-                        <mat-chip-option>10:00 am</mat-chip-option>
-                        <mat-chip-option>11:00 am</mat-chip-option>
-                        <mat-chip-option>12:00 pm</mat-chip-option>
-                        <mat-chip-option>1:00 am</mat-chip-option>
-                        <mat-chip-option>2:00 pm</mat-chip-option>
-                        <mat-chip-option>3:00 pm</mat-chip-option>
-                        <mat-chip-option>4:00 pm</mat-chip-option>
-                    </mat-chip-listbox>
-
-                </div>  
-            
-                <br><br>
-                <!--Button-->
-                <button mat-raised-button color="primary">Save</button>
+        <br><br>
+        <!--My Bookings-->
+        <div class="heading-content">
+            <h2>My Bookings</h2>
+            <mat-divider></mat-divider>
+            <div class="sub-heading-content">
                 
-            </form>
 
+                <app-booking-card></app-booking-card>
+
+            </div>
         </div>
+
     </div>
-
-    <br><br>
-    <!--My Bookings-->
-    <div class="heading-content">
-        <h2>My Bookings</h2>
-        <mat-divider></mat-divider>
-        <div class="sub-heading-content">
-            
-
-            <app-booking-card></app-booking-card>
-
-        </div>
-    </div>
-
-</div>
+</ng-container>

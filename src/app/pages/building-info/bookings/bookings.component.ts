@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormGroup, Validators, ReactiveFormsModule, FormBuilder, FormControl } from '@angular/forms'
 import { FormsModule } from '@angular/forms';
+import { Building } from 'src/app/models/properties';
 
 @Component({
   selector: 'app-bookings',
@@ -8,6 +9,9 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./bookings.component.scss']
 })
 export class BookingsComponent {
+
+  @Input() building!: Building;
+  @Input() sourcePage!: string;
 
   bookFacilityForm!: FormGroup<any>;
   selected: any;
