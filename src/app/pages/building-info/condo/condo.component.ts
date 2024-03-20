@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class CondoComponent {
   @Input() condos!: Condo[];
   @Input() sourcePage!: string;
+  @Input() address!: string;
   myUser!: any;
   authority!: string;
 
