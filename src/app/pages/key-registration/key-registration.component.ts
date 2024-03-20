@@ -70,6 +70,7 @@ async registerForItem(itemId: string, currentUserId: string, itemType: 'Condos' 
     for (const item of building[itemType]) {
       if (item.ID === itemId) {
         item.OccupantID = currentUserId;
+        
         await this.buildingService.updateItem(building.ID, itemType, item.ID, currentUserId);
         alert('Successfully registered!');
         return;

@@ -6,7 +6,7 @@ import { AuthService } from './auth.service';
 import { CompanyDTO } from '../models/users';
 import { UserService } from './user.service';
 import { Condo } from '../models/properties';
-
+import { ParkingLockerStatus,CondoStatus,CondoType } from '../models/properties';
 /**
  * Service for managing building-related operations.
  */
@@ -177,24 +177,42 @@ export class BuildingService {
 
   async updateItem(buildingId: string, itemType: 'Condos' | 'Parkings' | 'Lockers', itemId: string, occupantId: string): Promise<void> {
     try {
-      const db = getDatabase();
-      const buildingRef = ref(db, `buildings/${buildingId}/${itemType}`);
-      const itemsSnapshot = await get(buildingRef);
-  
-      if (itemsSnapshot.exists()) {
-        itemsSnapshot.forEach((itemChild) => {
-          const itemData = itemChild.val();
-          if (itemData.ID === itemId) {
-            const occupantIdRef = ref(db, `buildings/${buildingId}/${itemType}/${itemChild.key}/OccupantID`);
-            set(occupantIdRef, occupantId);
-          }
-        });
-      }
+        const db = getDatabase();
+        const buildingRef = ref(db, `buildings/${buildingId}/${itemType}`);
+        const itemsSnapshot = await get(buildingRef);
+
+        if (itemsSnapshot.exists()) {
+            itemsSnapshot.forEach((itemChild) => {
+                const itemData = itemChild.val();
+                if (itemData.ID === itemId) {
+                    const occupantIdRef = ref(db, `buildings/${buildingId}/${itemType}/${itemChild.key}/OccupantID`);
+                    set(occupantIdRef, occupantId);
+
+                    // Update status for parkings and lockers
+                    if (itemType === 'Parkings' || itemType === 'Lockers') {
+                        const statusRef = ref(db, `buildings/${buildingId}/${itemType}/${itemChild.key}/Status`);
+                        set(statusRef, ParkingLockerStatus.Unavailable);
+                    }
+
+                    // Update status for condos based on Type
+                    if (itemType === 'Condos'){
+                      const condoRef = ref(db, `buildings/${buildingId}/${itemType}/${itemChild.key}/Status`);
+                      const condoSnapshot = itemChild.val() as Condo;
+                      if (condoSnapshot.Type === CondoType.Sale){
+                        set(condoRef, CondoStatus.Owned);
+                      } else if(condoSnapshot.Type === CondoType.Rent){
+                        set(condoRef, CondoStatus.Rented);
+                      }
+                    }
+                }
+            });
+        }
     } catch (error) {
-      console.error('Error updating building item:', error);
-      throw error;
+        console.error('Error updating building item:', error);
+        throw error;
     }
-  }
+}
+  
   /**
    * Deletes a building and its associated files from the database.
    *
