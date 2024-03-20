@@ -110,6 +110,15 @@ describe('EditCondoDialogComponent', () => {
     expect(component.selectedFileName).toEqual('sample.jpg');
   });
 
+  it('should clear selected file and name when no file is selected', () => {
+    const event = { target: { files: [] } } as unknown as Event;
+  
+    component.onFileSelected(event);
+  
+    expect(component.selectedFile).toBeNull();
+    expect(component.selectedFileName).toEqual('');
+  });
+
  it('should handle file input correctly', () => {
    const file = new File(['sample'], 'sample.jpg', { type: 'image/jpeg' });
    const event = { target: { files: [file] } } as unknown as Event;

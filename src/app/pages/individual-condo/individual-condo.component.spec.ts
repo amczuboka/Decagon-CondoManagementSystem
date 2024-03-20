@@ -37,7 +37,7 @@ describe('IndividualCondoComponent', () => {
     mockDialog = jasmine.createSpyObj('MatDialog', ['open']);
     mockAuthService = jasmine.createSpyObj('AuthService', ['getUser']);
     mockLocation = jasmine.createSpyObj('Location', ['back']);
-    
+
     await TestBed.configureTestingModule({
       declarations: [IndividualCondoComponent],
       providers: [
@@ -48,6 +48,7 @@ describe('IndividualCondoComponent', () => {
         { provide: MatDialog, useValue: mockDialog },
         { provide: AuthService, useValue: mockAuthService },
         { provide: Location, useValue: mockLocation },
+        { provide: BuildingService, useValue: mockBuildingService },
       ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
@@ -158,5 +159,106 @@ describe('IndividualCondoComponent', () => {
 
     component.openEditCondoDialog();
     expect(mockDialog.open).not.toHaveBeenCalled();
+  });
+
+  it('should fetch building and condo details successfully', async () => {
+    const buildingId = '1';
+    const condoId = '2';
+    const buildingDetails = {
+      ID: '1',
+      Year: 2022,
+      Name: 'Test Building',
+      Address: '123 Main St',
+      Bookings: [],
+      CompanyID: 'company1',
+      Description: 'Lorem ipsum',
+      Parkings: [],
+      Lockers: [],
+      Condos: [
+        {
+          ID: '2',
+          Status: CondoStatus.Vacant,
+          OccupantID: 'user1',
+          Type: CondoType.Sale,
+          UnitNumber: '101',
+          Fee: 1000,
+          Picture: 'url/to/picture',
+          Description: 'Test Condo',
+          NumberOfBedrooms: 2,
+          NumberOfBathrooms: 1,
+          SquareFootage: 1000,
+        },
+      ],
+      Picture: 'url/to/picture',
+      Facilities: [],
+    };
+
+    mockBuildingService.getBuilding.and.returnValue(
+      Promise.resolve(buildingDetails)
+    );
+
+    await component.fetchBuildingAndCondoDetails(buildingId, condoId);
+
+    expect(mockBuildingService.getBuilding).toHaveBeenCalledWith(buildingId);
+    expect(component.building).toEqual(buildingDetails);
+    expect(component.condo).toEqual(buildingDetails.Condos[0]);
+  });
+
+  it('should handle error when fetching building and condo details', async () => {
+    const buildingId = '1';
+    const condoId = '2';
+    const errorMessage = 'Building details not found';
+
+    spyOn(console, 'error');
+
+    await component.fetchBuildingAndCondoDetails(buildingId, condoId);
+
+    expect(mockBuildingService.getBuilding).toHaveBeenCalledWith(buildingId);
+    expect(console.error).toHaveBeenCalledWith(errorMessage);
+  });
+
+  it('should log a message when share method is called', () => {
+    spyOn(console, 'log');
+    component.share();
+    expect(console.log).toHaveBeenCalledWith('Functionality not implemented yet.');
+  });
+
+  it('should close the edit dialog', () => {
+    component.closeEditDialog();
+    expect(component.editDialogOpen).toBeFalse();
+  });
+
+  it('should update condo data when handleCondoEdited is called', () => {
+    const updatedCondoData: Condo = {
+      ID: '2',
+      Status: CondoStatus.Vacant,
+      OccupantID: 'user1',
+      Type: CondoType.Sale,
+      UnitNumber: '101',
+      Fee: 1000,
+      Picture: 'url/to/picture',
+      Description: 'Updated Condo',
+      NumberOfBedrooms: 2,
+      NumberOfBathrooms: 1,
+      SquareFootage: 1000,
+    };
+  
+    component.condo = {
+      ID: '2',
+      Status: CondoStatus.Vacant,
+      OccupantID: 'user1',
+      Type: CondoType.Sale,
+      UnitNumber: '101',
+      Fee: 1000,
+      Picture: 'url/to/picture',
+      Description: 'Test Condo',
+      NumberOfBedrooms: 2,
+      NumberOfBathrooms: 1,
+      SquareFootage: 1000,
+    };
+  
+    component.handleCondoEdited(updatedCondoData);
+  
+    expect(component.condo).toEqual(updatedCondoData);
   });
 });

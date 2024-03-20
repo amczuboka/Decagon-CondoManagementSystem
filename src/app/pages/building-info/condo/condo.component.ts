@@ -25,8 +25,8 @@ export class CondoComponent {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private userService: UserService,
-    private notificationService: NotificationService
+    public userService: UserService,
+    public notificationService: NotificationService
   ) {}
 
   async requestOwnership(item: Condo) {

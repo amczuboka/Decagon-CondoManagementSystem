@@ -8,6 +8,7 @@ import { AppModule } from 'src/app/app.module';
 import { AuthService } from 'src/app/services/auth.service';
 import { of } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
+import { NotificationType } from 'src/app/models/users';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -69,18 +70,24 @@ describe('HeaderComponent', () => {
           Message: 'Notification 1',
           Date: new Date().getTime(),
           SenderId: '1',
+          SenderName: 'test1',
+          Type: NotificationType.Default,
         },
         {
           New: false,
           Message: 'Notification 2',
           Date: new Date().getTime(),
           SenderId: '2',
+          SenderName: 'test2',
+          Type: NotificationType.Default,
         },
         {
           New: true,
           Message: 'Notification 3',
           Date: new Date().getTime(),
           SenderId: '3',
+          SenderName: 'test3',
+          Type: NotificationType.Default,
         },
       ],
     };
@@ -93,12 +100,16 @@ describe('HeaderComponent', () => {
         Message: 'Notification 1',
         Date: new Date().getTime(),
         SenderId: '1',
+        SenderName: 'test1',
+        Type: NotificationType.Default,
       },
       {
         New: true,
         Message: 'Notification 3',
         Date: new Date().getTime(),
         SenderId: '3',
+        SenderName: 'test3',
+        Type: NotificationType.Default,
       },
     ]);
   });
@@ -127,12 +138,16 @@ describe('HeaderComponent', () => {
           Message: 'Notification 1',
           Date: new Date().getTime(),
           SenderId: '1',
+          SenderName: 'test1',
+          Type: NotificationType.Default,
         },
         {
           New: false,
           Message: 'Notification 2',
           Date: new Date().getTime(),
           SenderId: '2',
+          SenderName: 'test2',
+          Type: NotificationType.Default,
         },
       ],
     };
