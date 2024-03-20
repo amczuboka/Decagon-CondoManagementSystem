@@ -60,7 +60,7 @@ const routes: Routes = [
     component: NotificationsComponent,
     canActivate: [AuthguardGuard],
   },
-  //TODO: Add  company guard
+  
   {
     path: 'add-new-property',
     component: AddNewPropertyComponent,

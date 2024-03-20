@@ -1,5 +1,3 @@
-import { BuildingInfoComponent } from "../pages/building-info/building-info.component";
-
 export interface Building {
   ID: string;
   Year: number;
