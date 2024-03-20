@@ -8,8 +8,18 @@ import { ParkingSpotComponent } from './parking-spot.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { AppModule } from 'src/app/app.module';
 import { UserService } from 'src/app/services/user.service';
-import { Authority, UserDTO } from 'src/app/models/users';
-import { ParkingLockerStatus, ParkingSpot, ParkingType } from 'src/app/models/properties';
+import {
+  Authority,
+  Notification,
+  NotificationType,
+  UserDTO,
+} from 'src/app/models/users';
+import {
+  Building,
+  ParkingLockerStatus,
+  ParkingSpot,
+  ParkingType,
+} from 'src/app/models/properties';
 
 describe('ParkingSpotComponent', () => {
   let component: ParkingSpotComponent;
@@ -17,6 +27,9 @@ describe('ParkingSpotComponent', () => {
   let authService: AuthService;
   let userService: UserService;
   let consoleErrorSpy: jasmine.Spy;
+  let parkingSpot: ParkingSpot;
+  let building: Building;
+  let myUser: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -30,11 +43,13 @@ describe('ParkingSpotComponent', () => {
     userService = TestBed.inject(UserService);
 
     // Mock authService.getUser to return a user
-    spyOn(authService, 'getUser').and.returnValue(Promise.resolve({
-      photoURL: 'company',
-      FirstName: 'Nick',
-      LastName: 'Pip',
-    }));
+    spyOn(authService, 'getUser').and.returnValue(
+      Promise.resolve({
+        photoURL: 'company',
+        FirstName: 'Nick',
+        LastName: 'Pip',
+      })
+    );
 
     // Mock userService.getPublicUser to return a public user
     spyOn(userService, 'getPublicUser').and.returnValue(
@@ -50,6 +65,39 @@ describe('ParkingSpotComponent', () => {
         Notifications: [],
       })
     );
+
+    parkingSpot = {
+      ID: '1',
+      Number: '123',
+      Status: ParkingLockerStatus.Unavailable,
+      OccupantID: '1',
+      Fee: 0,
+      ParkingType: ParkingType.Standard,
+    };
+
+    building = {
+      ID: '1',
+      Year: 2022,
+      CompanyID: 'company1',
+      Name: 'Building 1',
+      Address: '123 Main St',
+      Bookings: [],
+      Description: 'Building description',
+      Parkings: [],
+      Lockers: [],
+      Condos: [],
+      Picture: '',
+      Facilities: [],
+    };
+
+    myUser = {
+      ID: '1',
+      FirstName: 'John',
+      LastName: 'Doe',
+      Authority: Authority.Company,
+    };
+    component.building = building;
+    component.myUser = myUser;
 
     consoleErrorSpy = spyOn(console, 'error');
 
@@ -94,10 +142,10 @@ describe('ParkingSpotComponent', () => {
     // Arrange: Set up the return value for authService.getUser
     const user = { photoURL: 'company' };
     (authService.getUser as jasmine.Spy).and.returnValue(Promise.resolve(user));
-  
+
     // Act: Call ngOnInit and wait for it to complete
     await component.ngOnInit();
-  
+
     // Assert: Check that myUser is defined
     expect(component.myUser).toBeDefined();
   });
@@ -130,7 +178,7 @@ describe('ParkingSpotComponent', () => {
   it('should set the authority based on the user', fakeAsync(() => {
     component.ngOnInit();
     tick();
-  
+
     expect(component.authority).toEqual('company');
   }));
 
@@ -156,7 +204,7 @@ describe('ParkingSpotComponent', () => {
       Status: ParkingLockerStatus.Unavailable,
       OccupantID: '',
       Fee: 0,
-      ParkingType: ParkingType.Standard
+      ParkingType: ParkingType.Standard,
     };
     component.parkings = [parking];
     component.ngOnInit();
@@ -179,7 +227,7 @@ describe('ParkingSpotComponent', () => {
     await component.ngOnInit();
     expect(component.authority).toBe(user.photoURL);
   });
-  
+
   it('ngOnInit should set authority to an empty string when myUser is null', async () => {
     (authService.getUser as jasmine.Spy).and.returnValue(Promise.resolve(null));
     await component.ngOnInit();
@@ -191,9 +239,8 @@ describe('ParkingSpotComponent', () => {
     component.ngOnInit();
     tick();
     expect(component.users).toEqual({});
-  
   }));
-  
+
   it('ngOnInit should handle errors from authService.getUser()', () => {
     (authService.getUser as jasmine.Spy).and.throwError('Error');
     component.ngOnInit();
@@ -201,7 +248,9 @@ describe('ParkingSpotComponent', () => {
   });
 
   it('should handle null from userService.getPublicUser', fakeAsync(() => {
-    (userService.getPublicUser as jasmine.Spy).and.returnValue(Promise.resolve(null));
+    (userService.getPublicUser as jasmine.Spy).and.returnValue(
+      Promise.resolve(null)
+    );
     component.ngOnInit();
     tick();
     // Assert: Check if this.users is still an empty object
@@ -221,17 +270,19 @@ describe('ParkingSpotComponent', () => {
     const occupantId = 'testOccupantId';
 
     // Mock this.parkings
-    component.parkings = [{
-      ID: '1',
-      Number: '123',
-      Status: ParkingLockerStatus.Unavailable,
-      OccupantID: occupantId,
-      Fee: 0,
-      ParkingType: ParkingType.Standard
-    }];
+    component.parkings = [
+      {
+        ID: '1',
+        Number: '123',
+        Status: ParkingLockerStatus.Unavailable,
+        OccupantID: occupantId,
+        Fee: 0,
+        ParkingType: ParkingType.Standard,
+      },
+    ];
 
     // Make userService.getPublicUser return a rejected promise
-    (userService.getPublicUser as jasmine.Spy).and.callFake(id => {
+    (userService.getPublicUser as jasmine.Spy).and.callFake((id) => {
       if (id === occupantId) {
         return Promise.reject(error);
       }
@@ -246,14 +297,92 @@ describe('ParkingSpotComponent', () => {
         firstChange: true,
         isFirstChange: () => true,
       },
-    });  
+    });
     // Assert: Check if this.users is still an empty object
     expect(component.users).toEqual({});
-  
+
     // Assert: Check if console.error was called with the expected arguments
     expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to get user', error);
   });
-  
+
+  it('should fetch user and set authority on ngOnInit', async () => {
+    const mockUser = { photoURL: 'testAuthority' };
+    (authService.getUser as jasmine.Spy).and.returnValue(
+      Promise.resolve(mockUser)
+    );
+
+    await component.ngOnInit();
+
+    expect(component.myUser).toEqual(mockUser);
+    expect(component.authority).toEqual(mockUser.photoURL);
+  });
+
+  it('should fetch company user and set authority to Company on ngOnInit', async () => {
+    const mockUser = { photoURL: 'Company' };
+    (authService.getUser as jasmine.Spy).and.returnValue(
+      Promise.resolve(mockUser)
+    );
+
+    await component.ngOnInit();
+
+    expect(component.myUser).toEqual(mockUser);
+    expect(component.authority).toEqual(mockUser.photoURL);
+  });
+
+  it('should fetch employee user and set authority to Employee on ngOnInit', async () => {
+    const mockUser = { photoURL: 'Employee' };
+    (authService.getUser as jasmine.Spy).and.returnValue(
+      Promise.resolve(mockUser)
+    );
+
+    await component.ngOnInit();
+
+    expect(component.myUser).toEqual(mockUser);
+    expect(component.authority).toEqual(mockUser.photoURL);
+  });
+
+  it('should set the authority to an empty string when the current user is null', async () => {
+    // Arrange: Set up the return value for authService.getUser
+    (authService.getUser as jasmine.Spy).and.returnValue(Promise.resolve(null));
+
+    // Act: Call ngOnInit and wait for it to complete
+    await component.ngOnInit();
+
+    // Assert: Check that myUser is null
+    expect(component.myUser).toBeNull();
+
+    // Assert: Check that authority is set to an empty string
+    expect(component.authority).toBe('');
+  });
+
+  it('should send rental request notification and display success message', async () => {
+    const notification: Notification = {
+      Date: new Date().getTime(),
+      Message: `Request for rental of parking spot ${parkingSpot.Number} in ${component.building.Name} with ID ${parkingSpot.ID}`,
+      New: true,
+      SenderId: component.myUser.ID,
+      SenderName: `${component.myUser.FirstName} ${component.myUser.LastName}`,
+      Type: NotificationType.RentRequest,
+    };
+    const successMessage =
+      'Your request for rental has been sent. You will be notified when it is approved.';
+    spyOn(component.userService, 'sendNotificationToUser').and.returnValue(
+      Promise.resolve()
+    );
+    spyOn(component.notificationService, 'sendNotification');
+
+    await component.requestRent(parkingSpot);
+
+    expect(component.userService.sendNotificationToUser).toHaveBeenCalledWith(
+      component.building.CompanyID,
+      Authority.Company,
+      notification
+    );
+    expect(component.notificationService.sendNotification).toHaveBeenCalledWith(
+      successMessage
+    );
+  });
+
   // it('should fetch new user information when new parkings are added', fakeAsync(() => {
   //   component.parkings = [
   //     {
@@ -272,11 +401,11 @@ describe('ParkingSpotComponent', () => {
   //       Fee: 0,
   //       ParkingType: ParkingType.Standard
   //     }
-  //   ];    
+  //   ];
   //   component.ngOnInit();
   //   tick();
   //   const initialUsers = {...component.users};
-  
+
   //   component.parkings = [
   //     {
   //       ID: '1',
@@ -294,7 +423,7 @@ describe('ParkingSpotComponent', () => {
   //       Fee: 0,
   //       ParkingType: ParkingType.Standard
   //     }
-  //   ];    
+  //   ];
   //   component.ngOnInit();
   //   tick();
 
