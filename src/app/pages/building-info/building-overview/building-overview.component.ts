@@ -25,6 +25,9 @@ export class BuildingOverviewComponent {
     await this.fetchCompany();
   }
 
+  /**
+   * Given the company id, the function returns the company object
+   */
   async fetchCompany(){
     this.company = await this.userService.getCompanyUser(this.building.CompanyID);
   }
