@@ -22,7 +22,7 @@ function createNotifications(count: number): Notification[] {
       Date: new Date().getTime(),
       SenderId: `${i}`,
       SenderName: `test${i}`,
-      Type: NotificationType.Default,
+      Type: NotificationType.GeneralMessage,
     });
   }
   return notifications;
@@ -69,7 +69,7 @@ describe('NotificationsComponent', () => {
       Date: new Date().getTime(),
       SenderId: '1',
       SenderName: 'test',
-      Type: NotificationType.Default,
+      Type: NotificationType.GeneralMessage,
     };
     component.myUser = { Notifications: [notification] };
     spyOn(component.userService, 'editUser');
@@ -82,7 +82,7 @@ describe('NotificationsComponent', () => {
         Date: notification.Date,
         SenderId: '1',
         SenderName: 'test',
-        Type: NotificationType.Default,
+        Type: NotificationType.GeneralMessage,
       },
     ]);
     expect(component.userService.editUser).toHaveBeenCalledWith(
@@ -98,7 +98,7 @@ describe('NotificationsComponent', () => {
       Date: new Date().getTime(),
       SenderId: '1',
       SenderName: 'test',
-      Type: NotificationType.Default,
+      Type: NotificationType.GeneralMessage,
     };
     component.myUser = { Notifications: [notification] };
     spyOn(component.userService, 'editUser');
@@ -111,7 +111,7 @@ describe('NotificationsComponent', () => {
         Date: notification.Date,
         SenderId: '1',
         SenderName: 'test',
-        Type: NotificationType.Default,
+        Type: NotificationType.GeneralMessage,
       },
     ]);
     expect(component.userService.editUser).toHaveBeenCalledWith(
@@ -127,7 +127,7 @@ describe('NotificationsComponent', () => {
       Date: new Date().getTime(),
       SenderId: '1',
       SenderName: 'test',
-      Type: NotificationType.Default,
+      Type: NotificationType.GeneralMessage,
     };
     component.myUser = { Notifications: [notification] };
     spyOn(component.userService, 'editUser');
@@ -151,7 +151,7 @@ describe('NotificationsComponent', () => {
       Date: new Date().getTime(),
       SenderId: '1',
       SenderName: 'test',
-      Type: NotificationType.Default,
+      Type: NotificationType.GeneralMessage,
     };
     component.myUser = { Notifications: [notification] };
     spyOn(component.userService, 'editUser');
@@ -200,7 +200,7 @@ describe('NotificationsComponent', () => {
       Date: new Date().getTime(),
       SenderId: '1',
       SenderName: 'test',
-      Type: NotificationType.Default,
+      Type: NotificationType.GeneralMessage,
     };
 
     component.myUser = {
