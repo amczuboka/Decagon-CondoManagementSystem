@@ -14,6 +14,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class RequestPageComponent {
   @Input() building!: Building;
+  @Input() sourcePage!: string;
   requestForm!: FormGroup;
   //   requestTypes = ['Move In / Move Out', 'Intercome Changes', 'Report Violation / Deficiency', 'Request Access', 'General Questions'];
   requestTypes: string[] = Object.values(NotificationType);
