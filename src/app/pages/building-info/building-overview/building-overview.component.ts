@@ -36,14 +36,4 @@ export class BuildingOverviewComponent implements OnInit {
     });
   }
 
-  navigateToRequest() {
-    // Prepare navigation extras with the selected building item as a query parameter
-    let info: any = {
-      queryParams: {
-        building: JSON.stringify(this.building),
-      },
-    };
-
-    this.router.navigate(['/request'], info);
-  }
 }
