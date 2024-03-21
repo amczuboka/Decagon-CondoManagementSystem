@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { Building } from 'src/app/models/properties';
@@ -13,11 +13,11 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./request-page.component.scss'],
 })
 export class RequestPageComponent {
+  @Input() building!: Building;
   requestForm!: FormGroup;
   //   requestTypes = ['Move In / Move Out', 'Intercome Changes', 'Report Violation / Deficiency', 'Request Access', 'General Questions'];
   requestTypes: string[] = Object.values(NotificationType);
 
-  building!: Building;
   myUser!: any;
   authority!: string;
 
@@ -31,14 +31,6 @@ export class RequestPageComponent {
   ) {}
 
   async ngOnInit() {
-    this.route.queryParams.subscribe((params) => {
-      if (params['building']) {
-        this.building = JSON.parse(params['building']);
-      } else {
-        this.router.navigate(['/']);
-      }
-    });
-
     this.requestForm = this.formBuilder.group({
       RequestType: ['', Validators.required],
       Comments: [''],
