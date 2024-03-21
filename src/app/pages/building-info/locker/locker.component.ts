@@ -22,7 +22,7 @@ export class LockerComponent {
   ) {}
 
   async ngOnChanges(changes: SimpleChanges) {
-    if (changes['lockers'] && changes['lockers'].currentValue) {
+    if (changes['lockers']?.currentValue) {
     // Fetch user information for each locker's occupant
       for (const locker of this.lockers) {
         console.log(locker.OccupantID);

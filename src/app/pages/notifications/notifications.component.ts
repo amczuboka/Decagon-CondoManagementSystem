@@ -40,7 +40,6 @@ export class NotificationsComponent {
   }
 
   async fetchSenderNames() {
-    // this.loading = true;
     for (const notification of this.dataSource) {
       const senderId = notification.SenderId;
       let senderName = '';
@@ -68,7 +67,6 @@ export class NotificationsComponent {
 
       notification.SenderId = senderName;
     }
-    // this.loading = false;
   }
 
   markAsRead(notification: any) {

@@ -11,7 +11,7 @@ export class AuthguardGuard {
 
   canActivate(): Observable<boolean> | Promise<boolean> | boolean {
     const user = JSON.parse(localStorage.getItem('user')!);
-    if (user && user.emailVerified) {
+    if (user?.emailVerified) {
       return true;
     } else if (user) {
       this.router.navigate(['verify-email']);

@@ -20,7 +20,6 @@ import {
   ParkingLockerStatus,
   ParkingSpot,
 } from 'src/app/models/properties';
-import { User } from 'src/app/models/users';
 import { MyErrorStateMatcher } from 'src/app/services/auth.service';
 import { BuildingService } from 'src/app/services/building.service';
 import { StorageService } from 'src/app/services/storage.service';
