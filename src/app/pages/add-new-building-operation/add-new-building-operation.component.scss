@@ -1,0 +1,42 @@
+h1{
+    font-size: 3rem;
+    margin:3% 0 0 3%;
+}
+label{
+    width:100%;
+    margin-bottom: 50px;
+    
+}
+p{
+    font-size:small;
+}
+input{
+  width : 45%;
+  border: 0.7px solid lightgray; /* Set a consistent border color */
+  border-radius: 10px; /* Set border radius for rounded corners */
+  padding: 15px; /* Add padding for better spacing */
+  box-sizing: border-box;
+  border-color: lightgray;
+}
+
+select{
+    width : 30%;
+    border: 0.7px solid lightgray; /* Set a consistent border color */
+    border-radius: 10px; /* Set border radius for rounded corners */
+    padding: 15px; /* Add padding for better spacing */
+    box-sizing: border-box;
+    border-color: lightgray;
+    
+}
+
+button{
+    margin-bottom: 20px;
+    border: 0.7px solid lightgray; /* Set a consistent border color */
+    border-radius: 5px;
+    padding:10px 20px 10px 20px;
+    background-color: darkcyan;
+    color: white;
+}
+hr{
+    margin-bottom: 30px;
+}

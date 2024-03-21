@@ -81,6 +81,7 @@ import { AddParkingDialogComponent } from './pages/add-new-property/add-parking-
 import { EmployeesListComponent } from './pages/my-employees/employees-list/employees-list.component';
 import { MyEmployeesComponent } from './pages/my-employees/my-employees.component';
 import { MyPropertiesComponent } from './pages/my-properties/my-properties.component';
+import { AddNewBuildingOperationComponent } from './pages/add-new-building-operation/add-new-building-operation.component';
 
 @NgModule({
   declarations: [
@@ -114,6 +115,7 @@ import { MyPropertiesComponent } from './pages/my-properties/my-properties.compo
     EmployeesListComponent,
     MyEmployeesComponent,
     MyPropertiesComponent,
+    AddNewBuildingOperationComponent,
   ],
   imports: [
     BrowserModule,
