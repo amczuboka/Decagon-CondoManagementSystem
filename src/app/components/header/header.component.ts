@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 import {
+  Authority,
   Notification,
 } from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
