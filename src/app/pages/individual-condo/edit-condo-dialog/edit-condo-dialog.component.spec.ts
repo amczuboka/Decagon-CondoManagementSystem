@@ -18,14 +18,17 @@ import {
 } from 'src/app/models/properties';
 import { of } from 'rxjs';
 import { firebaseConfig } from '../../../../environments/environment';
+import { StorageService } from 'src/app/services/storage.service';
 
 describe('EditCondoDialogComponent', () => {
   let component: EditCondoDialogComponent;
   let fixture: ComponentFixture<EditCondoDialogComponent>;
   let mockDialogRef: MatDialogRef<EditCondoDialogComponent>;
   let mockAngularFireStorage: any;
+  let mockStorageService: any;
 
   beforeEach(waitForAsync(() => {
+    mockStorageService = jasmine.createSpyObj('StorageService', ['deleteFile']);
     mockDialogRef = jasmine.createSpyObj(['close']);
 
     mockAngularFireStorage = {
@@ -52,6 +55,7 @@ describe('EditCondoDialogComponent', () => {
       ],
       providers: [
         { provide: MatDialogRef, useValue: mockDialogRef },
+        { provide: StorageService, useValue: mockStorageService },
         {
           provide: MAT_DIALOG_DATA,
           useValue: {
@@ -112,23 +116,23 @@ describe('EditCondoDialogComponent', () => {
 
   it('should clear selected file and name when no file is selected', () => {
     const event = { target: { files: [] } } as unknown as Event;
-  
+
     component.onFileSelected(event);
-  
+
     expect(component.selectedFile).toBeNull();
     expect(component.selectedFileName).toEqual('');
   });
 
- it('should handle file input correctly', () => {
-   const file = new File(['sample'], 'sample.jpg', { type: 'image/jpeg' });
-   const event = { target: { files: [file] } } as unknown as Event;
+  it('should handle file input correctly', () => {
+    const file = new File(['sample'], 'sample.jpg', { type: 'image/jpeg' });
+    const event = { target: { files: [file] } } as unknown as Event;
 
-   component.handleFileInput(event);
-   fixture.detectChanges();
+    component.handleFileInput(event);
+    fixture.detectChanges();
 
-   expect(component.selectedFile).toEqual(file);
-   expect(component.selectedFileName).toEqual('sample.jpg');
- });
+    expect(component.selectedFile).toEqual(file);
+    expect(component.selectedFileName).toEqual('sample.jpg');
+  });
 
   it('should call updateCondoInDatabase when saving changes without file upload', () => {
     spyOn<any>(component, 'updateCondoInDatabase');
