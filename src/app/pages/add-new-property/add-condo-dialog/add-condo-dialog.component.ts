@@ -65,7 +65,7 @@ export class AddCondoDialogComponent implements OnInit {
    * @param event - The file input change event.
    */
   handleFileInput(event: any): void {
-    if (event.target.files && event.target.files[0]) {
+    if (event.target.files?.[0]) {
       this.file = event.target.files[0];
       const reader = new FileReader();
       reader.onload = (e) => {
