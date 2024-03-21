@@ -4,6 +4,62 @@
   max-width: 1200px;
 }
 
+.button{
+  margin-left:80%;
+  align-items: right;
+  position: absolute; 
+  top: 85px; 
+}
+@media (max-width: 1000) {
+  .button{
+    margin-left:65%;
+    align-items: right;
+    position: absolute; 
+    top: 85px; 
+  }
+}
+
+@media (min-width: 471px) and (max-width: 770px){
+  .button{
+    margin-left:77%;
+    align-items: right;
+    position: absolute; 
+    top: 100px; 
+  }
+}
+
+@media (min-width: 0px) and (max-width: 350px){
+  .button{
+    margin-left:63%;
+    align-items: right;
+    position: absolute; 
+    top: 100px; 
+  }
+}
+
+@media (min-width: 351px) and (max-width: 470px){
+  .button{
+    margin-left:70%;
+    align-items: right;
+    position: absolute; 
+    top: 100px; 
+  }
+}
+.payment-button {
+  display: inline-block;
+  padding: 4px 16px;
+  border-radius: 20px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width:100%;
+}
+
 .property-header {
   display: flex;
   justify-content: space-between;
