@@ -37,6 +37,7 @@ a {
   border-width: 1.5px;
   border-color: #b6b9c0;
   box-sizing: border-box;
+  background-color: #fafaf5;
 }
 
 .card > img {
@@ -64,7 +65,6 @@ a {
   overflow: hidden;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  background-color: #fafaf5;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
 }
