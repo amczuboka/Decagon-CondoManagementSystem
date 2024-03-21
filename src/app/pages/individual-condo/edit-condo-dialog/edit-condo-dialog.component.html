@@ -1,0 +1,63 @@
+<div class="card-body p-4">
+  <div class="edit-condo-form">
+    <h2>Edit Condo</h2>
+    <!-- Fee -->
+    <mat-form-field appearance="outline" style="width: 100%">
+      <mat-label>Fee</mat-label>
+      <input
+        matInput
+        required
+        type="number"
+        min="1"
+        [(ngModel)]="editCondo.Fee"
+        name="Fee"
+      />
+    </mat-form-field>
+    <br />
+
+    <!-- Description-->
+    <mat-form-field appearance="outline" style="width: 100%">
+      <mat-label>Description</mat-label>
+      <input
+        matInput
+        required
+        type="string"
+        min="1"
+        [(ngModel)]="editCondo.Description"
+        name="Description"
+      />
+    </mat-form-field>
+    <br />
+
+    <!-- Upload condo picture -->
+    <label>
+      <mat-label>Upload a condo picture</mat-label>
+      <input
+        required
+        name="Picture"
+        type="file"
+        class="form-control"
+        (change)="handleFileInput($event)"
+        accept="image/*"
+      />
+    </label>
+    <br />
+    <br />
+
+    <!-- Buttons -->
+    <button
+      id="save-button"
+      class="btn btn-outline-dark"
+      (click)="saveChanges()"
+    >
+      Save
+    </button>
+    <button
+      id="cancel-button"
+      class="btn btn-outline-dark"
+      (click)="onCancel()"
+    >
+      Cancel
+    </button>
+  </div>
+</div>

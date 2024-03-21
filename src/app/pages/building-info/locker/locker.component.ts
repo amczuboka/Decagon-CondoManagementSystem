@@ -1,7 +1,8 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
-import { Locker } from 'src/app/models/properties';
-import { UserDTO } from 'src/app/models/users';
+import { Building, Locker } from 'src/app/models/properties';
+import { Authority, Notification, NotificationType, UserDTO } from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
+import { NotificationService } from 'src/app/services/notification.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -15,14 +16,16 @@ export class LockerComponent {
   myUser!: any;
   @Input() lockers!: Locker[];
   @Input() sourcePage!: string;
+  @Input() building!: Building;
 
   constructor(
     private authService: AuthService,
-    public userService: UserService
+    public userService: UserService,
+    public notificationService: NotificationService
   ) {}
 
   async ngOnChanges(changes: SimpleChanges) {
-    if (changes['lockers'] && changes['lockers'].currentValue) {
+    if (changes['lockers']?.currentValue) {
     // Fetch user information for each locker's occupant
       for (const locker of this.lockers) {
         console.log(locker.OccupantID);
@@ -48,6 +51,19 @@ export class LockerComponent {
       this.myUser = await this.authService.getUser();
       if (this.myUser) {
         this.authority = this.myUser.photoURL;
+        if (this.authority == Authority.Public) {
+          this.userService.getPublicUser(this.myUser.uid).then((user) => {
+            this.myUser = user;
+          });
+        } else if (this.authority == Authority.Employee) {
+          this.userService.getEmployeeUser(this.myUser.uid).then((user) => {
+            this.myUser = user;
+          });
+        } else if (this.authority == Authority.Company) {
+          this.userService.getCompanyUser(this.myUser.uid).then((user) => {
+            this.myUser = user;
+          });
+        }
       } else {
         this.authority = '';
       }
@@ -55,5 +71,25 @@ export class LockerComponent {
       console.error(error);
       this.authority = '';
     }
+  }
+
+  async requestRent(item: Locker) {
+    // Create a new notification
+    const notification: Notification = {
+      Date: new Date().getTime(),
+      Message: `Request for rental of locker ${item.Number} in ${this.building.Name} with ID ${item.ID}`,
+      New: true,
+      SenderId: this.myUser.ID,
+      SenderName: `${this.myUser.FirstName} ${this.myUser.LastName}`,
+      Type: NotificationType.RentRequest,
+    };
+    await this.userService.sendNotificationToUser(
+      this.building.CompanyID,
+      Authority.Company,
+      notification
+    );
+    this.notificationService.sendNotification(
+      'Your request for rental has been sent. You will be notified when it is approved.'
+    );
   }
 }

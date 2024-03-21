@@ -13,7 +13,9 @@ import { KeyRegistrationComponent } from './pages/key-registration/key-registrat
 import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { AddNewPropertyComponent } from './pages/add-new-property/add-new-property.component';
 import { MyEmployeesComponent } from './pages/my-employees/my-employees.component';
+import { PaymentComponent } from './pages/payment/payment.component';
 import { MyPropertiesComponent } from './pages/my-properties/my-properties.component';
+import { RequestPageComponent } from './pages/request-page/request-page.component';
 
 const routes: Routes = [
   {
@@ -40,7 +42,7 @@ const routes: Routes = [
     canActivate: [AuthguardGuard],
   },
   {
-    path: 'individual-condo',
+    path: 'individual-condo/:buildingId/:condoId',
     component: IndividualCondoComponent,
     canActivate: [AuthguardGuard],
   },
@@ -55,13 +57,23 @@ const routes: Routes = [
     canActivate: [AuthguardGuard, CompanyGuard],
   },
   {
-    path: 'my-employees',
+    path: 'payment',
+    component: PaymentComponent,
+    canActivate: [AuthguardGuard],
+  },
+  { 
+    path: 'my-employees', 
     component: MyEmployeesComponent,
     canActivate: [AuthguardGuard, CompanyGuard],
   }, 
   {
     path: 'my-properties',
     component: MyPropertiesComponent,
+    canActivate: [AuthguardGuard],
+  },
+  {
+    path: 'request',
+    component: RequestPageComponent,
     canActivate: [AuthguardGuard],
   },
   //This has to be at the last path
