@@ -1,7 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Role } from 'src/app/models/users';
+import { MatTable } from '@angular/material/table';
+import { CompanyDTO, EmployeeDTO, Role, User } from 'src/app/models/users';
+import { AuthService } from 'src/app/services/auth.service';
+import { BuildingService } from 'src/app/services/building.service';
+import { NotificationService } from 'src/app/services/notification.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-employees-list',
@@ -9,53 +14,94 @@ import { Role } from 'src/app/models/users';
   styleUrls: ['./employees-list.component.scss']
 })
 export class EmployeesListComponent {
+  @ViewChild(MatTable) table!: MatTable<any>;
+
   columnsToDisplay = ['name', 'email', 'properties', 'role'];
   
-  employees: any[] = [
-    { "id": 0, "name": "John Doe", "email": "nick.pip@yahoo.com", "properties": ["Building-1", "Building-2", "Building-3"], "role": "Manager"},
-    { "id": 1, "name": "Jane Doe", "email": "nick.pip@yahoo.com", "properties": ["Building-1", "Building-2"], "role": "Cleaning"},
-    { "id": 2, "name": "Jim Doe", "email": "nick.pip@yahoo.com", "properties": ["Building-1", "Building-2"], "role": "Security"},
-  ];
-
+  employeesTable: any[] = [];
+  employees: EmployeeDTO[] = [];
   
-  roles = [] as string[];
+  roles: string[] = [];
   
-  propertiesList = [
-    'Building-0',
-    'Building-1',
-    'Building-2',
-    'Building-3',
-    'Building-4',
-    'Building-5'
-  ];
+  properties: any[] = [];
 
-  constructor(private _snackBar: MatSnackBar) { 
+  myUser!: any;
+
+  constructor(
+    private _snackBar: MatSnackBar,
+    private userService: UserService,
+    private buildingService: BuildingService,
+    private authService: AuthService,
+    public notificationService: NotificationService
+    ) { 
     this.roles = Object.keys(Role);
   }
 
+  async ngOnInit() {
+    this.myUser = await this.userService.getCompanyUser(((await this.authService.getUser()) as User).uid) as CompanyDTO;
+    this.employees = await this.userService.getEmployeesOfCompany(this.myUser.CompanyName) as EmployeeDTO[];
+    await this.setProperties();
+    this.setEmployeesTable();
+  }
+
+  private setEmployeesTable() {
+    this.employees.forEach(emp => {
+      let buildings: string[] = [];
+      emp.PropertyIds?.forEach(async id => {
+        buildings.push((await this.buildingService.getBuilding(id)).Name);
+      });
+      this.employeesTable.push({ "id": emp.ID, "name": emp.FirstName + " " + emp.LastName, "email": emp.Email, "properties": buildings, "role": emp.Role, "picture": emp.ProfilePicture});
+    });
+    this.table.renderRows();
+  }
+
+  private async setProperties() {
+    const buildings = await this.buildingService.getAllBuildingsOfCompany(this.myUser.ID);
+    buildings.forEach((building) => {
+        this.properties.push({"id": building.ID, "name": building.Name});
+      });
+  }
+
   checkAll(checkbox: MatCheckbox) {
-    this.employees.forEach(x => x.checked = checkbox.checked);
+    this.employeesTable.forEach(x => x.checked = checkbox.checked);
   }
 
   isAllChecked() {
-    return this.employees.every(_ => _.checked);
+    return this.employeesTable.every(_ => _.checked);
   }
 
   isSomeItemsChecked() {
-    return this.employees.some(_ => _.checked);
+    return this.employeesTable.some(_ => _.checked);
   }
 
   removeSelectedItems() {
-    this.employees = this.employees.filter(x => !x.checked);
-    // To do: Update DB
-    console.log(this.employees);
+    const selectedEmployees = this.employeesTable.filter(x => x.checked).map(x => x.id);
+    this.employeesTable = this.employeesTable.filter(x => !x.checked);
+    selectedEmployees.forEach(emp => {
+      this.userService.deleteEmployee(emp);
+    });
     this.openSnackBar("Employees Deleted");
   }
 
   update() {
-    console.log(this.employees);
-    // To do: Update DB
+    this.employeesTable.forEach(emp => {
+      let employee = this.employees.find(x => x.ID == emp.id);
+      if (employee) {
+        employee.PropertyIds = this.getBuildingIds(emp);
+        employee.Role = emp.role;
+        this.userService.updateEmployee(employee);
+      }
+    });
     this.openSnackBar("Employees Updated");
+  }
+
+  private getBuildingIds(emp: any): string[] {
+    let propertyIds: string[] = [];
+        emp.properties.forEach(async (prop: string) => {
+          let building = this.properties.find(x => x.name == prop);
+          propertyIds?.push(building.id);
+        });
+    return propertyIds;
   }
 
   openSnackBar(message: string) {

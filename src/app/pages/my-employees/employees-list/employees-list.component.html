@@ -4,7 +4,7 @@
         <p id="desc">Employees</p>
         <button (click)="update()">Update</button>
     </div>
-    <table mat-table [dataSource]="employees" aria-describedby="mydesc">
+    <table mat-table [dataSource]="employeesTable" aria-describedby="mydesc">
         <!-- Define the columns -->
     
         <ng-container matColumnDef="name">
@@ -17,7 +17,8 @@
             <td mat-cell *matCellDef="let employee">
                 <div class="name">
                     <mat-checkbox #checkBox [(ngModel)]="employee.checked"></mat-checkbox>
-                    <img src="https://mdbootstrap.com/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="">
+                    <img *ngIf="employee.picture" [src]="employee.picture" alt="Avatar">
+                    <img *ngIf="!employee.picture" src="https://mdbootstrap.com/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="Avatar">
                     {{employee.name}}
                 </div>
             </td>
@@ -31,9 +32,9 @@
         <ng-container matColumnDef="properties">
             <th mat-header-cell *matHeaderCellDef>Properties</th>
             <td mat-cell *matCellDef="let employee; let i = index">
-                <mat-select multiple [(ngModel)]="employees[i].properties">
-                    <mat-option *ngFor="let property of propertiesList" [value]="property">
-                        {{property}}
+                <mat-select multiple [(ngModel)]="employeesTable[i].properties">
+                    <mat-option *ngFor="let property of properties" [value]="property.name">
+                        {{property.name}}
                     </mat-option>
                 </mat-select>
             </td>

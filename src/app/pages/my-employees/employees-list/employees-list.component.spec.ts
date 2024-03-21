@@ -24,33 +24,33 @@ describe('EmployeesListComponent', () => {
 
   it('should check all', () => {
     component.checkAll({ checked: true } as any);
-    expect(component.employees.every(x => x.checked)).toBeTrue();
+    expect(component.employeesTable.every(x => x.checked)).toBeTrue();
   });
 
   it('should uncheck all', () => {
     component.checkAll({ checked: false } as any);
-    expect(component.employees.every(x => !x.checked)).toBeTrue();
+    expect(component.employeesTable.every(x => !x.checked)).toBeTrue();
   });
 
   it('should check if all checked', () => {
-    component.employees = [{ checked: true }, { checked: true }];
+    component.employeesTable = [{ checked: true }, { checked: true }];
     expect(component.isAllChecked()).toBeTrue();
   });
 
   it('should check if some items checked', () => {
-    component.employees = [{ checked: true }, { checked: false }];
+    component.employeesTable = [{ checked: true }, { checked: false }];
     expect(component.isSomeItemsChecked()).toBeTrue();
   });
 
   it('should remove selected items', () => {
-    component.employees = [{ checked: true }, { checked: false }];
+    component.employeesTable = [{ checked: true }, { checked: false }];
     component.removeSelectedItems();
-    expect(component.employees.length).toBe(1);
+    expect(component.employeesTable.length).toBe(1);
   });
 
   it('should update', () => {
     component.update();
-    expect(component.employees).toEqual(component.employees);
+    expect(component.employeesTable).toEqual(component.employeesTable);
   });
 
   it('should open snack bar', () => {

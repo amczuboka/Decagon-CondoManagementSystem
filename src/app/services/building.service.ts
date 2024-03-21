@@ -298,7 +298,7 @@ export class BuildingService {
     return this.building$;
   }
   /**
-   * Retrieves all deliveries from the 'buildings' node in Firebase Realtime Database.
+   * Retrieves all buildings from the 'buildings' node in Firebase Realtime Database.
    * @returns A Promise resolving to an array of all Building objects.
    */
   async getAllBuildings(): Promise<Building[]> {
@@ -313,6 +313,33 @@ export class BuildingService {
         snapshot.forEach((childSnapshot) => {
           const building = childSnapshot.val() as Building;
           buildings.push(building);
+        });
+      }
+
+      return buildings;
+    } catch (error) {
+      console.error('Error getting all buildings:', error);
+      throw error;
+    }
+  }
+  /**
+   * Retrieves all buildings of a specific company from the 'buildings' node in Firebase Realtime Database.
+   * @returns A Promise resolving to an array of all Building objects.
+   */
+  async getAllBuildingsOfCompany(companyId: string): Promise<Building[]> {
+    try {
+      const db = getDatabase();
+      const buildingsRef = ref(db, 'buildings');
+
+      const snapshot = await get(buildingsRef);
+      const buildings: Building[] = [];
+
+      if (snapshot.exists()) {
+        snapshot.forEach((childSnapshot) => {
+          const building = childSnapshot.val() as Building;
+          if (building.CompanyID === companyId) {
+            buildings.push(building);
+          }
         });
       }
 
