@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
-import { User } from 'firebase/auth';
 import { Subscription } from 'rxjs';
 import {
-  Authority,
-  CompanyDTO,
-  EmployeeDTO,
   Notification,
-  UserDTO,
 } from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';

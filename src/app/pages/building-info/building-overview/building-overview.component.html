@@ -1,85 +1,82 @@
 <div class="tab-content">
-  <!--Top of the Page -->
-  <div class="top-tab-content" id="building-title-pic">
-    <h2>Building A</h2>
-    <p>1234 Elm Street, Kirkland H1H H2H</p>
-    <img src="assets/imgs/Building_A.jpg" alt="Image not Found" />
-  </div>
-
-  <!--Building Overview Main-->
-  <div class="bottom-tab-content">
-    <!--Description-->
-    <div class="heading-content">
-      <h2>Description</h2>
-      <mat-divider></mat-divider>
-      <div class="sub-heading-content">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum.
-      </div>
+    
+    <!--Top of the Page -->
+    <div class="top-tab-content" id="building-title-pic">
+        <h2>Building A</h2>
+        <p>1234 Elm Street, Kirkland H1H H2H</p>  
+        <img src="assets/imgs/Building_A.jpg" alt="Not Found">
     </div>
+    
+    <!--Building Overview Main-->
+    <div class="bottom-tab-content">
 
-    <!--General Information-->
-    <div class="heading-content">
-      <h2>General Information</h2>
-      <mat-divider></mat-divider>
-      <div class="sub-heading-content">
-        <div class="gen-info">
-          <!--Column 1-->
-          <div class="gen-info-col">
-            <ul>
-              <li>50 Condos</li>
-              <li>50 Parking Spaces</li>
-              <li>50 Lockers</li>
-            </ul>
-          </div>
-          <!--Column 2-->
-          <div class="gen-info-col">
-            <ul>
-              <li>35 000 square feet</li>
-              <li>Year 2005</li>
-            </ul>
-          </div>
+        <!--Description-->
+        <div class="heading-content">
+            <h2>Description</h2>
+            <mat-divider></mat-divider>
+            <div class="sub-heading-content">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse 
+                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </div>
         </div>
-      </div>
-    </div>
+        
+        <!--General Information-->
+        <div class="heading-content">
+            <h2>General Information</h2>
+            <mat-divider></mat-divider>
+            <div class="sub-heading-content">
+                <div class="gen-info">
+                    <!--Column 1-->
+                    <div class="gen-info-col">
+                        <ul>
+                            <li>50 Condos</li>
+                            <li>50 Parking Spaces</li>
+                            <li>50 Lockers</li>
+                        </ul>
+                    </div>
+                    <!--Column 2-->
+                    <div class="gen-info-col">
+                        <ul>
+                            <li>35 000 square feet</li>
+                            <li>Year 2005</li>
+                        </ul>
+                    </div>
 
-    <!--Company Information-->
-    <div class="heading-content">
-      <h2>Company Information</h2>
-      <mat-divider></mat-divider>
-      <div class="sub-heading-content">
-        <!--Columns-->
-        <div class="company-info">
-          <!--Column 1-->
-          <div class="company-info-col">
-            <img
-              src="assets/imgs/Company_Profile_Pic.png"
-              height="200"
-              width="200"
-              alt="Image not Found"
-            />
-          </div>
-          <!--Column 2-->
-          <div class="company-info-col">
-            <h1>COMPANY NAME</h1>
-            <p>Email: someone1234@gmail.com</p>
-            <p>Phone: 555-555-555</p>
-          </div>
+                </div>
+                
+            </div>
         </div>
-      </div>
-    </div>
 
-    <!--Facilities-->
-    <div class="heading-content">
-      <h2>Facilities</h2>
-      <mat-divider></mat-divider>
-      <div class="sub-heading-content">
-        <p>Book time at one of our amazing facilities now!</p>
+        <!--Company Information-->
+        <div class="heading-content">
+            <h2>Company Information</h2>
+            <mat-divider></mat-divider>
+            <div class="sub-heading-content">
+                <!--Columns-->
+                <div class="company-info">
+                    <!--Column 1-->
+                    <div class="company-info-col">
+                        <img src="assets/imgs/Company_Profile_Pic.png" height="200" width="200" alt="Not Found">
+                    </div>
+                    <!--Column 2-->
+                    <div class="company-info-col">
+                        <h1>COMPANY NAME</h1>
+                        <p>Email: someone1234@gmail.com</p>
+                        <p>Phone: 555-555-555</p>
+                    </div>
+
+                </div>
+                
+            </div>
+        </div>
+    
+        <!--Facilities-->
+        <div class="heading-content">
+            <h2>Facilities</h2>
+            <mat-divider></mat-divider>
+            <div class="sub-heading-content">
+                <p>Book time at one of our amazing facilities now!</p>
 
         <!--Form to book time at a facility-->
         <form [formGroup]="bookFacilityForm">

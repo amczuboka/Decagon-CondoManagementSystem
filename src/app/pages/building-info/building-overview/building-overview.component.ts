@@ -2,11 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import {
   FormGroup,
   Validators,
-  ReactiveFormsModule,
   FormBuilder,
-  FormControl,
 } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Building } from 'src/app/models/properties';
 

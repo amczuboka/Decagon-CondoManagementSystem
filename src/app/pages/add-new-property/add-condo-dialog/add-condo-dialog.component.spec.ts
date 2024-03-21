@@ -3,13 +3,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AddCondoDialogComponent } from './add-condo-dialog.component';
 import { AppModule } from 'src/app/app.module';
 import { ReactiveFormsModule, } from '@angular/forms';
-import { NotificationService } from 'src/app/services/notification.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 describe('AddCondoDialogComponent', () => {
   let component: AddCondoDialogComponent;
   let fixture: ComponentFixture<AddCondoDialogComponent>;
-  let notificationService: NotificationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -18,12 +16,10 @@ describe('AddCondoDialogComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: {} },
         { provide: MAT_DIALOG_DATA, useValue: {} },
-        { provide: NotificationService },
       ],
     });
     fixture = TestBed.createComponent(AddCondoDialogComponent);
     component = fixture.componentInstance;
-    notificationService = TestBed.inject(NotificationService);
     fixture.detectChanges();
   });
 

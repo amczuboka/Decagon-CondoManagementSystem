@@ -17,11 +17,11 @@
           [queryParams]="item"
         >
           <div class="image">
-            <img [src]="item.Picture" alt="Your unit image" />
+            <img [src]="item.Picture" alt="Your unit" />
           </div>
         </a>
         <div class="info">
-          <div class="location">{{ building.Address }}</div>
+          <div class="location">{{ address }}</div>
           <div class="name">
             {{ item.UnitNumber }}
           </div>
@@ -89,11 +89,11 @@
           [queryParams]="item"
         >
           <div class="image">
-            <img [src]="item.Picture" alt="Your unit image" />
+            <img [src]="item.Picture" alt="Your unit" />
           </div>
         </a>
         <div class="info">
-          <div class="location">{{ building.Address }}</div>
+          <div class="location">{{ address }}</div>
           <div class="name">
             {{ item.UnitNumber }}
           </div>
@@ -107,6 +107,14 @@
           </div>
         </div>
         <div class="right">
+          <div>
+            <a
+              [routerLink]="['/individual-condo', building.ID, item.ID]"
+              [queryParams]="item"
+            >
+              <button class="buttonItem">View Details</button>
+            </a>
+          </div>
           <div class="price">
             <ng-container *ngIf="item.Type === 'Sale'; else Rent">
               {{ item.Fee }}$

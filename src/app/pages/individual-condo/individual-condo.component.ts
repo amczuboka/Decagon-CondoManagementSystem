@@ -3,10 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { BuildingService } from 'src/app/services/building.service';
 import { UserService } from 'src/app/services/user.service';
 import { Building, Condo } from '../../models/properties';
-import { UserDTO, CompanyDTO } from '../../models/users';
+import { UserDTO, CompanyDTO, Authority } from '../../models/users';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EditCondoDialogComponent } from '../individual-condo/edit-condo-dialog/edit-condo-dialog.component';
-import { Authority } from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
 import { Location } from '@angular/common';
 
