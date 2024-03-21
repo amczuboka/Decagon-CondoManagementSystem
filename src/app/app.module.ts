@@ -21,7 +21,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-
+import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -74,6 +74,7 @@ import { EmployeesListComponent } from './pages/my-employees/employees-list/empl
 import { MyEmployeesComponent } from './pages/my-employees/my-employees.component';
 import { PaymentComponent } from './pages/payment/payment.component';
 import { MyPropertiesComponent } from './pages/my-properties/my-properties.component';
+import { EditCondoDialogComponent } from './pages/individual-condo/edit-condo-dialog/edit-condo-dialog.component';
 
 @NgModule({
   declarations: [
@@ -108,6 +109,7 @@ import { MyPropertiesComponent } from './pages/my-properties/my-properties.compo
     MyEmployeesComponent,
     PaymentComponent,
     MyPropertiesComponent,
+    EditCondoDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -134,6 +136,7 @@ import { MyPropertiesComponent } from './pages/my-properties/my-properties.compo
     MatIconModule,
     MatButtonModule,
     MatToolbarModule,
+    CommonModule,
     MatMenuModule,
     BrowserAnimationsModule,
     MatSnackBarModule,

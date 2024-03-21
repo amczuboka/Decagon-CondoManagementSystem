@@ -260,4 +260,31 @@ export class UserService {
       throw error;
     }
   }
+
+  async classifyUser(userId: string): Promise<string | null> {
+    try {
+      // Check if the user is a public user
+      const publicUser = await this.getPublicUser(userId);
+      if (publicUser) {
+        return 'public';
+      }
+
+      // Check if the user is a company user
+      const companyUser = await this.getCompanyUser(userId);
+      if (companyUser) {
+        return 'company';
+      }
+
+      // Check if the user is an employee user
+      const employeeUser = await this.getEmployeeUser(userId);
+      if (employeeUser) {
+        return 'employee';
+      }
+
+      return null; // If user not found
+    } catch (error) {
+      console.error('Error classifying user:', error);
+      throw error;
+    }
+  }
 }
