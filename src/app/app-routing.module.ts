@@ -65,8 +65,6 @@ const routes: Routes = [
     component: MyPropertiesComponent,
     canActivate: [AuthguardGuard],
   },
-  //Todo: To be removed later
-  {path: 'test', component: ScheduleComponent, canActivate: [AuthguardGuard]},
   //This has to be at the last path
   { path: '**', redirectTo: '', canActivate: [AuthguardGuard] },
 ];

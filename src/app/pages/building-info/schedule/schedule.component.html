@@ -1,1 +1,74 @@
-<p>schedule works!</p>
+<div id="calendar-container">
+  <div id="cal-buttons">
+    <div id="cal-date-nav-buttons">
+      <button
+        mat-stroked-button
+        id="previous"
+        mwlCalendarPreviousView
+        [(viewDate)]="viewDate"
+        [view]="view"
+      >
+        Previous
+      </button>
+      <button
+        mat-stroked-button
+        id="today"
+        mwlCalendarToday
+        [(viewDate)]="viewDate"
+      >
+        Today
+      </button>
+      <button
+        mat-stroked-button
+        id="next"
+        mwlCalendarNextView
+        [(viewDate)]="viewDate"
+        [view]="view"
+      >
+        Next
+      </button>
+    </div>
+
+    <div id="cal-date-field">
+      {{ viewDate | calendarDate : view + "ViewTitle" : "en" }}
+    </div>
+    <div class="cal-view-nav-buttons">
+      <button
+        mat-stroked-button
+        id="month"
+        (click)="setView(CalendarView.Month)"
+      >
+        Month
+      </button>
+      <button mat-stroked-button id="week" (click)="setView(CalendarView.Week)">
+        Week
+      </button>
+      <button mat-stroked-button id="day" (click)="setView(CalendarView.Day)">
+        Day
+      </button>
+    </div>
+  </div>
+  <span [ngSwitch]="view">
+    <mwl-calendar-month-view
+      *ngSwitchCase="CalendarView.Month"
+      [viewDate]="viewDate"
+      [events]="events"
+      [activeDayIsOpen]="activeDayIsOpen"
+      (dayClicked)="dayClicked($event.day)"
+    ></mwl-calendar-month-view>
+    <mwl-calendar-week-view
+      *ngSwitchCase="CalendarView.Week"
+      [viewDate]="viewDate"
+      [events]="events"
+      [dayStartHour]="dayStartHour"
+      [dayEndHour]="dayEndHour"
+    ></mwl-calendar-week-view>
+    <mwl-calendar-day-view
+      *ngSwitchCase="CalendarView.Day"
+      [viewDate]="viewDate"
+      [events]="events"
+      [dayStartHour]="dayStartHour"
+      [dayEndHour]="dayEndHour"
+    ></mwl-calendar-day-view>
+  </span>
+</div>

@@ -84,6 +84,8 @@ import { MyPropertiesComponent } from './pages/my-properties/my-properties.compo
 import { BookingsComponent } from './pages/building-info/bookings/bookings.component';
 import { BookingCardComponent } from './pages/building-info/bookings/booking-card/booking-card.component';
 import { ScheduleComponent } from './pages/building-info/schedule/schedule.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 @NgModule({
   declarations: [
@@ -165,6 +167,7 @@ import { ScheduleComponent } from './pages/building-info/schedule/schedule.compo
     MatTableModule,
     MatDialogModule,
     MatCheckboxModule,
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
   ],
   providers: [ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent],
