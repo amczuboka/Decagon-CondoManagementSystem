@@ -6,7 +6,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Building } from 'src/app/models/properties';
 import { Authority, NotificationType } from 'src/app/models/users';
 
-fdescribe('RequestPageComponent', () => {
+describe('RequestPageComponent', () => {
   let component: RequestPageComponent;
   let fixture: ComponentFixture<RequestPageComponent>;
   let authService: AuthService;
