@@ -4,6 +4,7 @@ import { Building, Condo } from 'src/app/models/properties';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-edit-condo-dialog',
@@ -20,6 +21,7 @@ export class EditCondoDialogComponent {
 
   constructor(
     private storage: AngularFireStorage,
+    public storageService: StorageService,
     public dialogRef: MatDialogRef<EditCondoDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: { condo: Condo; building: Building },
@@ -143,6 +145,19 @@ export class EditCondoDialogComponent {
   }
 
   private uploadFile(file: File): Promise<string> {
+    const downloadURL = this.data.condo.Picture;
+    let deleteImage = true;
+    for (let condo in this.data.building.Condos) {
+      if (
+        this.data.building.Condos[condo].Picture === downloadURL &&
+        this.data.building.Condos[condo].ID !== this.data.condo.ID
+      ) {
+        deleteImage = false;
+      }
+    }
+    if (deleteImage) {
+      this.storageService.deleteFile(downloadURL);
+    }
     return new Promise((resolve, reject) => {
       const filePath = `condo_images/${file.name}`;
       const fileRef = this.storage.ref(filePath);
