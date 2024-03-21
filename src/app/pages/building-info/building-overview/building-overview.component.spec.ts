@@ -23,7 +23,6 @@ import { UserService } from 'src/app/services/user.service';
 describe('BuildingOverviewComponent', () => {
   let component: BuildingOverviewComponent;
   let fixture: ComponentFixture<BuildingOverviewComponent>;
-  //let mockUserService: jasmine.SpyObj<UserService>;
 
   beforeEach(() => {
     
@@ -445,6 +444,16 @@ describe('BuildingOverviewComponent', () => {
       const result = component.getFacilityIcon(facility);
       expect(result).toEqual('');
     });
+  });
+
+  describe('fetchCompany', () => {
+    it('should fetch company object on ngOnInit', () => {
+      spyOn(component,'fetchCompany');
+      component.ngOnInit();
+      expect(component.fetchCompany).toHaveBeenCalled();
+    });
+
+    
   });
 
 
