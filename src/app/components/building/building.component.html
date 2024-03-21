@@ -28,20 +28,34 @@
             <div class="top-card">
               <div class="info">
                 <p class="name" style="font-weight: bold">{{ item.Name }}</p>
-                <p class="address" style="color: #486380; font-size: 14px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                <p
+                  class="address"
+                  style="
+                    color: #486380;
+                    font-size: 14px;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 3;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                  "
+                >
                   {{ item.Address }}
                 </p>
                 <p style="font-size: 14px" class="total">
-                  {{ calculateTotalCondos(item) }} Total, {{ calculateAvailableCondos(item) }} available
+                  {{ calculateTotalCondos(item) }} Total,
+                  {{ calculateAvailableCondos(item) }} available
                 </p>
               </div>
-              <div class="button-container" (click)="navigateToBuildingInfo(item)">
+              <div
+                class="button-container"
+                (click)="navigateToBuildingInfo(item)"
+              >
                 <button class="button">View</button>
               </div>
             </div>
             <div class="bottom-card">
               <div
-                *ngFor="let facility of item.Facilities"
+                *ngFor="let facility of item.Facilities.slice(0, 5)"
                 class="facility-item"
               >
                 <p class="facility-name">{{ facility }}</p>
@@ -49,6 +63,9 @@
                   getFacilityIcon(facility)
                 }}</mat-icon>
               </div>
+              <p *ngIf="item.Facilities.length > 5" class="more-facilities">
+                +{{ item.Facilities.length - 5 }} more
+              </p>
             </div>
           </div>
         </div>
