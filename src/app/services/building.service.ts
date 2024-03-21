@@ -5,7 +5,6 @@ import { get, getDatabase, onValue, ref, set } from 'firebase/database';
 import { AuthService } from './auth.service';
 import { CompanyDTO } from '../models/users';
 import { UserService } from './user.service';
-import { Condo } from '../models/properties';
 import { ParkingLockerStatus,CondoStatus,CondoType } from '../models/properties';
 import { BehaviorSubject, Observable } from 'rxjs';
 /**
