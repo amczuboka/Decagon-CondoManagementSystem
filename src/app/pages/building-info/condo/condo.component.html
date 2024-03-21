@@ -39,12 +39,12 @@
           <ng-container *ngIf="authority == 'Public'">
             <div class="button">
               <ng-container *ngIf="item.Type === 'Sale'; else Renter">
-                <button class="buttonItem" (click)="requestOwnership()">
+                <button class="buttonItem" (click)="requestOwnership(item)">
                   Request for ownership
                 </button>
               </ng-container>
               <ng-template #Renter>
-                <button class="buttonItem" (click)="requestOwnership()">
+                <button class="buttonItem" (click)="requestRent(item)">
                   Request for rent
                 </button>
               </ng-template>

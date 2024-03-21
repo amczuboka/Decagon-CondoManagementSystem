@@ -74,6 +74,7 @@ import { EmployeesListComponent } from './pages/my-employees/employees-list/empl
 import { MyEmployeesComponent } from './pages/my-employees/my-employees.component';
 import { PaymentComponent } from './pages/payment/payment.component';
 import { MyPropertiesComponent } from './pages/my-properties/my-properties.component';
+import { RequestPageComponent } from './pages/request-page/request-page.component';
 import { EditCondoDialogComponent } from './pages/individual-condo/edit-condo-dialog/edit-condo-dialog.component';
 
 @NgModule({
@@ -109,6 +110,7 @@ import { EditCondoDialogComponent } from './pages/individual-condo/edit-condo-di
     MyEmployeesComponent,
     PaymentComponent,
     MyPropertiesComponent,
+    RequestPageComponent,
     EditCondoDialogComponent,
   ],
   imports: [

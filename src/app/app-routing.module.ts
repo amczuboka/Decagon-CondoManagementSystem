@@ -15,6 +15,7 @@ import { AddNewPropertyComponent } from './pages/add-new-property/add-new-proper
 import { MyEmployeesComponent } from './pages/my-employees/my-employees.component';
 import { PaymentComponent } from './pages/payment/payment.component';
 import { MyPropertiesComponent } from './pages/my-properties/my-properties.component';
+import { RequestPageComponent } from './pages/request-page/request-page.component';
 
 const routes: Routes = [
   {
@@ -68,6 +69,11 @@ const routes: Routes = [
   {
     path: 'my-properties',
     component: MyPropertiesComponent,
+    canActivate: [AuthguardGuard],
+  },
+  {
+    path: 'request',
+    component: RequestPageComponent,
     canActivate: [AuthguardGuard],
   },
   //This has to be at the last path

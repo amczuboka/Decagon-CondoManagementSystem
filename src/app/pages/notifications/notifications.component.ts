@@ -2,9 +2,11 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { DeleteNotificationDialogComponent } from 'src/app/pages/notifications/delete-notification-dialog/delete-notification-dialog.component';
-import { CompanyDTO, EmployeeDTO, UserDTO } from 'src/app/models/users';
+import { Authority, Notification } from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
+import { NotificationType } from 'src/app/models/users';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-notifications',
@@ -15,66 +17,46 @@ export class NotificationsComponent {
   authority!: string;
   myUser!: any;
   loading!: boolean;
-  displayedColumns: string[] = ['message', 'date', 'sender', 'actions']; // Updated column name to 'sender'
+  displayedColumns: string[] = ['type', 'message', 'date', 'sender', 'actions'];
   dataSource: any = [];
   userSubscription: Subscription = new Subscription();
+  NotificationType = NotificationType;
 
   constructor(
     public authService: AuthService,
     public userService: UserService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public notificationService: NotificationService
   ) {}
 
   async ngOnInit() {
     this.userSubscription = this.userService.myUser.subscribe((user) => {
       this.myUser = user;
       if (this.myUser) {
-        this.dataSource = this.myUser.Notifications.sort((a: any, b: any) => {
-          const dateA = new Date(a.Date).getTime();
-          const dateB = new Date(b.Date).getTime();
-          return dateB - dateA;
-        });
-        this.fetchSenderNames();
+        if (this.myUser.Notifications) {
+          this.dataSource = this.myUser.Notifications.sort((a: any, b: any) => {
+            const dateA = new Date(a.Date).getTime();
+            const dateB = new Date(b.Date).getTime();
+            return dateB - dateA;
+          });
+        } else {
+          this.dataSource = [];
+        }
       }
     });
   }
 
-  async fetchSenderNames() {
-    for (const notification of this.dataSource) {
-      const senderId = notification.SenderId;
-      let senderName = '';
-      let user: UserDTO | CompanyDTO | EmployeeDTO | null = null;
-
-      // Search in public users
-      user = await this.userService.getPublicUser(senderId);
-      if (user) {
-        senderName = `${user.FirstName} ${user.LastName}`;
-      } else {
-        // Search in company users
-        user = await this.userService.getCompanyUser(senderId);
-        if (user) {
-          senderName = `${user.FirstName} ${user.LastName}`;
-        } else {
-          // Search in employee users
-          user = await this.userService.getEmployeeUser(senderId);
-          if (user) {
-            senderName = `${user.FirstName} ${user.LastName}`;
-          } else {
-            senderName = 'Unknown';
-          }
-        }
-      }
-
-      notification.SenderId = senderName;
-    }
+  ngOnDestroy() {
+    this.userSubscription.unsubscribe();
   }
 
-  markAsRead(notification: any) {
+  markAsRead(notification: Notification) {
     notification.New = false;
     this.myUser.Notifications = this.myUser.Notifications.map((n: any) =>
       n.Message === notification.Message &&
       n.New === notification.New &&
       n.Date === notification.Date &&
+      n.Type === notification.Type &&
       n.SenderId === notification.SenderId
         ? notification
         : n
@@ -82,12 +64,13 @@ export class NotificationsComponent {
     this.userService.editUser(this.myUser.ID, this.myUser);
   }
 
-  markAsUnread(notification: any) {
+  markAsUnread(notification: Notification) {
     notification.New = true;
     this.myUser.Notifications = this.myUser.Notifications.map((n: any) =>
       n.Message === notification.Message &&
       n.New === notification.New &&
       n.Date === notification.Date &&
+      n.Type === notification.Type &&
       n.SenderId === notification.SenderId
         ? notification
         : n
@@ -95,7 +78,7 @@ export class NotificationsComponent {
     this.userService.editUser(this.myUser.ID, this.myUser);
   }
 
-  deleteNotification(notification: any) {
+  deleteNotification(notification: Notification) {
     const dialogRef = this.dialog.open(DeleteNotificationDialogComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -110,5 +93,30 @@ export class NotificationsComponent {
         this.userService.editUser(this.myUser.ID, this.myUser);
       }
     });
+  }
+
+  async acceptRequest(notification: Notification) {
+    const splitMessage = notification.Message.split(' ');
+    const registrationKey = splitMessage[splitMessage.length - 1];
+    const shortMessage = splitMessage
+      .slice(1, splitMessage.length - 3)
+      .join(' ');
+    const myNotification = {
+      Message: `Request accepted ${shortMessage}. Please go to the registration page and enter the key to complete the registration process. Here is your registration key: ${registrationKey}`,
+      New: true,
+      Date: Date.now(),
+      SenderId: this.myUser.ID,
+      SenderName: this.myUser.CompanyName,
+      Type: NotificationType.Default,
+    };
+    await this.userService.sendNotificationToUser(
+      notification.SenderId,
+      Authority.Public,
+      myNotification
+    );
+    this.markAsRead(notification);
+    this.notificationService.sendNotification(
+      `Request accepted. Registration key sent to ${notification.SenderName}`
+    );
   }
 }

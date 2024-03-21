@@ -244,10 +244,17 @@ export class UserService {
     );
   }
 
-  async sendNotificationToUser(userId: string, notification: Notification) {
+  async sendNotificationToUser(userId: string, authority: Authority, notification: Notification) {
     try {
       const db = getDatabase();
-      const userRef = ref(db, `public users/${userId}/Notifications`);
+      let userRef = null;
+      if (authority == Authority.Public) {
+        userRef = ref(db, `public users/${userId}/Notifications`);
+      } else if (authority == Authority.Company) {
+        userRef = ref(db, `companies/${userId}/Notifications`);
+      } else {
+        userRef = ref(db, `employees/${userId}/Notifications`);
+      }
       const userSnapshot = await get(userRef);
       if (userSnapshot.exists()) {
         const notifications = userSnapshot.val();
