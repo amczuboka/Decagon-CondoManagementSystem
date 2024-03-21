@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
-import { CompanyDTO, EmployeeDTO, Role, User } from 'src/app/models/users';
+import { Authority, CompanyDTO, EmployeeDTO, Role, User } from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
 import { BuildingService } from 'src/app/services/building.service';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -26,6 +26,7 @@ export class EmployeesListComponent {
   properties: any[] = [];
 
   myUser!: any;
+  authority!: string;
 
   constructor(
     private _snackBar: MatSnackBar,
@@ -38,17 +39,38 @@ export class EmployeesListComponent {
   }
 
   async ngOnInit() {
-    this.myUser = await this.userService.getCompanyUser(((await this.authService.getUser()) as User).uid) as CompanyDTO;
+    // Fetch the current user
+    try {
+      this.myUser = await this.authService.getUser();
+      if (this.myUser) {
+          this.authority = this.myUser.photoURL;
+        } if (this.authority == Authority.Company) {
+          this.userService.getCompanyUser(this.myUser.uid).then((user) => {
+            this.myUser = user;
+          });
+        }
+    } catch (error) {
+      console.error(error);
+      this.authority = '';
+    }
+    this.myUser = await this.userService.getCompanyUser(((await this.authService.getUser()) as User)?.uid) as CompanyDTO;
     this.employees = await this.userService.getEmployeesOfCompany(this.myUser.CompanyName) as EmployeeDTO[];
     await this.setProperties();
     this.setEmployeesTable();
   }
 
+
   private setEmployeesTable() {
     this.employees.forEach(emp => {
       let buildings: string[] = [];
       emp.PropertyIds?.forEach(async id => {
-        buildings.push((await this.buildingService.getBuilding(id)).Name);
+        try {
+          buildings.push((await this.buildingService.getBuilding(id)).Name);
+        }
+        catch (error) {
+          console.log(error);
+        }
+
       });
       this.employeesTable.push({ "id": emp.ID, "name": emp.FirstName + " " + emp.LastName, "email": emp.Email, "properties": buildings, "role": emp.Role, "picture": emp.ProfilePicture});
     });
@@ -97,7 +119,7 @@ export class EmployeesListComponent {
 
   private getBuildingIds(emp: any): string[] {
     let propertyIds: string[] = [];
-        emp.properties.forEach(async (prop: string) => {
+        emp.properties?.forEach(async (prop: string) => {
           let building = this.properties.find(x => x.name == prop);
           propertyIds?.push(building.id);
         });
