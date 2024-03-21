@@ -83,6 +83,7 @@ import { MyEmployeesComponent } from './pages/my-employees/my-employees.componen
 import { MyPropertiesComponent } from './pages/my-properties/my-properties.component';
 import { BookingsComponent } from './pages/building-info/bookings/bookings.component';
 import { BookingCardComponent } from './pages/building-info/bookings/booking-card/booking-card.component';
+import { ScheduleComponent } from './pages/building-info/schedule/schedule.component';
 
 @NgModule({
   declarations: [
@@ -118,6 +119,7 @@ import { BookingCardComponent } from './pages/building-info/bookings/booking-car
     MyPropertiesComponent,
     BookingsComponent,
     BookingCardComponent,
+    ScheduleComponent,
   ],
   imports: [
     BrowserModule,

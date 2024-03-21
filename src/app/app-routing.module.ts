@@ -14,6 +14,7 @@ import { NotificationsComponent } from './pages/notifications/notifications.comp
 import { AddNewPropertyComponent } from './pages/add-new-property/add-new-property.component';
 import { MyEmployeesComponent } from './pages/my-employees/my-employees.component';
 import { MyPropertiesComponent } from './pages/my-properties/my-properties.component';
+import { ScheduleComponent } from './pages/building-info/schedule/schedule.component';
 
 const routes: Routes = [
   {
@@ -64,6 +65,8 @@ const routes: Routes = [
     component: MyPropertiesComponent,
     canActivate: [AuthguardGuard],
   },
+  //Todo: To be removed later
+  {path: 'test', component: ScheduleComponent, canActivate: [AuthguardGuard]},
   //This has to be at the last path
   { path: '**', redirectTo: '', canActivate: [AuthguardGuard] },
 ];
