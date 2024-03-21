@@ -26,6 +26,7 @@ export class BuildingInfoComponent {
   sourcePage!: string;
   myUser!: any;
   authority!: string;
+  buildingAddress!: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -50,6 +51,7 @@ export class BuildingInfoComponent {
         next: (updatedBuilding: any) => {
           if (updatedBuilding) {
             this.building = updatedBuilding;
+            this.buildingAddress = updatedBuilding.Address;
             if (this.sourcePage == sourcePage.availablePage) {
               this.condos = updatedBuilding.Condos;
               this.condos = this.condos.filter(

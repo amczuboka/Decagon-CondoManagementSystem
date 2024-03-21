@@ -12,6 +12,7 @@ export class CondoComponent {
   @Input() condos!: Condo[];
   @Input() building!: Building;
   @Input() sourcePage!: string;
+  @Input() address!: string;
   myUser!: any;
   authority!: string;
 
