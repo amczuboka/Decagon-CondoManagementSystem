@@ -61,19 +61,14 @@ const routes: Routes = [
     component: PaymentComponent,
     canActivate: [AuthguardGuard],
   },
-  { 
-    path: 'my-employees', 
+  {
+    path: 'my-employees',
     component: MyEmployeesComponent,
     canActivate: [AuthguardGuard, CompanyGuard],
-  }, 
+  },
   {
     path: 'my-properties',
     component: MyPropertiesComponent,
-    canActivate: [AuthguardGuard],
-  },
-  {
-    path: 'request',
-    component: RequestPageComponent,
     canActivate: [AuthguardGuard],
   },
   //This has to be at the last path
