@@ -55,20 +55,19 @@ describe('Add New Property', () => {
     addLocker();
     addParking(ParkingType.Standard);
     addParking(ParkingType.Handicap);
-
     cy.get('button[type="submit"]').click();
-    cy.wait(100);
-    cy.get('.kawaiicolors-snackbar').should('exist');    // console.log('the user inside the functions');
+    cy.get('.loading-indicator').should('exist');
+    cy.wait(5000);
     cy.window().then(async (win) => {
       const currentUser = (win as any).authService.getUser();
       const user = (await (win as any).userService.getCompanyUser(
         currentUser.uid
       )) as CompanyDTO;
-      console.log('the user',user);
-      for (const propertyId of user.PropertyIds) {
-       await (win as any).buildingService.deleteBuilding(propertyId);
-        console.log(propertyId);
-      }
+      console.log('the user', user);
+      const promiseDelete = user.PropertyIds.map(async (ID) => {
+        await(win as any).buildingService.deleteBuilding(ID);
+      });
+      await Promise.all(promiseDelete);
     });
   });
 });

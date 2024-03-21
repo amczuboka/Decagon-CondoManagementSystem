@@ -335,9 +335,7 @@ export class AddNewPropertyComponent {
     await this.BuildingService.addBuilding(building);
 
     this.NotificationService.sendNotification('Property Added');
-    setTimeout(() => {
       this.reloadPage();
-    }, 3000);
   }
 
   reloadPage() {
