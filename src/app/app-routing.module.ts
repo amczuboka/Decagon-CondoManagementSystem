@@ -46,11 +46,6 @@ const routes: Routes = [
     canActivate: [AuthguardGuard],
   },
   {
-    path: 'locker',
-    component: LockerComponent,
-    canActivate: [AuthguardGuard],
-  },
-  {
     path: 'individual-condo',
     component: IndividualCondoComponent,
     canActivate: [AuthguardGuard],
