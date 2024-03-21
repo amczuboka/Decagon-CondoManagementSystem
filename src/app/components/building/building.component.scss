@@ -131,6 +131,7 @@ a {
 .bottom-card {
   display: flex;
   flex-flow: row;
+  flex-wrap: wrap;
   padding-left: 10px;
   top: 3vw;
   bottom: 0;
@@ -139,11 +140,6 @@ a {
   align-items: center;
   font-weight: 500;
   font-size: 13px;
-}
-
-.bottom-card {
-  display: flex;
-  flex-wrap: wrap;
 }
 
 .bottom-card > p {

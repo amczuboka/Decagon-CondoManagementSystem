@@ -12,9 +12,12 @@
         <hr class="item-sep" />
       </div>
       <div class="item">
-        <a [routerLink]="['']" [queryParams]="item">
+        <a
+          [routerLink]="['/individual-condo', building.ID, item.ID]"
+          [queryParams]="item"
+        >
           <div class="image">
-            <img [src]="item.Picture" alt="Your unit image" />
+            <img [src]="item.Picture" alt="Your unit" />
           </div>
         </a>
         <div class="info">
@@ -31,6 +34,7 @@
             <hr class="text-sep" />
           </div>
         </div>
+
         <div class="right">
           <ng-container *ngIf="authority == 'Public'">
             <div class="button">
@@ -46,11 +50,18 @@
               </ng-template>
             </div>
           </ng-container>
+          <div>
+            <a
+              [routerLink]="['/individual-condo', building.ID, item.ID]"
+              [queryParams]="item"
+            >
+              <button class="buttonItem">View Details</button>
+            </a>
+          </div>
           <div class="price">
             <ng-container *ngIf="item.Type === 'Sale'; else Rent">
               {{ item.Fee }}$
             </ng-container>
-
             <ng-template #Rent> ${{ item.Fee }}/Month </ng-template>
           </div>
         </div>
@@ -73,9 +84,12 @@
         <hr class="item-sep" />
       </div>
       <div class="item">
-        <a [routerLink]="['']" [queryParams]="item">
+        <a
+          [routerLink]="['/individual-condo', building.ID, item.ID]"
+          [queryParams]="item"
+        >
           <div class="image">
-            <img [src]="item.Picture" alt="Your unit image" />
+            <img [src]="item.Picture" alt="Your unit" />
           </div>
         </a>
         <div class="info">
@@ -93,6 +107,14 @@
           </div>
         </div>
         <div class="right">
+          <div>
+            <a
+              [routerLink]="['/individual-condo', building.ID, item.ID]"
+              [queryParams]="item"
+            >
+              <button class="buttonItem">View Details</button>
+            </a>
+          </div>
           <div class="price">
             <ng-container *ngIf="item.Type === 'Sale'; else Rent">
               {{ item.Fee }}$
@@ -104,8 +126,8 @@
     </div>
   </div>
 </ng-container>
-  <ng-container *ngIf="sourcePage === 'propertiesPage' && condos.length === 0">
-    <div style="padding-top: 20px; text-align: center;">
-      No condos in your name for this building.
-    </div>
-  </ng-container>
+<ng-container *ngIf="sourcePage === 'propertiesPage' && condos.length === 0">
+  <div style="padding-top: 20px; text-align: center">
+    No condos in your name for this building.
+  </div>
+</ng-container>

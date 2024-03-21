@@ -1,7 +1,6 @@
 import {
   ComponentFixture,
   fakeAsync,
-  flushMicrotasks,
   TestBed,
   tick,
 } from '@angular/core/testing';
@@ -11,7 +10,6 @@ import { LockerComponent } from './locker.component';
 import { UserService } from 'src/app/services/user.service';
 import { Authority, UserDTO } from 'src/app/models/users';
 import { Locker, ParkingLockerStatus } from 'src/app/models/properties';
-import { SimpleChange } from '@angular/core';
 
 describe('LockerComponent', () => {
   let component: LockerComponent;

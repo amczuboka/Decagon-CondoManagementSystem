@@ -1,10 +1,7 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   Authority,
-  CompanyDTO,
-  EmployeeDTO,
   User,
-  UserDTO,
 } from './../../models/users';
 import { Component } from '@angular/core';
 import {

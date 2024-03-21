@@ -66,7 +66,6 @@ export class AuthService {
         }
       })
       .catch((error) => {
-        // console.error(error);
         if (error.code == 'auth/invalid-credential') {
           this.notificationService.sendAlert('Error: Invalid credentials');
         }

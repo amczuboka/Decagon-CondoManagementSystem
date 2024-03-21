@@ -13,6 +13,7 @@ import { KeyRegistrationComponent } from './pages/key-registration/key-registrat
 import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { AddNewPropertyComponent } from './pages/add-new-property/add-new-property.component';
 import { MyEmployeesComponent } from './pages/my-employees/my-employees.component';
+import { PaymentComponent } from './pages/payment/payment.component';
 import { MyPropertiesComponent } from './pages/my-properties/my-properties.component';
 
 const routes: Routes = [
@@ -40,7 +41,7 @@ const routes: Routes = [
     canActivate: [AuthguardGuard],
   },
   {
-    path: 'individual-condo',
+    path: 'individual-condo/:buildingId/:condoId',
     component: IndividualCondoComponent,
     canActivate: [AuthguardGuard],
   },
@@ -55,7 +56,12 @@ const routes: Routes = [
     canActivate: [AuthguardGuard, CompanyGuard],
   },
   {
-    path: 'my-employees',
+    path: 'payment',
+    component: PaymentComponent,
+    canActivate: [AuthguardGuard],
+  },
+  { 
+    path: 'my-employees', 
     component: MyEmployeesComponent,
     canActivate: [AuthguardGuard, CompanyGuard],
   }, 

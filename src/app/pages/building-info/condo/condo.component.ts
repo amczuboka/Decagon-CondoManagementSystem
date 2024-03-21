@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Condo } from 'src/app/models/properties';
+import { Condo, Building } from 'src/app/models/properties';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class CondoComponent {
   @Input() condos!: Condo[];
+  @Input() building!: Building;
   @Input() sourcePage!: string;
   @Input() address!: string;
   myUser!: any;
@@ -36,4 +37,5 @@ export class CondoComponent {
       this.authority = '';
     }
   }
+
 }

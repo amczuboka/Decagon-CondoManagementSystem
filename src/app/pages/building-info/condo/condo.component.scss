@@ -56,9 +56,9 @@ a {
   font-size: 19px;
 }
 
-.button {
-  height: 80%;
-}
+// .button {
+//   height: 80%;
+// }
 
 .price {
   height: 20%;
@@ -96,6 +96,7 @@ a {
   box-shadow: none;
   outline: none;
   border: none;
+  margin: 5px;
 }
 
 @media (max-width: 850px) {
