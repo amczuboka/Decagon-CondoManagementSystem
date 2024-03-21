@@ -8,7 +8,6 @@ import { LocationComponent } from './location.component';
 describe('LocationComponent', () => {
   let component: LocationComponent;
   let fixture: ComponentFixture<LocationComponent>;
-  var mapboxgl: any;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

@@ -19,7 +19,7 @@ import {
 } from '../models/users';
 import { Database, remove, set, update } from '@angular/fire/database';
 import { AuthService } from './auth.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

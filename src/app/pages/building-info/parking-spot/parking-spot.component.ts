@@ -24,7 +24,7 @@ export class ParkingSpotComponent {
   ) {}
 
   async ngOnChanges(changes: SimpleChanges) {
-    if (changes['parkings'] && changes['parkings'].currentValue) {
+    if (changes['parkings']?.currentValue) {
     // Fetch user information for each locker's occupant
       for (const parking of this.parkings) {
         console.log(parking.OccupantID);
