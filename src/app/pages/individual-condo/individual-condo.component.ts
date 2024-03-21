@@ -6,7 +6,6 @@ import { Building, Condo } from '../../models/properties';
 import { UserDTO, CompanyDTO, Authority } from '../../models/users';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EditCondoDialogComponent } from '../individual-condo/edit-condo-dialog/edit-condo-dialog.component';
-import { Authority } from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
 import { Location } from '@angular/common';
 
