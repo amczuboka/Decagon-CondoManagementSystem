@@ -23,6 +23,7 @@ import { getDatabase } from 'firebase/database';
 describe('BuildingService', () => {
   let service: BuildingService;
   let building: Building;
+  let buildings: Building[];
   let userService: UserService;
   let storageService: StorageService;
   let condoImage: File;
@@ -204,6 +205,37 @@ describe('BuildingService', () => {
       ),
       Facilities: facilitiesArray,
     };
+
+    buildings = [
+      {
+        ID: '1',
+        Name: 'Building 1',
+        Address: 'Address 1',
+        Year: 2022,
+        CompanyID: 'company1',
+        Bookings: bookingsArray,
+        Description: 'Building 1 description',
+        Parkings: parkingsArray,
+        Lockers: lockersArray,
+        Condos: condosArray,
+        Picture: '',
+        Facilities: facilitiesArray,
+      },
+      {
+        ID: '2',
+        Name: 'Building 2',
+        Address: 'Address 2',
+        Year: 2023,
+        CompanyID: 'company2',
+        Bookings: bookingsArray,
+        Description: 'Building 2 description',
+        Parkings: parkingsArray,
+        Lockers: lockersArray,
+        Condos: condosArray,
+        Picture: '',
+        Facilities: facilitiesArray,
+      },
+    ];
   });
 
   afterEach(async () => {
@@ -218,8 +250,6 @@ describe('BuildingService', () => {
   });
 
   it('should add a new building and update the user', async () => {
-    
-
     spyOn(authService, 'getUser').and.returnValue(
       JSON.parse(localStorage.getItem('user')!)
     );
@@ -291,6 +321,22 @@ describe('BuildingService', () => {
     //clean up
     await service.deleteBuilding(building.ID);
   });
+
+  // it('should subscribe to a specific building and update the buildingSubject', async () => {
+  //   // Arrange
+  //   await service.subscribeToBuildingById(building.ID);
+
+  //   // Act
+  //   expect((service as any).buildingSubject.value).toEqual(building);
+  // });
+
+  // it('should subscribe to buildings and update the buildingsSubject', async () => {
+  //   spyOn(service, 'getAllBuildings').and.returnValue(Promise.resolve(buildings));
+  //   await service.subscribeToBuildings();
+
+  //   expect(service.getAllBuildings).toHaveBeenCalled();
+  //   expect((service as any).buildingsSubject.value).toEqual(buildings);
+  // });
 
   it('should delete a building successfully', async () => {
     // Arrange
