@@ -1,9 +1,19 @@
+
+/******************************************/
+/*Facility Info */
+/******************************************/
+
+.facility-item {
+    display: flex; 
+    justify-content: space-between; 
+    align-items:center;
+  }
+
 /******************************************/
 /*Padding */
 /******************************************/
 
 .tab-content{
-    border: 5px, solid;
     margin:auto;
     width: 50%;
     padding: 20px;
@@ -11,6 +21,7 @@
 
  #building-title-pic{
     text-align: center;
+    overflow: hidden;
 }
 
 .heading-content, .sub-heading-content{
@@ -58,26 +69,4 @@
 }
 
 
-
-/******************************************/
-/*Radio Buttons*/
-/******************************************/
-.facility-radio-group{
-    display: flex;
-    flex-direction: column;
-    margin: 15px 0;
-    align-items: flex-start;
-}
-
-.facility-radio-button{
-    margin: 5px;
-}
-
-/******************************************/
-/*Time Slots*/
-/******************************************/
-
-.time-chips{
-    width: 80%;
-}
 

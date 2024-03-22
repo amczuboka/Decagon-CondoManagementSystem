@@ -14,11 +14,9 @@ import { NotificationsComponent } from './pages/notifications/notifications.comp
 import { AddNewPropertyComponent } from './pages/add-new-property/add-new-property.component';
 import { MyEmployeesComponent } from './pages/my-employees/my-employees.component';
 import { BudgetReportComponent } from './pages/building-info/budget-report/budget-report.component';
-import { LockerComponent } from './pages/building-info/locker/locker.component';
 import { PaymentComponent } from './pages/payment/payment.component';
 import { MyPropertiesComponent } from './pages/my-properties/my-properties.component';
 import { AddNewBuildingOperationComponent } from './pages/add-new-building-operation/add-new-building-operation.component';
-import { RequestPageComponent } from './pages/request-page/request-page.component';
 
 const routes: Routes = [
   {

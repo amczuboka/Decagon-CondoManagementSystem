@@ -78,6 +78,11 @@ import { MyPropertiesComponent } from './pages/my-properties/my-properties.compo
 import { AddNewBuildingOperationComponent } from './pages/add-new-building-operation/add-new-building-operation.component';
 import { RequestPageComponent } from './pages/request-page/request-page.component';
 import { EditCondoDialogComponent } from './pages/individual-condo/edit-condo-dialog/edit-condo-dialog.component';
+import { BookingsComponent } from './pages/building-info/bookings/bookings.component';
+import { BookingCardComponent } from './pages/building-info/bookings/booking-card/booking-card.component';
+import { ScheduleComponent } from './pages/building-info/schedule/schedule.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 @NgModule({
   declarations: [
@@ -117,6 +122,9 @@ import { EditCondoDialogComponent } from './pages/individual-condo/edit-condo-di
     AddNewBuildingOperationComponent,
     RequestPageComponent,
     EditCondoDialogComponent,
+    BookingsComponent,
+    BookingCardComponent,
+    ScheduleComponent,
   ],
   imports: [
     BrowserModule,
@@ -163,6 +171,7 @@ import { EditCondoDialogComponent } from './pages/individual-condo/edit-condo-di
     MatTableModule,
     MatDialogModule,
     MatCheckboxModule,
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
   ],
   providers: [ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent],

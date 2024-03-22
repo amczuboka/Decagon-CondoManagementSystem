@@ -1,0 +1,42 @@
+/******************************************/
+/*Padding */
+/******************************************/
+
+.tab-content{
+    border: 5px, solid;
+    margin:auto;
+    width: 90%;
+    padding: 20px;
+}
+
+.heading-content, .sub-heading-content{
+    padding: 15px 0px;
+}
+
+.bottom-tab-content{
+    padding: 15px 0px;
+}
+
+
+/******************************************/
+/*Radio Buttons*/
+/******************************************/
+.facility-radio-group{
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+    align-items: flex-start;
+}
+
+.facility-radio-button{
+    margin: 5px;
+}
+
+/******************************************/
+/*Time Slots*/
+/******************************************/
+
+.time-chips{
+    width: 80%;
+}
+
