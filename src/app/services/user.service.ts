@@ -366,4 +366,50 @@ export class UserService {
       throw error;
     }
   }
+
+  async getEmployeesOfCompany(companyName: string): Promise<EmployeeDTO[] | null> {
+    try {
+      const db = getDatabase();
+      const employeesRef = ref(db, 'employees');
+      const employeesSnapshot = await get(employeesRef);
+
+      const employees: EmployeeDTO[] = [];
+      if (employeesSnapshot.exists()) {
+        employeesSnapshot.forEach((employeeSnap) => {
+          const employee = employeeSnap.val() as EmployeeDTO;
+          if (employee.CompanyName == companyName) {
+            employees.push(employee);
+          }
+        });
+        return employees;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error('Error getting employees of company:', error);
+      throw error;
+    }
+  }
+
+  async updateEmployee(employee: EmployeeDTO) {
+    try {
+      const db = getDatabase();
+      const employeeRef = ref(db, `employees/${employee.ID}`);
+      await update(employeeRef, employee);
+    } catch (error) {
+      console.error('Error updating employee:', error);
+      throw error;
+    }
+  }
+
+  async deleteEmployee(employeeId: string) {
+    try {
+      const db = getDatabase();
+      const employeeRef = ref(db, `employees/${employeeId}`);
+      await remove(employeeRef);
+    } catch (error) {
+      console.error('Error deleting employee:', error);
+      throw error;
+    }
+  }
 }

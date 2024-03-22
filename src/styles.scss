@@ -58,17 +58,17 @@ body {
 
 /* Absolute Center Spinner */
 .loading-indicator {
-    position: fixed;
-    z-index: 999;
-    height: 2em;
-    width: 2em;
-    overflow: show;
-    margin: auto;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-  }
+    position: fixed !important;
+    z-index: 999 !important;
+    height: 2em !important;
+    width: 2em !important;
+    overflow: show !important;
+    margin: auto !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    right: 0 !important;
+}
   
   /* Transparent Overlay */
   .loading-indicator:before {

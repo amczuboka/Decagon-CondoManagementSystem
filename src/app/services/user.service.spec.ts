@@ -18,6 +18,8 @@ describe('UserService', () => {
   let CompanyUser: CompanyDTO;
   let index: string;
   let authService: AuthService;
+  let mockGetDatabase: jasmine.Spy;
+
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [AppModule],
@@ -172,6 +174,49 @@ describe('UserService', () => {
     expect(result).toEqual('public');
   });
 
+  it('should return an array of employees belonging to the specified company', async () => {
+    const companyName = 'Company A';
 
+    spyOn(service, 'getEmployeeUser').and.returnValue(Promise.resolve(EmployeeUser));
+
+    // Calling the function and expecting a result
+    const result = await service.getEmployeesOfCompany(companyName);
+
+    expect(result).toBeTruthy();
+    expect(Array.isArray(result)).toBeTrue();
+    expect(result!.every(employee => employee.CompanyName === companyName)).toBeTrue();
+  });
+
+  it('should update the employee in the database', async () => {
+    const employeeToUpdate: EmployeeDTO = {
+      ID: 'employee123',
+      FirstName: 'John',
+      LastName: 'Smith',
+      CompanyName: 'Company A',
+      Authority: Authority.Employee,
+      Email: "jo@jomama.com",
+      ProfilePicture: "",
+      PhoneNumber: "1231231234",
+      UserName: "johnsmith",
+      PropertyIds: [],
+      Notifications: [],
+      Role: Role.Manager
+    };
+
+    // Calling the function
+    await service.updateEmployee(employeeToUpdate);
+    let emp = await service.getEmployeeUser(employeeToUpdate.ID);
+    await service.deleteUser(employeeToUpdate);
+    expect(emp?.ID).toBe(employeeToUpdate.ID);
+  });
+
+  it('should delete the employee from the database', async () => {
+    const employeeIdToDelete = 'employee123';
+
+    // Calling the function
+    await service.deleteEmployee(employeeIdToDelete);
+    let emp = await service.getEmployeeUser(employeeIdToDelete);
+    expect(emp).toBeNull();
+  });
 
 });

@@ -31,6 +31,7 @@ describe('BuildingService', () => {
   let authService: AuthService;
 
   beforeEach(async () => {
+
     TestBed.configureTestingModule({
       imports: [AppModule],
     });
@@ -479,6 +480,33 @@ expect(result[0].Lockers[0].Status).toBeDefined();
 
     // Clean up
     await service.deleteBuilding(building.ID);
+  });
+
+  it('should return an array of buildings', async () => {
+
+    // Calling the function and expecting a result
+    const result = await service.getAllBuildings();
+
+    // Asserting that the result is an array of buildings
+    expect(Array.isArray(result)).toBeTrue();
+    expect(result.length).toBeGreaterThan(0);
+    result.forEach((building: Building) => {
+      expect(building.ID).toBeDefined();
+      expect(building.Name).toBeDefined();
+      expect(building.CompanyID).toBeDefined();
+      expect(building.Address).toBeDefined();
+    });
+
+  });
+
+  it('should return an array of buildings belonging to the specified company', async () => {
+    const companyId = 'company123';
+
+    // Calling the function and expecting a result
+    const result = await service.getAllBuildingsOfCompany(companyId);
+
+    // Asserting that the result contains only buildings belonging to the specified company
+    expect(result.every(building => building.CompanyID === companyId)).toBeTrue();
   });
   
 });
