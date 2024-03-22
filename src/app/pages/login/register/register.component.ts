@@ -137,6 +137,7 @@ export class RegisterComponent {
     this.Uploading = false;
   }
 
+  // fix code duplication in user service later
   async registerUser(value: any, id: string, path: string) {
     // TODO:You should send the data as an OBJECT THAT AS AN INTERFACE not one value one by one
     //I put an example below, also if you check the file where the user interface comes from you can fill
