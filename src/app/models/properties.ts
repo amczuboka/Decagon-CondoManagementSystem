@@ -47,6 +47,13 @@ export interface Locker {
   Fee: number;
 }
 
+export interface BudgetReport{
+  Profit?: number;
+  BuildingName: string;  
+  CondoFeeRevenue: number;
+  OperationCosts: number;
+}
+
 export enum CondoStatus {
   Vacant = 'Vacant',
   Owned = 'Owned',

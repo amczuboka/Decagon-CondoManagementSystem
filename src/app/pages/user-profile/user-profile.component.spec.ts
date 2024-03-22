@@ -1,8 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
 import { UserProfileComponent } from './user-profile.component';
 import { AppModule } from 'src/app/app.module';
-import { of } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { CompanyDTO, EmployeeDTO, UserDTO } from 'src/app/models/users';
 

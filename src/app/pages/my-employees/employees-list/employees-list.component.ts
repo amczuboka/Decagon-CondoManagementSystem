@@ -60,7 +60,7 @@ export class EmployeesListComponent {
 
   openSnackBar(message: string) {
     this._snackBar.open(message, '', {
-       duration: 30000, 
+       duration: 5000, 
        horizontalPosition: 'center',
        verticalPosition: 'top',
       });

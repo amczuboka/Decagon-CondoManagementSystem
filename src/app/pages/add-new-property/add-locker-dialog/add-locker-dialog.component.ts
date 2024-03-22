@@ -58,7 +58,7 @@ export class AddLockerDialogComponent {
    * If the form is invalid, it displays a notification.
    */
   saveItem(): void {
-    const { valid, value } = this.newLocker;
+    const { valid } = this.newLocker;
     if (valid) {
       const toSend = {
         Height: this.newLocker.value.Height + this.newLocker.value.HeightUnit,
