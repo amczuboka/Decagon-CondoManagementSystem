@@ -17,6 +17,7 @@ import { BudgetReportComponent } from './pages/building-info/budget-report/budge
 import { LockerComponent } from './pages/building-info/locker/locker.component';
 import { PaymentComponent } from './pages/payment/payment.component';
 import { MyPropertiesComponent } from './pages/my-properties/my-properties.component';
+import { AddNewBuildingOperationComponent } from './pages/add-new-building-operation/add-new-building-operation.component';
 import { RequestPageComponent } from './pages/request-page/request-page.component';
 
 const routes: Routes = [
@@ -76,6 +77,11 @@ const routes: Routes = [
   {
     path: 'my-properties',
     component: MyPropertiesComponent,
+    canActivate: [AuthguardGuard],
+  },
+  {
+    path: "add-new-building-operation",
+    component: AddNewBuildingOperationComponent,
     canActivate: [AuthguardGuard],
   },
   //This has to be at the last path
