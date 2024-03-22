@@ -13,6 +13,8 @@ import { KeyRegistrationComponent } from './pages/key-registration/key-registrat
 import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { AddNewPropertyComponent } from './pages/add-new-property/add-new-property.component';
 import { MyEmployeesComponent } from './pages/my-employees/my-employees.component';
+import { BudgetReportComponent } from './pages/building-info/budget-report/budget-report.component';
+import { LockerComponent } from './pages/building-info/locker/locker.component';
 import { PaymentComponent } from './pages/payment/payment.component';
 import { MyPropertiesComponent } from './pages/my-properties/my-properties.component';
 import { RequestPageComponent } from './pages/request-page/request-page.component';
@@ -29,6 +31,11 @@ const routes: Routes = [
   {
     path: 'key-registration',
     component: KeyRegistrationComponent,
+    canActivate: [AuthguardGuard],
+  },
+  {
+    path: 'budget-report',
+    component: BudgetReportComponent,
     canActivate: [AuthguardGuard],
   },
   {
