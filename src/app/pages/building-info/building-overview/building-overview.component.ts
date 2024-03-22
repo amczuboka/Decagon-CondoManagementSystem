@@ -1,13 +1,11 @@
-import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   FormGroup,
   Validators,
   FormBuilder,
 } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Building, Facilities, CondoStatus, ParkingLockerStatus } from 'src/app/models/properties';
 import { CompanyDTO } from 'src/app/models/users';
-import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -31,10 +29,8 @@ export class BuildingOverviewComponent {
   currentDay = this.minDate.getUTCDate();
 
   constructor(
-    private authService: AuthService,
     public userService: UserService,
     private form_builder: FormBuilder,
-    private router: Router
   ) {}
 
   async ngOnInit() {
