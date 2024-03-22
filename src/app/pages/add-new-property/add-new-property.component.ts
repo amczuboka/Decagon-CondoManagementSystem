@@ -23,6 +23,7 @@ import {
 import { MyErrorStateMatcher } from 'src/app/services/auth.service';
 import { BuildingService } from 'src/app/services/building.service';
 import { StorageService } from 'src/app/services/storage.service';
+import { timeout } from 'rxjs';
 
 /**
  * Component for adding a new property.
@@ -217,15 +218,15 @@ export class AddNewPropertyComponent {
    * Validates the form, facilities, and item lists before saving the property.
    */
   async onSubmit() {
-    
+
     this.Propertyform.markAllAsTouched();
     if (this.Propertyform.invalid) {
       this.NotificationService.sendAlert('Please fill out all required fields');
-     
+
       return;
     }
     if (this.facilities.value.length == 0) {
-      this.NotificationService.sendAlert('Please select at least one facility'); 
+      this.NotificationService.sendAlert('Please select at least one facility');
       return;
     }
     if (
@@ -238,7 +239,7 @@ export class AddNewPropertyComponent {
       );
       return;
     }
-    
+
     this.loading = true;
     const db = getDatabase();
 
@@ -248,14 +249,12 @@ export class AddNewPropertyComponent {
     let k = 0;
 
     if (this.CondoItems.length !== 0) {
-       
       const promiseCondos = this.CondoItems.map(async (condoItem) => {
         let imagelink = await this.storageService.uploadToFirestore(
           condoItem.Picture,
           'building_images/' +
             (await this.storageService.IDgenerator('buildings/', db))
         );
-       
 
         for (let i = 0; i < condoItem.Quantity; i++) {
           condos.push({
@@ -336,7 +335,6 @@ export class AddNewPropertyComponent {
     await this.BuildingService.addBuilding(building);
 
     this.NotificationService.sendNotification('Property Added');
-
       this.reloadPage();
   }
 

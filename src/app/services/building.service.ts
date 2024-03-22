@@ -252,6 +252,11 @@ export class BuildingService {
       await set(buildingRef, null);
       await this.storageService.deleteFile(building.Picture);
       await this.storageService.deleteFile(building.Condos[0].Picture);
+     for (let i = 1; i < building.Condos.length; i++) {
+        if (building.Condos[i].Picture !== building.Condos[i - 1].Picture) {
+          await this.storageService.deleteFile(building.Condos[i].Picture);
+        }
+      }
     } catch (error) {
       console.error('Error deleting Building:', error);
       throw error;
