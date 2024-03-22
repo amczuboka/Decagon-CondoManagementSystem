@@ -1,6 +1,30 @@
-#cal-buttons{
+#cal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+#cal-date-field {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  #cal-date-nav-buttons {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     margin-bottom: 20px;
     margin-top: 20px;
+  }
+
+  .cal-view-nav-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
 }
