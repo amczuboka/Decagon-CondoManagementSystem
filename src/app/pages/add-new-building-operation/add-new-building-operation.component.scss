@@ -1,6 +1,7 @@
 h1{
     font-size: 3rem;
     margin:3% 0 0 3%;
+    line-height: 1.4;
 }
 label{
     width:100%;
@@ -52,3 +53,4 @@ hr{
   .error ~input, .error ~mat-select {
     border-color: red; 
   }
+
