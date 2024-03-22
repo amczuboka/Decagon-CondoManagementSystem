@@ -107,7 +107,7 @@ export class NotificationsComponent {
       Date: Date.now(),
       SenderId: this.myUser.ID,
       SenderName: this.myUser.CompanyName,
-      Type: NotificationType.Default,
+      Type: NotificationType.GeneralMessage,
     };
     await this.userService.sendNotificationToUser(
       notification.SenderId,

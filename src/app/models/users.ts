@@ -57,13 +57,13 @@ export interface Notification {
 }
 
 export enum NotificationType {
+  GeneralMessage = 'GeneralMessage',
   OwnershipRequest = 'OwnershipRequest',
   RentRequest = 'RentRequest',
   MaintenanceRequest = 'MaintenanceRequest',
   CleaningRequest = 'CleaningRequest',
   SecurityRequest = 'SecurityRequest',
   FinancialRequest = 'FinancialRequest',
-  Default = 'Default',
 }
 
 export enum Authority {

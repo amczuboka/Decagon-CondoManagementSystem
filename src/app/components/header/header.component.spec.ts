@@ -1,7 +1,4 @@
-import {
-  ComponentFixture,
-  TestBed,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HeaderComponent } from './header.component';
 import { AppModule } from 'src/app/app.module';
 import { AuthService } from 'src/app/services/auth.service';
@@ -72,7 +69,7 @@ describe('HeaderComponent', () => {
           Date: trimmedDate,
           SenderId: '1',
           SenderName: 'test1',
-          Type: NotificationType.Default,
+          Type: NotificationType.GeneralMessage,
         },
         {
           New: false,
@@ -80,7 +77,7 @@ describe('HeaderComponent', () => {
           Date: trimmedDate,
           SenderId: '2',
           SenderName: 'test2',
-          Type: NotificationType.Default,
+          Type: NotificationType.GeneralMessage,
         },
         {
           New: true,
@@ -88,7 +85,7 @@ describe('HeaderComponent', () => {
           Date: trimmedDate,
           SenderId: '3',
           SenderName: 'test3',
-          Type: NotificationType.Default,
+          Type: NotificationType.GeneralMessage,
         },
       ],
     };
@@ -102,7 +99,7 @@ describe('HeaderComponent', () => {
         Date: trimmedDate,
         SenderId: '1',
         SenderName: 'test1',
-        Type: NotificationType.Default,
+        Type: NotificationType.GeneralMessage,
       },
       {
         New: true,
@@ -110,7 +107,7 @@ describe('HeaderComponent', () => {
         Date: trimmedDate,
         SenderId: '3',
         SenderName: 'test3',
-        Type: NotificationType.Default,
+        Type: NotificationType.GeneralMessage,
       },
     ]);
   });
@@ -142,7 +139,7 @@ describe('HeaderComponent', () => {
           Date: trimmedDate,
           SenderId: '1',
           SenderName: 'test1',
-          Type: NotificationType.Default,
+          Type: NotificationType.GeneralMessage,
         },
         {
           New: false,
@@ -150,7 +147,7 @@ describe('HeaderComponent', () => {
           Date: trimmedDate,
           SenderId: '2',
           SenderName: 'test2',
-          Type: NotificationType.Default,
+          Type: NotificationType.GeneralMessage,
         },
       ],
     };

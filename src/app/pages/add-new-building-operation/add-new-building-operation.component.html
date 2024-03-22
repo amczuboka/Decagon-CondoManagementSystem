@@ -1,0 +1,46 @@
+<h1>Add New Building Operation</h1>
+<hr>
+
+<form [formGroup]="operationForm" (ngSubmit)="onSubmit()" class="container">
+  <div>
+    <label for="operation-name-input">
+      <p>Operation Name</p>
+      <div *ngIf="submitted && operationForm.controls['operationName'].errors && operationForm.controls['operationName'].errors['required']" class="error">Operation Name is required</div>
+      <input type="text" placeholder="Operation Name" formControlName="operationName">
+    </label>
+  </div>
+
+  <div>
+    <label for="description">
+      <p>Description</p>
+      <div *ngIf="submitted && operationForm.controls['description'].errors && operationForm.controls['description'].errors['required']" class="error">Description is required</div>
+      <input type="text" placeholder="Description" formControlName="description">
+
+    </label>
+  </div>
+
+  <div>
+    <label for="cost">
+      <p>Cost</p>
+      <div *ngIf="submitted && operationForm.controls['cost'].errors" class="error">
+        <div *ngIf="operationForm.controls['cost'].errors['required']">Cost is required</div>
+        <div *ngIf="operationForm.controls['cost'].errors['pattern']">Invalid cost format (e.g., 123.45)</div>
+      </div>
+      <input type="text" placeholder="Cost" formControlName="cost">
+
+    </label>
+  </div>
+
+  <div>
+    <label for="building">
+      <p>Building</p>
+      <div *ngIf="submitted && operationForm.controls['building'].errors && operationForm.controls['building'].errors['required']" class="error">Building is required</div>
+      <mat-select placeholder="Choose a Building" formControlName="building">
+        <mat-option value="one">Building A</mat-option>
+        <mat-option value="two">Building B</mat-option>
+      </mat-select>
+    </label>
+  </div>
+
+  <button type="submit">Submit</button>
+</form>
