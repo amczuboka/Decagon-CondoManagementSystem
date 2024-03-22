@@ -1,4 +1,4 @@
-import { Authority, CompanyDTO } from './../../../models/users';
+import { Authority } from './../../../models/users';
 import { Component } from '@angular/core';
 import {
   AuthService,
