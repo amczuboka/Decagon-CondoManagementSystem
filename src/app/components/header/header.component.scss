@@ -45,10 +45,11 @@ mat-toolbar {
   }
 }
 
-.nav-link {
+.nav-link, .notifications {
   &:hover {
     color: lighten(black, 50%); // lighten the text color by 10%
   }
+  font-size: small;
 }
 
 .nav-item button[matBadge] {
