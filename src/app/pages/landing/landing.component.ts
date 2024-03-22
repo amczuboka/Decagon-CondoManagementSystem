@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { sourcePage } from 'src/app/models/properties';
 import { Authority, User } from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
@@ -12,7 +13,8 @@ import { UserService } from 'src/app/services/user.service';
 export class LandingComponent {
   myUser: any;
   userSubscription: Subscription = new Subscription();
-
+  sourcePage = sourcePage.availablePage;
+  
   constructor(private userService: UserService) {}
 
   async onInit() {

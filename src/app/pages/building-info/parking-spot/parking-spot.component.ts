@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
+import { Building, ParkingSpot } from 'src/app/models/properties';
 import {
-  ParkingLockerStatus,
-  ParkingSpot,
-  ParkingType,
-} from 'src/app/models/properties';
-import { User, UserDTO } from 'src/app/models/users';
+  Authority,
+  Notification,
+  NotificationType,
+  UserDTO,
+} from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
+import { NotificationService } from 'src/app/services/notification.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -17,112 +19,82 @@ export class ParkingSpotComponent {
   authority!: string;
   users: { [key: string]: UserDTO } = {};
   myUser!: any;
-
-  // Hardcoded array of 10 fake ParkingSpot objects
-  fakeParkingSpots: ParkingSpot[] = [
-    {
-      ID: '1',
-      OccupantID: 'T28vqPCtohTj2V1lJabmjHXRYYt1',
-      Number: 'P001',
-      Status: ParkingLockerStatus.Available,
-      ParkingType: ParkingType.Standard,
-      Fee: 50,
-    },
-    {
-      ID: '2',
-      OccupantID: 'T28vqPCtohTj2V1lJabmjHXRYYt1',
-      Number: 'P002',
-      Status: ParkingLockerStatus.Available,
-      ParkingType: ParkingType.Standard,
-      Fee: 75,
-    },
-    {
-      ID: '3',
-      OccupantID: 'T28vqPCtohTj2V1lJabmjHXRYYt1',
-      Number: 'P003',
-      Status: ParkingLockerStatus.Unavailable,
-      ParkingType: ParkingType.Handicap,
-      Fee: 100,
-    },
-    {
-      ID: '4',
-      OccupantID: 'T28vqPCtohTj2V1lJabmjHXRYYt1',
-      Number: 'P004',
-      Status: ParkingLockerStatus.Unavailable,
-      ParkingType: ParkingType.Standard,
-      Fee: 120,
-    },
-    {
-      ID: '5',
-      OccupantID: 'T28vqPCtohTj2V1lJabmjHXRYYt1',
-      Number: 'P005',
-      Status: ParkingLockerStatus.Available,
-      ParkingType: ParkingType.Handicap,
-      Fee: 55,
-    },
-    {
-      ID: '6',
-      OccupantID: 'T28vqPCtohTj2V1lJabmjHXRYYt1',
-      Number: 'P006',
-      Status: ParkingLockerStatus.Available,
-      ParkingType: ParkingType.Standard,
-      Fee: 80,
-    },
-    {
-      ID: '7',
-      OccupantID: 'T28vqPCtohTj2V1lJabmjHXRYYt1',
-      Number: 'P007',
-      Status: ParkingLockerStatus.Unavailable,
-      ParkingType: ParkingType.Handicap,
-      Fee: 110,
-    },
-    {
-      ID: '8',
-      OccupantID: 'T28vqPCtohTj2V1lJabmjHXRYYt1',
-      Number: 'P008',
-      Status: ParkingLockerStatus.Unavailable,
-      ParkingType: ParkingType.Standard,
-      Fee: 130,
-    },
-    {
-      ID: '9',
-      OccupantID: 'T28vqPCtohTj2V1lJabmjHXRYYt1',
-      Number: 'P009',
-      Status: ParkingLockerStatus.Available,
-      ParkingType: ParkingType.Handicap,
-      Fee: 60,
-    },
-    {
-      ID: '10',
-      OccupantID: 'T28vqPCtohTj2V1lJabmjHXRYYt1',
-      Number: 'P010',
-      Status: ParkingLockerStatus.Available,
-      ParkingType: ParkingType.Standard,
-      Fee: 85,
-    },
-  ];
+  @Input() parkings!: ParkingSpot[];
+  @Input() sourcePage!: string;
+  @Input() building!: Building;
 
   constructor(
-    public authService: AuthService,
-    public userService: UserService
+    private authService: AuthService,
+    public userService: UserService,
+    public notificationService: NotificationService
   ) {}
 
-  ngOnInit() {
-    // Fetch user information for each locker's occupant
-    this.fakeParkingSpots.forEach(async (parking) => {
-      if (parking.OccupantID) {
-        const user = await this.userService.getPublicUser(parking.OccupantID);
-        if (user) {
-          this.users[parking.OccupantID] = user;
+  async ngOnChanges(changes: SimpleChanges) {
+    if (changes['parkings'] && changes['parkings'].currentValue) {
+      // Fetch user information for each locker's occupant
+      for (const parking of this.parkings) {
+        console.log(parking.OccupantID);
+        if (parking.OccupantID) {
+          try {
+            const user = await this.userService.getPublicUser(
+              parking.OccupantID
+            );
+            if (user) {
+              this.users[parking.OccupantID] = user;
+            }
+          } catch (error) {
+            console.error('Failed to get user', error);
+          }
         }
       }
-    });
+    }
   }
 
-  ngAfterViewChecked() {
-    this.myUser = this.authService.getUser();
-    if (this.myUser) {
-      this.authority = this.myUser.photoURL;
+  async ngOnInit() {
+    // Fetch the current user
+    try {
+      this.myUser = await this.authService.getUser();
+      if (this.myUser) {
+        this.authority = this.myUser.photoURL;
+        if (this.authority == Authority.Public) {
+          this.userService.getPublicUser(this.myUser.uid).then((user) => {
+            this.myUser = user;
+          });
+        } else if (this.authority == Authority.Employee) {
+          this.userService.getEmployeeUser(this.myUser.uid).then((user) => {
+            this.myUser = user;
+          });
+        } else if (this.authority == Authority.Company) {
+          this.userService.getCompanyUser(this.myUser.uid).then((user) => {
+            this.myUser = user;
+          });
+        }
+      } else {
+        this.authority = '';
+      }
+    } catch (error) {
+      console.error(error);
+      this.authority = '';
     }
+  }
+
+  async requestRent(item: ParkingSpot) {
+    // Create a new notification
+    const notification: Notification = {
+      Date: new Date().getTime(),
+      Message: `Request for rental of parking spot ${item.Number} in ${this.building.Name} with ID ${item.ID}`,
+      New: true,
+      SenderId: this.myUser.ID,
+      SenderName: `${this.myUser.FirstName} ${this.myUser.LastName}`,
+      Type: NotificationType.RentRequest,
+    };
+    await this.userService.sendNotificationToUser(
+      this.building.CompanyID,
+      Authority.Company,
+      notification
+    );
+    this.notificationService.sendNotification(
+      'Your request for rental has been sent. You will be notified when it is approved.'
+    );
   }
 }

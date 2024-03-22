@@ -1,19 +1,14 @@
-/* registration.component.css */
-
-/* Apply the same styles as in the provided CSS */
-
-/* Additional styles for the Registration Key page */
 section {
     display: flex;
-    flex-direction: column; /* Stack elements vertically */
-    align-items: flex-start; /* Align contents to the start of the flex container */
-    justify-content: flex-start; /* Align contents to the start of the flex container */
+    flex-direction: column;
+    align-items: flex-start; 
+    justify-content: flex-start; 
     height: 100vh;
-    padding: 20px; /* Add padding as needed */
+    padding: 20px;
 }
 
 .card-body {
-  text-align: left; /* Align text to the left */
+  text-align: left;
 }
 
 .card-body h5 {
@@ -30,7 +25,7 @@ mat-form-field {
 
 .btn {
   color: #fff;
-  margin-top: 10px; /* Add spacing between the text box and the button */
+  margin-top: 10px;
 }
 
 .loading-indicator {
@@ -39,7 +34,7 @@ mat-form-field {
   height: 2em;
   width: 2em;
   overflow: show;
-  margin: 10px; /* Adjust margin as needed */
+  margin: 10px;
   top: 0;
   left: 0;
 }

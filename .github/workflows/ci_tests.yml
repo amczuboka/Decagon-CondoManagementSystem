@@ -2,7 +2,7 @@ name: Node.js CI test 3
 
 on:
   push:
-  pull_request:
+  # pull_request:
 
 jobs:
 

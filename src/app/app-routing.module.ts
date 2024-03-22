@@ -15,6 +15,9 @@ import { AddNewPropertyComponent } from './pages/add-new-property/add-new-proper
 import { MyEmployeesComponent } from './pages/my-employees/my-employees.component';
 import { BudgetReportComponent } from './pages/building-info/budget-report/budget-report.component';
 import { LockerComponent } from './pages/building-info/locker/locker.component';
+import { PaymentComponent } from './pages/payment/payment.component';
+import { MyPropertiesComponent } from './pages/my-properties/my-properties.component';
+import { RequestPageComponent } from './pages/request-page/request-page.component';
 
 const routes: Routes = [
   {
@@ -46,7 +49,7 @@ const routes: Routes = [
     canActivate: [AuthguardGuard],
   },
   {
-    path: 'individual-condo',
+    path: 'individual-condo/:buildingId/:condoId',
     component: IndividualCondoComponent,
     canActivate: [AuthguardGuard],
   },
@@ -55,18 +58,27 @@ const routes: Routes = [
     component: NotificationsComponent,
     canActivate: [AuthguardGuard],
   },
-  
   {
     path: 'add-new-property',
     component: AddNewPropertyComponent,
+    canActivate: [AuthguardGuard, CompanyGuard],
+  },
+  {
+    path: 'payment',
+    component: PaymentComponent,
+    canActivate: [AuthguardGuard],
+  },
+  {
+    path: 'my-employees',
+    component: MyEmployeesComponent,
+    canActivate: [AuthguardGuard, CompanyGuard],
+  },
+  {
+    path: 'my-properties',
+    component: MyPropertiesComponent,
     canActivate: [AuthguardGuard],
   },
   //This has to be at the last path
-  { 
-    path: 'my-employees', 
-    component: MyEmployeesComponent,
-    canActivate: [AuthguardGuard, CompanyGuard]
-  },
   { path: '**', redirectTo: '', canActivate: [AuthguardGuard] },
 ];
 

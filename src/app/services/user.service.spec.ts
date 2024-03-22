@@ -156,4 +156,22 @@ describe('UserService', () => {
 
     expect(await service.getEmployeeUser(index)).toBeNull();
   });
+
+  it('should classify user as public', async () => {
+    // Arrange
+    spyOn(service, 'getPublicUser').and.returnValue(
+      Promise.resolve(publicUser)
+    );
+    spyOn(service, 'getCompanyUser').and.returnValue(Promise.resolve(null));
+    spyOn(service, 'getEmployeeUser').and.returnValue(Promise.resolve(null));
+
+    // Act
+    const result = await service.classifyUser(index);
+
+    // Assert
+    expect(result).toEqual('public');
+  });
+
+
+
 });

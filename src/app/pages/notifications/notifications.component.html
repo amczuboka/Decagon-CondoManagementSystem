@@ -1,5 +1,15 @@
 <div class="my-container">
   <mat-table [dataSource]="dataSource" class="my-table">
+    <!-- Type column -->
+    <ng-container matColumnDef="type">
+      <mat-header-cell *matHeaderCellDef class="mat-column-type">
+        Type
+      </mat-header-cell>
+      <mat-cell *matCellDef="let notification" class="mat-column-type">
+        {{ notification.Type }}
+      </mat-cell>
+    </ng-container>
+
     <!-- Notification column -->
     <ng-container matColumnDef="message">
       <mat-header-cell *matHeaderCellDef class="mat-column-message">
@@ -26,7 +36,7 @@
         Sender
       </mat-header-cell>
       <mat-cell *matCellDef="let notification" class="mat-column-SenderId">
-        {{ notification.SenderId }}
+        {{ notification.SenderName }}
       </mat-cell>
     </ng-container>
 
@@ -42,15 +52,30 @@
       >
         <div class="button-container">
           <button
-            mat-button
+            class="action-button"
+            mat-raised-button
             color="primary"
+            *ngIf="
+              (notification.Type === NotificationType.RentRequest ||
+                notification.Type === NotificationType.OwnershipRequest) &&
+              notification.New
+            "
+            (click)="acceptRequest(notification)"
+          >
+            Accept Request
+          </button>
+          <button
+            class="action-button"
+            mat-raised-button
+            color="accent"
             *ngIf="notification.New"
             (click)="markAsRead(notification)"
           >
             Mark as Read
           </button>
           <button
-            mat-button
+            class="action-button"
+            mat-raised-button
             color="accent"
             *ngIf="!notification.New"
             (click)="markAsUnread(notification)"
@@ -58,7 +83,8 @@
             Mark as Unread
           </button>
           <button
-            mat-button
+            class="fab-button"
+            mat-fab
             color="warn"
             (click)="deleteNotification(notification)"
           >
@@ -73,7 +99,4 @@
     ></mat-header-row>
     <mat-row *matRowDef="let notification; columns: displayedColumns"></mat-row>
   </mat-table>
-  <!-- <div class="loading-indicator" *ngIf="loading">
-    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-  </div> -->
 </div>

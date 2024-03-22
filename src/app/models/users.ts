@@ -52,6 +52,18 @@ export interface Notification {
   New: boolean;
   Date: number;
   SenderId: string;
+  SenderName: string;
+  Type: NotificationType;
+}
+
+export enum NotificationType {
+  GeneralMessage = 'GeneralMessage',
+  OwnershipRequest = 'OwnershipRequest',
+  RentRequest = 'RentRequest',
+  MaintenanceRequest = 'MaintenanceRequest',
+  CleaningRequest = 'CleaningRequest',
+  SecurityRequest = 'SecurityRequest',
+  FinancialRequest = 'FinancialRequest',
 }
 
 export enum Authority {

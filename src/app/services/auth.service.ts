@@ -51,7 +51,17 @@ export class AuthService {
     });
   }
 
-  // Sign in with email/password
+  /**
+   * Signs in a user using their email and password.
+   *
+   * If the user's email is verified, it sets the user's data and navigates to the root route.
+   * If the email is not verified, it sends a notification to verify the email.
+   * If the sign-in operation fails due to invalid credentials, it sends an alert.
+   *
+   * @param {string} email - The user's email.
+   * @param {string} password - The user's password.
+   * @returns A Promise that resolves when the sign-in operation is complete.
+   */
   async SignIn(email: string, password: string) {
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
@@ -66,19 +76,34 @@ export class AuthService {
         }
       })
       .catch((error) => {
-        // console.error(error);
         if (error.code == 'auth/invalid-credential') {
           this.notificationService.sendAlert('Error: Invalid credentials');
         }
-        // Handle error here, e.g. show error message to user
       });
   }
 
+  /**
+   * Retrieves the current user's data from local storage.
+   *
+   * @returns The user's data as a JSON object, or `null` if no user data is stored.
+   */
   getUser() {
     return JSON.parse(localStorage.getItem('user')!);
   }
 
-  // Sign up with email/password
+  /**
+   * Signs up a new user using their email, password, and authority level.
+   *
+   * If the sign-up operation is successful, it sends a verification email, sets the user's data,
+   * updates the user's profile with their authority level, and returns the user's ID.
+   * If the email is already in use, it sends an alert and returns an empty string.
+   *
+   * @param {string} email - The user's email.
+   * @param {string} password - The user's password.
+   * @param {string} authority - The user's authority level.
+   * @returns A Promise that resolves to the user's ID as a string, or an empty string if the sign-up operation fails.
+   * @throws Will throw an error if the sign-up operation fails for a reason other than the email already being in use.
+   */
   async SignUp(email: string, password: string, authority: string) {
     try {
       const result = await this.afAuth.createUserWithEmailAndPassword(
@@ -104,7 +129,13 @@ export class AuthService {
     return '';
   }
 
-  // Send email verfificaiton when new user sign up
+  /**
+   * Sends a verification email to the current user.
+   *
+   * If the operation is successful, it navigates to the 'verify-email' route and sends a notification that the email verification has been sent.
+   *
+   * @returns A Promise that resolves when the email verification has been sent and the navigation and notification operations are complete.
+   */
   async SendVerificationMail() {
     return this.afAuth.currentUser
       .then((u: any) => u.sendEmailVerification())
@@ -114,15 +145,23 @@ export class AuthService {
       });
   }
 
-  // Returns true when user is looged in and email is verified
+  /**
+   * Checks if a user is currently logged in.
+   *
+   * @returns A boolean indicating whether a user is logged in. Returns true if a user is stored in local storage, otherwise false.
+   */
   get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user')!);
     return user !== null;
   }
 
-  /* Setting up user data when sign in with username/password, 
-  sign up with username/password and sign in with social auth  
-  provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
+  /**
+   * Sets the user's data in both local storage and Firestore.
+   *
+   * @param {any} user - The user object to set the data for.
+   * @param {string} [authority] - The user's authority level. If provided, it will be used as the user's photoURL.
+   * @returns A Promise that resolves when the user's data has been set in Firestore.
+   */
   SetUserData(user: any, authority?: string) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
       `users/${user.uid}`
@@ -139,7 +178,13 @@ export class AuthService {
     });
   }
 
-  // Sign out
+  /**
+   * Signs out the current user.
+   *
+   * If the sign-out operation is successful, it removes the user's data from local storage and navigates to the 'login' route.
+   *
+   * @returns A Promise that resolves when the sign-out operation is complete and the user's data has been removed from local storage.
+   */
   async SignOut() {
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');

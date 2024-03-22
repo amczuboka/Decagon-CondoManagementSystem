@@ -150,6 +150,6 @@
       "@schematics/angular",
       "@cypress/schematic"
     ],
-    "analytics": "d361e1d5-a147-41c0-aa65-026c6acdef64"
+    "analytics": false
   }
 }
