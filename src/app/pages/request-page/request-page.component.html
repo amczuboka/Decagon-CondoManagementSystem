@@ -1,0 +1,32 @@
+<ng-container *ngIf="sourcePage === 'availablePage'">
+    <div class="container">
+        <div class="heading">
+            <h1>Request Form</h1>
+        </div>
+        <div class="form">
+            <form [formGroup]="requestForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <div class="heading2">
+                        <h2>Request Type</h2>
+                    </div>
+                    <div class="types">
+                        <mat-select formControlName="RequestType" name="select-type" placeholder="Select Request Type">
+                            <mat-option *ngFor="let type of requestTypes" [value]="type">
+                                {{ type }}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                    <div class="heading2">
+                        <h2>Additional Comments</h2>
+                    </div> 
+                    <div class="comments">
+                        <textarea id="comment-area" formControlName="Comments" placeholder="Write your comments here (Optional)" matInput></textarea>
+                    </div>
+                    <div class="submit">
+                        <button type="submit" mat-raised-button [style.color]="'white'" [style.background-color]="'#334961'">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-container>

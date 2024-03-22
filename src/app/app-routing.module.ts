@@ -13,8 +13,13 @@ import { KeyRegistrationComponent } from './pages/key-registration/key-registrat
 import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { AddNewPropertyComponent } from './pages/add-new-property/add-new-property.component';
 import { MyEmployeesComponent } from './pages/my-employees/my-employees.component';
+import { BudgetReportComponent } from './pages/building-info/budget-report/budget-report.component';
+import { LockerComponent } from './pages/building-info/locker/locker.component';
+import { PaymentComponent } from './pages/payment/payment.component';
 import { MyPropertiesComponent } from './pages/my-properties/my-properties.component';
 import { AddNewBuildingOperationComponent } from './pages/add-new-building-operation/add-new-building-operation.component';
+import { RequestPageComponent } from './pages/request-page/request-page.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -30,6 +35,11 @@ const routes: Routes = [
     canActivate: [AuthguardGuard],
   },
   {
+    path: 'budget-report',
+    component: BudgetReportComponent,
+    canActivate: [AuthguardGuard],
+  },
+  {
     path: 'user-profile',
     component: UserProfileComponent,
     canActivate: [AuthguardGuard],
@@ -40,7 +50,7 @@ const routes: Routes = [
     canActivate: [AuthguardGuard],
   },
   {
-    path: 'individual-condo',
+    path: 'individual-condo/:buildingId/:condoId',
     component: IndividualCondoComponent,
     canActivate: [AuthguardGuard],
   },
@@ -55,10 +65,15 @@ const routes: Routes = [
     canActivate: [AuthguardGuard, CompanyGuard],
   },
   {
+    path: 'payment',
+    component: PaymentComponent,
+    canActivate: [AuthguardGuard],
+  },
+  {
     path: 'my-employees',
     component: MyEmployeesComponent,
     canActivate: [AuthguardGuard, CompanyGuard],
-  }, 
+  },
   {
     path: 'my-properties',
     component: MyPropertiesComponent,

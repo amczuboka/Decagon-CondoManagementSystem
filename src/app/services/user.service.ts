@@ -19,7 +19,7 @@ import {
 } from '../models/users';
 import { Database, remove, set, update } from '@angular/fire/database';
 import { AuthService } from './auth.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -32,10 +32,20 @@ export class UserService {
     this.getUser();
   }
 
+  /**
+   * Updates and broadcasts the current user's information.
+   *
+   * @param {UserDTO | EmployeeDTO | CompanyDTO | null} user - The updated user data.
+   */
   updateUser(user: UserDTO | EmployeeDTO | CompanyDTO | null) {
     this.myUserSubject.next(user);
   }
 
+  /**
+   * Retrieves and updates the current user's information based on their authority level.
+   *
+   * @returns A Promise that resolves when the user's information has been updated.
+   */
   getUser() {
     return new Promise<void>((resolve) => {
       let myUser = this.authService.getUser() as User;
@@ -58,6 +68,12 @@ export class UserService {
     });
   }
 
+  /**
+   * Checks if a company with the given name already exists in the database.
+   *
+   * @param {string} companyName - The name of the company to check.
+   * @returns A Promise that resolves to a boolean indicating whether the company exists.
+   */
   async checkIfCompanyExists(companyName: string) {
     // Check if companies node exists
     const db = getDatabase();
@@ -85,6 +101,12 @@ export class UserService {
     }
   }
 
+  /**
+   * Retrieves a public user's data from the database.
+   *
+   * @param {string} userId - The ID of the user to retrieve.
+   * @returns A Promise that resolves to the user's data as a `UserDTO` object, or `null` if the user does not exist.
+   */
   async getPublicUser(userId: string): Promise<UserDTO | null> {
     try {
       const db = getDatabase();
@@ -100,6 +122,12 @@ export class UserService {
     }
   }
 
+  /**
+   * Retrieves a company user's data from the database.
+   *
+   * @param {string} userId - The ID of the user to retrieve.
+   * @returns A Promise that resolves to the user's data as a `CompanyDTO` object, or `null` if the user does not exist.
+   */
   async getCompanyUser(userId: string): Promise<CompanyDTO | null> {
     try {
       const db = getDatabase();
@@ -115,6 +143,12 @@ export class UserService {
     }
   }
 
+  /**
+   * Retrieves an employee user's data from the database.
+   *
+   * @param {string} userId - The ID of the user to retrieve.
+   * @returns A Promise that resolves to the user's data as an `EmployeeDTO` object, or `null` if the user does not exist.
+   */
   async getEmployeeUser(userId: string): Promise<EmployeeDTO | null> {
     try {
       const db = getDatabase();
@@ -130,6 +164,13 @@ export class UserService {
     }
   }
 
+  /**
+   * Updates a user's data in the database based on their authority level.
+   *
+   * @param {any} index - The ID of the user to update.
+   * @param {any} value - The new data for the user.
+   * @throws Will throw an error if the update operation fails.
+   */
   async editUser(index: any, value: any) {
     try {
       if (value.Authority == Authority.Public) {
@@ -151,6 +192,12 @@ export class UserService {
     }
   }
 
+  /**
+   * Deletes a user from the database based on their authority level.
+   *
+   * @param {any} User - The user object to delete.
+   * @throws Will throw an error if the deletion operation fails.
+   */
   async deleteUser(User: any) {
     try {
       if (User.Authority == Authority.Public) {
@@ -178,6 +225,12 @@ export class UserService {
     }
   }
 
+  /**
+   * Subscribes to updates for a public user in the database.
+   *
+   * @param {string} userId - The ID of the user to subscribe to.
+   * @param {function} callback - The function to call when the user's data updates.
+   */
   async subscribeToPublicUser(
     userId: string,
     callback: (user: UserDTO | null) => void
@@ -200,6 +253,12 @@ export class UserService {
     );
   }
 
+  /**
+   * Subscribes to updates for a company user in the database.
+   *
+   * @param {string} userId - The ID of the user to subscribe to.
+   * @param {function} callback - The function to call when the user's data updates.
+   */
   async subscribeToCompanyUser(
     userId: string,
     callback: (user: CompanyDTO | null) => void
@@ -222,6 +281,12 @@ export class UserService {
     );
   }
 
+  /**
+   * Subscribes to updates for an employee user in the database.
+   *
+   * @param {string} userId - The ID of the user to subscribe to.
+   * @param {function} callback - The function to call when the user's data updates.
+   */
   async subscribeToEmployeeUser(
     userId: string,
     callback: (user: EmployeeDTO | null) => void
@@ -244,10 +309,24 @@ export class UserService {
     );
   }
 
-  async sendNotificationToUser(userId: string, notification: Notification) {
+  /**
+   * Sends a notification to a specific user.
+   *
+   * @param {string} userId - The ID of the user to send the notification to.
+   * @param {Notification} notification - The notification to send.
+   * @throws Will throw an error if the notification sending operation fails.
+   */
+  async sendNotificationToUser(userId: string, authority: Authority, notification: Notification) {
     try {
       const db = getDatabase();
-      const userRef = ref(db, `public users/${userId}/Notifications`);
+      let userRef = null;
+      if (authority == Authority.Public) {
+        userRef = ref(db, `public users/${userId}/Notifications`);
+      } else if (authority == Authority.Company) {
+        userRef = ref(db, `companies/${userId}/Notifications`);
+      } else {
+        userRef = ref(db, `employees/${userId}/Notifications`);
+      }
       const userSnapshot = await get(userRef);
       if (userSnapshot.exists()) {
         const notifications = userSnapshot.val();
@@ -257,6 +336,33 @@ export class UserService {
         await set(userRef, [notification]);
       }
     } catch (error) {
+      throw error;
+    }
+  }
+
+  async classifyUser(userId: string): Promise<string | null> {
+    try {
+      // Check if the user is a public user
+      const publicUser = await this.getPublicUser(userId);
+      if (publicUser) {
+        return 'public';
+      }
+
+      // Check if the user is a company user
+      const companyUser = await this.getCompanyUser(userId);
+      if (companyUser) {
+        return 'company';
+      }
+
+      // Check if the user is an employee user
+      const employeeUser = await this.getEmployeeUser(userId);
+      if (employeeUser) {
+        return 'employee';
+      }
+
+      return null; // If user not found
+    } catch (error) {
+      console.error('Error classifying user:', error);
       throw error;
     }
   }
