@@ -102,12 +102,12 @@
   </div>
 </mat-toolbar>
 
-<mat-menu #menu="matMenu">
+<mat-menu #menu="matMenu" id="MypropertiesSection">
   <a class="nav-link" href="">
     <button mat-menu-item>Home</button>
   </a>
-  <a class="nav-link" href="my-properties">
-    <button mat-menu-item *ngIf="authority != 'Employee'">My Properties</button>
+  <a class="nav-link" href="my-properties" id="MyProperties_a">
+    <button  mat-menu-item *ngIf="myUser.Authority != 'Employee'" id="myProperties_btn">My Properties</button>
   </a>
   <a class="nav-link" href="user-profile">
     <button mat-menu-item>Profile</button>
