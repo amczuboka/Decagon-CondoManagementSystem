@@ -14,6 +14,7 @@ import {
   CompanyDTO,
   EmployeeDTO,
   Notification,
+  Role,
   User,
   UserDTO,
 } from '../models/users';
@@ -410,6 +411,68 @@ export class UserService {
     } catch (error) {
       console.error('Error deleting employee:', error);
       throw error;
+    }
+  }
+
+  async registerUser(value: any, id: string, path: string) {
+    // TODO:You should send the data as an OBJECT THAT AS AN INTERFACE not one value one by one
+    //I put an example below, also if you check the file where the user interface comes from you can fill
+    // it up with the appropriate interfaces
+    //you should add all the fields that are not entered by the user as fields that do not need validators in the
+    //this.registerForm and fill them up before this function is called
+
+    if (path == 'public users/') {
+      const user: UserDTO = {
+        FirstName: value.FirstName,
+        LastName: value.LastName,
+        ID: id,
+        Authority: Authority.Public,
+        Email: value.Email,
+        PhoneNumber: '',
+        UserName: value.FirstName + ' ' + value.LastName,
+        ProfilePicture: '',
+        Notifications: [],
+      };
+
+      set(ref(this.database, path + id), user);
+    }
+    if (path == 'companies/') {
+      // Create new company
+      const user: CompanyDTO = {
+        FirstName: value.FirstName,
+        LastName: value.LastName,
+        ID: id,
+        Authority: Authority.Company,
+        Email: value.Email,
+        ProfilePicture: '',
+        PhoneNumber: '',
+        CompanyName: value.CompanyName,
+        UserName: value.FirstName + value.LastName,
+        PropertyIds: [],
+        EmployeeIds: [],
+        Notifications: [],
+      };
+
+      set(ref(this.database, path + id), user);
+    }
+    if (path == 'employees/') {
+      // Create new employee
+      const user: EmployeeDTO = {
+        FirstName: value.FirstName,
+        LastName: value.LastName,
+        ID: id,
+        Authority: Authority.Employee,
+        Email: value.Email,
+        ProfilePicture: '',
+        PhoneNumber: '',
+        UserName: value.FirstName + value.LastName,
+        CompanyName: value.CompanyName,
+        PropertyIds: [],
+        Notifications: [],
+        Role: Role.None,
+      };
+
+      set(ref(this.database, path + id), user);
     }
   }
 }
