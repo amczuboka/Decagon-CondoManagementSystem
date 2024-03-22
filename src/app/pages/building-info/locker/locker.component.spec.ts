@@ -1,7 +1,6 @@
 import {
   ComponentFixture,
   fakeAsync,
-  flushMicrotasks,
   TestBed,
   tick,
 } from '@angular/core/testing';
@@ -9,9 +8,17 @@ import { AuthService } from 'src/app/services/auth.service';
 import { AppModule } from 'src/app/app.module';
 import { LockerComponent } from './locker.component';
 import { UserService } from 'src/app/services/user.service';
-import { Authority, UserDTO } from 'src/app/models/users';
-import { Locker, ParkingLockerStatus } from 'src/app/models/properties';
-import { SimpleChange } from '@angular/core';
+import {
+  Authority,
+  Notification,
+  NotificationType,
+  UserDTO,
+} from 'src/app/models/users';
+import {
+  Building,
+  Locker,
+  ParkingLockerStatus,
+} from 'src/app/models/properties';
 
 describe('LockerComponent', () => {
   let component: LockerComponent;
@@ -19,6 +26,9 @@ describe('LockerComponent', () => {
   let authService: AuthService;
   let userService: UserService;
   let consoleErrorSpy: jasmine.Spy;
+  let locker: Locker;
+  let building: Building;
+  let myUser: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -52,6 +62,41 @@ describe('LockerComponent', () => {
         Notifications: [],
       })
     );
+
+    locker = {
+      ID: '1',
+      Number: '123',
+      Status: ParkingLockerStatus.Unavailable,
+      Height: '10',
+      OccupantID: '1',
+      Width: '',
+      Length: '',
+      Fee: 0,
+    };
+
+    building = {
+      ID: '1',
+      Year: 2022,
+      CompanyID: 'company1',
+      Name: 'Building 1',
+      Address: '123 Main St',
+      Bookings: [],
+      Description: 'Building description',
+      Parkings: [],
+      Lockers: [],
+      Condos: [],
+      Picture: '',
+      Facilities: [],
+    };
+
+    myUser = {
+      ID: '1',
+      FirstName: 'John',
+      LastName: 'Doe',
+      Authority: Authority.Company,
+    };
+    component.building = building;
+    component.myUser = myUser;
 
     consoleErrorSpy = spyOn(console, 'error');
 
@@ -238,7 +283,7 @@ describe('LockerComponent', () => {
     ];
 
     // Make userService.getPublicUser return a rejected promise
-    (userService.getPublicUser as jasmine.Spy).and.callFake(id => {
+    (userService.getPublicUser as jasmine.Spy).and.callFake((id) => {
       if (id === occupantId) {
         return Promise.reject(error);
       }
@@ -260,5 +305,91 @@ describe('LockerComponent', () => {
 
     // Assert: Check if console.error was called with the expected arguments
     expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to get user', error);
+  });
+
+  it('should fetch user and set authority on ngOnInit', async () => {
+    const mockUser = { photoURL: 'testAuthority' };
+    (authService.getUser as jasmine.Spy).and.returnValue(
+      Promise.resolve(mockUser)
+    );
+
+    await component.ngOnInit();
+
+    expect(component.myUser).toEqual(mockUser);
+    expect(component.authority).toEqual(mockUser.photoURL);
+  });
+
+  it('should fetch company user and set authority to Company on ngOnInit', async () => {
+    const mockUser = { photoURL: 'Company' };
+    (authService.getUser as jasmine.Spy).and.returnValue(
+      Promise.resolve(mockUser)
+    );
+
+    await component.ngOnInit();
+
+    expect(component.myUser).toEqual(mockUser);
+    expect(component.authority).toEqual(mockUser.photoURL);
+  });
+
+  it('should fetch employee user and set authority to Employee on ngOnInit', async () => {
+    const mockUser = { photoURL: 'Employee' };
+    (authService.getUser as jasmine.Spy).and.returnValue(
+      Promise.resolve(mockUser)
+    );
+
+    await component.ngOnInit();
+
+    expect(component.myUser).toEqual(mockUser);
+    expect(component.authority).toEqual(mockUser.photoURL);
+  });
+
+  it('should set the authority to an empty string when the current user is null', async () => {
+    // Arrange: Set up the return value for authService.getUser
+    (authService.getUser as jasmine.Spy).and.returnValue(Promise.resolve(null));
+
+    // Act: Call ngOnInit and wait for it to complete
+    await component.ngOnInit();
+
+    // Assert: Check that myUser is null
+    expect(component.myUser).toBeNull();
+
+    // Assert: Check that authority is set to an empty string
+    expect(component.authority).toBe('');
+  });
+
+  it('should send rental request notification and display success message', async () => {
+    let date = new Date().getTime();
+    let trimmedDate = Number(date.toString().substring(0, 11));
+    const notification: Notification = {
+      Date: trimmedDate,
+      Message: `Request for rental of locker ${locker.Number} in ${component.building.Name} with ID ${locker.ID}`,
+      New: true,
+      SenderId: component.myUser.ID,
+      SenderName: `${component.myUser.FirstName} ${component.myUser.LastName}`,
+      Type: NotificationType.RentRequest,
+    };
+    const successMessage =
+      'Your request for rental has been sent. You will be notified when it is approved.';
+    spyOn(component.userService, 'sendNotificationToUser').and.returnValue(
+      Promise.resolve()
+    );
+    spyOn(component.notificationService, 'sendNotification');
+
+    await component.requestRent(locker);
+
+    expect(component.userService.sendNotificationToUser).toHaveBeenCalledWith(
+      component.building.CompanyID,
+      Authority.Company,
+      jasmine.objectContaining({
+        Message: notification.Message,
+        New: notification.New,
+        SenderId: notification.SenderId,
+        SenderName: notification.SenderName,
+        Type: notification.Type,
+      })
+    );
+    expect(component.notificationService.sendNotification).toHaveBeenCalledWith(
+      successMessage
+    );
   });
 });

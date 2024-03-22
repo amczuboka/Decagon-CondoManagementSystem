@@ -1,5 +1,7 @@
-<!-- Property Header -->
-
+<!-- individual-condo.component.html -->
+<div class="container" *ngIf="building && condo; else loadingOrErrorContent"></div><div class="button">
+<button class="payment-button">Pay Fees</button>
+</div>
 <div class="container">
   <!-- Property Header -->
   <div class="property-header">
@@ -7,16 +9,22 @@
       <button mat-icon-button class="back-arrow-button" (click)="goBack()">
         <mat-icon>arrow_back</mat-icon>
       </button>
-      <h1 class="property-title">{{ building.Name }} - {{ condo.UnitNumber }}</h1>
-      <p class="property-address">{{ building.Address }}</p>
+      <h1 class="property-title">
+        {{ building?.Name }} - {{ condo?.UnitNumber }}
+       <button *ngIf="isEditAllowed()" mat-icon-button class="edit-button" (click)="openEditCondoDialog()">
+          <mat-icon>edit</mat-icon>
+      </button>
+      </h1>
+      <p class="property-address">{{ building?.Address }}</p>
     </div>
+   
     <!-- Right Aligned Container for Price and Icons -->
     <div class="right-aligned-container">
       <div class="property-price">
-        {{ condo.Fee | currency : "CAD" : "symbol" : "1.2-2" }}
+        {{ condo?.Fee | currency : "CAD" : "symbol" : "1.2-2" }}
       </div>
       <div class="property-icons">
-        <button mat-icon-button class="icon-favorite" (click)="favorite()">
+        <button mat-icon-button class="icon-favorite" [class.favorite-icon-red]="isFavorited" (click)="favorite()">
           <mat-icon>favorite</mat-icon>
         </button>
         <button mat-icon-button class="icon-share" (click)="share()">
@@ -32,27 +40,44 @@
     <!-- Property Images -->
     <div class="property-images">
       <img
-        src="{{condo.Picture}}"
+        src="{{condo?.Picture}}"
         alt="Main Image of Condo"
       />
       <!-- Additional images can be added here -->
     </div>
 
     <!-- Property Details Section -->
-    <div class="property-details">
-      <h2>Features</h2>
-      <app-condo-features [condo]="condo" [building]="building"></app-condo-features>
-      <h2>Description</h2>
-      <app-description [condo]="condo"></app-description>
-      <h2>Location</h2>
-      <app-location [address]="building.Address"></app-location>
-    </div>
+    <ng-container *ngIf="condo && building">
+      <div class="property-details">
+        <h2>Features</h2>
+        <app-condo-features [condo]="condo!" [building]="building!"></app-condo-features>
+        <h2>Description</h2>
+        <app-description [condo]="condo!"></app-description>
+        <h2>Location</h2>
+        <app-location [address]="building!.Address"></app-location>
+      </div>
+    </ng-container>
+   
   
     <!-- Contact Section -->
+     <ng-container *ngIf="userInfo"></ng-container>
     <div class="contact-section">
       <h2>Contact Information</h2>
-     <app-user-info [userInfo]="userInfo"></app-user-info>
+     <app-user-info [userInfo]="userInfo!" [condo] ="condo!"></app-user-info>
     </div>
-
   </div>
 
+  <ng-template #loadingOrErrorContent>
+  <div *ngIf="!building && !condo; else errorContent">Loading...</div>
+  <ng-template #errorContent>
+    <div>Error loading condo or building information. Please try again later.</div>
+  </ng-template>
+</ng-template>
+
+<!-- Edit Condo Dialog -->
+<app-edit-condo-dialog
+ *ngIf="editDialogOpen && condo"
+  [condo]="condo"
+  (condoEdited)="condoEdited.emit($event)"
+  (dialogClosed)="closeEditDialog()"
+></app-edit-condo-dialog>

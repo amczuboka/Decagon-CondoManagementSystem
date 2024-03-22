@@ -37,6 +37,7 @@ a {
   border-width: 1.5px;
   border-color: #b6b9c0;
   box-sizing: border-box;
+  background-color: #fafaf5;
 }
 
 .card > img {
@@ -50,8 +51,24 @@ a {
   border-top-right-radius: 14px;
 }
 
-.top-card p, .total, .name {
+.top-card .address, .total, .name {
   margin: 0;
+}
+
+.name {
+  max-height: 25px;
+  max-width: 188px;
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  white-space: nowrap;
+}
+
+.total {
+  max-height: 20px;
+  max-width: 188px;
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  white-space: nowrap;
 }
 
 .card-content {
@@ -64,7 +81,6 @@ a {
   overflow: hidden;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  background-color: #fafaf5;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
 }
@@ -75,6 +91,7 @@ a {
   padding-left: 10px;
   box-sizing: border-box;
   height: 100px;
+  max-height: 100px;
   margin-top: 10px;
 }
 
@@ -114,6 +131,7 @@ a {
 .bottom-card {
   display: flex;
   flex-flow: row;
+  flex-wrap: wrap;
   padding-left: 10px;
   top: 3vw;
   bottom: 0;
@@ -122,11 +140,6 @@ a {
   align-items: center;
   font-weight: 500;
   font-size: 13px;
-}
-
-.bottom-card {
-  display: flex;
-  flex-wrap: wrap;
 }
 
 .bottom-card > p {

@@ -1,7 +1,7 @@
 mat-toolbar {
   display: flex;
   width: 100%;
-  background-color: #B6B9C0;
+  background-color: #b6b9c0;
 
   .header-image img {
     display: flex;
@@ -45,10 +45,11 @@ mat-toolbar {
   }
 }
 
-.nav-link {
+.nav-link, .notifications {
   &:hover {
     color: lighten(black, 50%); // lighten the text color by 10%
   }
+  font-size: small;
 }
 
 .nav-item button[matBadge] {
@@ -83,7 +84,7 @@ mat-toolbar {
   justify-content: center;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 885px) {
   .Menu-dropdown {
     display: flex;
     align-items: center;
@@ -111,7 +112,7 @@ mat-toolbar {
   }
 }
 
-@media (min-width: 769px) {
+@media (min-width: 886px) {
   .mobile-notification {
     display: none;
   }

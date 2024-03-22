@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
+import {
+  FormGroup,
+  Validators,
+  FormBuilder,
+} from '@angular/forms';
+import { Router } from '@angular/router';
 import { Building, Facilities, CondoStatus, ParkingLockerStatus } from 'src/app/models/properties';
 import { CompanyDTO } from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
@@ -7,7 +13,7 @@ import { UserService } from 'src/app/services/user.service';
 @Component({
   selector: 'app-building-overview',
   templateUrl: './building-overview.component.html',
-  styleUrls: ['./building-overview.component.scss']
+  styleUrls: ['./building-overview.component.scss'],
 })
 
 export class BuildingOverviewComponent {
@@ -16,13 +22,29 @@ export class BuildingOverviewComponent {
   authority!: string;
   company: CompanyDTO | null=null;
 
+  bookFacilityForm!: FormGroup<any>;
+  selected: any;
+
+  minDate = new Date();
+  currentYear = this.minDate.getUTCFullYear();
+  currentMonth = this.minDate.getUTCMonth();
+  currentDay = this.minDate.getUTCDate();
+
   constructor(
     private authService: AuthService,
-    public userService: UserService
+    public userService: UserService,
+    private form_builder: FormBuilder,
+    private router: Router
   ) {}
 
   async ngOnInit() {
+    this.bookFacilityForm = this.form_builder.group({
+      date: ['', [Validators.required]],
+      facility: ['', [Validators.required]],
+      'time-slots': [[], [Validators.required]],
+    });
     await this.fetchCompany();
+    
   }
 
   /**
@@ -129,11 +151,3 @@ export class BuildingOverviewComponent {
     }
 
 }
-    
- 
-    
-    
-
-  
-
-

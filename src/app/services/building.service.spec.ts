@@ -31,6 +31,7 @@ describe('BuildingService', () => {
   let authService: AuthService;
 
   beforeEach(async () => {
+
     TestBed.configureTestingModule({
       imports: [AppModule],
     });
@@ -362,5 +363,152 @@ describe('BuildingService', () => {
       building2.Condos[0].Picture
     );
   });
+  // 
+  ////////////////////////////////
+  it('should get all buildings with condos successfully', async () => {
+    // Arrange
+    await service.addBuilding(building);
+
+    // Act
+    const result = await service.getAllBuildingsWithItems('Condos');
+
+    // Assert
+    expect(result.length).toBeGreaterThan(0);
+    expect(result[0].Condos.length).toBeGreaterThan(0);
+    expect(result[0].Condos[0]).toBeTruthy(); // Check if condo exists
+expect(result[0].Condos[0].ID).toBeDefined(); // Check if condo has ID property
+expect(result[0].Condos[0].Type).toBeDefined()
+
+    // Clean up
+    await service.deleteBuilding(building.ID);
+  });
+
+  it('should get all buildings with parkings successfully', async () => {
+    // Arrange
+    await service.addBuilding(building);
+
+    // Act
+    const result = await service.getAllBuildingsWithItems('Parkings');
+
+    // Assert
+    expect(result.length).toBeGreaterThan(0);
+    expect(result[0].Parkings.length).toBeGreaterThan(0);
+    expect(result[0].Parkings[0]).toBeTruthy(); // Check if parking spot exists
+expect(result[0].Parkings[0].ID).toBeDefined(); // Check if parking spot has ID property
+expect(result[0].Parkings[0].Status).toBeDefined();
+
+    // Clean up
+    await service.deleteBuilding(building.ID);
+  });
+
+  it('should get all buildings with lockers successfully', async () => {
+    // Arrange
+    await service.addBuilding(building);
+
+    // Act
+    const result = await service.getAllBuildingsWithItems('Lockers');
+
+    // Assert
+    expect(result.length).toBeGreaterThan(0);
+    expect(result[0].Lockers.length).toBeGreaterThan(0);
+    expect(result[0].Lockers[0]).toBeTruthy(); // Check if locker exists
+expect(result[0].Lockers[0].ID).toBeDefined(); // Check if locker has ID property
+expect(result[0].Lockers[0].Status).toBeDefined();
+
+    // Clean up
+    await service.deleteBuilding(building.ID);
+  });
+
+  it('should update item successfully', async () => {
+    // Arrange
+    await service.addBuilding(building);
+
+    // Act
+    await service.updateItem(building.ID, 'Condos', building.Condos[0].ID, 'newOccupantId');
+
+    // Assert
+    const updatedBuilding = await service.getBuilding(building.ID);
+    expect(updatedBuilding.Condos[0].OccupantID).toEqual('newOccupantId');
+
+    // Clean up
+    await service.deleteBuilding(building.ID);
+  });
+
+  it('should update item successfully with status updates for condos', async () => {
+    // Arrange
+    await service.addBuilding(building);
+
+    // Act
+    await service.updateItem(building.ID, 'Condos', building.Condos[0].ID, 'newOccupantId');
+
+    // Assert
+    const updatedBuilding = await service.getBuilding(building.ID);
+    expect(updatedBuilding.Condos[0].OccupantID).toEqual('newOccupantId');
+    expect(updatedBuilding.Condos[0].Status).toEqual(CondoStatus.Owned); // Assuming CondoType is Sale
+
+    // Clean up
+    await service.deleteBuilding(building.ID);
+  });
+
+  it('should update item successfully with status updates for parkings', async () => {
+    // Arrange
+    await service.addBuilding(building);
+
+    // Act
+    await service.updateItem(building.ID, 'Parkings', building.Parkings[0].ID, 'newOccupantId');
+
+    // Assert
+    const updatedBuilding = await service.getBuilding(building.ID);
+    expect(updatedBuilding.Parkings[0].OccupantID).toEqual('newOccupantId');
+    expect(updatedBuilding.Parkings[0].Status).toEqual(ParkingLockerStatus.Unavailable);
+
+    // Clean up
+    await service.deleteBuilding(building.ID);
+  });
+
+  it('should update item successfully with status updates for lockers', async () => {
+    // Arrange
+    await service.addBuilding(building);
+
+    // Act
+    await service.updateItem(building.ID, 'Lockers', building.Lockers[0].ID, 'newOccupantId');
+
+    // Assert
+    const updatedBuilding = await service.getBuilding(building.ID);
+    expect(updatedBuilding.Lockers[0].OccupantID).toEqual('newOccupantId');
+    expect(updatedBuilding.Lockers[0].Status).toEqual(ParkingLockerStatus.Unavailable);
+
+    // Clean up
+    await service.deleteBuilding(building.ID);
+  });
+
+  it('should return an array of buildings', async () => {
+
+    // Calling the function and expecting a result
+    const result = await service.getAllBuildings();
+
+    // Asserting that the result is an array of buildings
+    expect(Array.isArray(result)).toBeTrue();
+    expect(result.length).toBeGreaterThan(0);
+    result.forEach((building: Building) => {
+      expect(building.ID).toBeDefined();
+      expect(building.Name).toBeDefined();
+      expect(building.CompanyID).toBeDefined();
+      expect(building.Address).toBeDefined();
+    });
+
+  });
+
+  it('should return an array of buildings belonging to the specified company', async () => {
+    const companyId = 'company123';
+
+    // Calling the function and expecting a result
+    const result = await service.getAllBuildingsOfCompany(companyId);
+
+    // Asserting that the result contains only buildings belonging to the specified company
+    expect(result.every(building => building.CompanyID === companyId)).toBeTrue();
+  });
+  
 });
 ////////////////////////// 2nd test //////////////////////////
+
