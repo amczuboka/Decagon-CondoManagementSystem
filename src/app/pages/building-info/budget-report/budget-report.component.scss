@@ -2,9 +2,16 @@
   font-size: 50px;
   margin-bottom: 20px;
   margin-top: 30px;
-  font-family: 'Newsreader', serif;
+  font-family: "Newsreader", serif;
   margin-left: 100px;
   position: relative;
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 30px;
+    margin-left: 20px;
+  }
 }
 
 .title-container {
@@ -16,6 +23,13 @@
   margin-right: 100px;
 }
 
+@media (max-width: 768px) {
+  .title-divider {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}
+
 .table-wrapper {
   position: relative;
   margin: 0 auto 20px;
@@ -23,18 +37,25 @@
   margin-top: 20px;
 }
 
+@media (max-width: 768px) {
+  .table-wrapper {
+    width: 95%;
+  }
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
   padding: 10px;
   text-align: left;
 }
 
 th {
-  background-color: white; 
+  background-color: white;
 }
 
 tr:nth-child(even) {
@@ -52,16 +73,11 @@ tr:nth-child(even) {
 .total-cell {
   padding: 10px;
   margin-right: auto;
+  font-size: medium;
 }
 
-.total-condo-fee {
-  margin-right: 260px;
-}
-
-.total-operation-cost {
-  margin-right: 218px;
-}
-
-.total-profit {
-  margin-right: 102px;
+@media (max-width: 768px) {
+  .total-cell {
+    font-size: small;
+  }
 }
