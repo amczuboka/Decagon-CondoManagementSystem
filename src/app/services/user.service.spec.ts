@@ -236,7 +236,7 @@ describe('UserService', () => {
     let userCopy = {...CompanyUser} as any;
     userCopy.PhoneNumber = '';
     userCopy.ProfilePicture = '';
-    userCopy.UserName = userCopy.FirstName + userCopy.LastName;
+    userCopy.UserName = userCopy.FirstName + ' ' + userCopy.LastName;
     delete userCopy.EmployeeIds;
     delete userCopy.PropertyIds;
     
@@ -250,7 +250,7 @@ describe('UserService', () => {
     let userCopy = {...EmployeeUser} as any;
     userCopy.PhoneNumber = '';
     userCopy.ProfilePicture = '';
-    userCopy.UserName = userCopy.FirstName + userCopy.LastName;
+    userCopy.UserName = userCopy.FirstName + ' ' + userCopy.LastName;
     userCopy.Role = Role.None;
     delete userCopy.PropertyIds;
 

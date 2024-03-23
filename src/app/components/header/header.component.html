@@ -4,7 +4,7 @@
       <a class="navbar-brand" href="">Decagon</a>
     </div>
     <div
-      *ngIf="authService.isLoggedIn && authService.getUser()?.emailVerified"
+      *ngIf="authService.isLoggedIn && authService.getUser()?.emailVerified && myUser"
       class="mobile-menu"
     >
       <a class="notifications" href="notifications">
@@ -22,7 +22,7 @@
       <div
         mat-card-avatar
         mat-button
-        *ngIf="authService.isLoggedIn && authService.getUser()?.emailVerified"
+        *ngIf="authService.isLoggedIn && authService.getUser()?.emailVerified && myUser"
         class="header-image"
       >
         <img
@@ -41,7 +41,7 @@
     </div>
   </div>
   <div
-    *ngIf="authService.isLoggedIn && authService.getUser()?.emailVerified"
+    *ngIf="authService.isLoggedIn && authService.getUser()?.emailVerified && myUser"
     class="otherLinks"
   >
     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -107,7 +107,7 @@
     <button mat-menu-item>Home</button>
   </a>
   <a class="nav-link" href="my-properties" id="MyProperties_a">
-    <button  mat-menu-item *ngIf="myUser.Authority != 'Employee'" id="myProperties_btn">My Properties</button>
+    <button  mat-menu-item *ngIf="authority != 'Employee'" id="myProperties_btn">My Properties</button>
   </a>
   <a class="nav-link" href="user-profile">
     <button mat-menu-item>Profile</button>

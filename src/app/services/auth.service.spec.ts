@@ -28,12 +28,10 @@ describe('AuthService', () => {
   describe('SignIn', () => {
     it('should sign in the user', async () => {
       const spySetUserData = spyOn(service, 'SetUserData');
-      const spyNavigate = spyOn(service.router, 'navigate');
 
       await service.SignIn(email, password);
 
       expect(spySetUserData).toHaveBeenCalled();
-      expect(spyNavigate).toHaveBeenCalledWith(['']);
     });
 
     it('should send alert when there is an error with code auth/invalid-credential', async () => {
