@@ -18,11 +18,11 @@ describe('UserService', () => {
   let CompanyUser: CompanyDTO;
   let index: string;
   let authService: AuthService;
-  let mockGetDatabase: jasmine.Spy;
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [AppModule],
+      providers: [UserService, AuthService],
     });
     service = TestBed.inject(UserService);
     (service as any).currentUserSubject = new BehaviorSubject(null);
@@ -217,6 +217,46 @@ describe('UserService', () => {
     await service.deleteEmployee(employeeIdToDelete);
     let emp = await service.getEmployeeUser(employeeIdToDelete);
     expect(emp).toBeNull();
+  });
+
+  it('should register a new public user', async () => {
+    let path = 'public users/';
+    let userCopy = {...publicUser};
+    userCopy.PhoneNumber = '';
+    userCopy.ProfilePicture = '';
+    userCopy.UserName = userCopy.FirstName + ' ' + userCopy.LastName;
+
+    await service.registerUser(userCopy, userCopy.ID, path);
+    
+    expect(await service.getPublicUser(userCopy.ID)).toEqual(userCopy);
+  });
+
+  it('should register a new company', async () => {
+    let path = 'companies/';
+    let userCopy = {...CompanyUser} as any;
+    userCopy.PhoneNumber = '';
+    userCopy.ProfilePicture = '';
+    userCopy.UserName = userCopy.FirstName + userCopy.LastName;
+    delete userCopy.EmployeeIds;
+    delete userCopy.PropertyIds;
+    
+    await service.registerUser(userCopy, userCopy.ID, path);
+    console.log(await service.getCompanyUser(userCopy.ID));
+    expect(await service.getCompanyUser(userCopy.ID)).toEqual(userCopy);
+  });
+
+  it('should register a new employee', async () => {
+  let path = 'employees/';
+    let userCopy = {...EmployeeUser} as any;
+    userCopy.PhoneNumber = '';
+    userCopy.ProfilePicture = '';
+    userCopy.UserName = userCopy.FirstName + userCopy.LastName;
+    userCopy.Role = Role.None;
+    delete userCopy.PropertyIds;
+
+    await service.registerUser(userCopy, userCopy.ID, path);
+    
+    expect(await service.getEmployeeUser(userCopy.ID)).toEqual(userCopy);
   });
 
 });
