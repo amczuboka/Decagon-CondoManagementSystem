@@ -93,7 +93,7 @@ describe('RegisterComponent', () => {
     spyOn(component.authService, 'SignUp').and.returnValue(
       Promise.resolve('rid123')
     );
-    spyOn(component, 'registerUser');
+    spyOn(userService, 'registerUser');
     component.registerForm.get('Email')!.setValue('test@example.com');
     component.registerForm.get('FirstName')!.setValue('John');
     component.registerForm.get('LastName')!.setValue('Doe');
@@ -106,7 +106,7 @@ describe('RegisterComponent', () => {
       'password',
       Authority.Public
     );
-    expect(component.registerUser).toHaveBeenCalledWith(
+    expect(userService.registerUser).toHaveBeenCalledWith(
       component.registerForm.value,
       'rid123',
       'public users/'
@@ -117,7 +117,7 @@ describe('RegisterComponent', () => {
     spyOn(component.authService, 'SignUp').and.returnValue(
       Promise.resolve('rid1234')
     );
-    spyOn(component, 'registerUser');
+    spyOn(userService, 'registerUser');
     component.registerForm.get('Email')!.setValue('test3@example.com');
     component.registerForm.get('FirstName')!.setValue('John');
     component.registerForm.get('LastName')!.setValue('Doe');
@@ -131,7 +131,7 @@ describe('RegisterComponent', () => {
       'password',
       Authority.Company
     );
-    expect(component.registerUser).toHaveBeenCalledWith(
+    expect(userService.registerUser).toHaveBeenCalledWith(
       component.registerForm.value,
       'rid1234',
       'companies/'
@@ -145,7 +145,7 @@ describe('RegisterComponent', () => {
     spyOn(component.authService, 'SignUp').and.returnValue(
       Promise.resolve('rid12345')
     );
-    spyOn(component, 'registerUser');
+    spyOn(userService, 'registerUser');
     component.registerForm.get('Email')!.setValue('test2@example.com');
     component.registerForm.get('FirstName')!.setValue('John');
     component.registerForm.get('LastName')!.setValue('Doe');
@@ -159,7 +159,7 @@ describe('RegisterComponent', () => {
       'password',
       Authority.Employee
     );
-    expect(component.registerUser).toHaveBeenCalledWith(
+    expect(userService.registerUser).toHaveBeenCalledWith(
       component.registerForm.value,
       'rid12345',
       'employees/'
@@ -212,7 +212,7 @@ describe('RegisterComponent', () => {
     spyOn(component.authService, 'SignUp').and.returnValue(
       Promise.resolve('rid123')
     );
-    spyOn(component, 'registerUser');
+    spyOn(userService, 'registerUser');
     component.registerForm.get('Authority')!.setValue(Authority.Public);
     component.registerForm.get('Email')!.setValue('test@example.com');
     component.registerForm.get('Password')!.setValue('password');

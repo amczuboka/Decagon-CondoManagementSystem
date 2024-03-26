@@ -68,7 +68,6 @@ export class AuthService {
       .then((result) => {
         if (result.user?.emailVerified) {
           this.SetUserData(result.user);
-          this.router.navigate(['']);
         } else {
           this.notificationService.sendNotification(
             'Please verify your email before login'

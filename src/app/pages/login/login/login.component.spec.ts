@@ -54,7 +54,9 @@ describe('LoginComponent', () => {
 
   it('should call userService.getCompanyUser if myUser.photoURL is Authority.Company', async () => {
     spyOn(component.authService, 'SignIn');
-    spyOn(component.userService, 'getCompanyUser').and.returnValue(Promise.resolve({}) as any);
+    spyOn(component.userService, 'getCompanyUser').and.returnValue(
+      Promise.resolve({}) as any
+    );
     spyOn(component.userService, 'updateUser');
     component.loginForm.setValue({
       Email: 'test@example.com',
@@ -117,16 +119,27 @@ describe('LoginComponent', () => {
     expect(component.loading).toBeFalse();
   });
 
-  it('should open a new window after form submission', async () => {
+  it('should sign out, update user, and show alert if user is not found or account is disabled', async () => {
     spyOn(component.authService, 'SignIn');
-    spyOn(window, 'open');
+    spyOn(component.userService, 'getEmployeeUser').and.returnValue(
+      Promise.resolve(null) as any
+    );
+    spyOn(component.authService, 'SignOut');
+    spyOn(component.userService, 'updateUser');
+    spyOn(component.notificationService, 'sendAlert');
     component.loginForm.setValue({
-      Email: 'test@example.com',
-      Password: 'password123',
+      Email: 'moses60822@shaflyn.com',
+      Password: '123456',
+    });
+    component.authService.getUser = jasmine.createSpy().and.returnValue({
+      uid: '123',
+      photoURL: 'Employee',
     });
     await component.onSubmit();
-    expect(window.open).toHaveBeenCalledWith('', '_self');
+    expect(component.authService.SignOut).toHaveBeenCalled();
+    expect(component.userService.updateUser).toHaveBeenCalledWith(null);
+    expect(component.notificationService.sendAlert).toHaveBeenCalledWith(
+      'User not found or account disabled'
+    );
   });
-
-  // Add more test cases as needed
 });

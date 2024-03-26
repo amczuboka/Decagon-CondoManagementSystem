@@ -1,4 +1,9 @@
-import { Authority } from './../../../models/users';
+import {
+  Authority,
+  CompanyDTO,
+  EmployeeDTO,
+  UserDTO,
+} from './../../../models/users';
 import { Component } from '@angular/core';
 import {
   AuthService,
@@ -7,6 +12,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NotificationService } from 'src/app/services/notification.service';
 import { UserService } from 'src/app/services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -27,7 +33,8 @@ export class LoginComponent {
     public authService: AuthService,
     private formBuilder: FormBuilder,
     public notificationService: NotificationService,
-    public userService: UserService
+    public userService: UserService,
+    public router: Router
   ) {}
 
   ngOnInit(): void {
@@ -54,17 +61,28 @@ export class LoginComponent {
     let myUser = this.authService.getUser();
     if (myUser) {
       if (myUser.photoURL == Authority.Company) {
-        myUser = await this.userService.getCompanyUser(myUser.uid);
-        this.userService.updateUser(myUser);
+        myUser = (await this.userService.getCompanyUser(
+          myUser.uid
+        )) as CompanyDTO;
       } else if (myUser.photoURL == Authority.Employee) {
-        myUser = await this.userService.getEmployeeUser(myUser.uid);
-        this.userService.updateUser(myUser);
+        myUser = (await this.userService.getEmployeeUser(
+          myUser.uid
+        )) as EmployeeDTO;
       } else {
-        myUser = await this.userService.getPublicUser(myUser.uid);
+        myUser = (await this.userService.getPublicUser(myUser.uid)) as UserDTO;
+      }
+      if (!myUser) {
+        this.authService.SignOut();
+        this.userService.updateUser(null);
+        this.notificationService.sendAlert(
+          'User not found or account disabled'
+        );
+      } else {
         this.userService.updateUser(myUser);
+        this.router.navigate(['']);
+        // window.open('', '_self');
       }
     }
     this.loading = false;
-    window.open('', '_self');
   }
 }
