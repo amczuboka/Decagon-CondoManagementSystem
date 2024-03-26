@@ -28,7 +28,6 @@ export class LockerComponent {
     if (changes['lockers']?.currentValue) {
     // Fetch user information for each locker's occupant
       for (const locker of this.lockers) {
-        console.log(locker.OccupantID);
         if (locker.OccupantID) {
           try {
             const user = await this.userService.getPublicUser(
