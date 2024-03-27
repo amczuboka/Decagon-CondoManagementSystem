@@ -58,17 +58,41 @@ describe('Company user logs in and creates new property', () => {
     cy.get('mat-checkbox[value="Spa"]').click();
     cy.get('mat-checkbox[value="Playground"]').click();
     cy.get('mat-checkbox[value="Meeting Room"]').click();
-    cy.wait(5000);
+    //cy.wait(5000);
     addCondo(CondoType.Sale);
-    cy.wait(5000);
+    //cy.wait(5000);
     addLocker();
-    cy.wait(5000);
+    //cy.wait(5000);
     addParking(ParkingType.Handicap);
     cy.get('button[type="submit"]').click();
     cy.get('.loading-indicator').should('exist');
     cy.wait(5000);
   });
 });
+
+//Company logs in and deletes newly created property
+describe('Public user logs in', () => {
+  beforeEach(() => {	  
+    login('rosef12997@hisotyr.com', '123456');
+    cy.wait(5000);
+    cy.url().should('eq', 'http://localhost:4200/');
+  });	  
+
+  it('Click on newly created property', () => {
+    cy.get('.BuildingDiv').within(() => {
+      cy.contains('.name', 'Cypress Test 116')
+        .parents('.card-content') 
+        .within(() => {
+          cy.get('#view_btn').click(); 
+        });
+    });
+  })
+
+
+
+}) 
+
+
 
 //Company logs in and deletes newly created property
 describe('Company user logs in and deletes property', () => {
@@ -91,4 +115,4 @@ describe('Company user logs in and deletes property', () => {
       await Promise.all(promiseDelete);
     });
   })
-})  //end of first describe
+}) 
