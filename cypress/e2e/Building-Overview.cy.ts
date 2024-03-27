@@ -13,12 +13,13 @@ import { CompanyDTO } from 'src/app/models/users';
 import { addCondo, addLocker, addParking, login } from './utils.cy';
 
 //Company user logs in and sees properties
-describe('Company user logs in and sees properties', () => {
+describe('Company user logs in', () => {
   beforeEach(() => {
     login('rosef12997@hisotyr.com', '123456');
     cy.url().should('eq', 'http://localhost:4200/');
   });
 
+  //Company sees properties
   it('Goes to my properties page', () => {
     cy.get('.mat-toolbar.mat-toolbar-single-row').within(() => {
       cy.wait(1000);
@@ -26,17 +27,17 @@ describe('Company user logs in and sees properties', () => {
       cy.wait(1000);
     });
   })
-})  //end of first describe
 
-//Company user logs in and creates new property
-describe('Company user logs in and creates new property', () => {
-  beforeEach(() => {
-    login('rosef12997@hisotyr.com', '123456');
-    cy.url().should('eq', 'http://localhost:4200/');
-    cy.visit('/add-new-property');
-  });
+  //Company creates new property
+  it('Creates new property', async () => {
 
-  it('Company creates new property', async () => {
+    cy.get('.mat-toolbar.mat-toolbar-single-row').within(() => {
+      cy.wait(1000);
+      cy.contains('Add New Property').click();
+      cy.wait(1000);
+      cy.url().should('eq', 'http://localhost:4200/add-new-property');
+    });
+
     cy.get('input[name="Name"]').type('Cypress Test 116');
     cy.get('input[name="Country"]').type('Sample Country');
     cy.get('input[name="State"]').type('Sample State');
@@ -61,6 +62,45 @@ describe('Company user logs in and creates new property', () => {
     cy.get('button[type="submit"]').click();
     cy.get('.loading-indicator').should('exist');
     cy.wait(5000);
+  });
+
+})  //end of first describe
+
+
+
+//Public user logs in
+describe('Public user logs in', () => {
+  beforeEach(() => {
+    cy.wait(5000);
+    login('karinasd07@hotmail.com', 'public_pass');
+    cy.url().should('eq', 'http://localhost:4200/');
+  });
+
+  
+  it('Public user clicks on newly created property', () => {
+    cy.wait(5000);
+    cy.get('.BuildingDiv').within(() => {
+      cy.wait(5000);
+      cy.contains('.name', 'Cypress Test 116')
+        .parents('.card-content') // Navigate to the parent container of the building
+        .within(() => {
+          cy.get('#view_btn').click(); // Find and click the "View" button
+        });
+    });
+  })
+  
+
+});
+
+//Company user logs in and creates new property
+describe('Company user logs in again', () => {
+  beforeEach(() => {
+    login('rosef12997@hisotyr.com', '123456');
+    cy.url().should('eq', 'http://localhost:4200/');
+  });
+
+  it('Delete newly created property', () => {
+    //Deletes all properties from current user
     cy.window().then(async (win) => {
       const currentUser = (win as any).authService.getUser();
       const user = (await (win as any).userService.getCompanyUser(
@@ -72,5 +112,7 @@ describe('Company user logs in and creates new property', () => {
       });
       await Promise.all(promiseDelete);
     });
-  });
+   
+  }) 
+
 });
