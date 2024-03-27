@@ -73,12 +73,12 @@ describe('Company user logs in and creates new property', () => {
 //Company logs in and deletes newly created property
 describe('Public user logs in', () => {
   beforeEach(() => {	  
-    login('rosef12997@hisotyr.com', '123456');
+    login('karinasd07@hotmail.com', 'public_pass');
     cy.wait(5000);
     cy.url().should('eq', 'http://localhost:4200/');
   });	  
 
-  it('Click on newly created property', () => {
+  it('View newly created property', () => {
     cy.get('.BuildingDiv').within(() => {
       cy.contains('.name', 'Cypress Test 116')
         .parents('.card-content') 
@@ -86,9 +86,13 @@ describe('Public user logs in', () => {
           cy.get('#view_btn').click(); 
         });
     });
+    cy.wait(2000);
+    cy.get('#building-title-pic').scrollIntoView().should('be.visible');
+    cy.get('#description').scrollIntoView().should('be.visible');
+    cy.get('#general-info').scrollIntoView().should('be.visible');
+    cy.get('#facilities').scrollIntoView().should('be.visible');
+    cy.get('#company-info').scrollIntoView().should('be.visible');
   })
-
-
 
 }) 
 

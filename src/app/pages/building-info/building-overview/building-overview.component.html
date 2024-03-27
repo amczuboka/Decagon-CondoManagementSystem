@@ -14,7 +14,7 @@
         <div class="bottom-tab-content">
 
             <!--Description-->
-            <div class="heading-content">
+            <div class="heading-content" id="description">
                 <h2>Description</h2>
                 <mat-divider></mat-divider>
                 <div class="sub-heading-content">
@@ -23,7 +23,7 @@
             </div>
             
             <!--General Information-->
-            <div class="heading-content">
+            <div class="heading-content" id="general-info">
                 <h2>General Information</h2>
                 <mat-divider></mat-divider>
                 <div class="sub-heading-content">
@@ -52,7 +52,7 @@
             </div>
 
             <!--Facilities-->
-            <div class="heading-content">
+            <div class="heading-content" id="facilities">
                 <h2>Facilities</h2>
                 <mat-divider></mat-divider>
                 <div class="sub-heading-content">
@@ -71,34 +71,36 @@
                 </div>
             </div>
 
-            <!--Company Information-->
-            <div class="heading-content" *ngIf="company">
-                <h2>Company Information</h2>
-                <mat-divider></mat-divider>
-                <div class="sub-heading-content">
-                    <!--Display Information in two columns when Company has Profile Picture-->
-                    <!--Columns-->
-                    <div class="company-info" *ngIf="company.ProfilePicture">
-                        <!--Column 1-->
-                        <div class="company-info-col">
-                            <img [src]="company.ProfilePicture" height="200" width="200" alt="Company did not provide image">
+            <div id="company-info">
+                  <!--Company Information-->
+                <div class="heading-content" *ngIf="company">
+                    <h2>Company Information</h2>
+                    <mat-divider></mat-divider>
+                    <div class="sub-heading-content">
+                        <!--Display Information in two columns when Company has Profile Picture-->
+                        <!--Columns-->
+                        <div class="company-info" *ngIf="company.ProfilePicture">
+                            <!--Column 1-->
+                            <div class="company-info-col">
+                                <img [src]="company.ProfilePicture" height="200" width="200" alt="Company did not provide image">
+                            </div>
+                            <!--Column 2-->
+                            <div class="company-info-col">
+                                <h1>{{ company.CompanyName }}</h1>
+                                <p *ngIf="company.Email">Email: {{ company.Email }}</p>
+                                <p *ngIf="company.PhoneNumber">Phone: {{ company.PhoneNumber }}</p>
+                            </div>
+    
                         </div>
-                        <!--Column 2-->
-                        <div class="company-info-col">
+    
+                        <!--Display Information in one column when Company does not have Profile Picture-->
+                        <div class="company-info-no-pic" *ngIf="!company.ProfilePicture">
                             <h1>{{ company.CompanyName }}</h1>
                             <p *ngIf="company.Email">Email: {{ company.Email }}</p>
                             <p *ngIf="company.PhoneNumber">Phone: {{ company.PhoneNumber }}</p>
                         </div>
-
+                        
                     </div>
-
-                    <!--Display Information in one column when Company does not have Profile Picture-->
-                    <div class="company-info-no-pic" *ngIf="!company.ProfilePicture">
-                        <h1>{{ company.CompanyName }}</h1>
-                        <p *ngIf="company.Email">Email: {{ company.Email }}</p>
-                        <p *ngIf="company.PhoneNumber">Phone: {{ company.PhoneNumber }}</p>
-                    </div>
-                    
                 </div>
             </div>
         </div>
