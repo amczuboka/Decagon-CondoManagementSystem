@@ -58,11 +58,8 @@ describe('Company user logs in and creates new property', () => {
     cy.get('mat-checkbox[value="Spa"]').click();
     cy.get('mat-checkbox[value="Playground"]').click();
     cy.get('mat-checkbox[value="Meeting Room"]').click();
-    //cy.wait(5000);
     addCondo(CondoType.Sale);
-    //cy.wait(5000);
     addLocker();
-    //cy.wait(5000);
     addParking(ParkingType.Handicap);
     cy.get('button[type="submit"]').click();
     cy.get('.loading-indicator').should('exist');
@@ -107,6 +104,7 @@ describe('Company user logs in and deletes property', () => {
   });	  
 
   it('Deletes newly created property', () => {
+    cy.wait(2000);
     cy.window().then(async (win) => {
       const currentUser = (win as any).authService.getUser();
       const user = (await (win as any).userService.getCompanyUser(
