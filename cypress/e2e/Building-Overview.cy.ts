@@ -58,24 +58,11 @@ describe('Company user logs in and creates new property', () => {
     cy.get('mat-checkbox[value="Spa"]').click();
     cy.get('mat-checkbox[value="Playground"]').click();
     cy.get('mat-checkbox[value="Meeting Room"]').click();
-    cy.wait(1000);
+    cy.wait(5000);
     addCondo(CondoType.Sale);
-
-    //trying smt
-    // const addCondo = (Type: CondoType) => {
-    // cy.get('.button_setup').contains('Add Condo').click();                                             
-    // cy.get('input[name="Quantity"]').type('10');
-    // cy.get('input[name="UnitNumber"]').type('1A', { force: true });
-    // cy.get('input[name="SquareFootage"]').type('1000');
-    // cy.get('button[type="submit"]').click();
-    // }
-    //trying smt
-
-    cy.wait(1000);
+    cy.wait(5000);
     addLocker();
-    cy.wait(1000);
-    // addParking(ParkingType.Standard);
-    // cy.wait(1000);
+    cy.wait(5000);
     addParking(ParkingType.Handicap);
     cy.get('button[type="submit"]').click();
     cy.get('.loading-indicator').should('exist');
