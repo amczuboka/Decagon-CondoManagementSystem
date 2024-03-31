@@ -25,10 +25,10 @@
           <div class="form-outline mb-2">
             <mat-form-field appearance="outline">
               <mat-label class="form-label" for="registrationType">Select Registration Type</mat-label>
-              <mat-select [(ngModel)]="registrationType">
-                <mat-option value="condo">Condo</mat-option>
-                <mat-option value="parking">Parking</mat-option>
-                <mat-option value="locker">Locker</mat-option>
+              <mat-select [(ngModel)]="registrationType" class="registrationType">
+                <mat-option class="condo" value="condo">Condo</mat-option>
+                <mat-option class="parking"value="parking">Parking</mat-option>
+                <mat-option class="locker"value="locker">Locker</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
