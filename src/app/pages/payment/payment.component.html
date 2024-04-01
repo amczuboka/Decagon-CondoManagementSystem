@@ -182,6 +182,11 @@
             >
               Amount is <strong>required</strong>
             </mat-error>
+            <mat-error
+              *ngIf="paymentForm.controls['Amount'].hasError('maxFee')"
+            >
+              Amount can't be bigger than the fee
+            </mat-error>
           </mat-form-field>
         </div>
       </div>
@@ -227,7 +232,7 @@
             <mat-error
               *ngIf="paymentForm.controls['Name'].hasError('required')"
             >
-            Cardholder Name is <strong>required</strong>
+              Cardholder Name is <strong>required</strong>
             </mat-error>
           </mat-form-field>
         </div>
@@ -369,14 +374,17 @@
     <div class="col2">
       <div class="content-padding fee">
         <div class="title">
-          <p>Condo Fee</p>
+          <p *ngIf="parkingFee > 0">Condo and Parking Fee</p>
+          <p *ngIf="parkingFee == 0">Condo Fee</p>
           <hr />
         </div>
-        <p>Condo Fee</p>
-        <p>Payment</p>
+        <p>Monthly Condo Fee: {{ fee - parkingFee }}</p>
+        <p *ngIf="parkingFee > 0">Monthly Parking Fee: {{ parkingFee }}</p>
+        <p *ngIf="parkingFee > 0">Total Fee Due: {{ fee }}</p>
+        <p>Payment: {{ amount }}</p>
         <hr />
-        <p class="diff">Remaining Balance</p>
-        <button class="rounded-button">Submit</button>
+        <p class="diff">Remaining Balance: {{ balance }}</p>
+        <button (click)="submitPayment()" class="rounded-button">Submit</button>
       </div>
     </div>
   </div>
