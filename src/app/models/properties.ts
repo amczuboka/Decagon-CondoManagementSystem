@@ -25,6 +25,7 @@ export interface Condo {
     NumberOfBathrooms: number;
     Status: CondoStatus;
     SquareFootage: number;
+    CondoFee?: number;
 }
 
 export interface ParkingSpot {
