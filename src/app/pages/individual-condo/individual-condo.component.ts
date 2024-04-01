@@ -18,6 +18,7 @@ export class IndividualCondoComponent implements OnInit {
   @Output() condoEdited: EventEmitter<any> = new EventEmitter<any>();
   building: Building | null = null;
   condo: Condo | null = null;
+  sourcePage!: string;
   userInfo: UserDTO | CompanyDTO | null = null;
   loggedInUserInfo: UserDTO | CompanyDTO | null = null;
   editDialogOpen: boolean = false;
@@ -28,19 +29,20 @@ export class IndividualCondoComponent implements OnInit {
     private buildingService: BuildingService,
     private userService: UserService,
     private route: ActivatedRoute,
-    private router: Router,
     private authService: AuthService,
-    private location: Location
+    private location: Location,
+    private router: Router,
   ) {}
 
   async ngOnInit(): Promise<void> {
     this.route.params.subscribe(async (params) => {
       const buildingId = params['buildingId'];
       const condoId = params['condoId'];
+      const queryParams = this.route.snapshot.queryParams;
+      this.sourcePage = queryParams['sourcePage'];
       await this.fetchBuildingAndCondoDetails(buildingId, condoId);
       await this.fetchUserInfo();
       this.loggedInUser = await this.fetchLoggedInUser();
-      // this.myUser = await this.authService.getUser();
     });
   }
 
@@ -178,5 +180,12 @@ export class IndividualCondoComponent implements OnInit {
     if (this.condo) {
       this.condo = updatedCondoData;
     }
+  }
+
+  proceedToPayment() {
+    //redirect to payment page and pass the condo object
+    this.router.navigate(['/payment'], {
+      queryParams: { condo: JSON.stringify(this.condo), buildingID: this.building?.ID},
+    });
   }
 }

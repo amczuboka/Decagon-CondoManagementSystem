@@ -2,16 +2,17 @@ import { Component } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
-  FormControl,
   FormGroup,
-  FormGroupDirective,
-  NgForm,
   ValidationErrors,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { MyErrorStateMatcher } from 'src/app/services/auth.service';
 import { AuthService } from '../../services/auth.service';
+import { Condo } from 'src/app/models/properties';
+import { ActivatedRoute } from '@angular/router';
+import { BuildingService } from 'src/app/services/building.service';
+import { NotificationService } from './../../services/notification.service';
 
 export function phoneNumberValidator(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
@@ -52,15 +53,67 @@ export function isValidEmail(): ValidatorFn {
 export class PaymentComponent {
   paymentForm!: FormGroup;
   matcher = new MyErrorStateMatcher();
+  condo!: Condo;
+  fee!: number;
+  parkingFee!: number;
+  amount: number = 0;
+  buildingID!: string;
+  balance!: number;
+  myUser!: any;
 
   constructor(
     public authService: AuthService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private buildingService: BuildingService,
+    private NotificationService: NotificationService
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.route.queryParams.subscribe((params: any) => {
+      const condoProps: any = params['condo'];
+      const parsedCondoProps: any = JSON.parse(condoProps);
+      this.condo = parsedCondoProps as Condo;
+      this.buildingID = params['buildingID'] as string;
+    });
+
+    this.myUser = await this.authService.getUser();
+
+    await this.buildingService
+      .getUserParkings(this.buildingID, this.myUser.uid)
+      .then((userParkings) => {
+        if (userParkings.length > 0) {
+          this.parkingFee = userParkings.length * 2;
+          console.log("yes")
+        } else {
+          this.parkingFee = 0;
+          console.log("no")
+        }
+      });
+
+    await this.buildingService
+      .subscribeToCondoById(this.buildingID, this.condo.ID)
+      .subscribe({
+        next: (condo: Condo | null) => {
+          if (condo) {
+            this.condo = condo;
+            if (this.condo.CondoFee) {
+              this.fee = this.condo.CondoFee;
+            } else {
+              this.fee = (this.condo.SquareFootage * 0.35) + this.parkingFee;
+
+              this.buildingService.updateCondoFee(
+                this.buildingID,
+                this.condo,
+                this.fee
+              );
+            }
+            this.balance = this.fee;
+          }
+        },
+      });
+
     this.paymentForm = this.formBuilder.group({
-      //Email: ['', [Validators.required, Validators.email]],
       CardNumber: [
         '',
         [
@@ -94,9 +147,45 @@ export class PaymentComponent {
           Validators.required,
           Validators.minLength(1),
           Validators.pattern(/^[0-9]*$/),
+          maxFeeValidator(() => this.fee),
         ],
       ],
       Cardholder: ['', [Validators.required, Validators.minLength(1)]],
     });
   }
+
+  ngAfterViewInit() {
+    this.paymentForm.valueChanges.subscribe((formValue) => {
+      this.amount = (formValue.Amount as number) || 0;
+      this.balance = this.fee - this.amount;
+    });
+  }
+
+  submitPayment() {
+    this.paymentForm.markAllAsTouched();
+    if (this.paymentForm.invalid) {
+      this.NotificationService.sendAlert('Please fill out all required fields');
+
+      return;
+    }
+    if (this.paymentForm.valid) {
+      this.buildingService
+        .updateCondoFee(this.buildingID, this.condo, this.balance)
+        .then(() => {
+          this.NotificationService.sendAlert(
+            'Condo Fee balance has been paid!'
+          );
+        });
+    }
+  }
+}
+
+export function maxFeeValidator(maxFee: () => number): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+    if (value > maxFee()) {
+      return { maxFee: true };
+    }
+    return null;
+  };
 }
