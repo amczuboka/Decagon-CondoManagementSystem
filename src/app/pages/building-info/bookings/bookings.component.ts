@@ -26,11 +26,32 @@ export class BookingsComponent {
 
   ngOnInit(): void {
     this.bookFacilityForm = this.form_builder.group({
-      date: ['', [Validators.required]],
-      facility: ['', [Validators.required]],
+      'date': ['', [Validators.required]],
+      'facility': ['', [Validators.required]],
       'time-slots': [[], [Validators.required]],
     });
   }
+
+  /**
+   * Console log selected time slot
+   */
+  logTimeSlots(){
+    const selectedTimeSlots = this.bookFacilityForm.get('time-slots')?.value;
+    console.log('Selected time slots', selectedTimeSlots);
+  }
+
+  /**
+   * Function to update time slots based on selected date
+   * @param event 
+   */
+  updateTimeSlots(event:any){
+    const selectedDate = event.value;   //Getting selected date from datepicker
+    console.log(selectedDate);
+
+    //Add logic to update time slots here
+    
+  }
+
 
   onSubmit(){
     this.bookFacilityForm.markAllAsTouched();
