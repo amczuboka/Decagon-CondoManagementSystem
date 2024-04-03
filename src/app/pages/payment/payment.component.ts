@@ -91,7 +91,7 @@ export class PaymentComponent {
         }
       });
 
-    await this.buildingService
+    this.buildingService
       .subscribeToCondoById(this.buildingID, this.condo.ID)
       .subscribe({
         next: (condo: Condo | null) => {
