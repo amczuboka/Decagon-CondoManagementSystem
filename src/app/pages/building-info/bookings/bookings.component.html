@@ -18,6 +18,11 @@
                 <mat-radio-button [value]="facility">{{ facility }} </mat-radio-button>
               </ng-container>
             </div>
+            <mat-error
+                *ngIf="bookFacilityForm.controls['facility'].hasError('required') && bookFacilityForm.controls['facility'].touched"
+            >
+               Choose a <strong>facility</strong>
+            </mat-error>
           </mat-radio-group>
           
           <!-- Datepicker-->
