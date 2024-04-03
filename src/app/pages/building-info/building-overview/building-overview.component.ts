@@ -1,9 +1,4 @@
 import { Component, Input } from '@angular/core';
-import {
-  FormGroup,
-  Validators,
-  FormBuilder,
-} from '@angular/forms';
 import { Building, Facilities, CondoStatus, ParkingLockerStatus } from 'src/app/models/properties';
 import { CompanyDTO } from 'src/app/models/users';
 import { UserService } from 'src/app/services/user.service';
@@ -20,27 +15,12 @@ export class BuildingOverviewComponent {
   authority!: string;
   company: CompanyDTO | null=null;
 
-  bookFacilityForm!: FormGroup<any>;
-  selected: any;
-
-  minDate = new Date();
-  currentYear = this.minDate.getUTCFullYear();
-  currentMonth = this.minDate.getUTCMonth();
-  currentDay = this.minDate.getUTCDate();
-
   constructor(
     public userService: UserService,
-    private form_builder: FormBuilder,
   ) {}
 
   async ngOnInit() {
-    this.bookFacilityForm = this.form_builder.group({
-      date: ['', [Validators.required]],
-      facility: ['', [Validators.required]],
-      'time-slots': [[], [Validators.required]],
-    });
     await this.fetchCompany();
-    
   }
 
   /**

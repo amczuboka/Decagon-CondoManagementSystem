@@ -5,7 +5,10 @@
     <!-------------------------------------------------------------------------------------------------------------------------------------------------------------->
     <mat-tab label="Overview"> 
         
-        <app-building-overview *ngIf="building" [building]="building" [sourcePage]="sourcePage"></app-building-overview>
+        <app-building-overview *ngIf="building" 
+          [building]="building" 
+          [sourcePage]="sourcePage">
+      </app-building-overview>
         
     </mat-tab>
 
@@ -59,7 +62,10 @@
     <!--TODO: Make tab visible only if they are a condo owner/renter-->
     <mat-tab label="Reservations">
 
-        <app-bookings [building]="building" [sourcePage]="sourcePage"></app-bookings>
+        <app-bookings 
+          [building]="building" 
+          [sourcePage]="sourcePage">
+        </app-bookings>
 
     </mat-tab>
 
