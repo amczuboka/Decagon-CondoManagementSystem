@@ -87,6 +87,7 @@ describe('LockerComponent', () => {
       Condos: [],
       Picture: '',
       Facilities: [],
+      Operations:[]
     };
 
     myUser = {

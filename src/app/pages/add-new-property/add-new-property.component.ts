@@ -330,6 +330,7 @@ export class AddNewPropertyComponent {
           (await this.storageService.IDgenerator('buildings/', db))
       ),
       Facilities: this.Propertyform.value.Facilities,
+      Operations:[]
     };
 
     await this.BuildingService.addBuilding(building);

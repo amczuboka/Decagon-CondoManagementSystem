@@ -58,6 +58,7 @@ describe('CondoComponent', () => {
       Condos: [],
       Picture: '',
       Facilities: [],
+      Operations:[]
     };
     myUser = {
       ID: '1',
