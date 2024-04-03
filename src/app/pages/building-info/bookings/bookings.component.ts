@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup, Validators, ReactiveFormsModule, FormBuilder, FormControl } from '@angular/forms'
 import { FormsModule } from '@angular/forms';
-import { Building } from 'src/app/models/properties';
+import { Building, Facilities } from 'src/app/models/properties';
 import { MyErrorStateMatcher } from 'src/app/services/auth.service';
 
 @Component({
@@ -30,6 +30,33 @@ export class BookingsComponent {
       'facility': ['', [Validators.required]],
       'time-slots': [[], [Validators.required]],
     });
+  }
+
+ 
+  /**
+   * Function that returns true if a facility should be able to be booked by a user. Otherwise, returns false.
+   * @param facility 
+   * @returns true if the facility is bookable. Otherwise, returns false.
+   */
+  bookableFacility(facility: string): boolean {
+    switch (facility) {
+      case Facilities.Gym:
+        return false;
+      case Facilities.Pool:
+        return true;
+      case Facilities.Spa:
+        return true;
+      case Facilities.Locker:
+        return false;
+      case Facilities.Parking:
+        return false;
+      case Facilities.Playground:
+        return false;
+      case Facilities.MeetingRoom:
+        return true;
+      default:
+        return false;
+    }
   }
 
   /**
