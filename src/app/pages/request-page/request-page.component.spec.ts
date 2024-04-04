@@ -4,7 +4,11 @@ import { RequestPageComponent } from './request-page.component';
 import { AppModule } from 'src/app/app.module';
 import { AuthService } from 'src/app/services/auth.service';
 import { Building } from 'src/app/models/properties';
-import { Authority, NotificationType, RequestStatus } from 'src/app/models/users';
+import {
+  Authority,
+  NotificationType,
+  RequestStatus,
+} from 'src/app/models/users';
 
 describe('RequestPageComponent', () => {
   let component: RequestPageComponent;
@@ -108,10 +112,13 @@ describe('RequestPageComponent', () => {
     await component.onSubmit();
 
     // Assert
-    expect(console.warn).toHaveBeenCalledWith('Your request has been submitted', {
-      RequestType: NotificationType.SecurityRequest,
-      Comments: 'Test comments',
-    });
+    expect(console.warn).toHaveBeenCalledWith(
+      'Your request has been submitted',
+      {
+        RequestType: NotificationType.SecurityRequest,
+        Comments: 'Test comments',
+      }
+    );
     expect(console.log).toHaveBeenCalledWith('Form is valid');
     expect(component.sendRequest).toHaveBeenCalled();
     expect(component.requestForm.reset).toHaveBeenCalled();
@@ -160,7 +167,7 @@ describe('RequestPageComponent', () => {
       Type: NotificationType.SecurityRequest,
       Status: RequestStatus.Pending,
     };
-    spyOn(component.userService, 'sendNotificationToUser');
+    spyOn(component.userService, 'sendNotificationToEmployeeOfCompany');
 
     // Set form values
     component.requestForm.setValue({
@@ -172,10 +179,8 @@ describe('RequestPageComponent', () => {
     await component.sendRequest();
 
     // Assert
-    expect(component.userService.sendNotificationToUser).toHaveBeenCalledWith(
-      component.building.CompanyID,
-      Authority.Company,
-      notification
-    );
+    expect(
+      component.userService.sendNotificationToEmployeeOfCompany
+    ).toHaveBeenCalledWith(component.building.CompanyID, notification);
   });
 });

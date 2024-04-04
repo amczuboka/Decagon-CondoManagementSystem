@@ -94,9 +94,8 @@ export class RequestPageComponent {
       Type: this.requestForm.value.RequestType as NotificationType,
       Status: RequestStatus.Pending,
     };
-    await this.userService.sendNotificationToUser(
+    await this.userService.sendNotificationToEmployeeOfCompany(
       this.building.CompanyID,
-      Authority.Company,
       notification
     );
   }

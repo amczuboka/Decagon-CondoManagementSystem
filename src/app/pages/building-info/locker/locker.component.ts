@@ -89,9 +89,8 @@ export class LockerComponent {
       Type: NotificationType.RentRequest,
       Status: RequestStatus.Pending,
     };
-    await this.userService.sendNotificationToUser(
+    await this.userService.sendNotificationToEmployeeOfCompany(
       this.building.CompanyID,
-      Authority.Company,
       notification
     );
     this.notificationService.sendNotification(

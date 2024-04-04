@@ -14,6 +14,7 @@ import {
   CompanyDTO,
   EmployeeDTO,
   Notification,
+  NotificationType,
   Role,
   User,
   UserDTO,
@@ -311,13 +312,116 @@ export class UserService {
   }
 
   /**
+   * Sends a notification to every employee with role corresponding to request type in that company.
+   *
+   * @param {string} companyID - The ID of the company to send the notification to, if no employees with the right role are found.
+   * @param {Notification} notification - The notification to send.
+   */
+  async sendNotificationToEmployeeOfCompany(
+    companyID: string,
+    notification: Notification
+  ) {
+    let employeeWithRoleFound: boolean = false;
+    let authority = Authority.Employee;
+    const company = await this.getCompanyUser(companyID);
+    if (company) {
+      const employees = await this.getEmployeesOfCompany(company.CompanyName);
+      if (employees) {
+        for (let employee of employees) {
+          switch (notification.Type) {
+            case NotificationType.CleaningRequest:
+              if (employee.Role == Role.Cleaning) {
+                employeeWithRoleFound = true;
+                await this.sendNotificationToUser(
+                  employee.ID,
+                  authority,
+                  notification
+                );
+              }
+              break;
+            case NotificationType.FinancialRequest:
+              if (employee.Role == Role.Financial) {
+                employeeWithRoleFound = true;
+                await this.sendNotificationToUser(
+                  employee.ID,
+                  authority,
+                  notification
+                );
+              }
+              break;
+            case NotificationType.GeneralMessage:
+              if (employee.Role == Role.Manager) {
+                employeeWithRoleFound = true;
+                await this.sendNotificationToUser(
+                  employee.ID,
+                  authority,
+                  notification
+                );
+              }
+              break;
+            case NotificationType.MaintenanceRequest:
+              if (employee.Role == Role.Maintenance) {
+                employeeWithRoleFound = true;
+                await this.sendNotificationToUser(
+                  employee.ID,
+                  authority,
+                  notification
+                );
+              }
+              break;
+            case NotificationType.OwnershipRequest:
+            case NotificationType.RentRequest:
+              if (employee.Role == Role.Manager) {
+                employeeWithRoleFound = true;
+                await this.sendNotificationToUser(
+                  employee.ID,
+                  authority,
+                  notification
+                );
+              }
+              break;
+            case NotificationType.SecurityRequest:
+              if (employee.Role == Role.Security) {
+                employeeWithRoleFound = true;
+                await this.sendNotificationToUser(
+                  employee.ID,
+                  authority,
+                  notification
+                );
+              }
+              break;
+          }
+        }
+        if (!employeeWithRoleFound) {
+          await this.sendNotificationToUser(
+            companyID,
+            Authority.Company,
+            notification
+          );
+        }
+      } else {
+        await this.sendNotificationToUser(
+          companyID,
+          Authority.Company,
+          notification
+        );
+      }
+    }
+  }
+
+  /**
    * Sends a notification to a specific user.
    *
    * @param {string} userId - The ID of the user to send the notification to.
+   * @param {Authority} authority - The authority of the user to send the notification to
    * @param {Notification} notification - The notification to send.
    * @throws Will throw an error if the notification sending operation fails.
    */
-  async sendNotificationToUser(userId: string, authority: Authority, notification: Notification) {
+  async sendNotificationToUser(
+    userId: string,
+    authority: Authority,
+    notification: Notification
+  ) {
     try {
       const db = getDatabase();
       let userRef = null;
@@ -368,7 +472,9 @@ export class UserService {
     }
   }
 
-  async getEmployeesOfCompany(companyName: string): Promise<EmployeeDTO[] | null> {
+  async getEmployeesOfCompany(
+    companyName: string
+  ): Promise<EmployeeDTO[] | null> {
     try {
       const db = getDatabase();
       const employeesRef = ref(db, 'employees');
