@@ -15,7 +15,7 @@ describe('Key Registration Component', () => {
 
   it('should register Condo key when input is filled and register button is clicked', () => {
     // Type a registration key
-    const registrationKey = '9ac4wrg043w1710883577167';
+    const registrationKey = 'olxoxbbx02n1712215786582';
     cy.get('#registrationKey')
       .type(registrationKey)
       .should('have.value', registrationKey);
@@ -34,7 +34,7 @@ describe('Key Registration Component', () => {
 
   it('should register Parking key when input is filled and register button is clicked', () => {
     // Type a registration key
-    const registrationKey = '6iyh9truyvn1710883577208';
+    const registrationKey = 'zn9ii2r6z3p1712215786584';
     cy.get('#registrationKey')
       .type(registrationKey)
       .should('have.value', registrationKey);
@@ -53,7 +53,7 @@ describe('Key Registration Component', () => {
 
   it('should register Locker key when input is filled and register button is clicked', () => {
     // Type a registration key
-    const registrationKey = 'yl4leaw24691710883577185';
+    const registrationKey = 'gfcaeu208jw1712215786583';
     cy.get('#registrationKey')
       .type(registrationKey)
       .should('have.value', registrationKey);
