@@ -1,6 +1,6 @@
 /**
  * Company user logs in
- * Company sser publishes a new property with a description 
+ * Company user publishes a new property with a description 
  * Sign in as public user
  * Public user clicks on new property
  * Public user navigates to building-overview tab
@@ -15,7 +15,7 @@ import { addCondo, addLocker, addParking, login } from './utils.cy';
 
 
 //Company logs in a creates new property
-describe('Company user logs in and sees properties', () => {
+describe('Company user logs in', () => {
   beforeEach(() => {	  
     login('rosef12997@hisotyr.com', '123456');
     cy.url().should('eq', 'http://localhost:4200/');
@@ -29,18 +29,10 @@ describe('Company user logs in and sees properties', () => {
       cy.wait(1000);
     });
   })
-})  //end of first describe
 
-
-//Company user logs in and creates new property
-describe('Company user logs in and creates new property', () => {
-  beforeEach(() => {
-    login('rosef12997@hisotyr.com', '123456');
-    cy.url().should('eq', 'http://localhost:4200/');
+  it('Creates new property',() => {
     cy.visit('/add-new-property');
-  });
-
-  it('Company creates new property',() => {
+    cy.wait(5000);
     cy.get('input[name="Name"]').type('Cypress Test 116');
     cy.get('input[name="Country"]').type('Sample Country');
     cy.get('input[name="State"]').type('Sample State');
@@ -65,7 +57,9 @@ describe('Company user logs in and creates new property', () => {
     cy.get('.loading-indicator').should('exist');
     cy.wait(5000);
   });
-});
+
+})  //end of first describe
+
 
 //Company logs in and deletes newly created property
 describe('Public user logs in', () => {
@@ -75,7 +69,7 @@ describe('Public user logs in', () => {
     cy.url().should('eq', 'http://localhost:4200/');
   });	  
 
-  it('View newly created property', () => {
+  it('Views newly created property', () => {
     cy.get('.BuildingDiv').within(() => {
       cy.contains('.name', 'Cypress Test 116')
         .parents('.card-content') 
@@ -93,17 +87,15 @@ describe('Public user logs in', () => {
 
 }) 
 
-
-
 //Company logs in and deletes newly created property
-describe('Company user logs in and deletes property', () => {
+describe('Company user logs in again', () => {
   beforeEach(() => {	  
     login('rosef12997@hisotyr.com', '123456');
     cy.wait(5000);
     cy.url().should('eq', 'http://localhost:4200/');
   });	  
 
-  it('Deletes newly created property', () => {
+  it('Deletes newly created property', async () => {
     cy.wait(2000);
     cy.window().then(async (win) => {
       const currentUser = (win as any).authService.getUser();
