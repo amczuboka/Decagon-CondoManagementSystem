@@ -368,15 +368,19 @@ describe('ParkingSpotComponent', () => {
     };
     const successMessage =
       'Your request for rental has been sent. You will be notified when it is approved.';
-    spyOn(component.userService, 'sendNotificationToEmployeeOfCompany').and.returnValue(
-      Promise.resolve()
-    );
+    spyOn(
+      component.userService,
+      'sendNotificationToEmployeeOfCompany'
+    ).and.returnValue(Promise.resolve());
     spyOn(component.notificationService, 'sendNotification');
 
     await component.requestRent(parkingSpot);
 
-    expect(component.userService.sendNotificationToEmployeeOfCompany).toHaveBeenCalledWith(
+    expect(
+      component.userService.sendNotificationToEmployeeOfCompany
+    ).toHaveBeenCalledWith(
       component.building.CompanyID,
+      component.building.ID,
       jasmine.objectContaining({
         Message: notification.Message,
         New: notification.New,

@@ -22,6 +22,7 @@ import {
 import { Database, remove, set, update } from '@angular/fire/database';
 import { AuthService } from './auth.service';
 import { BehaviorSubject } from 'rxjs';
+import { Building } from '../models/properties';
 
 @Injectable({
   providedIn: 'root',
@@ -319,6 +320,7 @@ export class UserService {
    */
   async sendNotificationToEmployeeOfCompany(
     companyID: string,
+    buildingID: string,
     notification: Notification
   ) {
     let employeeWithRoleFound: boolean = false;
@@ -328,68 +330,73 @@ export class UserService {
       const employees = await this.getEmployeesOfCompany(company.CompanyName);
       if (employees) {
         for (let employee of employees) {
-          switch (notification.Type) {
-            case NotificationType.CleaningRequest:
-              if (employee.Role == Role.Cleaning) {
-                employeeWithRoleFound = true;
-                await this.sendNotificationToUser(
-                  employee.ID,
-                  authority,
-                  notification
-                );
-              }
-              break;
-            case NotificationType.FinancialRequest:
-              if (employee.Role == Role.Financial) {
-                employeeWithRoleFound = true;
-                await this.sendNotificationToUser(
-                  employee.ID,
-                  authority,
-                  notification
-                );
-              }
-              break;
-            case NotificationType.GeneralMessage:
-              if (employee.Role == Role.Manager) {
-                employeeWithRoleFound = true;
-                await this.sendNotificationToUser(
-                  employee.ID,
-                  authority,
-                  notification
-                );
-              }
-              break;
-            case NotificationType.MaintenanceRequest:
-              if (employee.Role == Role.Maintenance) {
-                employeeWithRoleFound = true;
-                await this.sendNotificationToUser(
-                  employee.ID,
-                  authority,
-                  notification
-                );
-              }
-              break;
-            case NotificationType.OwnershipRequest:
-            case NotificationType.RentRequest:
-              if (employee.Role == Role.Manager) {
-                employeeWithRoleFound = true;
-                await this.sendNotificationToUser(
-                  employee.ID,
-                  authority,
-                  notification
-                );
-              }
-              break;
-            case NotificationType.SecurityRequest:
-              if (employee.Role == Role.Security) {
-                employeeWithRoleFound = true;
-                await this.sendNotificationToUser(
-                  employee.ID,
-                  authority,
-                  notification
-                );
-              }
-              break;
+          if (
+            employee.PropertyIds &&
+            employee.PropertyIds.includes(buildingID)
+          ) {
+            switch (notification.Type) {
+              case NotificationType.CleaningRequest:
+                if (employee.Role == Role.Cleaning) {
+                  employeeWithRoleFound = true;
+                  await this.sendNotificationToUser(
+                    employee.ID,
+                    authority,
+                    notification
+                  );
+                }
+                break;
+              case NotificationType.FinancialRequest:
+                if (employee.Role == Role.Financial) {
+                  employeeWithRoleFound = true;
+                  await this.sendNotificationToUser(
+                    employee.ID,
+                    authority,
+                    notification
+                  );
+                }
+                break;
+              case NotificationType.GeneralMessage:
+                if (employee.Role == Role.Manager) {
+                  employeeWithRoleFound = true;
+                  await this.sendNotificationToUser(
+                    employee.ID,
+                    authority,
+                    notification
+                  );
+                }
+                break;
+              case NotificationType.MaintenanceRequest:
+                if (employee.Role == Role.Maintenance) {
+                  employeeWithRoleFound = true;
+                  await this.sendNotificationToUser(
+                    employee.ID,
+                    authority,
+                    notification
+                  );
+                }
+                break;
+              case NotificationType.OwnershipRequest:
+              case NotificationType.RentRequest:
+                if (employee.Role == Role.Manager) {
+                  employeeWithRoleFound = true;
+                  await this.sendNotificationToUser(
+                    employee.ID,
+                    authority,
+                    notification
+                  );
+                }
+                break;
+              case NotificationType.SecurityRequest:
+                if (employee.Role == Role.Security) {
+                  employeeWithRoleFound = true;
+                  await this.sendNotificationToUser(
+                    employee.ID,
+                    authority,
+                    notification
+                  );
+                }
+                break;
+            }
           }
         }
         if (!employeeWithRoleFound) {

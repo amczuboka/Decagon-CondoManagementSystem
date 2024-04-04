@@ -382,6 +382,7 @@ describe('LockerComponent', () => {
       component.userService.sendNotificationToEmployeeOfCompany
     ).toHaveBeenCalledWith(
       component.building.CompanyID,
+      component.building.ID,
       jasmine.objectContaining({
         Message: notification.Message,
         New: notification.New,

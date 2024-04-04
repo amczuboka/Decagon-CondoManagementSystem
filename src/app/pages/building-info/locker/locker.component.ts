@@ -91,6 +91,7 @@ export class LockerComponent {
     };
     await this.userService.sendNotificationToEmployeeOfCompany(
       this.building.CompanyID,
+      this.building.ID,
       notification
     );
     this.notificationService.sendNotification(

@@ -96,6 +96,7 @@ export class RequestPageComponent {
     };
     await this.userService.sendNotificationToEmployeeOfCompany(
       this.building.CompanyID,
+      this.building.ID,
       notification
     );
   }

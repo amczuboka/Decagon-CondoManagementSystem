@@ -269,6 +269,7 @@ describe('UserService', () => {
   it('should send notification to employee of company with financial role', async () => {
     // Arrange
     const companyID = '123';
+    const buildingID = '789';
     const notification: Notification = {
       Message: 'test notification',
       New: true,
@@ -327,7 +328,11 @@ describe('UserService', () => {
     spyOn(service, 'sendNotificationToUser');
 
     // Act
-    await service.sendNotificationToEmployeeOfCompany(companyID, notification);
+    await service.sendNotificationToEmployeeOfCompany(
+      companyID,
+      buildingID,
+      notification
+    );
 
     // Assert
     expect(service.sendNotificationToUser).toHaveBeenCalledTimes(1);
@@ -341,6 +346,7 @@ describe('UserService', () => {
   it('should send notification to employee of company with cleaning role', async () => {
     // Arrange
     const companyID = '123';
+    const buildingID = '456';
     const notification: Notification = {
       Message: 'test notification',
       New: true,
@@ -399,7 +405,11 @@ describe('UserService', () => {
     spyOn(service, 'sendNotificationToUser');
 
     // Act
-    await service.sendNotificationToEmployeeOfCompany(companyID, notification);
+    await service.sendNotificationToEmployeeOfCompany(
+      companyID,
+      buildingID,
+      notification
+    );
 
     // Assert
     expect(service.sendNotificationToUser).toHaveBeenCalledTimes(1);
@@ -413,6 +423,7 @@ describe('UserService', () => {
   it('should send notification to employee of company with manager role and general message', async () => {
     // Arrange
     const companyID = '123';
+    const buildingID = '456';
     const notification: Notification = {
       Message: 'test notification',
       New: true,
@@ -471,7 +482,11 @@ describe('UserService', () => {
     spyOn(service, 'sendNotificationToUser');
 
     // Act
-    await service.sendNotificationToEmployeeOfCompany(companyID, notification);
+    await service.sendNotificationToEmployeeOfCompany(
+      companyID,
+      buildingID,
+      notification
+    );
 
     // Assert
     expect(service.sendNotificationToUser).toHaveBeenCalledTimes(1);
@@ -485,6 +500,7 @@ describe('UserService', () => {
   it('should send notification to employee of company with maintenance role', async () => {
     // Arrange
     const companyID = '123';
+    const buildingID = '456';
     const notification: Notification = {
       Message: 'test notification',
       New: true,
@@ -543,7 +559,11 @@ describe('UserService', () => {
     spyOn(service, 'sendNotificationToUser');
 
     // Act
-    await service.sendNotificationToEmployeeOfCompany(companyID, notification);
+    await service.sendNotificationToEmployeeOfCompany(
+      companyID,
+      buildingID,
+      notification
+    );
 
     // Assert
     expect(service.sendNotificationToUser).toHaveBeenCalledTimes(1);
@@ -557,6 +577,7 @@ describe('UserService', () => {
   it('should send notification to employee of company with manager role and ownership request', async () => {
     // Arrange
     const companyID = '123';
+    const buildingID = '456';
     const notification: Notification = {
       Message: 'test notification',
       New: true,
@@ -615,7 +636,11 @@ describe('UserService', () => {
     spyOn(service, 'sendNotificationToUser');
 
     // Act
-    await service.sendNotificationToEmployeeOfCompany(companyID, notification);
+    await service.sendNotificationToEmployeeOfCompany(
+      companyID,
+      buildingID,
+      notification
+    );
 
     // Assert
     expect(service.sendNotificationToUser).toHaveBeenCalledTimes(1);
@@ -629,6 +654,7 @@ describe('UserService', () => {
   it('should send notification to employee of company with manager role and rent request', async () => {
     // Arrange
     const companyID = '123';
+    const buildingID = '456';
     const notification: Notification = {
       Message: 'test notification',
       New: true,
@@ -687,7 +713,11 @@ describe('UserService', () => {
     spyOn(service, 'sendNotificationToUser');
 
     // Act
-    await service.sendNotificationToEmployeeOfCompany(companyID, notification);
+    await service.sendNotificationToEmployeeOfCompany(
+      companyID,
+      buildingID,
+      notification
+    );
 
     // Assert
     expect(service.sendNotificationToUser).toHaveBeenCalledTimes(1);
@@ -701,6 +731,7 @@ describe('UserService', () => {
   it('should send notification to employee of company with security role', async () => {
     // Arrange
     const companyID = '123';
+    const buildingID = '456';
     const notification: Notification = {
       Message: 'test notification',
       New: true,
@@ -759,7 +790,11 @@ describe('UserService', () => {
     spyOn(service, 'sendNotificationToUser');
 
     // Act
-    await service.sendNotificationToEmployeeOfCompany(companyID, notification);
+    await service.sendNotificationToEmployeeOfCompany(
+      companyID,
+      buildingID,
+      notification
+    );
 
     // Assert
     expect(service.sendNotificationToUser).toHaveBeenCalledTimes(1);
@@ -773,6 +808,7 @@ describe('UserService', () => {
   it('should send notification to company since it has no employees with that role', async () => {
     // Arrange
     const companyID = '123';
+    const buildingID = '456';
     const notification: Notification = {
       Message: 'test notification',
       New: true,
@@ -805,7 +841,11 @@ describe('UserService', () => {
     spyOn(service, 'sendNotificationToUser');
 
     // Act
-    await service.sendNotificationToEmployeeOfCompany(companyID, notification);
+    await service.sendNotificationToEmployeeOfCompany(
+      companyID,
+      buildingID,
+      notification
+    );
 
     // Assert
     expect(service.sendNotificationToUser).toHaveBeenCalledTimes(1);

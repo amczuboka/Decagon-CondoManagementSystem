@@ -181,6 +181,10 @@ describe('RequestPageComponent', () => {
     // Assert
     expect(
       component.userService.sendNotificationToEmployeeOfCompany
-    ).toHaveBeenCalledWith(component.building.CompanyID, notification);
+    ).toHaveBeenCalledWith(
+      component.building.CompanyID,
+      component.building.ID,
+      notification
+    );
   });
 });
