@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { DeleteNotificationDialogComponent } from 'src/app/pages/notifications/delete-notification-dialog/delete-notification-dialog.component';
-import { Authority, Notification } from 'src/app/models/users';
+import { Authority, Notification, RequestStatus } from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { NotificationType } from 'src/app/models/users';
@@ -14,10 +14,18 @@ import { NotificationService } from 'src/app/services/notification.service';
   styleUrls: ['./notifications.component.scss'],
 })
 export class NotificationsComponent {
-  authority!: string;
+  authority: string = Authority.Public;
   myUser!: any;
   loading!: boolean;
-  displayedColumns: string[] = ['type', 'message', 'date', 'sender', 'actions'];
+  displayedColumns: string[] = [
+    'type',
+    'status',
+    'message',
+    'date',
+    'sender',
+    'actions',
+  ];
+  requestStatusArray = Object.values(RequestStatus);
   dataSource: any = [];
   userSubscription: Subscription = new Subscription();
   NotificationType = NotificationType;
@@ -33,6 +41,7 @@ export class NotificationsComponent {
     this.userSubscription = this.userService.myUser.subscribe((user) => {
       this.myUser = user;
       if (this.myUser) {
+        this.authority = this.myUser.Authority;
         if (this.myUser.Notifications) {
           this.dataSource = this.myUser.Notifications.sort((a: any, b: any) => {
             const dateA = new Date(a.Date).getTime();
@@ -95,6 +104,35 @@ export class NotificationsComponent {
     });
   }
 
+  async sendNotificationUpdatingStatus(notification: Notification) {
+    this.myUser.Notifications = this.myUser.Notifications.map((n: any) => {
+      if (
+        n.Message === notification.Message &&
+        n.New === notification.New &&
+        n.Date === notification.Date &&
+        n.SenderId === notification.SenderId
+      ) {
+        return { ...n, Status: notification.Status };
+      } else {
+        return n;
+      }
+    });
+    this.userService.editUser(this.myUser.ID, this.myUser);
+    const myNotification = {
+      Message: `Request status updated to \"${notification.Status}\" for request: ${notification.Message}`,
+      New: true,
+      Date: Date.now(),
+      SenderId: this.myUser.ID,
+      SenderName: this.myUser.CompanyName,
+      Type: NotificationType.GeneralMessage,
+    };
+    await this.userService.sendNotificationToUser(
+      notification.SenderId,
+      Authority.Public,
+      myNotification
+    );
+  }
+
   async acceptRequest(notification: Notification) {
     const splitMessage = notification.Message.split(' ');
     const registrationKey = splitMessage[splitMessage.length - 1];
@@ -115,6 +153,19 @@ export class NotificationsComponent {
       myNotification
     );
     this.markAsRead(notification);
+    this.myUser.Notifications = this.myUser.Notifications.map((n: any) => {
+      if (
+        n.Message === notification.Message &&
+        n.New === notification.New &&
+        n.Date === notification.Date &&
+        n.SenderId === notification.SenderId
+      ) {
+        return { ...n, Status: RequestStatus.Approved };
+      } else {
+        return n;
+      }
+    });
+    this.userService.editUser(this.myUser.ID, this.myUser);
     this.notificationService.sendNotification(
       `Request accepted. Registration key sent to ${notification.SenderName}`
     );

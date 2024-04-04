@@ -4,7 +4,7 @@ import { RequestPageComponent } from './request-page.component';
 import { AppModule } from 'src/app/app.module';
 import { AuthService } from 'src/app/services/auth.service';
 import { Building } from 'src/app/models/properties';
-import { Authority, NotificationType } from 'src/app/models/users';
+import { Authority, NotificationType, RequestStatus } from 'src/app/models/users';
 
 describe('RequestPageComponent', () => {
   let component: RequestPageComponent;
@@ -108,7 +108,7 @@ describe('RequestPageComponent', () => {
     await component.onSubmit();
 
     // Assert
-    expect(console.warn).toHaveBeenCalledWith('Your order has been submitted', {
+    expect(console.warn).toHaveBeenCalledWith('Your request has been submitted', {
       RequestType: NotificationType.SecurityRequest,
       Comments: 'Test comments',
     });
@@ -138,7 +138,7 @@ describe('RequestPageComponent', () => {
 
     // Assert
     expect(console.warn).toHaveBeenCalledWith(
-      'Your order has been submitted',
+      'Your request has been submitted',
       component.requestForm.value
     );
     expect(console.log).toHaveBeenCalledWith('Form is invalid');
@@ -158,6 +158,7 @@ describe('RequestPageComponent', () => {
       SenderId: '1',
       SenderName: 'John Doe',
       Type: NotificationType.SecurityRequest,
+      Status: RequestStatus.Pending,
     };
     spyOn(component.userService, 'sendNotificationToUser');
 
