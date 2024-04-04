@@ -1,5 +1,6 @@
 /**
  * Company user logs in
+ * Company user goes to 'My Properties'
  * Company user publishes a new property with a description 
  * Sign in as public user
  * Public user clicks on new property
@@ -14,7 +15,7 @@ import { CompanyDTO } from 'src/app/models/users';
 import { addCondo, addLocker, addParking, login } from './utils.cy';	
 
 
-//Company logs in a creates new property
+//Company logs in, views 'My Properties' and creates new property
 describe('Company user logs in', () => {
   beforeEach(() => {	  
     login('rosef12997@hisotyr.com', '123456');
@@ -58,10 +59,10 @@ describe('Company user logs in', () => {
     cy.wait(5000);
   });
 
-})  //end of first describe
+}) 
 
 
-//Company logs in and deletes newly created property
+//Public user logs in and views newly created property
 describe('Public user logs in', () => {
   beforeEach(() => {	  
     login('karinasd07@hotmail.com', 'public_pass');
