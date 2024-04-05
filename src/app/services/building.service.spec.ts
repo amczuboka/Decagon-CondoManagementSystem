@@ -16,11 +16,10 @@ import {
   ParkingLockerStatus,
   ParkingSpot,
   ParkingType,
-  Operation
+  Operation,
 } from '../models/properties';
 import { Authority } from '../models/users';
-import {getDatabase} from 'firebase/database';
-
+import { getDatabase } from 'firebase/database';
 
 describe('BuildingService', () => {
   let service: BuildingService;
@@ -33,7 +32,6 @@ describe('BuildingService', () => {
   let authService: AuthService;
 
   beforeEach(async () => {
-
     TestBed.configureTestingModule({
       imports: [AppModule],
     });
@@ -207,7 +205,7 @@ describe('BuildingService', () => {
         'test_images/' + (await storageService.IDgenerator('buildings/', db))
       ),
       Facilities: facilitiesArray,
-      Operations: [] as Operation[]
+      Operations: [] as Operation[],
     };
 
     buildings = [
@@ -224,7 +222,7 @@ describe('BuildingService', () => {
         Condos: condosArray,
         Picture: '',
         Facilities: facilitiesArray,
-        Operations: []
+        Operations: [],
       },
       {
         ID: '2',
@@ -239,7 +237,7 @@ describe('BuildingService', () => {
         Condos: condosArray,
         Picture: '',
         Facilities: facilitiesArray,
-        Operations: []
+        Operations: [],
       },
     ];
   });
@@ -280,8 +278,6 @@ describe('BuildingService', () => {
     // Clean up
     await service.deleteBuilding(building.ID);
   });
-
-
 
   it('should throw an error if user is not found', async () => {
     // Arrange
@@ -347,7 +343,10 @@ describe('BuildingService', () => {
     await service.addBuilding(building);
 
     // Act: Update the building
-    const updatedBuilding: Building = { ...building, Name: 'Updated Building Name' };
+    const updatedBuilding: Building = {
+      ...building,
+      Name: 'Updated Building Name',
+    };
     await service.updateBuilding(updatedBuilding);
 
     // Get the updated building
@@ -363,8 +362,7 @@ describe('BuildingService', () => {
 
     // Clean up
     await service.deleteBuilding(building.ID);
-  })
-
+  });
 
   it('should delete a building successfully', async () => {
     // Arrange
@@ -391,7 +389,6 @@ describe('BuildingService', () => {
     );
   });
 
-
   it('should get all buildings with condos successfully', async () => {
     // Arrange
     await service.addBuilding(building);
@@ -404,7 +401,7 @@ describe('BuildingService', () => {
     expect(result[0].Condos.length).toBeGreaterThan(0);
     expect(result[0].Condos[0]).toBeTruthy(); // Check if condo exists
     expect(result[0].Condos[0].ID).toBeDefined(); // Check if condo has ID property
-    expect(result[0].Condos[0].Type).toBeDefined()
+    expect(result[0].Condos[0].Type).toBeDefined();
 
     // Clean up
     await service.deleteBuilding(building.ID);
@@ -431,29 +428,39 @@ describe('BuildingService', () => {
   it('should add an operation to a building successfully', async () => {
     // Arrange: Add a building to the database
     await service.addBuilding(building);
-  
+
     // Define a new operation
     const operation: Operation = {
       name: 'Operation Name',
       description: 'Operation Description',
-      cost: 100
+      cost: 100,
     };
-  
+
     // Act: Add the operation to the building
     await service.addOperation(building.ID, operation);
-  
+
     // Get the updated building
     const updatedBuilding = await service.getBuilding(building.ID);
-  
+
     // Assert: Check if the operation is added to the building
     expect(updatedBuilding).toBeTruthy();
+
     expect(updatedBuilding.Operations).toBeTruthy();
     expect(updatedBuilding.Operations?.length).toBe(1);
     expect(updatedBuilding.Operations?.[0]).toEqual(operation);
   
+// =======
+    // if (updatedBuilding.Operations) {
+    //   expect(updatedBuilding.Operations).toBeTruthy();
+    //   expect(updatedBuilding.Operations.length).toBe(1);
+    //   expect(updatedBuilding.Operations[0]).toEqual(operation);
+    // } else {
+    //   fail('Operations is undefined');
+    // }
+
+
     // Clean up: Delete the test building
     await service.deleteBuilding(building.ID);
-  });  
+  });
 });
-////////////////////////// 2nd test //////////////////////////
 

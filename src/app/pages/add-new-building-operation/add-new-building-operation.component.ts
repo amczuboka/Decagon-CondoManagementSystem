@@ -1,18 +1,15 @@
-
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BuildingService } from 'src/app/services/building.service'; // Import BuildingService
 import { Building, Operation } from 'src/app/models/properties'; // Import Building interface
-import { Authority, CompanyDTO, User } from 'src/app/models/users';
+import { Authority} from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select'; // Import MatSelectModule
-import { MatOptionModule } from '@angular/material/core'; 
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-add-new-building-operation',
   templateUrl: './add-new-building-operation.component.html',
-  styleUrls: ['./add-new-building-operation.component.scss']
+  styleUrls: ['./add-new-building-operation.component.scss'],
 })
 export class AddNewBuildingOperationComponent implements OnInit {
   operationForm!: FormGroup;
@@ -21,12 +18,13 @@ export class AddNewBuildingOperationComponent implements OnInit {
   myUser!: any;
   authority!: string;
   propertiesID!: any;
+  private buildingsSubscription: Subscription = new Subscription();
   constructor(
     private formBuilder: FormBuilder,
     private buildingService: BuildingService, // Inject BuildingService
     private userService: UserService,
-    private authService: AuthService,
-  ) { }
+    private authService: AuthService
+  ) {}
 
   // async ngOnInit(): Promise<void> {
   //       // Fetch the current Company
@@ -71,19 +69,23 @@ export class AddNewBuildingOperationComponent implements OnInit {
   // }
 
   async ngOnInit(): Promise<void> {
-    // Initialize the form 
+    // Initialize the form
     this.operationForm = this.formBuilder.group({
       operationName: ['', Validators.required],
       description: ['', Validators.required],
-      cost: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
-      building: ['', Validators.required]
+      cost: [
+        '',
+        [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)],
+      ],
+      building: ['', Validators.required],
     });
     // Fetch the current Company
     try {
       this.myUser = await this.authService.getUser();
       if (this.myUser) {
         this.authority = this.myUser.photoURL;
-      } if (this.authority == Authority.Company) {
+      }
+      if (this.authority == Authority.Company) {
         this.userService.getCompanyUser(this.myUser.uid).then((user) => {
           this.myUser = user;
         });
@@ -92,22 +94,25 @@ export class AddNewBuildingOperationComponent implements OnInit {
       console.error(error);
       this.authority = '';
     }
-
-    this.myUser = await this.userService.getCompanyUser(((await this.authService.getUser()) as User)?.uid) as CompanyDTO;
-    this.propertiesID = (this.myUser as CompanyDTO).PropertyIds;
-
-    // Fetch building details for all property IDs asynchronously
-    const fetchBuildingPromises = this.propertiesID.map((id: any) =>
-      this.buildingService.getBuilding(id)
+    //fetch buildings from the current company
+    this.buildingsSubscription = this.buildingService.buildings$.subscribe(
+      (buildings) => {
+        if (buildings) {
+          if (this.authority == Authority.Company) {
+            const availableBuildings = Object.values(buildings).filter(
+              (building: Building) => building.CompanyID === this.myUser.uid
+            );
+            this.buildings = availableBuildings;
+          } else {
+            this.buildings = [];
+          }
+        } else {
+          // Handle case when buildings array is null
+          this.buildings = [];
+          console.log('Buildings array is null');
+        }
+      }
     );
-
-    // Wait for all building details to be fetched
-    const buildings = await Promise.all(fetchBuildingPromises);
-
-    // Populate the buildings array
-    this.buildings = buildings;
-
-
   }
 
   get f() {
@@ -115,9 +120,8 @@ export class AddNewBuildingOperationComponent implements OnInit {
   }
   onSubmit() {
     this.submitted = true;
-  
-    if (this.operationForm.invalid) {
 
+    if (this.operationForm.invalid) {
       return;
     }
 
@@ -125,20 +129,20 @@ export class AddNewBuildingOperationComponent implements OnInit {
     const operation: Operation = {
       name: this.operationForm.get('operationName')?.value,
       description: this.operationForm.get('description')?.value,
-      cost: parseFloat(this.operationForm.get('cost')?.value)
+      cost: parseFloat(this.operationForm.get('cost')?.value),
     };
-
 
     const selectedBuildingId = this.f['building'].value;
 
     //Call the addOperation function from BuildingService
-    this.buildingService.addOperation(selectedBuildingId, operation)
+    this.buildingService
+      .addOperation(selectedBuildingId, operation)
       .then(() => {
         console.log('Operation added successfully!');
         this.operationForm.reset();
         this.submitted = false;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error adding operation:', error);
       });
   }
