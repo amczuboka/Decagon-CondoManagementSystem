@@ -302,17 +302,6 @@ describe('BuildingService', () => {
     );
   });
 
-  // it('should get a building successfully', async () => {
-  //   await service.addBuilding(building);
-  //   // Act
-  //   const result = await service.getBuilding(building.ID);
-
-  //   expect(result).toEqual(building);
-
-  //   //clean up
-  //   await service.deleteBuilding(building.ID);
-  // });
-  ///////
   it('should get a building successfully', async () => {
     spyOn(authService, 'getUser').and.returnValue(
       JSON.parse(localStorage.getItem('user')!)
@@ -459,8 +448,8 @@ describe('BuildingService', () => {
     // Assert: Check if the operation is added to the building
     expect(updatedBuilding).toBeTruthy();
     expect(updatedBuilding.Operations).toBeTruthy();
-    expect(updatedBuilding.Operations.length).toBe(1);
-    expect(updatedBuilding.Operations[0]).toEqual(operation);
+    expect(updatedBuilding.Operations?.length).toBe(1);
+    expect(updatedBuilding.Operations?.[0]).toEqual(operation);
   
     // Clean up: Delete the test building
     await service.deleteBuilding(building.ID);
