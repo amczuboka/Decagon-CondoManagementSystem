@@ -184,8 +184,9 @@ export class IndividualCondoComponent implements OnInit {
 
   proceedToPayment() {
     //redirect to payment page and pass the condo object
+    const currentUrl = this.router.url;
     this.router.navigate(['/payment'], {
-      queryParams: { condo: JSON.stringify(this.condo), buildingID: this.building?.ID},
+      queryParams: { condo: JSON.stringify(this.condo), buildingID: this.building?.ID, returnUrl: currentUrl}
     });
   }
 }

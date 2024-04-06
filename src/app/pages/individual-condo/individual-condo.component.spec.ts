@@ -307,7 +307,7 @@ describe('IndividualCondoComponent', () => {
     component.proceedToPayment();
   
     expect(navigateSpy).toHaveBeenCalledWith(['/payment'], {
-      queryParams: { condo: JSON.stringify(mockCondo), buildingID: mockBuilding.ID },
+      queryParams: { condo: JSON.stringify(mockCondo), buildingID: mockBuilding.ID, returnUrl: undefined },
     });
   });
 
