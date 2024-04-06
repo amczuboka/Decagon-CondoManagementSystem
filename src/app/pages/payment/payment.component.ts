@@ -98,7 +98,7 @@ export class PaymentComponent {
         next: (condo: Condo | null) => {
           if (condo) {
             this.condo = condo;
-            if (this.condo.CondoFee) {
+            if (this.condo.CondoFee || this.condo.CondoFee === 0) {
                 // Round the fee to 2 digits after the decimal point
               this.fee = parseFloat(this.condo.CondoFee.toFixed(2));
             } else {
