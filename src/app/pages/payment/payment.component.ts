@@ -10,7 +10,7 @@ import {
 import { MyErrorStateMatcher } from 'src/app/services/auth.service';
 import { AuthService } from '../../services/auth.service';
 import { Condo } from 'src/app/models/properties';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BuildingService } from 'src/app/services/building.service';
 import { NotificationService } from './../../services/notification.service';
 
@@ -65,6 +65,7 @@ export class PaymentComponent {
     public authService: AuthService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
+    public router: Router,
     private buildingService: BuildingService,
     private NotificationService: NotificationService
   ) {}
@@ -109,47 +110,48 @@ export class PaymentComponent {
                 this.fee
               );
             }
-            this.balance = this.fee;
+            this.balance = parseFloat(this.fee.toFixed(2));
           }
         },
       });
 
     this.paymentForm = this.formBuilder.group({
       CardNumber: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(16),
-          Validators.pattern(/^[0-9]*$/),
-        ],
+      '',
+      [
+        Validators.required,
+        Validators.minLength(16),
+        Validators.maxLength(16),
+        Validators.pattern(/^[0-9]*$/),
+      ],
       ],
       ExpiryDate: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(4),
-          Validators.pattern(/^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])$/),
-        ],
+      '',
+      [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.pattern(/^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])$/),
+      ],
       ],
       CVV: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.pattern(/^[0-9]{1,3}$/),
-        ],
+      '',
+      [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.pattern(/^[0-9]{1,3}$/),
+      ],
       ],
       Name: ['', [Validators.required, Validators.minLength(1)]],
       Phone: ['', [Validators.required, phoneNumberValidator()]],
       Email: ['', [Validators.required, isValidEmail()]],
       Amount: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(1),
-          Validators.pattern(/^[0-9]*$/),
-          maxFeeValidator(() => this.fee),
-        ],
+      '',
+      [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.pattern(/^\d+(\.\d{1,2})?$/),
+        maxFeeValidator(() => this.fee),
+      ],
       ],
       Cardholder: ['', [Validators.required, Validators.minLength(1)]],
     });
@@ -158,7 +160,7 @@ export class PaymentComponent {
   ngAfterViewInit() {
     this.paymentForm.valueChanges.subscribe((formValue) => {
       this.amount = (formValue.Amount as number) || 0;
-      this.balance = this.fee - this.amount;
+      this.balance = parseFloat((this.fee - this.amount).toFixed(2));
     });
   }
 
@@ -176,7 +178,8 @@ export class PaymentComponent {
           this.NotificationService.sendAlert(
             'Condo Fee balance has been paid!'
           );
-        });
+          this.router.navigate(['my-properties']);
+      });
     }
   }
 }
