@@ -34,7 +34,7 @@ export class BuildingService {
     new BehaviorSubject<Building | null>(null);
   building$: Observable<Building | null> = this.buildingSubject.asObservable();
 
-  private condoSubject: BehaviorSubject<Condo | null> =
+  public condoSubject: BehaviorSubject<Condo | null> =
     new BehaviorSubject<Condo | null>(null);
   condo$: Observable<Condo | null> = this.condoSubject.asObservable();
 
