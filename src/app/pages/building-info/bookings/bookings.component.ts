@@ -14,7 +14,8 @@ export class BookingsComponent {
 
   matcher = new MyErrorStateMatcher();
   bookFacilityForm!: FormGroup<any>;
-  selected: any;
+  facility!: string;
+  date!: number;
 
   minDate = new Date();
   currentYear = this.minDate.getUTCFullYear();
@@ -32,12 +33,16 @@ export class BookingsComponent {
 
    //Subscribe to facility field changes
    this.bookFacilityForm.get('facility')!.valueChanges.subscribe((selectedFacility)=>{
-    console.log(selectedFacility);
+    this.facility = selectedFacility;
+    console.log(this.facility);
+    this.updateTimeSlots()
    });
 
    //Subscribe to date field changes
    this.bookFacilityForm.get('date')!.valueChanges.subscribe((selectedDate)=>{
-    console.log(selectedDate);
+    this.date = selectedDate;
+    console.log(this.date);
+    this.updateTimeSlots()
    });
 
   }
@@ -79,14 +84,16 @@ export class BookingsComponent {
   }
 
   /**
-   * Function to update time slots based on selected date
+   * Function to update time slots based on events
    * @param event 
    */
-  updateTimeSlots(event:any){
-    const selectedDate = event.value;   //Getting selected date from datepicker
-    console.log(selectedDate);
+  updateTimeSlots(){
+    if (this.date && this.facility){
+      console.log("Both date and facility have been selected")
+    } else {
+      console.log("Not both have been selected")
+    }
 
-    //Add logic to update time slots here
     
   }
 
