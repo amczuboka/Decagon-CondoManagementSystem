@@ -36,7 +36,6 @@ describe('Test MyProperties Page', () => {
 
     //Check overview tab
     cy.get('app-building-overview').should('be.visible');
-    //cy.get('app-building-overview .sub-heading-content').eq(0).should('contain.text', 'Welcome to Fisher Complex');
 
     // Select the Condo tab and click on it
     cy.get('mat-tab-group')
@@ -46,10 +45,6 @@ describe('Test MyProperties Page', () => {
       });
     // Verify if Condo tab content is visible
     cy.get('app-condo').should('be.visible');
-    // Check if the specific condo is present
-    //cy.contains('app-condo .location', '555 Montrose Dr., Beaconsfield').should(
-    //  'exist'
-    //);
 
     // Select the Lockers tab and click on it
     cy.get('mat-tab-group')
@@ -63,14 +58,16 @@ describe('Test MyProperties Page', () => {
     cy.get('app-locker').should('be.visible');
     // Check if the specific lockers is present
     // Check content in "Price per month" column for the first locker
-     // Use Cypress to select the specific table cell
-  cy.get('.mat-mdc-cell.mdc-data-table__cell.cdk-cell.cdk-column-Price-per-month.mat-column-Price-per-month.ng-star-inserted')
-  .first() // Select only the first matching element
-  .invoke('text')
-  .then(text => {
-    // Assert that the text contains '$65'
-    expect(text.trim()).to.eq('$65');
-  });
+    // Use Cypress to select the specific table cell
+    cy.get(
+      '.mat-mdc-cell.mdc-data-table__cell.cdk-cell.cdk-column-Price-per-month.mat-column-Price-per-month.ng-star-inserted'
+    )
+      .first() // Select only the first matching element
+      .invoke('text')
+      .then((text) => {
+        // Assert that the text contains '$65'
+        expect(text.trim()).to.eq('$65');
+      });
 
     // Select the Parkings tab and click on it
     cy.get('mat-tab-group')
@@ -83,13 +80,14 @@ describe('Test MyProperties Page', () => {
     // Verify if Parking tab content is visible
     cy.get('app-parking-spot').should('be.visible');
     // Check content in "Fee" column for the first parking spot
-    cy.get('.mat-mdc-cell.mdc-data-table__cell.cdk-cell.cdk-column-Fee.mat-column-Fee.ng-star-inserted')
-    .first() // Select only the first matching element
-    .invoke('text')
-    .then(text => {
-      // Assert that the text contains '$65'
-      expect(text.trim()).to.eq('$95');
-    });
-  
+    cy.get(
+      '.mat-mdc-cell.mdc-data-table__cell.cdk-cell.cdk-column-Fee.mat-column-Fee.ng-star-inserted'
+    )
+      .first() // Select only the first matching element
+      .invoke('text')
+      .then((text) => {
+        // Assert that the text contains '$65'
+        expect(text.trim()).to.eq('$95');
+      });
   });
 });
