@@ -84,14 +84,15 @@ export class BookingsComponent {
   }
 
   /**
-   * Function to update time slots based on events
-   * @param event 
+   * Function to update time slots
    */
   updateTimeSlots(){
     if (this.date && this.facility){
       console.log("Both date and facility have been selected")
+      //Implement logic to update time slots
     } else {
       console.log("Not both have been selected")
+      //do nothing
     }
 
     
