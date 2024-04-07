@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup, Validators, ReactiveFormsModule, FormBuilder, FormControl } from '@angular/forms'
-import { FormsModule } from '@angular/forms';
-import { Building, Facilities } from 'src/app/models/properties';
+import { FormGroup, Validators, FormBuilder} from '@angular/forms'
+import { Booking, Building, Facilities } from 'src/app/models/properties';
 import { MyErrorStateMatcher } from 'src/app/services/auth.service';
 
 @Component({
@@ -28,9 +27,21 @@ export class BookingsComponent {
     this.bookFacilityForm = this.form_builder.group({
       'date': ['', [Validators.required]],
       'facility': ['', [Validators.required]],
-      'time-slots': [[], [Validators.required]],
+      'time-slot': [[], [Validators.required]],
     });
+
+   //Subscribe to facility field changes
+   this.bookFacilityForm.get('facility')!.valueChanges.subscribe((selectedFacility)=>{
+    console.log(selectedFacility);
+   });
+
+   //Subscribe to date field changes
+   this.bookFacilityForm.get('date')!.valueChanges.subscribe((selectedDate)=>{
+    console.log(selectedDate);
+   });
+
   }
+
 
  
   /**
@@ -63,8 +74,8 @@ export class BookingsComponent {
    * Console log selected time slot
    */
   logTimeSlots(){
-    const selectedTimeSlots = this.bookFacilityForm.get('time-slots')?.value;
-    console.log('Selected time slots', selectedTimeSlots);
+    const selectedTimeSlot = this.bookFacilityForm.get('time-slot')?.value;
+    console.log('Selected time slot', selectedTimeSlot);
   }
 
   /**
@@ -79,8 +90,8 @@ export class BookingsComponent {
     
   }
 
-
   onSubmit(){
     this.bookFacilityForm.markAllAsTouched();
   }
+
 }

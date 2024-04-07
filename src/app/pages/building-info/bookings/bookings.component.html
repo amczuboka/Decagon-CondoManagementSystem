@@ -12,7 +12,10 @@
         <!--Form to book time at a facility-->
         <form [formGroup]="bookFacilityForm">
           <!--Radio Buttons-->
-          <mat-radio-group class="facility-radio-group" formControlName="facility">
+          <mat-radio-group 
+            class="facility-radio-group" 
+            formControlName="facility"
+          >
             <div *ngFor="let facility of building.Facilities">
               <ng-container *ngIf="bookableFacility(facility)">
                 <mat-radio-button [value]="facility">{{ facility }} </mat-radio-button>
@@ -34,7 +37,6 @@
                 [matDatepicker]="picker"
                 formControlName="date"
                 [min]="minDate"
-                (dateChange) = "updateTimeSlots($event)"
               />
               <mat-datepicker-toggle
                 matSuffix
@@ -51,7 +53,7 @@
 
           <!--Time-->
           <div class="time-chips">
-            <mat-chip-listbox formControlName="time-slots">
+            <mat-chip-listbox formControlName="time-slot">
               <mat-chip-option>9:00 am</mat-chip-option>
               <mat-chip-option>10:00 am</mat-chip-option>
               <mat-chip-option>11:00 am</mat-chip-option>
@@ -62,7 +64,7 @@
               <mat-chip-option>4:00 pm</mat-chip-option>
             </mat-chip-listbox>
               <mat-error
-                *ngIf="bookFacilityForm.controls['time-slots'].hasError('required') && bookFacilityForm.controls['time-slots'].touched"
+                *ngIf="bookFacilityForm.controls['time-slot'].hasError('required') && bookFacilityForm.controls['time-slot'].touched"
               >
                Choose a <strong>time</strong>
               </mat-error>
