@@ -286,6 +286,40 @@ export class BuildingService {
     }
   }
 
+  async deleteCondoAttribute(buildingId: string, condoId: string, attribute: string): Promise<void> {
+    try {
+      // Get the building from Firebase
+      const buildingSnapshot = await get(ref(getDatabase(), `buildings/${buildingId}`));
+      if (buildingSnapshot.exists()) {
+        const building = buildingSnapshot.val() as Building;
+  
+        // Find the condo with the provided condoId
+        const condo = building.Condos.find((condo: Condo) => condo.ID === condoId);
+  
+        // Check if the condo exists in the building
+        if (condo) {
+          // Check if the attribute exists in the condo
+          if (condo.hasOwnProperty(attribute)) {
+            // Delete the attribute from the condo
+            delete (condo as any)[attribute];
+  
+            // Update the building in Firebase with the modified condo
+            await set(ref(getDatabase(), `buildings/${buildingId}`), building);
+          } else {
+            console.error(`Attribute '${attribute}' does not exist in the condo`);
+          }
+        } else {
+          console.error('Condo not found in the building');
+        }
+      } else {
+        console.error('Building not found');
+      }
+    } catch (error) {
+      console.error('Error deleting condo attribute:', error);
+      throw error;
+    }
+  }
+  
   /**
    * Retrieves all deliveries from the 'buildings' node and calls when with real time updatein Firebase Realtime Database.
    * @returns A callback returning an array of all Building objects.
