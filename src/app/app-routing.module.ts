@@ -35,7 +35,7 @@ const routes: Routes = [
   {
     path: 'budget-report',
     component: BudgetReportComponent,
-    canActivate: [AuthguardGuard],
+    canActivate: [AuthguardGuard, CompanyGuard],
   },
   {
     path: 'user-profile',

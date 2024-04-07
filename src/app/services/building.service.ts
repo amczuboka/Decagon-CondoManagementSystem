@@ -203,24 +203,47 @@ export class BuildingService {
                 const itemData = itemChild.val();
                 if (itemData.ID === itemId) {
                     const occupantIdRef = ref(db, `buildings/${buildingId}/${itemType}/${itemChild.key}/OccupantID`);
-                    set(occupantIdRef, occupantId);
 
                     // Update status for parkings and lockers
                     if (itemType === 'Parkings' || itemType === 'Lockers') {
                         const statusRef = ref(db, `buildings/${buildingId}/${itemType}/${itemChild.key}/Status`);
-                        set(statusRef, ParkingLockerStatus.Unavailable);
+                        get(statusRef).then(snapshot => {
+                          const currentParkingLockerStatus = snapshot.val();
+                          if(currentParkingLockerStatus === ParkingLockerStatus.Available){
+                            set(occupantIdRef, occupantId);
+                            set(statusRef, ParkingLockerStatus.Unavailable);
+                            alert('Successfully registered!');
+                          } else{
+                            alert('Status is not Available');
+                          } 
+                        }).catch (error => {
+                          console.error('Error fetching status: ', error);
+                        });
                     }
 
-                    // Update status for condos based on Type
-                    if (itemType === 'Condos'){
+                    if (itemType === 'Condos') {
                       const condoRef = ref(db, `buildings/${buildingId}/${itemType}/${itemChild.key}/Status`);
-                      const condoSnapshot = itemChild.val() as Condo;
-                      if (condoSnapshot.Type === CondoType.Sale){
-                        set(condoRef, CondoStatus.Owned);
-                      } else if(condoSnapshot.Type === CondoType.Rent){
-                        set(condoRef, CondoStatus.Rented);
-                      }
-                    }
+                      
+                      get(condoRef).then(snapshot => {
+                          const currentStatus = snapshot.val();
+                  
+                          // Check if the current status is already 'Owned' or 'Rented'
+                          if (currentStatus !== CondoStatus.Owned && currentStatus !== CondoStatus.Rented) {
+                              const condoSnapshot = itemChild.val() as Condo;
+                              if (condoSnapshot.Type === CondoType.Sale) {
+                                  set(condoRef, CondoStatus.Owned);
+                                  set(occupantIdRef, occupantId);
+                                  alert('Successfully registered!');
+                              } else if (condoSnapshot.Type === CondoType.Rent) {
+                                  set(condoRef, CondoStatus.Rented);
+                                  set(occupantIdRef, occupantId);
+                                  alert('Successfully registered!');
+                              }
+                          } else {
+                              alert('Condo is already in use');
+                          }
+                      });
+                  }
                 }
             });
         }
@@ -228,6 +251,50 @@ export class BuildingService {
         console.error('Error updating building item:', error);
         throw error;
     }
+}
+
+async unregisterItem(buildingId: string, itemType: 'Condos' | 'Parkings' | 'Lockers', itemId: string): Promise<void> {
+  try {
+      const db = getDatabase();
+      const buildingRef = ref(db, `buildings/${buildingId}/${itemType}`);
+      const itemsSnapshot = await get(buildingRef);
+
+      if (itemsSnapshot.exists()) {
+          itemsSnapshot.forEach((itemChild) => {
+              const itemData = itemChild.val();
+              if (itemData.ID === itemId) {
+                  const occupantIdRef = ref(db, `buildings/${buildingId}/${itemType}/${itemChild.key}/OccupantID`);
+
+                  set(occupantIdRef, "");
+
+                  if (itemType === 'Parkings' || itemType === 'Lockers') {
+                      const statusRef = ref(db, `buildings/${buildingId}/${itemType}/${itemChild.key}/Status`);
+                      set(statusRef, ParkingLockerStatus.Available);
+                  }
+                  if (itemType === 'Condos') {
+                      const condoStatusRef = ref(db, `buildings/${buildingId}/${itemType}/${itemChild.key}/Status`);
+                      set(condoStatusRef, CondoStatus.Vacant);
+                  }
+                  alert('Item unregistered successfully!');
+              }
+          });
+      } else {
+          alert('Item not found in the database.');
+      }
+  } catch (error) {
+      console.error('Error unregistering building item:', error);
+      throw error;
+  }
+}
+
+async getBuildingsForCompany(companyId: string): Promise<Building[]> {
+  try {
+    const buildings = await this.getAllBuildingsOfCompany(companyId);
+    return buildings;
+  } catch (error) {
+    console.error('Error getting buildings for company:', error);
+    throw error;
+  }
 }
   
   /**
