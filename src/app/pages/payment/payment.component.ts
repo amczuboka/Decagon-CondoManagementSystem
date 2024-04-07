@@ -2,10 +2,7 @@ import { Component } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
-  FormControl,
   FormGroup,
-  FormGroupDirective,
-  NgForm,
   ValidationErrors,
   ValidatorFn,
   Validators,
