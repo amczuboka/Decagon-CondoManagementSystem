@@ -30,6 +30,8 @@ export class BookingsComponent {
   ) {}
 
   ngOnInit(): void {
+
+   //Book Facility Form 
     this.bookFacilityForm = this.form_builder.group({
       'date': ['', [Validators.required]],
       'facility': ['', [Validators.required]],

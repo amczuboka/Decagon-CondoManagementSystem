@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CalendarEvent, CalendarView } from 'angular-calendar';
-import { Booking, Facilities } from 'src/app/models/properties';
+import { Booking, Facilities, TimeSlots } from 'src/app/models/properties';
 import { colors } from 'src/app/services/schedule.service';
 import { isSameDay, isSameMonth } from 'date-fns';
 
@@ -42,14 +42,22 @@ export class ScheduleComponent {
         OccupantID: 'string;',
         Facility: Facilities.Gym,
         Date: hour1,
+        TimeSlot: TimeSlots.ElevenAM,
       },
       {
         ID: '2',
         OccupantID: 'string;',
         Facility: Facilities.MeetingRoom,
         Date: hour2,
+        TimeSlot: TimeSlots.ElevenAM,
       },
-      { ID: '3', OccupantID: 'string;', Facility: Facilities.Spa, Date: hour3 }
+      { ID: '3', 
+        OccupantID: 
+        'string;', 
+        Facility: Facilities.Spa, 
+        Date: hour3,
+        TimeSlot: TimeSlots.ElevenAM, 
+      }
     );
     //end of mock code
     this.setEvents(this.bookings);

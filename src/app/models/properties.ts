@@ -85,6 +85,7 @@ export interface Booking {
   OccupantID: string;
   Facility: Facilities;
   Date: number;
+  TimeSlot: TimeSlots; 
 }
 
 export enum ParkingType {
@@ -96,3 +97,14 @@ export enum sourcePage {
   availablePage = "availablePage",
   propertiesPage = "propertiesPage"
 };
+
+export enum TimeSlots {
+  NineAM = "9:00 am",
+  TenAM = "10:00 am",
+  ElevenAM = "11:00 am",
+  TwelvePM = "12:00 pm",
+  OnePM = "1:00 pm",
+  TwoPM = "2:00 pm",
+  ThreePM = "3:00 pm",
+  FourPM = "4:00 pm"
+}
