@@ -14,6 +14,18 @@ describe('Test MyProperties Page', () => {
     // Wait
     cy.wait(2000);
 
+    // Click on the MyProperties button
+    cy.get('.mat-toolbar.mat-toolbar-single-row').within(() => {
+      // Click on the "My Properties" button
+      cy.contains('Add New Operation').click();
+    });
+
+    // After clicking on the button, assert the URL
+    cy.url().should(
+      'include',
+      'http://localhost:4200/add-new-building-operation'
+    );
+
     // Make sure inputs exists
     cy.get('form').should('exist');
     cy.get('input[formControlName="operationName"]').should('exist');
@@ -23,12 +35,13 @@ describe('Test MyProperties Page', () => {
 
     it('should display error messages for required fields', () => {
       cy.get('button[type="submit"]').click();
+      cy.wait(3000);
       cy.get('.alert-snackbar').should('be.visible');
     });
 
     // Click on the submit button
     cy.get('button[type="submit"]').click();
-
+    cy.wait(2000);
     // Check if the alert Snackbar is visible
     cy.get('.error').should('be.visible');
 
@@ -36,6 +49,7 @@ describe('Test MyProperties Page', () => {
     cy.get('input[formControlName="operationName"]')
       .should('exist')
       .type('Clean Gutters');
+      cy.wait(2000);
     cy.get('input[formControlName="description"]')
       .should('exist')
       .type(
@@ -43,14 +57,28 @@ describe('Test MyProperties Page', () => {
       );
     cy.get('input[formControlName="cost"]').should('exist').type('750.00');
 
-    // Select an option in mat-select
-    cy.get('mat-select[formControlName="building"]')
-      .should('exist')
-      .select('Building A');
+    cy.get('mat-select[formControlName="building"]').click(); // Click to open the dropdown
 
-      // Click submit button
-      cy.get('button[type="submit"]').click(); 
+    cy.wait(2000);
 
-      //Delete building operation
+    // Wait for the dropdown options to appear
+    cy.get('mat-option')
+      .should('have.length.gt', 0)
+      .then(() => {
+        // Find the option containing the desired text and click on it
+        cy.contains('mat-option', 'Building Fisher Complex').click();
+
+        // Click submit button
+        cy.get('button[type="submit"]').click();
+        cy.wait(2000);
+      });
+
+    //Delete building operation
+    cy.window().then(async (win) => {
+      await (win as any).buildingService.deleteOperationByName(
+        'gc2c37wrny1712213167948',
+        'Clean Gutters'
+      );
+    });
   });
 });

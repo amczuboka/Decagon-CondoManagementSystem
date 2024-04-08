@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
 import { Building, Condo,Operation } from '../models/properties';
-import { get, getDatabase, onValue, ref, set } from 'firebase/database';
+import { get, getDatabase, onValue, ref, set, remove } from 'firebase/database';
 import { AuthService } from './auth.service';
 import { CompanyDTO } from '../models/users';
 import { UserService } from './user.service';
 import { ParkingLockerStatus,CondoStatus,CondoType } from '../models/properties';
 import { BehaviorSubject, Observable } from 'rxjs';
+
 /**
  * Service for managing building-related operations.
  */
@@ -262,6 +263,55 @@ export class BuildingService {
       throw error;
     }
   }
+
+
+  async deleteOperationByName(buildingId: string, operationName: string): Promise<void> {
+    try {
+        const database = getDatabase();
+
+        // Get the reference to the operations node within the building
+        const operationsRef = ref(database, `buildings/${buildingId}/Operations`);
+
+        // Fetch all operations within the building
+        const operationsSnapshot = await get(operationsRef);
+
+        if (operationsSnapshot.exists()) {
+            let operationFound = false;
+
+            // Iterate through each child snapshot of the operations node
+            operationsSnapshot.forEach((childSnapshot) => {
+                const operationData = childSnapshot.val() as Operation;
+
+                // Check if the operation matches the provided name
+                if (operationData.name === operationName) {
+                    operationFound = true;
+
+                    // Retrieve the operation data from the database
+                    const operation = childSnapshot.val();
+
+                    // Log the operation data
+                    console.log('Operation:', operation);
+
+                    // Delete the operation from the database
+                    remove(childSnapshot.ref);
+
+                    // Log success message
+                    console.log('Operation deleted successfully');
+                }
+            });
+
+            // If the operation was not found, log an error
+            if (!operationFound) {
+                console.error('Operation not found in the building');
+            }
+        } else {
+            console.error('No operations found in the building');
+        }
+    } catch (error) {
+        console.error('Error deleting operation:', error);
+        throw error;
+    }
+}
 
   /**
    * Retrieves all deliveries from the 'buildings' node and calls when with real time updatein Firebase Realtime Database.
