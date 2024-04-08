@@ -16,9 +16,8 @@ import {
   ParkingLockerStatus,
   ParkingSpot,
   ParkingType,
-  Operation,
+  Operation
 } from '../models/properties';
-import { Authority } from '../models/users';
 import { getDatabase } from 'firebase/database';
 
 describe('BuildingService', () => {

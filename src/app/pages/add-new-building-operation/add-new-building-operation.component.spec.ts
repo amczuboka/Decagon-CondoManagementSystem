@@ -1,81 +1,33 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, FormGroup, FormBuilder } from '@angular/forms';
 import { AddNewBuildingOperationComponent } from './add-new-building-operation.component';
-import { BuildingService } from 'src/app/services/building.service';
-import { AuthService } from 'src/app/services/auth.service';
-import { UserService } from 'src/app/services/user.service';
-import { Database } from 'firebase/database';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
-import { StorageService } from 'src/app/services/storage.service';
-import 'firebase/firestore'; // Import Firestore
-import { NotificationService } from 'src/app/services/notification.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
-class MockAuthService {
-    getUser() {
-        // Provide a mock implementation
-        return Promise.resolve({ uid: 'mockUserId', photoURL: 'mockPhotoURL' });
-    }
-}
-
-// Mock BuildingService
-class MockBuildingService {
-    // Provide mock implementations of methods used in the component
-}
-
-// Mock UserService
-class MockUserService {
-    // Provide mock implementations of methods used in the component
-}
-
-// Mock Database
-class MockDatabase {
-    // Provide mock implementations of methods used in the component
-}
-// Mock Notification
-class MockNotification {
-    // Provide mock implementations of methods used in the component
-}
-// Mock StorageService
-class MockStorage{
-    // Provide mock implementations of methods used in the component
-}
-// Mock AngularFirestore
-const firestoreStub = {
-    collection: () => ({
-        valueChanges: () => ({
-            subscribe: () => { }
-        }),
-        doc: () => ({
-            valueChanges: () => ({
-                subscribe: () => { }
-            }),
-            set: () => Promise.resolve(),
-            update: () => Promise.resolve(),
-            delete: () => Promise.resolve()
-        })
-    })
-};
+import { BuildingService } from 'src/app/services/building.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { NotificationService } from 'src/app/services/notification.service';
+import { UserService } from 'src/app/services/user.service';
 
 describe('AddNewBuildingOperationComponent', () => {
     let component: AddNewBuildingOperationComponent;
     let fixture: ComponentFixture<AddNewBuildingOperationComponent>;
     let formBuilder: FormBuilder;
     let formGroup: FormGroup;
+    let mockBuildingService: jasmine.SpyObj<BuildingService>;
+    let mockAuthService: jasmine.SpyObj<AuthService>;
+    let mockUserService: jasmine.SpyObj<UserService>;
+    let mockNotificationService: jasmine.SpyObj<NotificationService>;
+
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [AddNewBuildingOperationComponent],
             imports: [ReactiveFormsModule, MatSelectModule, MatOptionModule, MatSnackBarModule],
             providers: [
-                { provide: BuildingService, useClass: MockBuildingService },
-                { provide: StorageService, useClass: MockStorage },
-                { provide: NotificationService, useClasse: MockNotification },
-                { provide: AuthService, useClass: MockAuthService },
-                { provide: UserService, useClass: MockUserService },
-                { provide: Database, useClass: MockDatabase }, // Provide mock Database service
-                { provide: AngularFirestore, useValue: firestoreStub } // Provide AngularFireFirestore mock
+                {provide: BuildingService, useValue: mockBuildingService},
+                {provide: AuthService, useValue: mockAuthService},
+                {provide: UserService, useValue: mockUserService},
+                {provide: NotificationService, useValue: mockNotificationService},
             ]
         })
             .compileComponents();
