@@ -68,7 +68,41 @@
           </button>
         </a>
       </li>
+<<<<<<< HEAD
       <ng-container *ngTemplateOutlet="elseBlock"></ng-container>
+=======
+      <li class="nav-item">
+        <a class="nav-link" aria-current="page" href="">Home</a>
+      </li>
+      <li class="nav-item" *ngIf="authority == 'Public'">
+        <a class="nav-link" aria-current="page" href="key-registration"
+          >Key registration</a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" *ngIf="authority != 'Employee'" href="my-properties"
+          >My Properties</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          aria-current="page"
+          href="my-employees"
+          *ngIf="authority === 'Company'"
+          >My employees</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          aria-current="page"
+          href="add-new-property"
+          *ngIf="authority === 'Company'"
+          >Add New Property</a
+        >
+      </li>
+>>>>>>> origin/main
       <li class="nav-item" id="p-icon">
         <div mat-card-avatar class="header-image">
           <img

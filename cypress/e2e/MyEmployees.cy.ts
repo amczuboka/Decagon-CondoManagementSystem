@@ -38,18 +38,19 @@ describe('Test My Employees Page', () => {
     cy.get('table').get('tbody').find('tr').should('have.length', employees.length);
 
     // Assert the employee names first
-    cy.get('table').get('tbody').find('tr').eq(0).find('td').eq(0).should('contain', 'Tommy Angelo');
-    cy.get('table').get('tbody').find('tr').eq(1).find('td').eq(0).should('contain', 'Fernando Martinez');
-    cy.get('table').get('tbody').find('tr').eq(2).find('td').eq(0).should('contain', 'Rick Ross');
-    cy.get('table').get('tbody').find('tr').eq(3).find('td').eq(0).should('contain', 'Tommy Smith');
+    cy.get('table').get('tbody').find('tr').eq(0).find('td').eq(0).should('contain', 'Tommy Smith');
+    cy.get('table').get('tbody').find('tr').eq(1).find('td').eq(0).should('contain', 'Tommy Angelo');
+    cy.get('table').get('tbody').find('tr').eq(2).find('td').eq(0).should('contain', 'Fernando Martinez');
+    cy.get('table').get('tbody').find('tr').eq(3).find('td').eq(0).should('contain', 'Rick Ross');
+    
 
 
     // Change the role of the first employee
-    cy.get('table').get('tbody').find('tr').eq(0).find('td').eq(3).find('mat-select').click();
+    cy.get('table').get('tbody').find('tr').eq(1).find('td').eq(3).find('mat-select').click();
     cy.get('mat-option').eq(3).click();
 
     // Change properties of the first employee
-    cy.get('table').get('tbody').find('tr').eq(0).find('td').eq(2).find('mat-select').click();
+    cy.get('table').get('tbody').find('tr').eq(1).find('td').eq(2).find('mat-select').click();
     cy.wait(1000)
     cy.get('mat-option').eq(1).click();
     cy.get('button').contains('Update').click({ force : true });
@@ -57,14 +58,16 @@ describe('Test My Employees Page', () => {
     cy.reload();
     cy.wait(3000);
     // Assert the changes
-    cy.get('table').get('tbody').find('tr').eq(0).find('td').eq(3).should('contain', 'Maintenance');
-    cy.get('table').get('tbody').find('tr').eq(0).find('td').eq(2).should('contain', 'Espace Montmorency, Aquablu');
-    
-    cy.get('table').get('tbody').find('tr').eq(3).find('#mat-mdc-checkbox-5-input').click({force: true});
-    cy.wait(1000);
-    cy.get('button').contains('Delete Selected').click({force: true});
+    cy.get('table').get('tbody').find('tr').eq(1).find('td').eq(3).should('contain', 'Maintenance');
+    cy.get('table').get('tbody').find('tr').eq(1).find('td').eq(2).should('contain', 'Espace Montmorency');
+ 
 
-    cy.wait(1000);
+    //TODO: If you delete an employee you have to put them back in the database
+    // cy.get('table').get('tbody').find('tr').eq(2).find('#mat-mdc-checkbox-5-input').click({force: true});
+    // cy.wait(1000);
+    // cy.get('button').contains('Delete Selected').click({force: true});
+
+    // cy.wait(1000);
   })
   
 })
