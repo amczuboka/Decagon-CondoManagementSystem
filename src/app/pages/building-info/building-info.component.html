@@ -62,7 +62,7 @@
     <!--TODO: Make tab visible only if they are a condo owner/renter-->
     <mat-tab label="Reservations">
 
-        <app-bookings 
+        <app-bookings *ngIf="building"  
           [building]="building"
           [sourcePage]="sourcePage"
         ></app-bookings>

@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { AfterViewChecked, Component, Input } from '@angular/core';
 import { FormGroup, Validators, FormBuilder} from '@angular/forms'
 import { Booking, Building, Facilities } from 'src/app/models/properties';
 import { MyErrorStateMatcher } from 'src/app/services/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-bookings',
@@ -16,20 +17,29 @@ export class BookingsComponent {
   bookFacilityForm!: FormGroup<any>;
   facility!: string;
   date!: number;
+  myUser!: any;
 
   minDate = new Date();
   currentYear = this.minDate.getUTCFullYear();
   currentMonth = this.minDate.getUTCMonth();
   currentDay = this.minDate.getUTCDate();
 
-  constructor(private form_builder: FormBuilder) {}
+  constructor(
+    private form_builder: FormBuilder,
+    private authService: AuthService,
+  ) {}
 
   ngOnInit(): void {
     this.bookFacilityForm = this.form_builder.group({
       'date': ['', [Validators.required]],
       'facility': ['', [Validators.required]],
       'time-slot': [[], [Validators.required]],
+      myUser: []
     });
+
+   //Get User
+   this.myUser = this.authService.getUser();
+   this.bookFacilityForm.patchValue({ myUser: this.myUser });
 
    //Subscribe to facility field changes
    this.bookFacilityForm.get('facility')!.valueChanges.subscribe((selectedFacility)=>{
@@ -47,8 +57,6 @@ export class BookingsComponent {
 
   }
 
-
- 
   /**
    * Function that returns true if a facility should be able to be booked by a user. Otherwise, returns false.
    * @param facility 
@@ -88,10 +96,11 @@ export class BookingsComponent {
    */
   updateTimeSlots(){
     if (this.date && this.facility){
-      console.log("Both date and facility have been selected")
+      console.log("Both date and facility have been selected");
       //Implement logic to update time slots
+      //console.log(this.building.Bookings);
     } else {
-      console.log("Not both have been selected")
+      console.log("Not both have been selected");
       //do nothing
     }
 
@@ -100,6 +109,7 @@ export class BookingsComponent {
 
   onSubmit(){
     this.bookFacilityForm.markAllAsTouched();
+    console.log(this.bookFacilityForm.value);
   }
 
 }
