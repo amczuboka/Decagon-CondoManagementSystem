@@ -97,12 +97,14 @@ cy.get('mat-toolbar .otherLinks') // Locate the parent div containing the header
   .contains('a.nav-link', 'Home') // Find the "Home" button within it
   .click();
 
+  cy.wait(3000);
    // Renavigate to payment page 
     // Click on the MyProperties button
     cy.get('.mat-toolbar.mat-toolbar-single-row').within(() => {
         // Click on the "My Properties" button
         cy.contains('My Properties').click();
       });
+      cy.wait(3000);
       cy.url().should('include', 'http://localhost:4200/my-properties');
   
       /// Iterate through each building and find the one with the name "Fisher Complex"
@@ -140,6 +142,18 @@ cy.get('mat-toolbar .otherLinks') // Locate the parent div containing the header
 
     // Delete Condo fee from this condo to make sure test always passes
     
+    const buildingId = 'yourBuildingId'; // Provide a valid building ID
+    const condoId = 'yourCondoId'; // Provide a valid condo ID
+    const attributeToDelete = 'attributeName'; // Provide the name of the attribute you want to delete
 
+    // Call the deleteCondoAttribute function
+    cy.window().then(async (win) => {
+    try {
+      await(win as any).buildingService.deleteCondoAttribute('gc2c37wrny1712213167948', 'k2mz6hoicka1712213167992', 'CondoFee');
+
+    } catch (error) {
+      cy.log(`Error deleting attribute: ${error}`);
+    }
+  });
   });
 });
