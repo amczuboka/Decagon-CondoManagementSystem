@@ -89,7 +89,7 @@
           <a class="nav-link" href="user-profile">
             <button mat-menu-item id="p-btn">Profile</button>
           </a>
-          <a class="nav-link" href="#" (click)="authService.SignOut()">
+          <a class="nav-link" href="#" (click)="logOut()">
             <button mat-menu-item>Log Out</button>
           </a>
         </mat-menu>
@@ -99,7 +99,36 @@
 </mat-toolbar>
 
 <mat-menu #menu="matMenu" id="MypropertiesSection">
-  <ng-container *ngTemplateOutlet="elseBlock"></ng-container>
+  <a class="nav-link" href="">
+    <button mat-menu-item>Home</button>
+  </a>
+  <a class="nav-link" href="my-properties" id="MyProperties_a">
+    <button mat-menu-item *ngIf="authority != 'Employee'" id="myProperties_btn">
+      My Properties
+    </button>
+  </a>
+  <a
+    class="nav-link"
+    aria-current="page"
+    *ngIf="authority === 'Company'"
+    href="add-new-property"
+  >
+    <button mat-menu-item>Add New Property</button>
+  </a>
+  <a
+    class="nav-link"
+    aria-current="page"
+    href="add-new-building-operation"
+    *ngIf="authority === 'Company'"
+  >
+    <button mat-menu-item>Add New Operation</button>
+  </a>
+  <a class="nav-link" href="user-profile">
+    <button mat-menu-item>Profile</button>
+  </a>
+  <a class="nav-link" href="#" (click)="logOut()">
+    <button mat-menu-item>Log Out</button>
+  </a>
 </mat-menu>
 
 <!-- Put links here please -->
