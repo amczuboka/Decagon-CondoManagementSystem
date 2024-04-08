@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
-import { Building, Condo } from '../models/properties';
+import { Building, Condo,Operation } from '../models/properties';
 import { get, getDatabase, onValue, ref, set } from 'firebase/database';
 import { AuthService } from './auth.service';
 import { CompanyDTO } from '../models/users';
@@ -351,6 +351,44 @@ export class BuildingService {
       return buildings;
     } catch (error) {
       console.error('Error getting all buildings:', error);
+      throw error;
+    }
+  }
+
+/**
+ * Adds a new operation to a building in the Firebase Realtime Database.
+ * If the building already has an 'operations' attribute, the function adds the operation to it.
+ * If the building doesn't have an 'operations' attribute, the function creates it and then adds the operation.
+ *
+ * @param buildingId - The ID of the building to which the operation will be added.
+ * @param operation - The operation object to add to the building.
+ * @returns A Promise that resolves when the operation is successfully added to the building.
+ * @throws Error if there is an issue adding the operation or the building is not found.
+ */
+  async addOperation(buildingId: string, operation: Operation): Promise<void> {
+    try {
+      const db = getDatabase();
+      const buildingRef = ref(db, `buildings/${buildingId}`);
+      const buildingSnapshot = await get(buildingRef);
+
+      if (buildingSnapshot.exists()) {
+        const building = buildingSnapshot.val() as Building;
+
+        // Check if the building already has an 'operations' attribute
+        if (building.Operations) {
+          building.Operations.push(operation);
+        } else {
+          // If 'operations' attribute doesn't exist, create it
+          building.Operations = [operation];
+        }
+
+        // Update the building in the database with the modified operations attribute
+        await set(buildingRef, building);
+      } else {
+        throw new Error('Building not found');
+      }
+    } catch (error) {
+      console.error('Error adding operation:', error);
       throw error;
     }
   }

@@ -82,22 +82,22 @@ describe('BuildingComponent', () => {
 
   it('should handle availablePage sourcePage', fakeAsync(() =>  {
     mockBuildingService.buildings$ = of([
-      { ID: 'building1', Name: '', Year: 0, CompanyID: '', Address: '', Bookings: [], Description: '', Parkings: [], Lockers: [], Condos: [], Picture: '', Facilities: [] },
-      { ID: 'building2', Name: '', Year: 0, CompanyID: '', Address: '', Bookings: [], Description: '', Parkings: [], Lockers: [], Condos: [], Picture: '', Facilities: [] }
+      { ID: 'building1', Name: '', Year: 0, CompanyID: '', Address: '', Bookings: [], Description: '', Parkings: [], Lockers: [], Condos: [], Picture: '', Facilities: [], Operations:[]},
+      { ID: 'building2', Name: '', Year: 0, CompanyID: '', Address: '', Bookings: [], Description: '', Parkings: [], Lockers: [], Condos: [], Picture: '', Facilities: [], Operations:[]}
     ]);    
 
     component.sourcePage = sourcePage.availablePage;
     component.ngOnInit();
     tick();
 
-    expect(component.buildings).toEqual([ { ID: 'building1', Name: '', Year: 0, CompanyID: '', Address: '', Bookings: [], Description: '', Parkings: [], Lockers: [], Condos: [], Picture: '', Facilities: [] },
-    { ID: 'building2', Name: '', Year: 0, CompanyID: '', Address: '', Bookings: [], Description: '', Parkings: [], Lockers: [], Condos: [], Picture: '', Facilities: [] }]);
+    expect(component.buildings).toEqual([ { ID: 'building1', Name: '', Year: 0, CompanyID: '', Address: '', Bookings: [], Description: '', Parkings: [], Lockers: [], Condos: [], Picture: '', Facilities: [] , Operations:[]},
+    { ID: 'building2', Name: '', Year: 0, CompanyID: '', Address: '', Bookings: [], Description: '', Parkings: [], Lockers: [], Condos: [], Picture: '', Facilities: [], Operations:[] }]);
   }));
 
   it('should handle propertiesPage sourcePage with Company authority', fakeAsync(() => {
     mockBuildingService.buildings$ = of([
-      { ID: 'building1', Name: '', Year: 0, CompanyID: 'uid1', Address: '', Bookings: [], Description: '', Parkings: [], Lockers: [], Condos: [], Picture: '', Facilities: [] },
-      { ID: 'building2', Name: '', Year: 0, CompanyID: '', Address: '', Bookings: [], Description: '', Parkings: [], Lockers: [], Condos: [], Picture: '', Facilities: [] }
+      { ID: 'building1', Name: '', Year: 0, CompanyID: 'uid1', Address: '', Bookings: [], Description: '', Parkings: [], Lockers: [], Condos: [], Picture: '', Facilities: [], Operations:[] },
+      { ID: 'building2', Name: '', Year: 0, CompanyID: '', Address: '', Bookings: [], Description: '', Parkings: [], Lockers: [], Condos: [], Picture: '', Facilities: [], Operations:[] }
     ]);
     component.sourcePage = sourcePage.propertiesPage;
     component.authority = Authority.Company;
@@ -107,13 +107,13 @@ describe('BuildingComponent', () => {
     component.ngOnInit();
     tick();
 
-    expect(component.buildings).toEqual([ { ID: 'building1', Name: '', Year: 0, CompanyID: 'uid1', Address: '', Bookings: [], Description: '', Parkings: [], Lockers: [], Condos: [], Picture: '', Facilities: [] }]);
+    expect(component.buildings).toEqual([ { ID: 'building1', Name: '', Year: 0, CompanyID: 'uid1', Address: '', Bookings: [], Description: '', Parkings: [], Lockers: [], Condos: [], Picture: '', Facilities: [] , Operations:[]}]);
   }));
 
   it('should handle propertiesPage sourcePage with Public authority', fakeAsync(() => {
     mockBuildingService.buildings$ = of([
-      { ID: 'building1', Name: '', Year: 0, CompanyID: '', Address: '', Bookings: [], Description: '', Parkings: [], Lockers: [], Condos: [], Picture: '', Facilities: [] },
-      { ID: 'building2', Name: '', Year: 0, CompanyID: '', Address: '', Bookings: [], Description: '', Parkings: [], Lockers: [], Condos: [], Picture: '', Facilities: [] }
+      { ID: 'building1', Name: '', Year: 0, CompanyID: '', Address: '', Bookings: [], Description: '', Parkings: [], Lockers: [], Condos: [], Picture: '', Facilities: [], Operations:[] },
+      { ID: 'building2', Name: '', Year: 0, CompanyID: '', Address: '', Bookings: [], Description: '', Parkings: [], Lockers: [], Condos: [], Picture: '', Facilities: [], Operations:[] }
     ]);
     component.sourcePage = sourcePage.propertiesPage;
     component.authority = Authority.Public;
@@ -127,8 +127,8 @@ describe('BuildingComponent', () => {
 
   it('should handle propertiesPage sourcePage with other authority', fakeAsync(() =>  {
     mockBuildingService.buildings$ = of([
-      { ID: 'building1', Name: '', Year: 0, CompanyID: '', Address: '', Bookings: [], Description: '', Parkings: [], Lockers: [], Condos: [], Picture: '', Facilities: [] },
-      { ID: 'building2', Name: '', Year: 0, CompanyID: '', Address: '', Bookings: [], Description: '', Parkings: [], Lockers: [], Condos: [], Picture: '', Facilities: [] }
+      { ID: 'building1', Name: '', Year: 0, CompanyID: '', Address: '', Bookings: [], Description: '', Parkings: [], Lockers: [], Condos: [], Picture: '', Facilities: [] , Operations:[]},
+      { ID: 'building2', Name: '', Year: 0, CompanyID: '', Address: '', Bookings: [], Description: '', Parkings: [], Lockers: [], Condos: [], Picture: '', Facilities: [],  Operations:[] }
     ]);    component.sourcePage = sourcePage.propertiesPage;
 
     component.authority = 'Other';
@@ -140,8 +140,8 @@ describe('BuildingComponent', () => {
 
   it('should handle other sourcePage', fakeAsync(() => {
     mockBuildingService.buildings$ = of([
-      { ID: 'building1', Name: '', Year: 0, CompanyID: '', Address: '', Bookings: [], Description: '', Parkings: [], Lockers: [], Condos: [], Picture: '', Facilities: [] },
-      { ID: 'building2', Name: '', Year: 0, CompanyID: '', Address: '', Bookings: [], Description: '', Parkings: [], Lockers: [], Condos: [], Picture: '', Facilities: [] }
+      { ID: 'building1', Name: '', Year: 0, CompanyID: '', Address: '', Bookings: [], Description: '', Parkings: [], Lockers: [], Condos: [], Picture: '', Facilities: [] , Operations:[]},
+      { ID: 'building2', Name: '', Year: 0, CompanyID: '', Address: '', Bookings: [], Description: '', Parkings: [], Lockers: [], Condos: [], Picture: '', Facilities: [] , Operations:[]}
     ]);
     component.sourcePage = 'Other';
     component.ngOnInit();
@@ -217,6 +217,7 @@ describe('BuildingComponent', () => {
         Condos: [],
         Picture: '',
         Facilities: [],
+        Operations:[]
       };
       component.sourcePage = 'availablePage'; // Define the sourcePage property
       const queryParams = {
@@ -277,6 +278,7 @@ describe('BuildingComponent', () => {
         ],
         Picture: '',
         Facilities: [],
+        Operations:[]
       };
 
       const totalCondos = component.calculateTotalCondos(building);
@@ -327,6 +329,7 @@ describe('BuildingComponent', () => {
         ],
         Picture: '',
         Facilities: [],
+        Operations:[]
       };
 
       const availableCondos = component.calculateAvailableCondos(building);
@@ -348,7 +351,8 @@ describe('BuildingComponent', () => {
       Parkings: [],
       Lockers: [],
       Picture: '',
-      Facilities: []
+      Facilities: [],
+      Operations:[]
     }; 
     const result = component.calculateTotalCondos(building);
     expect(result).toEqual(0);
@@ -367,7 +371,8 @@ describe('BuildingComponent', () => {
       Parkings: [],
       Lockers: [],
       Picture: '',
-      Facilities: []
+      Facilities: [],
+      Operations:[]
     }; 
     const result = component.calculateAvailableCondos(building);
     expect(result).toEqual(0);
@@ -388,7 +393,8 @@ describe('BuildingComponent', () => {
       Parkings: [],
       Lockers: [],
       Picture: '',
-      Facilities: []
+      Facilities: [],
+      Operations:[]
     }; 
     const totalCondos = component.calculateTotalCondos(building);
     const availableCondos = component.calculateAvailableCondos(building);

@@ -45,7 +45,8 @@ mat-toolbar {
   }
 }
 
-.nav-link, .notifications {
+.nav-link,
+.notifications {
   &:hover {
     color: lighten(black, 50%); // lighten the text color by 10%
   }
@@ -109,6 +110,15 @@ mat-toolbar {
   }
   .otherLinks {
     display: none;
+  }
+
+  .somet {
+    li {
+      a {
+        text-align: center;
+        width: 100%;
+      }
+    }
   }
 }
 
