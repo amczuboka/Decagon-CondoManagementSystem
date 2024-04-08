@@ -6,6 +6,7 @@ import { Authority} from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { Subscription } from 'rxjs';
+import { NotificationService } from 'src/app/services/notification.service';
 @Component({
   selector: 'app-add-new-building-operation',
   templateUrl: './add-new-building-operation.component.html',
@@ -23,50 +24,10 @@ export class AddNewBuildingOperationComponent implements OnInit {
     private formBuilder: FormBuilder,
     private buildingService: BuildingService, // Inject BuildingService
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private notification: NotificationService
   ) {}
 
-  // async ngOnInit(): Promise<void> {
-  //       // Fetch the current Company
-  //       try {
-  //         this.myUser = await this.authService.getUser();
-  //         if (this.myUser) {
-  //             this.authority = this.myUser.photoURL;
-  //           } if (this.authority == Authority.Company) {
-  //             this.userService.getCompanyUser(this.myUser.uid).then((user) => {
-  //               this.myUser = user;
-  //             });
-  //           }
-  //       } catch (error) {
-  //         console.error(error);
-  //         this.authority = '';
-  //       }
-  // this.myUser = await this.userService.getCompanyUser(((await this.authService.getUser()) as User)?.uid) as CompanyDTO;
-
-  //   this.operationForm = this.formBuilder.group({
-  //     operationName: ['', Validators.required],
-  //     description: ['', Validators.required],
-  //     cost: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
-  //     building: ['', Validators.required]
-
-  //   });
-
-  //   // this.buildings=(this.myUser as CompanyDTO).PropertyIds;
-  //   //  console.log((this.myUser as CompanyDTO).PropertyIds);
-  //   // // Fetch buildings from the service
-  //   // this.buildingService.getAllBuildings().then(buildings => {
-  //   //   this.buildings = buildings;
-  //   // }).catch(error => {
-  //   //   console.error('Error fetching buildings:', error);
-  //   // });
-  // this.propertiesID=(this.myUser as CompanyDTO).PropertyIds;
-
-  //  this.propertiesID.forEach(async (id:any)=>{
-  //   this.buildings.push(
-  //    await this.buildingService.getBuilding(id)
-  //   )
-  //  });
-  // }
 
   async ngOnInit(): Promise<void> {
     // Initialize the form
@@ -138,12 +99,13 @@ export class AddNewBuildingOperationComponent implements OnInit {
     this.buildingService
       .addOperation(selectedBuildingId, operation)
       .then(() => {
-        console.log('Operation added successfully!');
+        this.notification.sendNotification('Operation added successfully!');
         this.operationForm.reset();
         this.submitted = false;
       })
       .catch((error) => {
-        console.error('Error adding operation:', error);
+        this.notification.sendNotification(`Error adding operation: ${error}`);
+       
       });
   }
 }

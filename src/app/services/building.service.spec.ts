@@ -449,16 +449,6 @@ describe('BuildingService', () => {
     expect(updatedBuilding.Operations?.length).toBe(1);
     expect(updatedBuilding.Operations?.[0]).toEqual(operation);
   
-// =======
-    // if (updatedBuilding.Operations) {
-    //   expect(updatedBuilding.Operations).toBeTruthy();
-    //   expect(updatedBuilding.Operations.length).toBe(1);
-    //   expect(updatedBuilding.Operations[0]).toEqual(operation);
-    // } else {
-    //   fail('Operations is undefined');
-    // }
-
-
     // Clean up: Delete the test building
     await service.deleteBuilding(building.ID);
   });

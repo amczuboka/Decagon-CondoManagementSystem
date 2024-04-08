@@ -8,7 +8,11 @@ import { Database } from 'firebase/database';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
-// Mock AuthService
+import { StorageService } from 'src/app/services/storage.service';
+import 'firebase/firestore'; // Import Firestore
+import { NotificationService } from 'src/app/services/notification.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 class MockAuthService {
     getUser() {
         // Provide a mock implementation
@@ -30,7 +34,14 @@ class MockUserService {
 class MockDatabase {
     // Provide mock implementations of methods used in the component
 }
-
+// Mock Notification
+class MockNotification {
+    // Provide mock implementations of methods used in the component
+}
+// Mock StorageService
+class MockStorage{
+    // Provide mock implementations of methods used in the component
+}
 // Mock AngularFirestore
 const firestoreStub = {
     collection: () => ({
@@ -56,9 +67,11 @@ describe('AddNewBuildingOperationComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [AddNewBuildingOperationComponent],
-            imports: [ReactiveFormsModule, MatSelectModule, MatOptionModule],
+            imports: [ReactiveFormsModule, MatSelectModule, MatOptionModule, MatSnackBarModule],
             providers: [
                 { provide: BuildingService, useClass: MockBuildingService },
+                { provide: StorageService, useClass: MockStorage },
+                { provide: NotificationService, useClasse: MockNotification },
                 { provide: AuthService, useClass: MockAuthService },
                 { provide: UserService, useClass: MockUserService },
                 { provide: Database, useClass: MockDatabase }, // Provide mock Database service
