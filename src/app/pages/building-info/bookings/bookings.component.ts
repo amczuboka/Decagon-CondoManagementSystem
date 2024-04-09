@@ -53,7 +53,8 @@ export class BookingsComponent {
 
    //Subscribe to date field changes
    this.bookFacilityForm.get('date')!.valueChanges.subscribe((selectedDate)=>{
-    this.date = selectedDate;
+    const dateAsNum = selectedDate.getTime();
+    this.date = dateAsNum;
     console.log(this.date);
     this.updateTimeSlots()
    });
@@ -126,7 +127,7 @@ export class BookingsComponent {
       ID: '',
       OccupantID: formData.myUserID,
       Facility: formData.facility,
-      Date: formData.date,
+      Date: this.date,
       TimeSlot: formData['time-slot'],
     };
     console.log(formData);
