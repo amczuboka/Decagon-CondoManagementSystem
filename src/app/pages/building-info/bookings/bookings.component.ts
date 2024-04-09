@@ -132,7 +132,7 @@ export class BookingsComponent {
     console.log(formData);
 
     //Creating new booking
-    //this.bookingsService.addNewBooking(this.buildingID, booking);
+    this.bookingsService.addNewBooking(this.buildingID, booking);
 
   }
 
