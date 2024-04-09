@@ -1,8 +1,10 @@
 import { AfterViewChecked, Component, Input } from '@angular/core';
 import { FormGroup, Validators, FormBuilder} from '@angular/forms'
 import { Booking, Building, Facilities } from 'src/app/models/properties';
+import { User} from 'src/app/models/users';
 import { MyErrorStateMatcher } from 'src/app/services/auth.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { BookingsService } from 'src/app/services/bookings.service';
 
 @Component({
   selector: 'app-bookings',
@@ -17,7 +19,9 @@ export class BookingsComponent {
   bookFacilityForm!: FormGroup<any>;
   facility!: string;
   date!: number;
-  myUser!: any;
+  myUser!: User;
+  myUserID!: string;
+  buildingID!: string;
 
   minDate = new Date();
   currentYear = this.minDate.getUTCFullYear();
@@ -27,6 +31,7 @@ export class BookingsComponent {
   constructor(
     private form_builder: FormBuilder,
     private authService: AuthService,
+    private bookingsService: BookingsService
   ) {}
 
   ngOnInit(): void {
@@ -36,12 +41,13 @@ export class BookingsComponent {
       'date': ['', [Validators.required]],
       'facility': ['', [Validators.required]],
       'time-slot': [[], [Validators.required]],
-      myUser: []
+      myUserID: ['']
     });
 
    //Get User
    this.myUser = this.authService.getUser();
-   this.bookFacilityForm.patchValue({ myUser: this.myUser });
+   this.myUserID = this.myUser.uid;
+   this.bookFacilityForm.patchValue({ myUserID: this.myUserID });
 
    //Subscribe to facility field changes
    this.bookFacilityForm.get('facility')!.valueChanges.subscribe((selectedFacility)=>{
@@ -104,14 +110,30 @@ export class BookingsComponent {
     } else {
       console.log("Not both have been selected");
       //do nothing
-    }
-
-    
+    } 
   }
 
+  
   onSubmit(){
     this.bookFacilityForm.markAllAsTouched();
-    console.log(this.bookFacilityForm.value);
+  
+    //Getting building id
+    this.buildingID = this.building.ID; 
+
+    //Obtaining object from form
+    const formData = this.bookFacilityForm.value;
+    const booking: Booking = {
+      ID: '',
+      OccupantID: formData.myUserID,
+      Facility: formData.facility,
+      Date: formData.date,
+      TimeSlot: formData['time-slot'],
+    };
+    console.log(formData);
+
+    //Creating new booking
+    //this.bookingsService.addNewBooking(this.buildingID, booking);
+
   }
 
 }
