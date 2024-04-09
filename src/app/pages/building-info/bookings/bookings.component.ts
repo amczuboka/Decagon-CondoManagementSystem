@@ -44,11 +44,6 @@ export class BookingsComponent {
       myUserID: ['']
     });
 
-   //Get User
-   this.myUser = this.authService.getUser();
-   this.myUserID = this.myUser.uid;
-   this.bookFacilityForm.patchValue({ myUserID: this.myUserID });
-
    //Subscribe to facility field changes
    this.bookFacilityForm.get('facility')!.valueChanges.subscribe((selectedFacility)=>{
     this.facility = selectedFacility;
@@ -117,6 +112,11 @@ export class BookingsComponent {
   onSubmit(){
     this.bookFacilityForm.markAllAsTouched();
   
+    //Get User
+    this.myUser = this.authService.getUser();
+    this.myUserID = this.myUser.uid;
+    this.bookFacilityForm.patchValue({ myUserID: this.myUserID });
+    
     //Getting building id
     this.buildingID = this.building.ID; 
 
