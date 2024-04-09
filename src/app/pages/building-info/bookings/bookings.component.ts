@@ -5,6 +5,7 @@ import { User} from 'src/app/models/users';
 import { MyErrorStateMatcher } from 'src/app/services/auth.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { BookingsService } from 'src/app/services/bookings.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-bookings',
@@ -31,7 +32,8 @@ export class BookingsComponent {
   constructor(
     private form_builder: FormBuilder,
     private authService: AuthService,
-    private bookingsService: BookingsService
+    private bookingsService: BookingsService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -112,8 +114,12 @@ export class BookingsComponent {
   
   onSubmit(){
     this.bookFacilityForm.markAllAsTouched();
+    if (this.bookFacilityForm.invalid) {
+      this.notificationService.sendAlert('Please fill out all required fields');
+      return;
+    }
   
-    //Get User
+    //Getting User
     this.myUser = this.authService.getUser();
     this.myUserID = this.myUser.uid;
     this.bookFacilityForm.patchValue({ myUserID: this.myUserID });
@@ -133,7 +139,10 @@ export class BookingsComponent {
     console.log(formData);
 
     //Creating new booking
-    this.bookingsService.addNewBooking(this.buildingID, booking);
+    this.bookingsService.addNewBooking(this.buildingID, booking).then(()=>{
+      this.notificationService.sendNotification('Booking successfully created!');
+    });
+    
 
   }
 
