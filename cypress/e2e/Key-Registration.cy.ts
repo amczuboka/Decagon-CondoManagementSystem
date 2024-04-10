@@ -4,6 +4,7 @@ describe('Key Registration Component', () => {
   beforeEach(() => {
     login('pail.farid99@gmail.com', 'Mosalah99');
     cy.visit('/key-registration');
+    cy.wait(5000);
   });
 
   it('should display input fields and register button', () => {
