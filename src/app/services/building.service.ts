@@ -1,6 +1,16 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
-import { equalTo, get, getDatabase, onValue, orderByChild, query, ref, set, update } from 'firebase/database';
+import {
+  equalTo,
+  get,
+  getDatabase,
+  onValue,
+  orderByChild,
+  query,
+  ref,
+  set,
+  update,
+} from 'firebase/database';
 import { AuthService } from './auth.service';
 import { CompanyDTO } from '../models/users';
 import { UserService } from './user.service';
@@ -10,6 +20,7 @@ import {
   ParkingLockerStatus,
   CondoStatus,
   CondoType,
+  ParkingSpot,
 } from '../models/properties';
 import { BehaviorSubject, Observable } from 'rxjs';
 /**
@@ -327,88 +338,92 @@ export class BuildingService {
     return this.building$;
   }
 
-    /**
+  /**
    * Subscribe to real-time updates for a specific condo.
    *
    * @param condoId - ID of the condo to subscribe to.
    * @returns An observable that emits updates for the specified building.
    */
-    subscribeToCondoById(buildingID: string, condoID: string): Observable<Condo | null> {
-      const db = getDatabase();
-      const buildingRef = ref(db, `buildings/${buildingID}`);
+  subscribeToCondoById(
+    buildingID: string,
+    condoID: string
+  ): Observable<Condo | null> {
+    const db = getDatabase();
+    const buildingRef = ref(db, `buildings/${buildingID}`);
 
-      onValue(buildingRef, (snapshot) => {
+    onValue(buildingRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const building = snapshot.val() as Building;
+        let foundCondo: Condo | null = null;
+
+        // Iterate over each condo in the building
+        for (const condoId in building.Condos as Condo[]) {
+          const condo: Condo = building.Condos[condoId];
+
+          // If the condo ID matches the desired ID, store the condo and break the loop
+          if (condo.ID === condoID) {
+            foundCondo = condo;
+            break;
+          }
+        }
+
+        this.condoSubject.next(foundCondo);
+      } else {
+        this.condoSubject.next(null);
+      }
+    });
+
+    return this.condo$;
+  }
+
+  /**
+   * Updates the condo fee for a specific condo in a building.
+   *
+   * @param buildingID - ID of the building.
+   * @param condo - Condo object to update.
+   * @param fee - New condo fee.
+   * @returns A Promise that resolves when the condo fee is successfully updated.
+   */
+  updateCondoFee(buildingID: string, condo: Condo, fee: number): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const db = getDatabase();
+      const condoRef = ref(db, `buildings/${buildingID}/Condos`);
+
+      get(condoRef).then((snapshot) => {
         if (snapshot.exists()) {
-          const building = snapshot.val() as Building;
-          let foundCondo: Condo | null = null;
-    
-          // Iterate over each condo in the building
-          for (const condoId in building.Condos as Condo[]) {
-            const condo: Condo = building.Condos[condoId];
-    
-            // If the condo ID matches the desired ID, store the condo and break the loop
-            if (condo.ID === condoID) {
-              foundCondo = condo;
+          const condosFromDb = snapshot.val();
+          for (let key in condosFromDb) {
+            const condoFromDb = condosFromDb[key] as Condo;
+            if (condoFromDb.ID === condo.ID) {
+              // Found the correct condo, now update the CondoFee
+              console.log('GOOD');
+              const condoRef = ref(db, `buildings/${buildingID}/Condos/${key}`);
+              update(condoRef, { CondoFee: fee }).then(() => {
+                resolve();
+              });
               break;
             }
           }
-    
-          this.condoSubject.next(foundCondo);
-        } else {
-          this.condoSubject.next(null);
         }
       });
-    
-      return this.condo$;
-    }
+    });
+  }
 
-        /**
-      * Updates the condo fee for a specific condo in a building.
-      *
-      * @param buildingID - ID of the building.
-      * @param condo - Condo object to update.
-      * @param fee - New condo fee.
-      * @returns A Promise that resolves when the condo fee is successfully updated.
-      */
-    updateCondoFee(buildingID: string, condo: Condo, fee: number): Promise<void> {
-      return new Promise((resolve, reject) => {
-        const db = getDatabase();
-        const condoRef = ref(db, `buildings/${buildingID}/Condos`);
-    
-        get(condoRef).then((snapshot) => {
-          if (snapshot.exists()) {
-            const condosFromDb = snapshot.val();
-            for (let key in condosFromDb) {
-              const condoFromDb = condosFromDb[key] as Condo;
-              if (condoFromDb.ID === condo.ID) {
-                // Found the correct condo, now update the CondoFee
-                console.log("GOOD");
-                const condoRef = ref(db, `buildings/${buildingID}/Condos/${key}`);
-                update(condoRef, { CondoFee: fee }).then(() => {
-                  resolve();
-                });
-                break;
-              }
-            }
-          } 
-        });
-      });
-    }
+  /**
+   * Checks the parkings owned by a specific user in a building.
+   *
+   * @param buildingID - ID of the building.
+   * @param userID - ID of the user.
+   * @returns A Promise resolving to an array of ParkingSpot objects owned by the user.
+   * @throws Error if there is an issue retrieving the parkings.
+   */
+  getUserParkings(buildingID: string, userID: string): Promise<ParkingSpot[]> {
+    return new Promise((resolve, reject) => {
+      const db = getDatabase();
+      const parkingRef = ref(db, `buildings/${buildingID}/Parkings`);
 
-    /**
-     * Checks the parkings owned by a specific user in a building.
-     *
-     * @param buildingID - ID of the building.
-     * @param userID - ID of the user.
-     * @returns A Promise resolving to an array of ParkingSpot objects owned by the user.
-     * @throws Error if there is an issue retrieving the parkings.
-     */
-    getUserParkings(buildingID: string, userID: string): Promise<ParkingSpot[]> {
-      return new Promise((resolve, reject) => {
-        const db = getDatabase();
-        const parkingRef = ref(db, `buildings/${buildingID}/Parkings`);
-    
-        get(parkingRef).then((snapshot) => {
+      get(parkingRef)
+        .then((snapshot) => {
           if (snapshot.exists()) {
             const parkingsFromDb = snapshot.val();
             const userParkings: ParkingSpot[] = [];
@@ -424,9 +439,10 @@ export class BuildingService {
           } else {
             reject(new Error('No parkings found'));
           }
-        }).catch((error) => reject(error));
-      });
-    }
+        })
+        .catch((error) => reject(error));
+    });
+  }
 
   /**
    * Retrieves all buildings from the 'buildings' node in Firebase Realtime Database.
