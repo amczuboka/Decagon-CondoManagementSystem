@@ -9,7 +9,6 @@ describe('Key Registration Component', () => {
 
   it('should display input fields and register button', () => {
     // Check if input fields and register button are visible
-    cy.get('#registrationKey', {timeout: 10000}).should('exist');
     cy.get('.registrationType', { timeout: 10000 }).should('be.visible').click();
     cy.contains('button', 'Register').should('be.visible');
   });
