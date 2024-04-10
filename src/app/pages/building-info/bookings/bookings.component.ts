@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup, Validators, ReactiveFormsModule, FormBuilder, FormControl } from '@angular/forms'
-import { FormsModule } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms'
 import { Building } from 'src/app/models/properties';
 import { MyErrorStateMatcher } from 'src/app/services/auth.service';
 

@@ -7,7 +7,7 @@ import { IndividualCondoComponent } from './individual-condo.component';
 import { UserService } from '../../services/user.service';
 import { BuildingService } from '../../services/building.service';
 import { EditCondoDialogComponent } from './edit-condo-dialog/edit-condo-dialog.component';
-import { Condo, CondoStatus, CondoType } from 'src/app/models/properties';
+import { Building, Condo, CondoStatus, CondoType } from 'src/app/models/properties';
 import { AuthService } from 'src/app/services/auth.service';
 import { Authority } from 'src/app/models/users';
 import { Location } from '@angular/common';
@@ -22,9 +22,15 @@ describe('IndividualCondoComponent', () => {
   let mockDialog: any;
   let mockAuthService: any;
   let mockLocation: any;
+  let router: Router;
+  let navigateSpy: jasmine.Spy;
 
   beforeEach(async () => {
-    mockActivatedRoute = { params: of({ buildingId: '1', condoId: '2' }) };
+    const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+    mockActivatedRoute = { params: of({ buildingId: '1', condoId: '2' }),   
+    snapshot: {
+      queryParams: { sourcePage: 'testSourcePage' }
+    } };
     mockRouter = jasmine.createSpyObj('Router', ['navigateByUrl']);
     mockUserService = jasmine.createSpyObj('UserService', [
       'getCompanyUser',
@@ -49,6 +55,7 @@ describe('IndividualCondoComponent', () => {
         { provide: AuthService, useValue: mockAuthService },
         { provide: Location, useValue: mockLocation },
         { provide: BuildingService, useValue: mockBuildingService },
+        { provide: Router, useValue: routerSpy },
       ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
@@ -56,6 +63,8 @@ describe('IndividualCondoComponent', () => {
     fixture = TestBed.createComponent(IndividualCondoComponent);
     component = fixture.componentInstance;
     mockDialog.open.and.returnValue({ afterClosed: () => of(null) }); // Prepare mock for dialog
+    router = TestBed.inject(Router);
+    navigateSpy = router.navigate as jasmine.Spy;
     fixture.detectChanges();
   });
 
@@ -109,6 +118,7 @@ describe('IndividualCondoComponent', () => {
       Condos: [],
       Picture: 'url/to/picture',
       Facilities: [],
+      Operations:[]
     };
     component.condo = testCondo;
     spyOn(component, 'isEditAllowed').and.returnValue(true);
@@ -153,6 +163,7 @@ describe('IndividualCondoComponent', () => {
       Condos: [],
       Picture: 'url/to/picture',
       Facilities: [],
+      Operations:[]
     };
     component.condo = testCondo;
     spyOn(component, 'isEditAllowed').and.returnValue(false);
@@ -191,6 +202,7 @@ describe('IndividualCondoComponent', () => {
       ],
       Picture: 'url/to/picture',
       Facilities: [],
+      Operations:[]
     };
 
     mockBuildingService.getBuilding.and.returnValue(
@@ -260,5 +272,55 @@ describe('IndividualCondoComponent', () => {
     component.handleCondoEdited(updatedCondoData);
   
     expect(component.condo).toEqual(updatedCondoData);
+  });
+
+  it('should navigate to payment page with correct parameters', () => {
+    const mockCondo: Condo = {
+      ID: '1',
+      Type: CondoType.Sale,
+      OccupantID: '',
+      UnitNumber: '1',
+      Fee: 1000,
+      Picture: '',
+      Description: 'test',
+      NumberOfBedrooms: 2,
+      NumberOfBathrooms: 2,
+      Status: CondoStatus.Vacant,
+      SquareFootage: 1000,
+    };
+  
+    const mockBuilding: Building = {
+      ID: '1',
+      Year: 0,
+      CompanyID: '',
+      Name: '',
+      Address: '',
+      Bookings: [],
+      Description: '',
+      Parkings: [],
+      Lockers: [],
+      Condos: [],
+      Picture: '',
+      Facilities: []
+    };
+  
+    component.condo = mockCondo;
+    component.building = mockBuilding;
+    
+    component.proceedToPayment();
+  
+    expect(navigateSpy).toHaveBeenCalledWith(['/payment'], {
+      queryParams: { condo: JSON.stringify(mockCondo), buildingID: mockBuilding.ID, returnUrl: undefined },
+    });
+  });
+
+  it('should initialize sourcePage on ngOnInit', async () => {
+    spyOn(component, 'fetchBuildingAndCondoDetails').and.returnValue(Promise.resolve());
+    spyOn(component, 'fetchUserInfo').and.returnValue(Promise.resolve());
+    spyOn(component, 'fetchLoggedInUser').and.returnValue(Promise.resolve());
+
+    await component.ngOnInit();
+  
+    expect(component.sourcePage).toEqual('testSourcePage');
   });
 });

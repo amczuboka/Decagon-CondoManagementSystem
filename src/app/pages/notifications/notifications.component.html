@@ -10,6 +10,34 @@
       </mat-cell>
     </ng-container>
 
+    <!-- Status column -->
+    <ng-container matColumnDef="status">
+      <mat-header-cell
+        *matHeaderCellDef
+        class="mat-column-status"
+        [style.display]="authority === 'Public' ? 'none' : ''"
+      >
+        Status
+      </mat-header-cell>
+      <mat-cell
+        *matCellDef="let notification"
+        class="mat-column-status"
+        [style.display]="authority === 'Public' ? 'none' : ''"
+      >
+        <mat-select
+          [(ngModel)]="notification.Status"
+          (selectionChange)="sendNotificationUpdatingStatus(notification)"
+        >
+          <mat-option
+            *ngFor="let status of requestStatusArray"
+            [value]="status"
+          >
+            {{ status }}
+          </mat-option>
+        </mat-select>
+      </mat-cell>
+    </ng-container>
+
     <!-- Notification column -->
     <ng-container matColumnDef="message">
       <mat-header-cell *matHeaderCellDef class="mat-column-message">

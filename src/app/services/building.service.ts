@@ -1,11 +1,28 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
-import { Building, Condo } from '../models/properties';
-import { get, getDatabase, onValue, ref, set } from 'firebase/database';
+import {
+  equalTo,
+  get,
+  getDatabase,
+  onValue,
+  orderByChild,
+  query,
+  ref,
+  set,
+  update,
+} from 'firebase/database';
 import { AuthService } from './auth.service';
 import { CompanyDTO } from '../models/users';
 import { UserService } from './user.service';
-import { ParkingLockerStatus,CondoStatus,CondoType } from '../models/properties';
+import {
+  Building,
+  Condo,
+  ParkingLockerStatus,
+  CondoStatus,
+  CondoType,
+  ParkingSpot,
+  Operation,
+} from '../models/properties';
 import { BehaviorSubject, Observable } from 'rxjs';
 /**
  * Service for managing building-related operations.
@@ -29,6 +46,10 @@ export class BuildingService {
   private buildingSubject: BehaviorSubject<Building | null> =
     new BehaviorSubject<Building | null>(null);
   building$: Observable<Building | null> = this.buildingSubject.asObservable();
+
+  public condoSubject: BehaviorSubject<Condo | null> =
+    new BehaviorSubject<Condo | null>(null);
+  condo$: Observable<Condo | null> = this.condoSubject.asObservable();
 
   private condosSubject: BehaviorSubject<Condo[] | null> = new BehaviorSubject<
     Condo[] | null
@@ -123,57 +144,58 @@ export class BuildingService {
     }
   }
 
+  async getAllBuildingsWithItems(
+    itemType: 'Condos' | 'Parkings' | 'Lockers'
+  ): Promise<Building[]> {
+    try {
+      const db = getDatabase();
+      const buildingsRef = ref(db, 'buildings');
+      const buildingsSnapshot = await get(buildingsRef);
 
-  async getAllBuildingsWithItems(itemType: 'Condos' | 'Parkings' | 'Lockers'): Promise<Building[]> {
-  try {
-    const db = getDatabase();
-    const buildingsRef = ref(db, 'buildings');
-    const buildingsSnapshot = await get(buildingsRef);
+      if (buildingsSnapshot.exists()) {
+        const buildings: Building[] = [];
 
-    if (buildingsSnapshot.exists()) {
-      const buildings: Building[] = [];
+        // Iterate through each building
+        buildingsSnapshot.forEach((buildingChild) => {
+          const buildingData = buildingChild.val() as Building;
 
-      // Iterate through each building
-      buildingsSnapshot.forEach((buildingChild) => {
-        const buildingData = buildingChild.val() as Building;
+          // Extract the building ID from the building data
+          const buildingId = buildingData.ID;
 
-        // Extract the building ID from the building data
-        const buildingId = buildingData.ID;
-
-        // Construct the building object
-        const building: Building = {
-          ...buildingData,
-          ID: buildingId
-        };
-
-        // Fetch items of the specified type for this building
-        const items: any[] = [];
-        const itemsSnapshot = buildingChild.child(itemType);
-        itemsSnapshot.forEach((itemChild) => {
-          const itemData = itemChild.val();
-          const item: any = {
-            id: itemChild.key,
-            ...itemData,
+          // Construct the building object
+          const building: Building = {
+            ...buildingData,
+            ID: buildingId,
           };
-          items.push(item);
+
+          // Fetch items of the specified type for this building
+          const items: any[] = [];
+          const itemsSnapshot = buildingChild.child(itemType);
+          itemsSnapshot.forEach((itemChild) => {
+            const itemData = itemChild.val();
+            const item: any = {
+              id: itemChild.key,
+              ...itemData,
+            };
+            items.push(item);
+          });
+
+          // Assign items to the building
+          building[itemType] = items;
+
+          // Push the building with items to the array
+          buildings.push(building);
         });
 
-        // Assign items to the building
-        building[itemType] = items;
-
-        // Push the building with items to the array
-        buildings.push(building);
-      });
-
-      return buildings;
-    } else {
-      throw new Error('No buildings found');
+        return buildings;
+      } else {
+        throw new Error('No buildings found');
+      }
+    } catch (error) {
+      console.error('Error getting buildings with items:', error);
+      throw error;
     }
-  } catch (error) {
-    console.error('Error getting buildings with items:', error);
-    throw error;
   }
-}
   /**
    * Updates an existing building in the database.
    *
@@ -192,44 +214,58 @@ export class BuildingService {
     }
   }
 
-  async updateItem(buildingId: string, itemType: 'Condos' | 'Parkings' | 'Lockers', itemId: string, occupantId: string): Promise<void> {
+  async updateItem(
+    buildingId: string,
+    itemType: 'Condos' | 'Parkings' | 'Lockers',
+    itemId: string,
+    occupantId: string
+  ): Promise<void> {
     try {
-        const db = getDatabase();
-        const buildingRef = ref(db, `buildings/${buildingId}/${itemType}`);
-        const itemsSnapshot = await get(buildingRef);
+      const db = getDatabase();
+      const buildingRef = ref(db, `buildings/${buildingId}/${itemType}`);
+      const itemsSnapshot = await get(buildingRef);
 
-        if (itemsSnapshot.exists()) {
-            itemsSnapshot.forEach((itemChild) => {
-                const itemData = itemChild.val();
-                if (itemData.ID === itemId) {
-                    const occupantIdRef = ref(db, `buildings/${buildingId}/${itemType}/${itemChild.key}/OccupantID`);
-                    set(occupantIdRef, occupantId);
+      if (itemsSnapshot.exists()) {
+        itemsSnapshot.forEach((itemChild) => {
+          const itemData = itemChild.val();
+          if (itemData.ID === itemId) {
+            const occupantIdRef = ref(
+              db,
+              `buildings/${buildingId}/${itemType}/${itemChild.key}/OccupantID`
+            );
+            set(occupantIdRef, occupantId);
 
-                    // Update status for parkings and lockers
-                    if (itemType === 'Parkings' || itemType === 'Lockers') {
-                        const statusRef = ref(db, `buildings/${buildingId}/${itemType}/${itemChild.key}/Status`);
-                        set(statusRef, ParkingLockerStatus.Unavailable);
-                    }
+            // Update status for parkings and lockers
+            if (itemType === 'Parkings' || itemType === 'Lockers') {
+              const statusRef = ref(
+                db,
+                `buildings/${buildingId}/${itemType}/${itemChild.key}/Status`
+              );
+              set(statusRef, ParkingLockerStatus.Unavailable);
+            }
 
-                    // Update status for condos based on Type
-                    if (itemType === 'Condos'){
-                      const condoRef = ref(db, `buildings/${buildingId}/${itemType}/${itemChild.key}/Status`);
-                      const condoSnapshot = itemChild.val() as Condo;
-                      if (condoSnapshot.Type === CondoType.Sale){
-                        set(condoRef, CondoStatus.Owned);
-                      } else if(condoSnapshot.Type === CondoType.Rent){
-                        set(condoRef, CondoStatus.Rented);
-                      }
-                    }
-                }
-            });
-        }
+            // Update status for condos based on Type
+            if (itemType === 'Condos') {
+              const condoRef = ref(
+                db,
+                `buildings/${buildingId}/${itemType}/${itemChild.key}/Status`
+              );
+              const condoSnapshot = itemChild.val() as Condo;
+              if (condoSnapshot.Type === CondoType.Sale) {
+                set(condoRef, CondoStatus.Owned);
+              } else if (condoSnapshot.Type === CondoType.Rent) {
+                set(condoRef, CondoStatus.Rented);
+              }
+            }
+          }
+        });
+      }
     } catch (error) {
-        console.error('Error updating building item:', error);
-        throw error;
+      console.error('Error updating building item:', error);
+      throw error;
     }
-}
-  
+  }
+
   /**
    * Deletes a building and its associated files from the database.
    *
@@ -252,7 +288,7 @@ export class BuildingService {
       await set(buildingRef, null);
       await this.storageService.deleteFile(building.Picture);
       await this.storageService.deleteFile(building.Condos[0].Picture);
-     for (let i = 1; i < building.Condos.length; i++) {
+      for (let i = 1; i < building.Condos.length; i++) {
         if (building.Condos[i].Picture !== building.Condos[i - 1].Picture) {
           await this.storageService.deleteFile(building.Condos[i].Picture);
         }
@@ -302,6 +338,113 @@ export class BuildingService {
 
     return this.building$;
   }
+
+  /**
+   * Subscribe to real-time updates for a specific condo.
+   *
+   * @param condoId - ID of the condo to subscribe to.
+   * @returns An observable that emits updates for the specified building.
+   */
+  subscribeToCondoById(
+    buildingID: string,
+    condoID: string
+  ): Observable<Condo | null> {
+    const db = getDatabase();
+    const buildingRef = ref(db, `buildings/${buildingID}`);
+
+    onValue(buildingRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const building = snapshot.val() as Building;
+        let foundCondo: Condo | null = null;
+
+        // Iterate over each condo in the building
+        for (const condoId in building.Condos as Condo[]) {
+          const condo: Condo = building.Condos[condoId];
+
+          // If the condo ID matches the desired ID, store the condo and break the loop
+          if (condo.ID === condoID) {
+            foundCondo = condo;
+            break;
+          }
+        }
+
+        this.condoSubject.next(foundCondo);
+      } else {
+        this.condoSubject.next(null);
+      }
+    });
+
+    return this.condo$;
+  }
+
+  /**
+   * Updates the condo fee for a specific condo in a building.
+   *
+   * @param buildingID - ID of the building.
+   * @param condo - Condo object to update.
+   * @param fee - New condo fee.
+   * @returns A Promise that resolves when the condo fee is successfully updated.
+   */
+  updateCondoFee(buildingID: string, condo: Condo, fee: number): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const db = getDatabase();
+      const condoRef = ref(db, `buildings/${buildingID}/Condos`);
+
+      get(condoRef).then((snapshot) => {
+        if (snapshot.exists()) {
+          const condosFromDb = snapshot.val();
+          for (let key in condosFromDb) {
+            const condoFromDb = condosFromDb[key] as Condo;
+            if (condoFromDb.ID === condo.ID) {
+              // Found the correct condo, now update the CondoFee
+              console.log('GOOD');
+              const condoRef = ref(db, `buildings/${buildingID}/Condos/${key}`);
+              update(condoRef, { CondoFee: fee }).then(() => {
+                resolve();
+              });
+              break;
+            }
+          }
+        }
+      });
+    });
+  }
+
+  /**
+   * Checks the parkings owned by a specific user in a building.
+   *
+   * @param buildingID - ID of the building.
+   * @param userID - ID of the user.
+   * @returns A Promise resolving to an array of ParkingSpot objects owned by the user.
+   * @throws Error if there is an issue retrieving the parkings.
+   */
+  getUserParkings(buildingID: string, userID: string): Promise<ParkingSpot[]> {
+    return new Promise((resolve, reject) => {
+      const db = getDatabase();
+      const parkingRef = ref(db, `buildings/${buildingID}/Parkings`);
+
+      get(parkingRef)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            const parkingsFromDb = snapshot.val();
+            const userParkings: ParkingSpot[] = [];
+            for (let key in parkingsFromDb) {
+              const parkingFromDb: ParkingSpot = parkingsFromDb[key];
+              if (parkingFromDb.OccupantID === userID) {
+                // Found a parking owned by the user
+                userParkings.push(parkingFromDb);
+              }
+            }
+            // Return the array of parkings owned by the user
+            resolve(userParkings);
+          } else {
+            reject(new Error('No parkings found'));
+          }
+        })
+        .catch((error) => reject(error));
+    });
+  }
+
   /**
    * Retrieves all buildings from the 'buildings' node in Firebase Realtime Database.
    * @returns A Promise resolving to an array of all Building objects.
@@ -351,6 +494,49 @@ export class BuildingService {
       return buildings;
     } catch (error) {
       console.error('Error getting all buildings:', error);
+      throw error;
+    }
+  }
+
+/**
+ * Adds a new operation to a building in the Firebase Realtime Database.
+ * If the building already has an 'operations' attribute, the function adds the operation to it.
+ * If the building doesn't have an 'operations' attribute, the function creates it and then adds the operation.
+ *
+ * @param buildingId - The ID of the building to which the operation will be added.
+ * @param operation - The operation object to add to the building.
+ * @returns A Promise that resolves when the operation is successfully added to the building.
+ * @throws Error if there is an issue adding the operation or the building is not found.
+ */
+  async addOperation(buildingId: string, operation: Operation): Promise<void> {
+    try {
+      const db = getDatabase();
+      const buildingRef = ref(db, `buildings/${buildingId}`);
+      const buildingSnapshot = await get(buildingRef);
+
+      operation.ID= await this.storageService.IDgenerator(
+        '/buildings/' + buildingId + '/operations/',
+        db
+      );
+      
+      if (buildingSnapshot.exists()) {
+        const building = buildingSnapshot.val() as Building;
+
+        // Check if the building already has an 'operations' attribute
+        if (building.Operations) {
+          building.Operations.push(operation);
+        } else {
+          // If 'operations' attribute doesn't exist, create it
+          building.Operations = [operation];
+        }
+
+        // Update the building in the database with the modified operations attribute
+        await set(buildingRef, building);
+      } else {
+        throw new Error('Building not found');
+      }
+    } catch (error) {
+      console.error('Error adding operation:', error);
       throw error;
     }
   }

@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { sourcePage } from 'src/app/models/properties';
-import { Authority, User } from 'src/app/models/users';
-import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
