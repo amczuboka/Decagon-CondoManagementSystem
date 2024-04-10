@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { of } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
 import { NotificationType } from 'src/app/models/users';
+import { linkAuthority } from 'src/app/models/properties';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -165,4 +166,32 @@ describe('HeaderComponent', () => {
     expect(userService.updateUser).toHaveBeenCalledWith(null);
     expect(authService.SignOut).toHaveBeenCalled();
   });
+
+  it('should update myObject for small screens', () => {
+    // Arrange
+    const windowWidth = 500;
+
+    // Act
+    component.updateMyObject(windowWidth);
+
+    // Assert
+    expect(component.biglinks).toEqual([]);
+    expect(component.smalllinks).toEqual(component.links);
+  });
+
+  fit('should update myObject for large screens', () => {
+    // Arrange
+    const windowWidth = 800;
+
+    // Act
+    component.updateMyObject(windowWidth);
+
+    // Assert
+    expect(component.smalllinks).toEqual([
+      { label: 'Profile', path: 'user-profile', authority: linkAuthority.Any },
+      { label: 'Log Out', path: 'out', authority: linkAuthority.Any },
+    ]);
+    expect(component.biglinks).not.toBe([]);
+  });
+
 });

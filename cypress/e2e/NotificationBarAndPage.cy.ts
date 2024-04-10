@@ -2,12 +2,12 @@ import { login } from './utils.cy';
 
 const checkBadge = (badgeHidden: boolean, value: string) => {
   if (badgeHidden) {
-    cy.get('.nav-item a.notifications button').should(
+    cy.get('a.notifications button').should(
       'not.have.attr',
       'matBadgeHidden'
     );
   }
-  cy.get('.nav-item a.notifications button mat-icon')
+  cy.get('a.notifications button mat-icon')
     .invoke('attr', 'data-badge')
     .should('equal', value);
 };
@@ -21,8 +21,8 @@ describe('Test Notifications', () => {
   it('Check notification button', () => {
     login('vemiji5713@bitofee.com', '123456');
 
-    cy.get('.nav-item a.notifications').should('be.visible');
-    cy.get('.nav-item a.notifications').click({ force: true });
+    cy.get('a.notifications').should('be.visible');
+    cy.get('a.notifications').click({ force: true });
 
     cy.url().should('eq', 'http://localhost:4200/notifications');
   });
@@ -34,9 +34,9 @@ describe('Test Notifications', () => {
   it('Check notification bar badge', () => {
     login('vemiji5713@bitofee.com', '123456');
 
-    cy.get('.nav-item a.notifications').should('be.visible');
+    cy.get('a.notifications').should('be.visible');
 
-    cy.get('.nav-item a.notifications').should('be.visible');
+    cy.get('a.notifications').should('be.visible');
     checkBadge(true, '1');
   });
 
@@ -50,7 +50,7 @@ describe('Test Notifications', () => {
   it('Check mark as read', () => {
     login('vemiji5713@bitofee.com', '123456');
 
-    cy.get('.nav-item a.notifications').click({ force: true });
+    cy.get('a.notifications').click({ force: true });
 
     cy.wait(2000);
 
@@ -76,7 +76,7 @@ describe('Test Notifications', () => {
   it('Check mark as unread', () => {
     login('vemiji5713@bitofee.com', '123456');
 
-    cy.get('.nav-item a.notifications').click({ force: true });
+    cy.get('a.notifications').click({ force: true });
 
     cy.wait(2000);
 

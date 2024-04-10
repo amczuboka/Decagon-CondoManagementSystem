@@ -1,5 +1,5 @@
 mat-toolbar {
-  display: flex;
+  flex: 1 1 auto;
   width: 100%;
   background-color: #b6b9c0;
 
@@ -20,15 +20,15 @@ mat-toolbar {
   }
 }
 
+
 .Menu-dropdown {
   display: none;
 }
 .otherLinks {
   margin-left: auto;
   display: flex;
-  flex-direction: row;
+  flex-flow:row wrap ;
   justify-content: space-between;
-  width: 50%;
   margin-right: 35px;
 }
 
@@ -36,13 +36,7 @@ mat-toolbar {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  li {
-    display: inline-block;
-    margin-right: 10px; // adjust as needed
-    &:last-child {
-      margin-right: 0;
-    }
-  }
+  align-items: center;
 }
 
 .nav-link,
@@ -63,6 +57,7 @@ mat-toolbar {
   justify-content: center;
 }
 
+
 .navbar-brand {
   // TODO: Replace current logo with Decagon logo
   background-image: url("../../../assets/imgs/logo/decagon.png");
@@ -75,14 +70,12 @@ mat-toolbar {
   color: black;
 }
 
-.mobile-notification {
-  display: block;
-}
-
-.mobile-menu {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+#bigMenu{
+  background-color: red;
+    // Display the children with the IDs 
+  #log-out,  #profile {
+    display: none;
+  }
 }
 
 @media (max-width: 885px) {
@@ -108,26 +101,14 @@ mat-toolbar {
     justify-content: space-between;
     width: 100%;
   }
-  .otherLinks {
-    display: none;
-  }
+ 
 
   .somet {
-    li {
-      a {
-        text-align: center;
-        width: 100%;
-      }
+    a {
+      text-align: center;
+      width: 100%;
     }
   }
 }
 
-@media (min-width: 886px) {
-  .mobile-notification {
-    display: none;
-  }
 
-  .mobile-menu {
-    display: none;
-  }
-}
