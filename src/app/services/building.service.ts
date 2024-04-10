@@ -304,7 +304,7 @@ export class BuildingService {
                 const operationData = childSnapshot.val() as Operation;
 
                 // Check if the operation matches the provided name
-                if (operationData.name === operationName) {
+                if (operationData.Name === operationName) {
                     operationFound = true;
 
                     // Retrieve the operation data from the database
