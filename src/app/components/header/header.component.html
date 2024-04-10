@@ -123,6 +123,13 @@
   >
     <button mat-menu-item>Add New Operation</button>
   </a>
+  <a 
+    class="nav-link" 
+    aria-current="page" 
+    href="budget-report" 
+    *ngIf="authority === 'Company'">
+    <button mat-menu-item>Budget Report</button>
+  </a>
   <a class="nav-link" href="user-profile">
     <button mat-menu-item>Profile</button>
   </a>
@@ -157,6 +164,15 @@
       href="add-new-building-operation"
       *ngIf="authority === 'Company'"
       >Add New Operation</a
+    >
+  </li>
+  <li class="nav-item">
+    <a 
+      class="nav-link" 
+      aria-current="page" 
+      href="budget-report" 
+      *ngIf="authority === 'Company'"
+      >Budget Report</a
     >
   </li>
 </ng-template>
