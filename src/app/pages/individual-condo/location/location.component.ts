@@ -28,7 +28,7 @@ export class LocationComponent implements OnInit {
 
     this.http.get<any>(url).subscribe(
       (data) => {
-        if (data && data.features && data.features.length > 0) {
+        if (data?.features && data?.features.length > 0) {
           const coordinates = data.features[0].center;
           this.initMap(coordinates);
         } else {
@@ -42,7 +42,7 @@ export class LocationComponent implements OnInit {
   }
 
   initMap(coordinates: [number, number]) {
-    if (!mapboxgl || !mapboxgl.Map || !mapboxgl.Marker) {
+    if (!mapboxgl?.Map || !mapboxgl?.Marker) {
       console.error('mapboxgl is not properly initialized.');
       return;
     }
