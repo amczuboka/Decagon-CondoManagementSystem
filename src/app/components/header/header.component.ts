@@ -60,13 +60,19 @@ export class HeaderComponent {
    * @param windowWidth - The current window width
    */
   updateMyObject(windowWidth: number) {
+    //set links
     this.links = [
       { label: 'Profile', path: 'user-profile', authority: linkAuthority.Any },
       { label: 'Home', path: '', authority: linkAuthority.Any },
       {
         label: 'My Properties',
         path: 'my-properties',
-        authority: linkAuthority.Any,
+        authority: linkAuthority.Company,
+      },
+      {
+        label: 'My Properties',
+        path: 'my-properties',
+        authority: linkAuthority.Public,
       },
       {
         label: 'Add New Property',
@@ -77,6 +83,11 @@ export class HeaderComponent {
         label: 'Add New Operation',
         path: 'add-operation',
         authority: linkAuthority.Company,
+      },
+      {
+        label: 'Key Registration',
+        path: 'key-registration',
+        authority: linkAuthority.Public,
       },
       { label: 'Log Out', path: 'out', authority: linkAuthority.Any },
     ];
