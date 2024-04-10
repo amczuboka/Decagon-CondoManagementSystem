@@ -17,6 +17,7 @@ import { BudgetReportComponent } from './pages/building-info/budget-report/budge
 import { PaymentComponent } from './pages/payment/payment.component';
 import { MyPropertiesComponent } from './pages/my-properties/my-properties.component';
 import { AddNewBuildingOperationComponent } from './pages/add-new-building-operation/add-new-building-operation.component';
+import { PaymentGuard } from './services/payment.guard';
 
 const routes: Routes = [
   {
@@ -65,7 +66,7 @@ const routes: Routes = [
   {
     path: 'payment',
     component: PaymentComponent,
-    canActivate: [AuthguardGuard],
+    canActivate: [AuthguardGuard, PaymentGuard],
   },
   {
     path: 'my-employees',

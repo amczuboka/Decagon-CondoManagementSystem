@@ -14,7 +14,7 @@
       <div class="item">
         <a
           [routerLink]="['/individual-condo', building.ID, item.ID]"
-          [queryParams]="item"
+          [queryParams]="{ item: item, sourcePage: sourcePage }"
         >
           <div class="image">
             <img [src]="item.Picture" alt="Your unit" />
@@ -53,8 +53,8 @@
           <div>
             <a
               [routerLink]="['/individual-condo', building.ID, item.ID]"
-              [queryParams]="item"
-            >
+              [queryParams]="{ item: item, sourcePage: sourcePage }"
+              >
               <button class="buttonItem">View Details</button>
             </a>
           </div>
@@ -86,7 +86,7 @@
       <div class="item">
         <a
           [routerLink]="['/individual-condo', building.ID, item.ID]"
-          [queryParams]="item"
+          [queryParams]="{ item: item, sourcePage: sourcePage }"
         >
           <div class="image">
             <img [src]="item.Picture" alt="Your unit" />
@@ -110,8 +110,8 @@
           <div>
             <a
               [routerLink]="['/individual-condo', building.ID, item.ID]"
-              [queryParams]="item"
-            >
+              [queryParams]="{ item: item, sourcePage: sourcePage }"
+              >
               <button class="buttonItem">View Details</button>
             </a>
           </div>
