@@ -24,6 +24,9 @@ export class BookingsComponent {
   myUserID!: string;
   buildingID!: string;
 
+  buildingFacilities!: Facilities[];
+  bookable!: Facilities[];
+
   minDate = new Date();
   currentYear = this.minDate.getUTCFullYear();
   currentMonth = this.minDate.getUTCMonth();
@@ -37,6 +40,10 @@ export class BookingsComponent {
   ) {}
 
   ngOnInit(): void {
+
+   //Initialize building facilities
+   this.buildingFacilities = this.building.Facilities;
+   this.bookable = this.bookableFacilities(this.buildingFacilities);
 
    //Book Facility Form 
     this.bookFacilityForm = this.form_builder.group({
@@ -63,30 +70,22 @@ export class BookingsComponent {
 
   }
 
-  /**
-   * Function that returns true if a facility should be able to be booked by a user. Otherwise, returns false.
-   * @param facility 
-   * @returns true if the facility is bookable. Otherwise, returns false.
-   */
-  bookableFacility(facility: string): boolean {
-    switch (facility) {
-      case Facilities.Gym:
-        return false;
-      case Facilities.Pool:
-        return true;
-      case Facilities.Spa:
-        return true;
-      case Facilities.Locker:
-        return false;
-      case Facilities.Parking:
-        return false;
-      case Facilities.Playground:
-        return false;
-      case Facilities.MeetingRoom:
-        return true;
-      default:
-        return false;
-    }
+  bookableFacilities(buildingFacilities: Facilities[]): Facilities[] {
+    const bookable: Facilities[]=[];
+
+    buildingFacilities.forEach(facility => {
+      switch (facility) {
+        case Facilities.Gym:
+        case Facilities.Locker:
+        case Facilities.Parking:
+        case Facilities.Playground:
+          break; // Not bookable, so skip
+        default:
+          bookable.push(facility); // Bookable, so add to array
+      }
+    });
+
+    return bookable;
   }
 
   /**

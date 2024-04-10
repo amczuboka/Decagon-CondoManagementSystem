@@ -1,90 +1,100 @@
 <ng-container
   *ngIf="sourcePage === 'availablePage' || sourcePage === 'propertiesPage'"
 >
-  <div class="tab-content">
-    <!--Book Facility Time-->
-    <div class="heading-content">
-      <h2>Book Facility Time</h2>
-      <mat-divider></mat-divider>
-      <div class="sub-heading-content">
-        <p>Book time at one of our amazing facilities now!</p>
 
-        <!--Form to book time at a facility-->
-        <form [formGroup]="bookFacilityForm">
-          <!--Radio Buttons-->
-          <mat-radio-group 
-            class="facility-radio-group" 
-            formControlName="facility"
-          >
-            <div *ngFor="let facility of building.Facilities">
-              <ng-container *ngIf="bookableFacility(facility)">
-                <mat-radio-button [value]="facility">{{ facility }} </mat-radio-button>
-              </ng-container>
-            </div>
-            <mat-error
-                *ngIf="bookFacilityForm.controls['facility'].hasError('required') && bookFacilityForm.controls['facility'].touched"
+  <!----------------------------Page when there are no bookable facilities------------------------------->
+  <ng-container *ngIf="!(bookable.length > 0)">
+    <br><br>
+    <div style="display: flex; justify-content: center; align-items: center;">
+      <h3>This building does not have any bookable facilities!</h3>
+    </div>
+  </ng-container>
+
+  <!------------------------Page when there is at least one bookable facility--------------------------->
+  <ng-container *ngIf="bookable.length > 0">
+    <div class="tab-content">
+      <!--Book Facility Time-->
+      <div class="heading-content">
+        <h2>Book Facility Time</h2>
+        <mat-divider></mat-divider>
+        <div class="sub-heading-content">
+          <p>Book time at one of our amazing facilities now!</p>
+
+          <!--Form to book time at a facility-->
+          <form [formGroup]="bookFacilityForm">
+            <!--Radio Buttons-->
+            <mat-radio-group 
+              class="facility-radio-group" 
+              formControlName="facility"
             >
-               Choose a <strong>facility</strong>
-            </mat-error>
-          </mat-radio-group>
-          
-          <!-- Datepicker-->
-          <div class="datepicker">
-            <mat-form-field appearance="fill">
-              <mat-label>Choose a date</mat-label>
-              <input
-                matInput
-                [matDatepicker]="picker"
-                formControlName="date"
-                [min]="minDate"
-              />
-              <mat-datepicker-toggle
-                matSuffix
-                [for]="picker"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
+              <div *ngFor="let facility of bookable">
+                <mat-radio-button [value]="facility">{{ facility }} </mat-radio-button>
+              </div>
               <mat-error
-                *ngIf="bookFacilityForm.controls['date'].hasError('required')"
+                  *ngIf="bookFacilityForm.controls['facility'].hasError('required') && bookFacilityForm.controls['facility'].touched"
               >
-                Choose a  <strong>day</strong>
+                Choose a <strong>facility</strong>
               </mat-error>
-            </mat-form-field>
-          </div>
+            </mat-radio-group>
+            
+            <!-- Datepicker-->
+            <div class="datepicker">
+              <mat-form-field appearance="fill">
+                <mat-label>Choose a date</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="picker"
+                  formControlName="date"
+                  [min]="minDate"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error
+                  *ngIf="bookFacilityForm.controls['date'].hasError('required')"
+                >
+                  Choose a  <strong>day</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
 
-          <!--Time-->
-          <div class="time-chips">
-            <mat-chip-listbox formControlName="time-slot">
-              <mat-chip-option>9:00 am</mat-chip-option>
-              <mat-chip-option>10:00 am</mat-chip-option>
-              <mat-chip-option>11:00 am</mat-chip-option>
-              <mat-chip-option>12:00 pm</mat-chip-option>
-              <mat-chip-option>1:00 am</mat-chip-option>
-              <mat-chip-option>2:00 pm</mat-chip-option>
-              <mat-chip-option>3:00 pm</mat-chip-option>
-              <mat-chip-option>4:00 pm</mat-chip-option>
-            </mat-chip-listbox>
-              <mat-error
-                *ngIf="bookFacilityForm.controls['time-slot'].hasError('required') && bookFacilityForm.controls['time-slot'].touched"
-              >
-               Choose a <strong>time</strong>
-              </mat-error>
-          </div>
+            <!--Time-->
+            <div class="time-chips">
+              <mat-chip-listbox formControlName="time-slot">
+                <mat-chip-option>9:00 am</mat-chip-option>
+                <mat-chip-option>10:00 am</mat-chip-option>
+                <mat-chip-option>11:00 am</mat-chip-option>
+                <mat-chip-option>12:00 pm</mat-chip-option>
+                <mat-chip-option>1:00 am</mat-chip-option>
+                <mat-chip-option>2:00 pm</mat-chip-option>
+                <mat-chip-option>3:00 pm</mat-chip-option>
+                <mat-chip-option>4:00 pm</mat-chip-option>
+              </mat-chip-listbox>
+                <mat-error
+                  *ngIf="bookFacilityForm.controls['time-slot'].hasError('required') && bookFacilityForm.controls['time-slot'].touched"
+                >
+                Choose a <strong>time</strong>
+                </mat-error>
+            </div>
 
-          <br /><br />
-          <!--Button-->
-          <button mat-raised-button color="primary" (click)="onSubmit()" (click)="logTimeSlots()">Save</button>
-        </form>
+            <br /><br />
+            <!--Button-->
+            <button mat-raised-button color="primary" (click)="onSubmit()" (click)="logTimeSlots()">Save</button>
+          </form>
+        </div>
+      </div>
+
+      <br /><br />
+      <!--My Bookings-->
+      <div class="heading-content">
+        <h2>My Bookings</h2>
+        <mat-divider></mat-divider>
+        <div class="sub-heading-content">
+          <app-booking-card></app-booking-card>
+        </div>
       </div>
     </div>
-
-    <br /><br />
-    <!--My Bookings-->
-    <div class="heading-content">
-      <h2>My Bookings</h2>
-      <mat-divider></mat-divider>
-      <div class="sub-heading-content">
-        <app-booking-card></app-booking-card>
-      </div>
-    </div>
-  </div>
+  </ng-container>
 </ng-container>
