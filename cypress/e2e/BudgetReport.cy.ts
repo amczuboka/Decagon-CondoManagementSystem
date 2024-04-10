@@ -1,7 +1,7 @@
 import { addCondo, addLocker, addParking, login } from './utils.cy';
 describe('Budget Report Component', () => {
     beforeEach(() => {
-        login('ziadelsharkawi2002@gmail.com', '123456');
+        login('ravak45466@gexige.com', '123456');
         cy.url().should('eq', 'http://localhost:4200/');
         cy.visit('/budget-report');
       });
@@ -31,9 +31,9 @@ describe('Budget Report Component', () => {
       cy.get('.total-row').should('be.visible');
   
       // Check if the total row contains the correct total values
-      cy.get('.total-condo-fee').should('contain.text', '$'); 
-      cy.get('.total-operation-cost').should('contain.text', '$'); 
-      cy.get('.total-profit').should('contain.text', '$');
+      cy.get('.total-condo-fee').should('contain.text', '$0.00'); 
+      cy.get('.total-operation-cost').should('contain.text', '$92.00'); 
+      cy.get('.total-profit').should('contain.text', '-$92.00');
     });
   });
   
