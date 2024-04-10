@@ -24,7 +24,7 @@ export class BudgetReportComponent implements OnInit {
 
   ngOnInit() {
     const currentUser = this.authService.getUser();
-    if (currentUser && currentUser.uid) {
+    if (currentUser?.uid) {
       this.buildingService.getAllBuildingsOfCompany(currentUser.uid)
         .then((buildings: Building[]) => {
           this.buildings = buildings;
