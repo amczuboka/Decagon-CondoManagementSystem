@@ -25,7 +25,6 @@ describe('Test Available Properties Page', () => {
 
     //Check overview tab
     cy.get('app-building-overview').should('be.visible');
-    //cy.get('app-building-overview .sub-heading-content').eq(0).should('contain.text', 'Welcome to Fisher Complex');
 
     // Select the Condo tab and click on it
     cy.get('mat-tab-group')

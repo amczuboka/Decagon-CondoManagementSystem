@@ -1,9 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { 
-  CompanyDTO,
-  Authority, 
-} from 'src/app/models/users';
 import {
   Building,
   CondoStatus,
@@ -17,8 +12,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { AppModule } from 'src/app/app.module';
-import { UserService } from 'src/app/services/user.service';
-
 
 describe('BuildingOverviewComponent', () => {
   let component: BuildingOverviewComponent;

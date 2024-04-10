@@ -14,9 +14,10 @@ export interface Building {
   Operations?: Operation[];
 }
 export interface Operation{
-name:string;
-description:string;
-cost:number;
+ID:string;
+Name:string;
+Description:string;
+Cost:number;
 }
 export interface Condo {
     ID: string; 

@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { Subscription } from 'rxjs';
 import { NotificationService } from 'src/app/services/notification.service';
+
 @Component({
   selector: 'app-add-new-building-operation',
   templateUrl: './add-new-building-operation.component.html',
@@ -20,12 +21,13 @@ export class AddNewBuildingOperationComponent implements OnInit {
   authority!: string;
   propertiesID!: any;
   private buildingsSubscription: Subscription = new Subscription();
+  
   constructor(
     private formBuilder: FormBuilder,
     private buildingService: BuildingService, // Inject BuildingService
     private userService: UserService,
     private authService: AuthService,
-    private notification: NotificationService
+    private notification: NotificationService,
   ) {}
 
 
@@ -88,9 +90,10 @@ export class AddNewBuildingOperationComponent implements OnInit {
 
     //Create an operation object with form data
     const operation: Operation = {
-      name: this.operationForm.get('operationName')?.value,
-      description: this.operationForm.get('description')?.value,
-      cost: parseFloat(this.operationForm.get('cost')?.value),
+      ID: "operationId",
+      Name: this.operationForm.get('operationName')?.value,
+      Description: this.operationForm.get('description')?.value,
+      Cost: parseFloat(this.operationForm.get('cost')?.value),
     };
 
     const selectedBuildingId = this.f['building'].value;
