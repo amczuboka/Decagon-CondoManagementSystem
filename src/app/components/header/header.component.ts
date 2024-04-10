@@ -62,8 +62,8 @@ export class HeaderComponent {
   updateMyObject(windowWidth: number) {
     //set links
     this.links = [
-      { label: 'Profile', path: 'user-profile', authority: linkAuthority.Any },
       { label: 'Home', path: '', authority: linkAuthority.Any },
+      { label: 'Profile', path: 'user-profile', authority: linkAuthority.Any },
       {
         label: 'My Properties',
         path: 'my-properties',
