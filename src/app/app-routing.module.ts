@@ -81,7 +81,7 @@ const routes: Routes = [
   {
     path: "add-new-building-operation",
     component: AddNewBuildingOperationComponent,
-    canActivate: [AuthguardGuard],
+    canActivate: [AuthguardGuard, CompanyGuard],
   },
   //This has to be at the last path
   { path: '**', redirectTo: '', canActivate: [AuthguardGuard] },

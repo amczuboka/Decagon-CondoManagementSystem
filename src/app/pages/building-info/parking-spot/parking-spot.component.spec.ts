@@ -88,6 +88,7 @@ describe('ParkingSpotComponent', () => {
       Condos: [],
       Picture: '',
       Facilities: [],
+      Operations:[]
     };
 
     myUser = {

@@ -11,8 +11,14 @@ export interface Building {
   Condos: Condo[];
   Picture: string;
   Facilities: Facilities[];
+  Operations?: Operation[];
 }
-
+export interface Operation{
+ID:string;
+Name:string;
+Description:string;
+Cost:number;
+}
 export interface Condo {
     ID: string; 
     Type: CondoType;

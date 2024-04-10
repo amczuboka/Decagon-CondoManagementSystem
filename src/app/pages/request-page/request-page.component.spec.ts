@@ -36,6 +36,7 @@ describe('RequestPageComponent', () => {
       Condos: [],
       Picture: '',
       Facilities: [],
+      Operations:[]
     };
     myUser = {
       ID: '1',

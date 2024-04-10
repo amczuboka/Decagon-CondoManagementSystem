@@ -118,6 +118,7 @@ describe('BuildingOverviewComponent', () => {
         ],
         Picture: '',
         Facilities: [],
+        Operations:[]
       };
 
       const totalCondos = component.calculateTotalCondos(building);
@@ -207,6 +208,7 @@ describe('BuildingOverviewComponent', () => {
         ],
         Picture: '',
         Facilities: [],
+        Operations:[]
       };
 
       const availableCondos = component.calculateAvailableCondos(building);
@@ -256,6 +258,7 @@ describe('BuildingOverviewComponent', () => {
         Condos: [],
         Picture: '',
         Facilities: [],
+        Operations:[]
       };
 
       const totalParkingSpots = component.calculateTotalParkings(building);
@@ -304,6 +307,7 @@ describe('BuildingOverviewComponent', () => {
         Condos: [],
         Picture: '',
         Facilities: [],
+        Operations:[]
       };
 
       const availableParkingSpots = component.calculateAvailableParkings(building);
@@ -358,6 +362,7 @@ describe('BuildingOverviewComponent', () => {
         Condos: [],
         Picture: '',
         Facilities: [],
+        Operations:[]
       };
 
       const totalLockers = component.calculateTotalLockers(building);
@@ -412,6 +417,7 @@ describe('BuildingOverviewComponent', () => {
         Condos: [],
         Picture: '',
         Facilities: [],
+        Operations:[]
       };
 
       const availableLockers = component.calculateAvailableLockers(building);
