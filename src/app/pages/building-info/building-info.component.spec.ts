@@ -49,6 +49,7 @@ describe('BuildingInfoComponent', () => {
       Picture: '',
       Bookings: [],
       Facilities: [],
+      Operations:[]
     };
 
     await TestBed.configureTestingModule({
@@ -125,6 +126,7 @@ describe('BuildingInfoComponent', () => {
       Picture: '',
       Bookings: [],
       Facilities: [],
+      Operations:[]
     };
 
     mockActivatedRoute.queryParams = of({
@@ -239,6 +241,7 @@ describe('BuildingInfoComponent', () => {
       Picture: '',
       Bookings: [],
       Facilities: [],
+      Operations:[]
     };
     mockActivatedRoute.queryParams = of({
       building: JSON.stringify(building),
@@ -319,6 +322,7 @@ describe('BuildingInfoComponent', () => {
       Picture: '',
       Bookings: [],
       Facilities: [],
+      Operations:[]
     };
     mockActivatedRoute.queryParams = of({
       building: JSON.stringify(mockBuilding),

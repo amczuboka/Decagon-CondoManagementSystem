@@ -85,6 +85,7 @@ describe('EditCondoDialogComponent', () => {
               Condos: [],
               Picture: 'building-picture-url',
               Facilities: [],
+              Operations:[]
             } as Building,
           },
         },

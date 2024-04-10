@@ -507,6 +507,7 @@ describe('AddNewPropertyComponent', () => {
       ],
       Picture: 'image-link',
       Facilities: [Facilities.Gym, Facilities.Locker, Facilities.Parking],
+      Operations:[]
     });
     expect(notificationService.sendNotification).toHaveBeenCalledWith(
       'Property Added'

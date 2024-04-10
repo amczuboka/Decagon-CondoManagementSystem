@@ -92,7 +92,8 @@ describe('KeyRegistrationComponent', () => {
         Lockers: [], 
         Condos: [], 
         Picture: 'picture1',
-        Facilities: []
+        Facilities: [],
+        Operations:[]
       },
       { 
         ID: 'building2', 
@@ -106,7 +107,8 @@ describe('KeyRegistrationComponent', () => {
         Lockers: [], 
         Condos: [], 
         Picture: 'picture2',
-        Facilities: []
+        Facilities: [],
+        Operations:[]
       }
     ];
   
