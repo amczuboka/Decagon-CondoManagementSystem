@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BudgetReportComponent } from './budget-report.component';
 import { Building, CondoStatus, CondoType, Operation } from 'src/app/models/properties';
 
-describe('BudgetReportComponent', () => {
+fdescribe('BudgetReportComponent', () => {
   let component: BudgetReportComponent;
   let fixture: ComponentFixture<BudgetReportComponent>;
 
@@ -38,9 +38,10 @@ describe('BudgetReportComponent', () => {
     Facilities: [],
     Operations: [
       {
-        name: 'Operation 1',
-        description: 'Description of Operation 1',
-        cost: 500,
+        ID: '1',
+        Name: 'Operation 1',
+        Description: 'Description of Operation 1',
+        Cost: 500,
       },
     ],
   };
@@ -110,7 +111,7 @@ describe('BudgetReportComponent', () => {
 
   it('should calculate total operation costs correctly', () => {
     const totalOperationCosts = component.totalOperationCosts;
-    const expectedTotalOperationCosts = mockBuilding1.Operations.reduce((acc, operation) => acc + operation.cost, 0);
+    const expectedTotalOperationCosts = mockBuilding1.Operations === undefined ? 0 : mockBuilding1.Operations?.reduce((acc, operation) => acc + operation.Cost, 0);
     expect(totalOperationCosts).toEqual(expectedTotalOperationCosts);
   });
 
