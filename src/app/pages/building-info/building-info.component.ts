@@ -69,8 +69,7 @@ export class BuildingInfoComponent {
                 (parking: ParkingSpot) =>
                   parking.Status === ParkingLockerStatus.Available
               );
-            } else {
-              if (this.authority == Authority.Company) {
+            } else if (this.authority == Authority.Company) {
                 this.condos = updatedBuilding.Condos;
 
                 this.lockers = updatedBuilding.Lockers;
@@ -93,7 +92,6 @@ export class BuildingInfoComponent {
                     parking.OccupantID === this.myUser.uid
                 );
               }
-            }
           }
         },
       });

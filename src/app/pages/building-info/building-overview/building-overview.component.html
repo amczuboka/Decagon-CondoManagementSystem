@@ -6,7 +6,7 @@
         <div class="top-tab-content" id="building-title-pic">
             <h2>{{ building.Name }}</h2>
             <p>{{ building.Address }}</p> 
-            <img [src]="building.Picture" alt="building image not found" style="height:500px;"/>
+            <img [src]="building.Picture" alt="building not found" style="height:500px;"/>
             
         </div>
         
@@ -81,7 +81,7 @@
                     <div class="company-info" *ngIf="company.ProfilePicture">
                         <!--Column 1-->
                         <div class="company-info-col">
-                            <img [src]="company.ProfilePicture" height="200" width="200" alt="Company did not provide image">
+                            <img [src]="company.ProfilePicture" height="200" width="200" alt="Company did not provide profile">
                         </div>
                         <!--Column 2-->
                         <div class="company-info-col">
