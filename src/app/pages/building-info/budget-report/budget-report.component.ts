@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { BudgetReport, Building, Condo, CondoStatus } from 'src/app/models/properties';
+import { Component, OnInit } from '@angular/core';
+import { BudgetReport, Building, CondoStatus } from 'src/app/models/properties';
 import { BuildingService } from 'src/app/services/building.service';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -37,8 +37,7 @@ export class BudgetReportComponent implements OnInit {
   }
 
   generateBudgetReport() {
-    for (let i = 0; i < this.buildings.length; i++) {
-      const building = this.buildings[i];
+    for (let building of this.buildings) {
       const condoFeeRevenue = this.calculateCondoFeeRevenue(building);
       const operationCosts = this.calculateOperationCosts(building);
       const profit = condoFeeRevenue - operationCosts;

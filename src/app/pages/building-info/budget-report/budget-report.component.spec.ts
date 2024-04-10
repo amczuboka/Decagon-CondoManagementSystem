@@ -79,8 +79,6 @@ describe('BudgetReportComponent', () => {
     ],
   };
 
-  let authService: jasmine.SpyObj<AuthService>; // changed from mockAuthService to authService
-  let buildingService: jasmine.SpyObj<BuildingService>; // add BuildingService
   beforeEach(async () => {
     const authServiceSpy = jasmine.createSpyObj('AuthService', ['getUser']); // create spy object for AuthService
     authServiceSpy.getUser.and.returnValue({ uid: 'company1' }); // mock user data

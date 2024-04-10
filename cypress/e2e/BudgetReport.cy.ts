@@ -1,4 +1,4 @@
-import { addCondo, addLocker, addParking, login } from './utils.cy';
+import { login } from './utils.cy';
 describe('Budget Report Component', () => {
     beforeEach(() => {
         login('ravak45466@gexige.com', '123456');
