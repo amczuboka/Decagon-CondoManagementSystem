@@ -7,6 +7,7 @@ import {
   Authority,
   Notification,
   NotificationType,
+  RequestStatus,
 } from 'src/app/models/users';
 import { NotificationService } from 'src/app/services/notification.service';
 
@@ -39,10 +40,11 @@ export class CondoComponent {
       SenderId: this.myUser.ID,
       SenderName: `${this.myUser.FirstName} ${this.myUser.LastName}`,
       Type: NotificationType.OwnershipRequest,
+      Status: RequestStatus.Pending,
     };
-    await this.userService.sendNotificationToUser(
+    await this.userService.sendNotificationToEmployeeOfCompany(
       this.building.CompanyID,
-      Authority.Company,
+      this.building.ID,
       notification
     );
     this.notificationService.sendNotification(
@@ -59,10 +61,11 @@ export class CondoComponent {
       SenderId: this.myUser.ID,
       SenderName: `${this.myUser.FirstName} ${this.myUser.LastName}`,
       Type: NotificationType.RentRequest,
+      Status: RequestStatus.Pending,
     };
-    await this.userService.sendNotificationToUser(
+    await this.userService.sendNotificationToEmployeeOfCompany(
       this.building.CompanyID,
-      Authority.Company,
+      this.building.ID,
       notification
     );
     this.notificationService.sendNotification(

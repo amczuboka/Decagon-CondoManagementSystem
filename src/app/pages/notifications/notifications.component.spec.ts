@@ -6,6 +6,7 @@ import {
   EmployeeDTO,
   Notification,
   NotificationType,
+  RequestStatus,
   Role,
 } from 'src/app/models/users';
 import { MatDialog } from '@angular/material/dialog';
@@ -223,6 +224,7 @@ describe('NotificationsComponent', () => {
       'sendNotificationToUser'
     ).and.returnValue(Promise.resolve());
     const markAsReadSpy = spyOn(component, 'markAsRead');
+    const editUserSpy = spyOn(component.userService, 'editUser');
     const notificationServiceSpy = spyOn(
       component.notificationService,
       'sendNotification'
@@ -238,8 +240,63 @@ describe('NotificationsComponent', () => {
     );
 
     expect(markAsReadSpy).toHaveBeenCalledWith(notification);
+    expect(editUserSpy).toHaveBeenCalledWith(
+      component.myUser.ID,
+      component.myUser
+    );
     expect(notificationServiceSpy).toHaveBeenCalledWith(
       'Request accepted. Registration key sent to test'
+    );
+  });
+
+  it('should update notification status and send notification to user', async () => {
+    const notification: Notification = {
+      Message: 'test',
+      New: true,
+      Date: new Date().getTime(),
+      SenderId: '1',
+      SenderName: 'test',
+      Type: NotificationType.GeneralMessage,
+      Status: RequestStatus.Approved,
+    };
+    component.myUser = {
+      Notifications: [notification],
+      ID: '2',
+      CompanyName: 'Company',
+    };
+    spyOn(component.userService, 'editUser');
+    spyOn(component.userService, 'sendNotificationToUser').and.returnValue(
+      Promise.resolve()
+    );
+
+    await component.sendNotificationUpdatingStatus(notification);
+
+    expect(component.myUser.Notifications).toEqual([
+      {
+        Message: 'test',
+        New: true,
+        Date: notification.Date,
+        SenderId: '1',
+        SenderName: 'test',
+        Type: NotificationType.GeneralMessage,
+        Status: 'Approved',
+      },
+    ]);
+    expect(component.userService.editUser).toHaveBeenCalledWith(
+      component.myUser.ID,
+      component.myUser
+    );
+    expect(component.userService.sendNotificationToUser).toHaveBeenCalledWith(
+      notification.SenderId,
+      Authority.Public,
+      {
+        Message: 'Request status updated to "Approved" for request: test',
+        New: true,
+        Date: jasmine.any(Number),
+        SenderId: component.myUser.ID,
+        SenderName: component.myUser.CompanyName,
+        Type: NotificationType.GeneralMessage,
+      }
     );
   });
 });
