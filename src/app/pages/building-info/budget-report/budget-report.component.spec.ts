@@ -6,7 +6,7 @@ import { Building, CondoStatus, CondoType } from 'src/app/models/properties';
 import { AuthService } from 'src/app/services/auth.service';
 import { BuildingService } from 'src/app/services/building.service';
 
-fdescribe('BudgetReportComponent', () => {
+describe('BudgetReportComponent', () => {
   let component: BudgetReportComponent;
   let fixture: ComponentFixture<BudgetReportComponent>;
 
