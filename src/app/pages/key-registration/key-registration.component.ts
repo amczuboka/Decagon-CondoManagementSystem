@@ -1,5 +1,14 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { Condo } from 'src/app/models/properties';
+
+import { DatabaseReference,
+  equalTo,
+  get,
+  getDatabase,
+  orderByChild,
+  query,
+  ref,
+  onValue,} from 'firebase/database';
 import { AuthService } from 'src/app/services/auth.service';
 import { CompanyDTO, UserDTO } from 'src/app/models/users';
 import { UserService } from 'src/app/services/user.service';
@@ -61,7 +70,9 @@ async registerForItem(itemId: string, currentUserId: string, itemType: 'Condos' 
     for (const item of building[itemType]) {
       if (item.ID === itemId) {
         item.OccupantID = currentUserId;
+        
         await this.buildingService.updateItem(building.ID, itemType, item.ID, currentUserId);
+        alert('Successfully registered!');
         return;
       }
     }
