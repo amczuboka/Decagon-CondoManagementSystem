@@ -179,7 +179,7 @@ describe('HeaderComponent', () => {
     expect(component.smalllinks).toEqual(component.links);
   });
 
-  fit('should update myObject for large screens', () => {
+  it('should update myObject for large screens', () => {
     // Arrange
     const windowWidth = 800;
 
