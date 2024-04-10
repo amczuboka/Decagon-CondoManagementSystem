@@ -100,8 +100,9 @@ export class HeaderComponent {
       console.log('small screen');
     } else {
       // Update myObject for large screens
-      this.biglinks = this.biglinks.filter((slot) => slot.label !== 'Profile');
-      this.biglinks = this.biglinks.filter((slot) => slot.label !== 'Log Out');
+      this.biglinks = this.biglinks.filter(
+        (slot) => slot.label !== 'Profile' && slot.label !== 'Log Out'
+      );
       this.smalllinks = this.smalllinks.filter(
         (slot) => slot.label == 'Profile' || slot.label == 'Log Out'
       );

@@ -20,14 +20,13 @@ mat-toolbar {
   }
 }
 
-
 .Menu-dropdown {
   display: none;
 }
 .otherLinks {
   margin-left: auto;
   display: flex;
-  flex-flow:row wrap ;
+  flex-flow: row wrap;
   justify-content: space-between;
   margin-right: 35px;
 }
@@ -57,7 +56,6 @@ mat-toolbar {
   justify-content: center;
 }
 
-
 .navbar-brand {
   // TODO: Replace current logo with Decagon logo
   background-image: url("../../../assets/imgs/logo/decagon.png");
@@ -70,45 +68,11 @@ mat-toolbar {
   color: black;
 }
 
-#bigMenu{
+#bigMenu {
   background-color: red;
-    // Display the children with the IDs 
-  #log-out,  #profile {
+  // Display the children with the IDs
+  #log-out,
+  #profile {
     display: none;
   }
 }
-
-@media (max-width: 885px) {
-  .Menu-dropdown {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 50px;
-    mat-icon {
-      font-size: 24px;
-    }
-  }
-
-  mat-toolbar {
-    display: flex;
-    align-items: center;
-    flex-flow: column nowrap;
-    height: fit-content;
-    padding: 15px;
-  }
-  .Menu {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-  }
- 
-
-  .somet {
-    a {
-      text-align: center;
-      width: 100%;
-    }
-  }
-}
-
-
