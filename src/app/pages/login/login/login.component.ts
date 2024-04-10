@@ -80,7 +80,6 @@ export class LoginComponent {
       } else {
         this.userService.updateUser(myUser);
         this.router.navigate(['']);
-        // window.open('', '_self');
       }
     }
     this.loading = false;

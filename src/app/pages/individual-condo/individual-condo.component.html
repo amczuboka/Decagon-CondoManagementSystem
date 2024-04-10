@@ -53,11 +53,14 @@
     </div>
   </div>
 
-  <!-- Property Images -->
-  <div class="property-images">
-    <img src="{{ condo?.Picture }}" alt="Main Image of Condo" />
-    <!-- Additional images can be added here -->
-  </div>
+    <!-- Property Images -->
+    <div class="property-images">
+      <img
+        src="{{condo?.Picture}}"
+        alt="Condo"
+      />
+      <!-- Additional images can be added here -->
+    </div>
 
   <!-- Property Details Section -->
   <ng-container *ngIf="condo && building">

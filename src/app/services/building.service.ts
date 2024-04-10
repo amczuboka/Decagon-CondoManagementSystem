@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
-import { Building, Condo, ParkingSpot } from '../models/properties';
 import { equalTo, get, getDatabase, onValue, orderByChild, query, ref, set, update } from 'firebase/database';
 import { AuthService } from './auth.service';
 import { CompanyDTO } from '../models/users';
 import { UserService } from './user.service';
 import {
+  Building,
+  Condo,
   ParkingLockerStatus,
   CondoStatus,
   CondoType,
