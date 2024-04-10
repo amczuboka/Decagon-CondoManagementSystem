@@ -1,20 +1,20 @@
-import {
-  login
-} from './utils.cy'
+import { login } from './utils.cy';
 
 describe('Test My Employees Page', () => {
   let employees = [] as any;
 
   before(() => {
-    login('ravak45466@gexige.com','123456');
+    login('ravak45466@gexige.com', '123456');
     cy.window().then(async (win) => {
-      employees = await (win as any).userService.getEmployeesOfCompany('Guy Real Estate');
+      employees = await (win as any).userService.getEmployeesOfCompany(
+        'Guy Real Estate'
+      );
       console.log(employees);
     });
   });
 
   after(() => {
-    login('ravak45466@gexige.com','123456');
+    login('ravak45466@gexige.com', '123456');
     cy.window().then(async (win) => {
       employees.forEach(async (employee: any) => {
         await (win as any).userService.updateEmployee(employee);
@@ -25,7 +25,7 @@ describe('Test My Employees Page', () => {
   });
 
   it('Verify employee data', () => {
-    login('ravak45466@gexige.com','123456');
+    login('ravak45466@gexige.com', '123456');
     cy.url().should('eq', 'http://localhost:4200/');
     // Change when a button to navigate to the My Employees page is added
     cy.visit('/my-employees');
@@ -35,39 +35,81 @@ describe('Test My Employees Page', () => {
     cy.get('mat-select').should('exist');
 
     // Assert 3 Employees can be seen
-    cy.get('table').get('tbody').find('tr').should('have.length', employees.length);
+    cy.get('table')
+      .get('tbody')
+      .find('tr')
+      .should('have.length', employees.length);
 
     // Assert the employee names first
-    cy.get('table').get('tbody').find('tr').eq(0).find('td').eq(0).should('contain', 'Tommy Smith');
-    cy.get('table').get('tbody').find('tr').eq(1).find('td').eq(0).should('contain', 'Tommy Angelo');
-    cy.get('table').get('tbody').find('tr').eq(2).find('td').eq(0).should('contain', 'Fernando Martinez');
-    cy.get('table').get('tbody').find('tr').eq(3).find('td').eq(0).should('contain', 'Rick Ross');
-    
-
+    cy.get('table')
+      .get('tbody')
+      .find('tr')
+      .eq(0)
+      .find('td')
+      .eq(0)
+      .should('contain', 'Tommy Smith');
+    cy.get('table')
+      .get('tbody')
+      .find('tr')
+      .eq(1)
+      .find('td')
+      .eq(0)
+      .should('contain', 'Tommy Angelo');
+    cy.get('table')
+      .get('tbody')
+      .find('tr')
+      .eq(2)
+      .find('td')
+      .eq(0)
+      .should('contain', 'Fernando Martinez');
+    cy.get('table')
+      .get('tbody')
+      .find('tr')
+      .eq(3)
+      .find('td')
+      .eq(0)
+      .should('contain', 'Rick Ross');
 
     // Change the role of the first employee
-    cy.get('table').get('tbody').find('tr').eq(1).find('td').eq(3).find('mat-select').click();
+    cy.get('table')
+      .get('tbody')
+      .find('tr')
+      .eq(1)
+      .find('td')
+      .eq(3)
+      .find('mat-select')
+      .click();
     cy.get('mat-option').eq(3).click();
 
     // Change properties of the first employee
-    cy.get('table').get('tbody').find('tr').eq(1).find('td').eq(2).find('mat-select').click();
-    cy.wait(1000)
+    cy.get('table')
+      .get('tbody')
+      .find('tr')
+      .eq(1)
+      .find('td')
+      .eq(2)
+      .find('mat-select')
+      .click();
+    cy.wait(1000);
     cy.get('mat-option').eq(1).click();
-    cy.get('button').contains('Update').click({ force : true });
+    cy.get('button').contains('Update').click({ force: true });
     cy.wait(1000);
     cy.reload();
     cy.wait(3000);
     // Assert the changes
-    cy.get('table').get('tbody').find('tr').eq(1).find('td').eq(3).should('contain', 'Maintenance');
-    cy.get('table').get('tbody').find('tr').eq(1).find('td').eq(2).should('contain', 'Espace Montmorency');
- 
-
-    //TODO: If you delete an employee you have to put them back in the database
-    // cy.get('table').get('tbody').find('tr').eq(2).find('#mat-mdc-checkbox-5-input').click({force: true});
-    // cy.wait(1000);
-    // cy.get('button').contains('Delete Selected').click({force: true});
-
-    // cy.wait(1000);
-  })
-  
-})
+    cy.get('table')
+      .get('tbody')
+      .find('tr')
+      .eq(1)
+      .find('td')
+      .eq(3)
+      .should('contain', 'Maintenance');
+    cy.get('table')
+      .get('tbody')
+      .find('tr')
+      .eq(1)
+      .find('td')
+      .eq(2)
+      .should('contain', 'Espace Montmorency');
+  });
+});

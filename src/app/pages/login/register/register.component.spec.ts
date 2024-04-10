@@ -3,13 +3,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './register.component';
 import { AppModule } from 'src/app/app.module';
 import { Authority } from 'src/app/models/users';
-import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
-  let authService: AuthService;
   let userService: UserService;
 
   beforeEach(async () => {
@@ -23,7 +21,6 @@ describe('RegisterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterComponent);
     component = fixture.componentInstance;
-    authService = TestBed.inject(AuthService);
     userService = TestBed.inject(UserService);
     fixture.detectChanges();
   });

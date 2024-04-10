@@ -6,7 +6,7 @@
         <div class="top-tab-content" id="building-title-pic">
             <h2>{{ building.Name }}</h2>
             <p>{{ building.Address }}</p> 
-            <img [src]="building.Picture" alt="building image not found" style="height:500px;"/>
+            <img [src]="building.Picture" alt="building not found" style="height:500px;"/>
             
         </div>
         
@@ -70,9 +70,8 @@
                     
                 </div>
             </div>
-
             <div id="company-info">
-                  <!--Company Information-->
+                <!--Company Information-->
                 <div class="heading-content" *ngIf="company">
                     <h2>Company Information</h2>
                     <mat-divider></mat-divider>
@@ -90,16 +89,6 @@
                                 <p *ngIf="company.Email">Email: {{ company.Email }}</p>
                                 <p *ngIf="company.PhoneNumber">Phone: {{ company.PhoneNumber }}</p>
                             </div>
-    
-                        </div>
-    
-                        <!--Display Information in one column when Company does not have Profile Picture-->
-                        <div class="company-info-no-pic" *ngIf="!company.ProfilePicture">
-                            <h1>{{ company.CompanyName }}</h1>
-                            <p *ngIf="company.Email">Email: {{ company.Email }}</p>
-                            <p *ngIf="company.PhoneNumber">Phone: {{ company.PhoneNumber }}</p>
-                        </div>
-                        
                     </div>
                 </div>
             </div>
