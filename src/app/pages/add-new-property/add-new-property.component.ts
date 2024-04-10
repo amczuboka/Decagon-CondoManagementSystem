@@ -23,7 +23,6 @@ import {
 import { MyErrorStateMatcher } from 'src/app/services/auth.service';
 import { BuildingService } from 'src/app/services/building.service';
 import { StorageService } from 'src/app/services/storage.service';
-import { timeout } from 'rxjs';
 
 /**
  * Component for adding a new property.

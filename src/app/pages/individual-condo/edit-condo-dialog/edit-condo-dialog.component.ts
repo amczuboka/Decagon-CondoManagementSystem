@@ -62,16 +62,14 @@ export class EditCondoDialogComponent {
           console.error('Error uploading file:', error);
           // Handle error, optionally show a message to the user
         });
-    } else {
       // Update condo in the database
-      if (this.data.building && this.data.condo) {
-        // Use data object to access building and condo properties
-        this.updateCondoInDatabase(
-          this.data.building.ID,
-          this.data.condo.ID,
-          this.editCondo
-        );
-      }
+    } else if (this.data.building && this.data.condo) {
+      // Use data object to access building and condo properties
+      this.updateCondoInDatabase(
+        this.data.building.ID,
+        this.data.condo.ID,
+        this.editCondo
+      );
     }
   }
 
@@ -96,7 +94,7 @@ export class EditCondoDialogComponent {
     console.log('Existing condo:', building?.Condos[condoIndex]);
 
     // Update the condo with the new data
-    if (building && building.Condos) {
+    if (building?.Condos) {
       building.Condos[condoIndex] = {
         ...building.Condos[condoIndex],
         ...condo,

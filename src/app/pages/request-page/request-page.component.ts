@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Building } from 'src/app/models/properties';
 import {
   Authority,
@@ -20,7 +20,6 @@ export class RequestPageComponent {
   @Input() building!: Building;
   @Input() sourcePage!: string;
   requestForm!: FormGroup;
-  //   requestTypes = ['Move In / Move Out', 'Intercome Changes', 'Report Violation / Deficiency', 'Request Access', 'General Questions'];
   requestTypes: string[] = Object.values(NotificationType);
 
   myUser!: any;
