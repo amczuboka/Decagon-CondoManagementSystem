@@ -371,6 +371,11 @@ export class BuildingService {
       const buildingRef = ref(db, `buildings/${buildingId}`);
       const buildingSnapshot = await get(buildingRef);
 
+      operation.ID= await this.storageService.IDgenerator(
+        '/buildings/' + buildingId + '/operations/',
+        db
+      );
+      
       if (buildingSnapshot.exists()) {
         const building = buildingSnapshot.val() as Building;
 

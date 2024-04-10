@@ -430,9 +430,10 @@ describe('BuildingService', () => {
 
     // Define a new operation
     const operation: Operation = {
-      name: 'Operation Name',
-      description: 'Operation Description',
-      cost: 100,
+      ID:"ID",
+      Name: 'Operation Name',
+      Description: 'Operation Description',
+      Cost: 100,
     };
 
     // Act: Add the operation to the building
