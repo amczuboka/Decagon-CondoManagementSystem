@@ -54,6 +54,7 @@ export interface Notification {
   SenderId: string;
   SenderName: string;
   Type: NotificationType;
+  Status?: RequestStatus;
 }
 
 export enum NotificationType {
@@ -64,6 +65,14 @@ export enum NotificationType {
   CleaningRequest = 'CleaningRequest',
   SecurityRequest = 'SecurityRequest',
   FinancialRequest = 'FinancialRequest',
+}
+
+export enum RequestStatus {
+  Pending = 'Pending',
+  Processing = 'Processing',
+  Approved = 'Approved',
+  Denied = 'Denied',
+  Closed = 'Closed',
 }
 
 export enum Authority {

@@ -4,6 +4,7 @@ import {
   Authority,
   Notification,
   NotificationType,
+  RequestStatus,
   UserDTO,
 } from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
@@ -87,10 +88,11 @@ export class ParkingSpotComponent {
       SenderId: this.myUser.ID,
       SenderName: `${this.myUser.FirstName} ${this.myUser.LastName}`,
       Type: NotificationType.RentRequest,
+      Status: RequestStatus.Pending,
     };
-    await this.userService.sendNotificationToUser(
+    await this.userService.sendNotificationToEmployeeOfCompany(
       this.building.CompanyID,
-      Authority.Company,
+      this.building.ID,
       notification
     );
     this.notificationService.sendNotification(
