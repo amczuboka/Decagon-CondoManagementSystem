@@ -75,7 +75,7 @@ export class BudgetReportComponent implements OnInit {
     let operationCosts = 0;
     if (building.Operations){
       for (const operation of building.Operations){
-        operationCosts += operation.cost;
+        operationCosts += isNaN(operation.Cost) ? 0 : operation.Cost;
       }
     }
     return operationCosts;
