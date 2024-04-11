@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CalendarEvent, CalendarView } from 'angular-calendar';
-import { Booking, Facilities, TimeSlots } from 'src/app/models/properties';
+import { Booking, Building } from 'src/app/models/properties';
 import { colors } from 'src/app/services/schedule.service';
 import { isSameDay, isSameMonth } from 'date-fns';
+import { BuildingService } from 'src/app/services/building.service';
 
 
 @Component({
@@ -18,49 +19,21 @@ export class ScheduleComponent {
   activeDayIsOpen = false;
   dayStartHour = 9;
   dayEndHour = 17;
-  // This is a mock code for the schedule component
-  today = new Date();
-  tomorrow = new Date();
-  dayAfterTomorrow = new Date();
-  bookings: Booking[] = [];
-  //end of mock code
-  constructor() {
-    // This is a mock code for the schedule component
-    this.today.setHours(10, 0, 0, 0);
-    this.tomorrow.setDate(this.tomorrow.getDate() + 1);
-    this.tomorrow.setHours(12, 0, 0, 0);
-    this.dayAfterTomorrow.setDate(this.dayAfterTomorrow.getDate() + 2);
-    this.dayAfterTomorrow.setHours(16, 0, 0, 0);
+  @Input() building!: Building;
 
-    let hour1 = this.today.valueOf();
-    let hour2 = this.tomorrow.valueOf();
-    let hour3 = this.dayAfterTomorrow.valueOf();
-
-    this.bookings.push(
-      {
-        ID: '1',
-        OccupantID: 'string;',
-        Facility: Facilities.Gym,
-        Date: hour1,
-      },
-      {
-        ID: '2',
-        OccupantID: 'string;',
-        Facility: Facilities.MeetingRoom,
-        Date: hour2,
-      },
-      { ID: '3', 
-        OccupantID: 
-        'string;', 
-        Facility: Facilities.Spa, 
-        Date: hour3,
-      }
-    );
-    //end of mock code
-    this.setEvents(this.bookings);
+  constructor(private buildingService: BuildingService) {
   }
 
-  ngOnInit(): void {}
+  async ngOnInit() {
+    // Subscribe to the building with the building.ID for real time updates
+    this.buildingService.subscribeToBuildingById(this.building.ID).subscribe({
+      next: (updatedBuilding: any) => {
+        if (updatedBuilding) {
+          this.setEvents(updatedBuilding.Bookings);
+        }
+      },
+    });
+  }
 
   setView(view: CalendarView) {
     this.view = view;
@@ -92,3 +65,5 @@ export class ScheduleComponent {
     }
   }
 }
+
+

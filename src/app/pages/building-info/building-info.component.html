@@ -71,7 +71,7 @@
     <!-------------------------------------------------------------------------------------------------------------------------------------------------------------->
     <mat-tab label="Schedule" *ngIf="sourcePage === 'propertiesPage' && authority === 'Company'">
 
-        <app-schedule></app-schedule>
+        <app-schedule [building]="building" ></app-schedule>
 
     </mat-tab>
 
