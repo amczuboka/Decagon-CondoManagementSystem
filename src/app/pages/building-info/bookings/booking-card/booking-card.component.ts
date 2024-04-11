@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Booking } from 'src/app/models/properties';
+import { Booking, Building } from 'src/app/models/properties';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
+import { BookingsService } from 'src/app/services/bookings.service';
 
 @Component({
   selector: 'app-booking-card',
@@ -10,11 +11,18 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./booking-card.component.scss'],
 })
 export class BookingCardComponent {
+
+  @Input() building!: Building;
+
   myUser!: any;
   userSubscription: Subscription = new Subscription();
   myBookings: Booking[] = [];
 
-  constructor(public userService: UserService, public authService: AuthService) {}
+  constructor(
+    public userService: UserService, 
+    public authService: AuthService,
+    private bookingsService: BookingsService
+  ) {}
 
   async ngOnInit() {
     this.myUser = await this.authService.getUser();
@@ -26,5 +34,13 @@ export class BookingCardComponent {
         }
       });
     }
+  }
+
+
+  deleteBooking(bookingID: string){
+    const buildingID = this.building.ID;
+    console.log(buildingID);
+    console.log(bookingID);
+    this.bookingsService.removeBooking(buildingID, bookingID);
   }
 }
