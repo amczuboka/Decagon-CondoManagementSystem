@@ -4,8 +4,8 @@
           <div>
               {{ booking.Facility }}
           </div>
-          <button mat-fab color="warn" >
-            <mat-icon (click)="deleteBooking(booking.ID)">delete</mat-icon>
+          <button mat-fab color="warn" (click)="deleteBooking(booking.ID)">
+            <mat-icon>delete</mat-icon>
           </button>
         </div>
       
