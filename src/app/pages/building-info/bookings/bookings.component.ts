@@ -121,8 +121,7 @@ export class BookingsComponent {
    * Function to update time slots
    */
   async updateTimeSlots() {
-    console.log(this.bookFacilityForm.value.date, this.facility);
-    if (this.bookFacilityForm.value.date && this.facility) {
+    if (this.date && this.facility) {
       console.log('Both date and facility have been selected');
       this.TimeSlots = [
         { value: 9, time: '9:00 am' },
@@ -155,7 +154,8 @@ export class BookingsComponent {
 
         // Compare BookdateWithoutTime and selectedDateWithoutTime
         if (
-          BookdateWithoutTime.getTime() === selectedDateWithoutTime.getTime()
+          BookdateWithoutTime.getTime() === selectedDateWithoutTime.getTime() &&
+          booking.Facility === this.facility
         ) {
           // The dates are the same (not considering time)
           this.TimeSlots = this.TimeSlots.filter(
