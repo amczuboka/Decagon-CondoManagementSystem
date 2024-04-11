@@ -1,15 +1,17 @@
-<div class="card">
-    <div class="card-header">
-        <div>
-            Spa
+<ng-container *ngFor="let booking of myBookings">
+  <div class="card">
+      <div class="card-header">
+          <div>
+              {{ booking.Facility }}
+          </div>
+          <button mat-fab color="warn" >
+            <mat-icon>delete</mat-icon>
+          </button>
         </div>
-        <button mat-fab color="warn" >
-          <mat-icon>delete</mat-icon>
-        </button>
+      
+      <div class="card-body">
+          <p class="card-text"><strong>Date:</strong> {{ booking.Date | date : 'MMMM EEEE d'}}</p>
+          <p class="card-text"><strong>Time:</strong> {{ booking.Date | date : 'h:mm a'}} </p>
       </div>
-    
-    <div class="card-body">
-        <p class="card-text"><strong>Date:</strong> May 7, 2024</p>
-        <p class="card-text"><strong>Time:</strong> 9:00am</p>
-    </div>
-</div>
+  </div>
+</ng-container>
