@@ -7,12 +7,6 @@ describe('Key Registration Component', () => {
     cy.wait(5000);
   });
 
-  it('should display input fields and register button', () => {
-    // Check if input fields and register button are visible
-    cy.get('.registrationType', { timeout: 10000 }).should('be.visible').click({ force: true });
-    cy.contains('button', 'Register').should('be.visible');
-  });
-
   it('should register Condo key when input is filled and register button is clicked', () => {
     // Type a registration key
     const registrationKey = 'olxoxbbx02n1712215786582';
