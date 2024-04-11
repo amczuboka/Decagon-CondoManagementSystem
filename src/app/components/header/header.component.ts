@@ -76,12 +76,12 @@ export class HeaderComponent {
       },
       {
         label: 'Add New Property',
-        path: 'add-property',
+        path: 'add-new-property',
         authority: linkAuthority.Company,
       },
       {
         label: 'Add New Operation',
-        path: 'add-operation',
+        path: 'add-new-building-operation',
         authority: linkAuthority.Company,
       },
       {
@@ -97,7 +97,6 @@ export class HeaderComponent {
       // Update myObject for small screens
       this.biglinks = [];
 
-      console.log('small screen');
     } else {
       // Update myObject for large screens
       this.biglinks = this.biglinks.filter(
@@ -106,12 +105,8 @@ export class HeaderComponent {
       this.smalllinks = this.smalllinks.filter(
         (slot) => slot.label == 'Profile' || slot.label == 'Log Out'
       );
-      console.log('large screen');
     }
 
-    console.log('windowWidth', windowWidth);
-    console.log('biglinks', this.biglinks);
-    console.log('smalllinks', this.smalllinks);
   }
 
   /**
