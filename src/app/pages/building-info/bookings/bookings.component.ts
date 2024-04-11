@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { BookingsService } from 'src/app/services/bookings.service';
 import { BuildingService } from 'src/app/services/building.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-bookings',
@@ -32,7 +33,7 @@ export class BookingsComponent {
   buildingID!: string;
 
   buildingFacilities!: Facilities[];
-  bookable!: Facilities[];
+  bookable: Facilities[] = [];
 
   minDate = new Date();
   currentYear = this.minDate.getUTCFullYear();
@@ -46,7 +47,8 @@ export class BookingsComponent {
     private authService: AuthService,
     private bookingsService: BookingsService,
     private notificationService: NotificationService,
-    private buildingService: BuildingService
+    private buildingService: BuildingService,
+    private userService: UserService
   ) {
     this.TimeSlots = [
       { value: 9, time: '9:00 am' },
@@ -86,9 +88,11 @@ export class BookingsComponent {
     this.bookFacilityForm
       .get('date')!
       .valueChanges.subscribe((selectedDate) => {
-        const dateAsNum = selectedDate.getTime();
-        this.date = dateAsNum;
-        this.updateTimeSlots();
+        if (selectedDate){
+          const dateAsNum = selectedDate.getTime();
+          this.date = dateAsNum;
+          this.updateTimeSlots();
+        }
       });
   }
 
@@ -110,7 +114,6 @@ export class BookingsComponent {
     return bookable;
   }
 
-
   /**
    * Function to update time slots
    */
@@ -127,42 +130,42 @@ export class BookingsComponent {
         { value: 15, time: '3:00 pm' },
         { value: 16, time: '4:00 pm' },
       ];
-      try{
-          (
-        await this.buildingService.getBuilding(this.building.ID)
-      ).Bookings.forEach((booking) => {
-        console.log(booking);
-        let Bookdate = new Date(booking.Date);
-        let selectedDate = new Date(this.date);
+      try {
+        (
+          await this.buildingService.getBuilding(this.building.ID)
+        ).Bookings.forEach((booking) => {
+          console.log(booking);
+          let Bookdate = new Date(booking.Date);
+          let selectedDate = new Date(this.date);
 
-        // Create new Date objects for Bookdate and selectedDate that have the same time
-        let BookdateWithoutTime = new Date(
-          Bookdate.getFullYear(),
-          Bookdate.getMonth(),
-          Bookdate.getDate()
-        );
-        let selectedDateWithoutTime = new Date(
-          selectedDate.getFullYear(),
-          selectedDate.getMonth(),
-          selectedDate.getDate()
-        );
-
-        // Compare BookdateWithoutTime and selectedDateWithoutTime
-        if (
-          BookdateWithoutTime.getTime() === selectedDateWithoutTime.getTime() &&
-          booking.Facility === this.facility
-        ) {
-          // The dates are the same (not considering time)
-          this.TimeSlots = this.TimeSlots.filter(
-            (slot) => slot.value !== Bookdate.getHours()
+          // Create new Date objects for Bookdate and selectedDate that have the same time
+          let BookdateWithoutTime = new Date(
+            Bookdate.getFullYear(),
+            Bookdate.getMonth(),
+            Bookdate.getDate()
           );
-        }
-        console.log(this.TimeSlots);
-      });
-      }catch(error){
+          let selectedDateWithoutTime = new Date(
+            selectedDate.getFullYear(),
+            selectedDate.getMonth(),
+            selectedDate.getDate()
+          );
+
+          // Compare BookdateWithoutTime and selectedDateWithoutTime
+          if (
+            BookdateWithoutTime.getTime() ===
+              selectedDateWithoutTime.getTime() &&
+            booking.Facility === this.facility
+          ) {
+            // The dates are the same (not considering time)
+            this.TimeSlots = this.TimeSlots.filter(
+              (slot) => slot.value !== Bookdate.getHours()
+            );
+          }
+          console.log(this.TimeSlots);
+        });
+      } catch (error) {
         console.log('Error getting building', error);
-      } 
-    
+      }
     } else {
       console.log('Not both have been selected');
       //do nothing
@@ -202,11 +205,13 @@ export class BookingsComponent {
     console.log(formData);
 
     //Creating new booking
-    await this.bookingsService.addNewBooking(this.buildingID, booking).then(() => {
-      this.notificationService.sendNotification(
-        'Booking successfully created!'
-      );
-    });
+    await this.bookingsService
+      .addNewBooking(this.buildingID, booking)
+      .then(() => {
+        this.notificationService.sendNotification(
+          'Booking successfully created!'
+        );
+      });
 
     this.bookFacilityForm.reset();
     Object.values(this.bookFacilityForm.controls).forEach((control) => {

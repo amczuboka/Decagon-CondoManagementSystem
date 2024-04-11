@@ -1,42 +1,39 @@
 import { Component } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
-import { Booking, Building } from 'src/app/models/properties';
-import { UserDTO } from 'src/app/models/users';
+import { Subscription } from 'rxjs';
+import { Booking } from 'src/app/models/properties';
 import { AuthService } from 'src/app/services/auth.service';
-import { BuildingService } from 'src/app/services/building.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-booking-card',
   templateUrl: './booking-card.component.html',
-  styleUrls: ['./booking-card.component.scss']
+  styleUrls: ['./booking-card.component.scss'],
 })
 export class BookingCardComponent {
-  user!: UserDTO;
+  myUser!: any;
   userSubscription: Subscription = new Subscription();
-  buildingObj!: Building;
-  myBookings!: Booking[] | undefined;
+  myBookings: Booking[] = [];
 
-  constructor(
-    private buildingService: BuildingService,
-    private authService: AuthService,
-    public userService: UserService
-  ) {}
+  constructor(public userService: UserService, public authService: AuthService) {}
 
-  async ngOnInit(){
-  
-    this.userSubscription = this.userService.myUser.subscribe((user) =>{
-      this.user = user;
-      this.myBookings = user?.Bookings;
-    });
-    // //Getting user
-    // const currentUser = this.authService.getUser(); // Get the current authenticated user
-    // const user = await this.userService.getPublicUser(currentUser.uid);
-    
-
+  async ngOnInit() {
+    this.myUser = await this.authService.getUser();
+    if (this.myUser) {
+      this.userService.subscribeToPublicUser(this.myUser.uid, (user) => {
+        this.myUser = user;
+        if (this.myUser) {
+          if (this.myUser.Bookings) this.myBookings = this.myUser.Bookings;
+        }
+      });
+    }
+    // this.userSubscription = this.userService.myUser.subscribe((user) => {
+    //   console.log('user: ', user);
+    //   this.myUser = user;
+    //   console.log('myUser: ', this.myUser);
+    //   if (this.myUser) {
+    //     if(this.myUser.Bookings)
+    //       this.myBookings = this.myUser.Bookings;
+    //   }
+    // });
   }
-
-
-  
-
 }
