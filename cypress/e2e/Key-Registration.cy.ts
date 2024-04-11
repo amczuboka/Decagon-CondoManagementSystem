@@ -6,6 +6,11 @@ describe('Key Registration Component', () => {
     cy.visit('/key-registration');
     cy.wait(5000);
   });
+  
+
+  it('should display visit the page', () => {
+    cy.visit('/key-registration');
+  });
 
   it('should register Condo key when input is filled and register button is clicked', () => {
     // Type a registration key
@@ -15,16 +20,18 @@ describe('Key Registration Component', () => {
       .should('have.value', registrationKey);
 
     // Wait for registration type dropdown to be visible and then select a registration type
-    cy.get('.registrationType', { timeout: 10000 }).should('be.visible').click({ force: true });
+    cy.get('.registrationType', { timeout: 10000 })
+      .should('be.visible')
+      .click({ force: true });
     cy.contains('.condo', 'Condo').click({ force: true }); // Select the desired registration type
 
     // Click the register button
     cy.contains('button', 'Register').click({ force: true });
 
     cy.on('window:alert', (str) => {
-        expect(str).to.equal('Successfully registered!'); // Assert the alert message
-      });
-  });      
+      expect(str).to.equal('Successfully registered!'); // Assert the alert message
+    });
+  });
 
   it('should register Parking key when input is filled and register button is clicked', () => {
     // Type a registration key
@@ -34,15 +41,17 @@ describe('Key Registration Component', () => {
       .should('have.value', registrationKey);
 
     // Wait for registration type dropdown to be visible and then select a registration type
-    cy.get('.registrationType', { timeout: 10000 }).should('be.visible').click({ force: true });
+    cy.get('.registrationType', { timeout: 10000 })
+      .should('be.visible')
+      .click({ force: true });
     cy.contains('.parking', 'Parking').click({ force: true }); // Select the desired registration type
 
     // Click the register button
     cy.contains('button', 'Register').click({ force: true });
 
     cy.on('window:alert', (str) => {
-        expect(str).to.equal('Successfully registered!'); // Assert the alert message
-      });
+      expect(str).to.equal('Successfully registered!'); // Assert the alert message
+    });
   });
 
   it('should register Locker key when input is filled and register button is clicked', () => {
@@ -53,15 +62,17 @@ describe('Key Registration Component', () => {
       .should('have.value', registrationKey);
 
     // Wait for registration type dropdown to be visible and then select a registration type
-    cy.get('.registrationType', { timeout: 10000 }).should('be.visible').click({ force: true });
+    cy.get('.registrationType', { timeout: 10000 })
+      .should('be.visible')
+      .click({ force: true });
     cy.contains('.locker', 'Locker').click({ force: true }); // Select the desired registration type
 
     // Click the register button
     cy.contains('button', 'Register').click({ force: true });
 
     cy.on('window:alert', (str) => {
-        expect(str).to.equal('Successfully registered!'); // Assert the alert message
-      });
+      expect(str).to.equal('Successfully registered!'); // Assert the alert message
+    });
   });
 
   it('should display an error message if input value is empty', () => {
@@ -88,7 +99,9 @@ describe('Key Registration Component', () => {
   it('should handle special characters in registration key input', () => {
     // Type a registration key with special characters
     const registrationKey = '!@#$%^&*()';
-    cy.get('.registrationType', { timeout: 10000 }).should('be.visible').click({ force: true });
+    cy.get('.registrationType', { timeout: 10000 })
+      .should('be.visible')
+      .click({ force: true });
     cy.contains('button', 'Register').click({ force: true });
 
     // Assert error message is shown
@@ -103,7 +116,9 @@ describe('Key Registration Component', () => {
     cy.get('#registrationKey').type(registrationKey);
 
     // Select condo registration type
-    cy.get('.registrationType', { timeout: 10000 }).should('be.visible').click({ force: true });
+    cy.get('.registrationType', { timeout: 10000 })
+      .should('be.visible')
+      .click({ force: true });
     cy.contains('.condo', 'Condo').click({ force: true }); // Select the desired registration type
 
     // Click the register button
@@ -121,7 +136,9 @@ describe('Key Registration Component', () => {
     cy.get('#registrationKey').type(registrationKey);
 
     // Select parking registration type
-    cy.get('.registrationType', { timeout: 10000 }).should('be.visible').click({ force: true });
+    cy.get('.registrationType', { timeout: 10000 })
+      .should('be.visible')
+      .click({ force: true });
     cy.contains('.parking', 'Parking').click({ force: true }); // Select the desired registration type
 
     // Click the register button
@@ -139,7 +156,9 @@ describe('Key Registration Component', () => {
     cy.get('#registrationKey').type(registrationKey);
 
     // Select locker registration type
-    cy.get('.registrationType', { timeout: 10000 }).should('be.visible').click({ force: true });
+    cy.get('.registrationType', { timeout: 10000 })
+      .should('be.visible')
+      .click({ force: true });
     cy.contains('.locker', 'Locker').click({ force: true }); // Select the desired registration type
 
     // Click the register button
