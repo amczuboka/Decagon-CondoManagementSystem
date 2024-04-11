@@ -60,10 +60,10 @@ export class BookingsComponent {
     ];
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     //Initialize building facilities
-    this.buildingFacilities = this.building.Facilities;
-    this.bookable = this.bookableFacilities(this.buildingFacilities);
+    this.buildingFacilities = await this.building.Facilities;
+    this.bookable = await this.bookableFacilities(this.buildingFacilities);
 
     //Book Facility Form
     this.bookFacilityForm = this.form_builder.group({

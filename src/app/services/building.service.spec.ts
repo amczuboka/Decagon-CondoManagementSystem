@@ -57,21 +57,18 @@ describe('BuildingService', () => {
         OccupantID: 'occupant1',
         Facility: Facilities.Gym,
         Date: Date.now(),
-        TimeSlot: TimeSlots.ElevenAM,
       },
       {
         ID: '2',
         OccupantID: 'occupant2',
         Facility: Facilities.Pool,
         Date: Date.now() + 86400000, // Adding one day in milliseconds
-        TimeSlot: TimeSlots.ElevenAM,
       },
       {
         ID: '3',
         OccupantID: 'occupant3',
         Facility: Facilities.MeetingRoom,
         Date: Date.now() + 172800000, // Adding two days in milliseconds
-        TimeSlot: TimeSlots.ElevenAM,
       },
     ];
 
