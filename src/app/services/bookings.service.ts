@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Booking, Building } from '../models/properties';
-import { get, getDatabase, onValue, ref, set } from 'firebase/database';
+import { get, getDatabase, ref, set } from 'firebase/database';
 import { StorageService } from 'src/app/services/storage.service';
 
 @Injectable({

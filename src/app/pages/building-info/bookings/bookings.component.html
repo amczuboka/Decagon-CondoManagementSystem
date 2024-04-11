@@ -63,14 +63,14 @@
             <!--Time-->
             <div class="time-chips">
               <mat-chip-listbox formControlName="time-slot">
-                <mat-chip-option>9:00 am</mat-chip-option>
-                <mat-chip-option>10:00 am</mat-chip-option>
-                <mat-chip-option>11:00 am</mat-chip-option>
-                <mat-chip-option>12:00 pm</mat-chip-option>
-                <mat-chip-option>1:00 am</mat-chip-option>
-                <mat-chip-option>2:00 pm</mat-chip-option>
-                <mat-chip-option>3:00 pm</mat-chip-option>
-                <mat-chip-option>4:00 pm</mat-chip-option>
+                <mat-chip-option value=9>9:00 am</mat-chip-option>
+                <mat-chip-option value=10>10:00 am</mat-chip-option>
+                <mat-chip-option value=11>11:00 am</mat-chip-option>
+                <mat-chip-option value=12>12:00 pm</mat-chip-option>
+                <mat-chip-option value=13>1:00 am</mat-chip-option>
+                <mat-chip-option value=14>2:00 pm</mat-chip-option>
+                <mat-chip-option value=15>3:00 pm</mat-chip-option>
+                <mat-chip-option value=16>4:00 pm</mat-chip-option>
               </mat-chip-listbox>
                 <mat-error
                   *ngIf="bookFacilityForm.controls['time-slot'].hasError('required') && bookFacilityForm.controls['time-slot'].touched"

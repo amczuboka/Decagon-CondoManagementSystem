@@ -108,3 +108,9 @@ export enum TimeSlots {
   ThreePM = "3:00 pm",
   FourPM = "4:00 pm"
 }
+
+
+export interface TimesAvailable {
+  value: number;
+  time: string;
+}

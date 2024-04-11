@@ -1,10 +1,16 @@
-import { AfterViewChecked, Component, Input } from '@angular/core';
-import { FormGroup, Validators, FormBuilder} from '@angular/forms'
-import { Booking, Building, Facilities } from 'src/app/models/properties';
-import { User} from 'src/app/models/users';
+import { Component, Input } from '@angular/core';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import {
+  Booking,
+  Building,
+  Facilities,
+  TimesAvailable,
+} from 'src/app/models/properties';
+import { User } from 'src/app/models/users';
 import { MyErrorStateMatcher } from 'src/app/services/auth.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { BookingsService } from 'src/app/services/bookings.service';
+import { BuildingService } from 'src/app/services/building.service';
 import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
@@ -32,48 +38,63 @@ export class BookingsComponent {
   currentMonth = this.minDate.getUTCMonth();
   currentDay = this.minDate.getUTCDate();
 
+  TimeSlots!: TimesAvailable[];
+
   constructor(
     private form_builder: FormBuilder,
     private authService: AuthService,
     private bookingsService: BookingsService,
-    private notificationService: NotificationService
-  ) {}
+    private notificationService: NotificationService,
+    private buildingService: BuildingService
+  ) {
+    this.TimeSlots = [
+      { value: 9, time: '9:00 am' },
+      { value: 10, time: '10:00 am' },
+      { value: 11, time: '11:00 am' },
+      { value: 12, time: '12:00 pm' },
+      { value: 13, time: '1:00 pm' },
+      { value: 14, time: '2:00 pm' },
+      { value: 15, time: '3:00 pm' },
+      { value: 16, time: '4:00 pm' },
+    ];
+  }
 
   ngOnInit(): void {
+    //Initialize building facilities
+    this.buildingFacilities = this.building.Facilities;
+    this.bookable = this.bookableFacilities(this.buildingFacilities);
 
-   //Initialize building facilities
-   this.buildingFacilities = this.building.Facilities;
-   this.bookable = this.bookableFacilities(this.buildingFacilities);
-
-   //Book Facility Form 
+    //Book Facility Form
     this.bookFacilityForm = this.form_builder.group({
-      'date': ['', [Validators.required]],
-      'facility': ['', [Validators.required]],
+      date: ['', [Validators.required]],
+      facility: ['', [Validators.required]],
       'time-slot': [[], [Validators.required]],
-      myUserID: ['']
+      myUserID: [''],
     });
 
-   //Subscribe to facility field changes
-   this.bookFacilityForm.get('facility')!.valueChanges.subscribe((selectedFacility)=>{
-    this.facility = selectedFacility;
-    console.log(this.facility);
-    this.updateTimeSlots()
-   });
+    //Subscribe to facility field changes
+    this.bookFacilityForm
+      .get('facility')!
+      .valueChanges.subscribe((selectedFacility) => {
+        this.facility = selectedFacility;
+        console.log(this.facility);
+        this.updateTimeSlots();
+      });
 
-   //Subscribe to date field changes
-   this.bookFacilityForm.get('date')!.valueChanges.subscribe((selectedDate)=>{
-    const dateAsNum = selectedDate.getTime();
-    this.date = dateAsNum;
-    console.log(this.date);
-    this.updateTimeSlots()
-   });
-
+    //Subscribe to date field changes
+    this.bookFacilityForm
+      .get('date')!
+      .valueChanges.subscribe((selectedDate) => {
+        const dateAsNum = selectedDate.getTime();
+        this.date = dateAsNum;
+        this.updateTimeSlots();
+      });
   }
 
   bookableFacilities(buildingFacilities: Facilities[]): Facilities[] {
-    const bookable: Facilities[]=[];
+    const bookable: Facilities[] = [];
 
-    buildingFacilities.forEach(facility => {
+    buildingFacilities.forEach((facility) => {
       switch (facility) {
         case Facilities.Gym:
         case Facilities.Locker:
@@ -91,7 +112,7 @@ export class BookingsComponent {
   /**
    * Console log selected time slot
    */
-  logTimeSlots(){
+  logTimeSlots() {
     const selectedTimeSlot = this.bookFacilityForm.get('time-slot')?.value;
     console.log('Selected time slot', selectedTimeSlot);
   }
@@ -99,35 +120,79 @@ export class BookingsComponent {
   /**
    * Function to update time slots
    */
-  updateTimeSlots(){
-    if (this.date && this.facility){
-      console.log("Both date and facility have been selected");
-      //Implement logic to update time slots
-      //console.log(this.building.Bookings);
+  async updateTimeSlots() {
+    console.log(this.bookFacilityForm.value.date, this.facility);
+    if (this.bookFacilityForm.value.date && this.facility) {
+      console.log('Both date and facility have been selected');
+      this.TimeSlots = [
+        { value: 9, time: '9:00 am' },
+        { value: 10, time: '10:00 am' },
+        { value: 11, time: '11:00 am' },
+        { value: 12, time: '12:00 pm' },
+        { value: 13, time: '1:00 pm' },
+        { value: 14, time: '2:00 pm' },
+        { value: 15, time: '3:00 pm' },
+        { value: 16, time: '4:00 pm' },
+      ];
+      (
+        await this.buildingService.getBuilding(this.building.ID)
+      ).Bookings.forEach((booking) => {
+        console.log(booking);
+        let Bookdate = new Date(booking.Date);
+        let selectedDate = new Date(this.date);
+
+        // Create new Date objects for Bookdate and selectedDate that have the same time
+        let BookdateWithoutTime = new Date(
+          Bookdate.getFullYear(),
+          Bookdate.getMonth(),
+          Bookdate.getDate()
+        );
+        let selectedDateWithoutTime = new Date(
+          selectedDate.getFullYear(),
+          selectedDate.getMonth(),
+          selectedDate.getDate()
+        );
+
+        // Compare BookdateWithoutTime and selectedDateWithoutTime
+        if (
+          BookdateWithoutTime.getTime() === selectedDateWithoutTime.getTime()
+        ) {
+          // The dates are the same (not considering time)
+          this.TimeSlots = this.TimeSlots.filter(
+            (slot) => slot.value !== Bookdate.getHours()
+          );
+        }
+        console.log(this.TimeSlots);
+      });
     } else {
-      console.log("Not both have been selected");
+      console.log('Not both have been selected');
       //do nothing
-    } 
+    }
   }
 
-  
-  onSubmit(){
+  onSubmit() {
     this.bookFacilityForm.markAllAsTouched();
     if (this.bookFacilityForm.invalid) {
       this.notificationService.sendAlert('Please fill out all required fields');
       return;
     }
-  
+
     //Getting User
     this.myUser = this.authService.getUser();
     this.myUserID = this.myUser.uid;
     this.bookFacilityForm.patchValue({ myUserID: this.myUserID });
-    
+
     //Getting building id
-    this.buildingID = this.building.ID; 
+    this.buildingID = this.building.ID;
 
     //Obtaining object from form
     const formData = this.bookFacilityForm.value;
+    let dateObject = new Date(this.date);
+    dateObject.setHours(formData['time-slot'], 0, 0);
+    this.date = dateObject.valueOf();
+
+    console.log(dateObject, 'date in letters\n', this.date);
+
     const booking: Booking = {
       ID: '',
       OccupantID: formData.myUserID,
@@ -138,11 +203,10 @@ export class BookingsComponent {
     console.log(formData);
 
     //Creating new booking
-    this.bookingsService.addNewBooking(this.buildingID, booking).then(()=>{
-      this.notificationService.sendNotification('Booking successfully created!');
+    this.bookingsService.addNewBooking(this.buildingID, booking).then(() => {
+      this.notificationService.sendNotification(
+        'Booking successfully created!'
+      );
     });
-    
-
   }
-
 }
