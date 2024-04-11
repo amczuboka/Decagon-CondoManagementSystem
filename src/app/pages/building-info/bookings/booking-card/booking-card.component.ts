@@ -26,14 +26,5 @@ export class BookingCardComponent {
         }
       });
     }
-    // this.userSubscription = this.userService.myUser.subscribe((user) => {
-    //   console.log('user: ', user);
-    //   this.myUser = user;
-    //   console.log('myUser: ', this.myUser);
-    //   if (this.myUser) {
-    //     if(this.myUser.Bookings)
-    //       this.myBookings = this.myUser.Bookings;
-    //   }
-    // });
   }
 }
