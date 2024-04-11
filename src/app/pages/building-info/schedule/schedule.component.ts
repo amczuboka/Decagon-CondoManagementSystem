@@ -42,21 +42,18 @@ export class ScheduleComponent {
         OccupantID: 'string;',
         Facility: Facilities.Gym,
         Date: hour1,
-        TimeSlot: TimeSlots.ElevenAM,
       },
       {
         ID: '2',
         OccupantID: 'string;',
         Facility: Facilities.MeetingRoom,
         Date: hour2,
-        TimeSlot: TimeSlots.ElevenAM,
       },
       { ID: '3', 
         OccupantID: 
         'string;', 
         Facility: Facilities.Spa, 
         Date: hour3,
-        TimeSlot: TimeSlots.ElevenAM, 
       }
     );
     //end of mock code

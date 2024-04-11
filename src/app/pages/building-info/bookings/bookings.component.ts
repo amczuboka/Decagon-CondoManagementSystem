@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { getDatabase } from 'firebase/database';
 import {
   Booking,
   Building,
@@ -109,13 +110,6 @@ export class BookingsComponent {
     return bookable;
   }
 
-  /**
-   * Console log selected time slot
-   */
-  logTimeSlots() {
-    const selectedTimeSlot = this.bookFacilityForm.get('time-slot')?.value;
-    console.log('Selected time slot', selectedTimeSlot);
-  }
 
   /**
    * Function to update time slots
@@ -133,7 +127,8 @@ export class BookingsComponent {
         { value: 15, time: '3:00 pm' },
         { value: 16, time: '4:00 pm' },
       ];
-      (
+      try{
+          (
         await this.buildingService.getBuilding(this.building.ID)
       ).Bookings.forEach((booking) => {
         console.log(booking);
@@ -164,13 +159,17 @@ export class BookingsComponent {
         }
         console.log(this.TimeSlots);
       });
+      }catch(error){
+        console.log('Error getting building', error);
+      } 
+    
     } else {
       console.log('Not both have been selected');
       //do nothing
     }
   }
 
-  onSubmit() {
+  async onSubmit() {
     this.bookFacilityForm.markAllAsTouched();
     if (this.bookFacilityForm.invalid) {
       this.notificationService.sendAlert('Please fill out all required fields');
@@ -192,21 +191,26 @@ export class BookingsComponent {
     this.date = dateObject.valueOf();
 
     console.log(dateObject, 'date in letters\n', this.date);
+    const db = getDatabase();
 
     const booking: Booking = {
       ID: '',
       OccupantID: formData.myUserID,
       Facility: formData.facility,
       Date: this.date,
-      TimeSlot: formData['time-slot'],
     };
     console.log(formData);
 
     //Creating new booking
-    this.bookingsService.addNewBooking(this.buildingID, booking).then(() => {
+    await this.bookingsService.addNewBooking(this.buildingID, booking).then(() => {
       this.notificationService.sendNotification(
         'Booking successfully created!'
       );
+    });
+
+    this.bookFacilityForm.reset();
+    Object.values(this.bookFacilityForm.controls).forEach((control) => {
+      control.markAsUntouched();
     });
   }
 }

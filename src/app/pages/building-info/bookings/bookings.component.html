@@ -63,14 +63,7 @@
             <!--Time-->
             <div class="time-chips">
               <mat-chip-listbox formControlName="time-slot">
-                <mat-chip-option value=9>9:00 am</mat-chip-option>
-                <mat-chip-option value=10>10:00 am</mat-chip-option>
-                <mat-chip-option value=11>11:00 am</mat-chip-option>
-                <mat-chip-option value=12>12:00 pm</mat-chip-option>
-                <mat-chip-option value=13>1:00 am</mat-chip-option>
-                <mat-chip-option value=14>2:00 pm</mat-chip-option>
-                <mat-chip-option value=15>3:00 pm</mat-chip-option>
-                <mat-chip-option value=16>4:00 pm</mat-chip-option>
+                <mat-chip-option *ngFor="let time of TimeSlots" value={{time.value}}>{{time.time}}</mat-chip-option>
               </mat-chip-listbox>
                 <mat-error
                   *ngIf="bookFacilityForm.controls['time-slot'].hasError('required') && bookFacilityForm.controls['time-slot'].touched"
@@ -81,7 +74,7 @@
 
             <br /><br />
             <!--Button-->
-            <button mat-raised-button color="primary" (click)="onSubmit()" (click)="logTimeSlots()">Save</button>
+            <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
           </form>
         </div>
       </div>

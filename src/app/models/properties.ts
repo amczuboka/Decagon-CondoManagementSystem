@@ -85,7 +85,6 @@ export interface Booking {
   OccupantID: string;
   Facility: Facilities;
   Date: number;
-  TimeSlot: TimeSlots; 
 }
 
 export enum ParkingType {
