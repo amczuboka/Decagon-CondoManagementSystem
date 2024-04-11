@@ -69,7 +69,7 @@ describe('KeyRegistrationComponent', () => {
     spyOn(authService, 'getUser').and.returnValue(Promise.resolve(fakeUser));
     spyOn(component, 'registerForItem').and.callThrough(); // Use callThrough to let the method execute
   
-    component.registrationType = 'condo'; // Set registration type to condo
+    component.KeyReg.value.registrationType = 'condo'; // Set registration type to condo
     component.inputElement.nativeElement.value = 'testKey'; // Set existing item
   
     await component.handleButtonClick();
@@ -117,7 +117,7 @@ describe('KeyRegistrationComponent', () => {
   
     spyOn(buildingService, 'getAllBuildingsWithItems').and.returnValue(Promise.resolve(buildings));
   
-    component.registrationType = 'condo'; // Set registration type to condo
+    component.KeyReg.value.registrationType = 'condo'; // Set registration type to condo
     component.inputElement.nativeElement.value = 'nonExistingItem'; // Set non-existing item
     spyOn(window, 'alert');
     await component.handleButtonClick();
