@@ -31,6 +31,7 @@ export interface Condo {
     NumberOfBathrooms: number;
     Status: CondoStatus;
     SquareFootage: number;
+    CondoFee?: number;
 }
 
 export interface ParkingSpot {
@@ -102,3 +103,16 @@ export enum sourcePage {
   availablePage = "availablePage",
   propertiesPage = "propertiesPage"
 };
+
+export interface Navlinks {
+  label: string;
+  path: string;
+  authority: linkAuthority;
+}
+
+export enum linkAuthority {
+  Any='Any',
+  Public = 'Public',
+  Company = 'Company',
+  Employee = 'Employee',
+}

@@ -16,7 +16,7 @@ import {
   ParkingLockerStatus,
   ParkingSpot,
   ParkingType,
-  Operation
+  Operation,
 } from '../models/properties';
 import { getDatabase } from 'firebase/database';
 
@@ -146,6 +146,7 @@ describe('BuildingService', () => {
         NumberOfBathrooms: 2,
         Status: CondoStatus.Owned,
         SquareFootage: 1200,
+        CondoFee: 150,
       },
       {
         ID: '2',
@@ -401,6 +402,8 @@ describe('BuildingService', () => {
     expect(result[0].Condos[0]).toBeTruthy(); // Check if condo exists
     expect(result[0].Condos[0].ID).toBeDefined(); // Check if condo has ID property
     expect(result[0].Condos[0].Type).toBeDefined();
+    expect(result[0].Condos[0].ID).toBeDefined(); // Check if condo has ID property
+    expect(result[0].Condos[0].Type).toBeDefined();
 
     // Clean up
     await service.deleteBuilding(building.ID);
@@ -424,13 +427,31 @@ describe('BuildingService', () => {
     await service.deleteBuilding(building.ID);
   });
 
+  it('should get all buildings with lockers successfully', async () => {
+    // Arrange
+    await service.addBuilding(building);
+
+    // Act
+    const result = await service.getAllBuildingsWithItems('Lockers');
+
+    // Assert
+    expect(result.length).toBeGreaterThan(0);
+    expect(result[0].Lockers.length).toBeGreaterThan(0);
+    expect(result[0].Lockers[0]).toBeTruthy(); // Check if locker exists
+    expect(result[0].Lockers[0].ID).toBeDefined(); // Check if locker has ID property
+    expect(result[0].Lockers[0].Status).toBeDefined();
+
+    // Clean up
+    await service.deleteBuilding(building.ID);
+  });
+
   it('should add an operation to a building successfully', async () => {
     // Arrange: Add a building to the database
     await service.addBuilding(building);
 
     // Define a new operation
     const operation: Operation = {
-      ID:"ID",
+      ID: 'ID',
       Name: 'Operation Name',
       Description: 'Operation Description',
       Cost: 100,
@@ -448,7 +469,134 @@ describe('BuildingService', () => {
     expect(updatedBuilding.Operations).toBeTruthy();
     expect(updatedBuilding.Operations?.length).toBe(1);
     expect(updatedBuilding.Operations?.[0]).toEqual(operation);
-  
+
+    // Clean up: Delete the test building
+    await service.deleteBuilding(building.ID);
+  });
+
+  it('should update item successfully with status updates for condos', async () => {
+    // Arrange
+    await service.addBuilding(building);
+
+    // Act
+    await service.updateItem(
+      building.ID,
+      'Condos',
+      building.Condos[0].ID,
+      'newOccupantId'
+    );
+
+    // Assert
+    const updatedBuilding = await service.getBuilding(building.ID);
+    expect(updatedBuilding.Condos[0].OccupantID).toEqual('newOccupantId');
+    expect(updatedBuilding.Condos[0].Status).toEqual(CondoStatus.Owned); // Assuming CondoType is Sale
+
+    // Clean up
+    await service.deleteBuilding(building.ID);
+  });
+
+  it('should update item successfully with status updates for parkings', async () => {
+    // Arrange
+    await service.addBuilding(building);
+
+    // Act
+    await service.updateItem(
+      building.ID,
+      'Parkings',
+      building.Parkings[0].ID,
+      'newOccupantId'
+    );
+
+    // Assert
+    const updatedBuilding = await service.getBuilding(building.ID);
+    expect(updatedBuilding.Parkings[0].OccupantID).toEqual('newOccupantId');
+    expect(updatedBuilding.Parkings[0].Status).toEqual(
+      ParkingLockerStatus.Unavailable
+    );
+
+    // Clean up
+    await service.deleteBuilding(building.ID);
+  });
+
+  it('should update item successfully with status updates for lockers', async () => {
+    // Arrange
+    await service.addBuilding(building);
+
+    // Act
+    await service.updateItem(
+      building.ID,
+      'Lockers',
+      building.Lockers[0].ID,
+      'newOccupantId'
+    );
+
+    // Assert
+    const updatedBuilding = await service.getBuilding(building.ID);
+    expect(updatedBuilding.Lockers[0].OccupantID).toEqual('newOccupantId');
+    expect(updatedBuilding.Lockers[0].Status).toEqual(
+      ParkingLockerStatus.Unavailable
+    );
+
+    // Clean up
+    await service.deleteBuilding(building.ID);
+  });
+
+  it('should return an array of buildings', async () => {
+    // Calling the function and expecting a result
+    const result = await service.getAllBuildings();
+
+    // Asserting that the result is an array of buildings
+    expect(Array.isArray(result)).toBeTrue();
+    expect(result.length).toBeGreaterThan(0);
+    result.forEach((building: Building) => {
+      expect(building.ID).toBeDefined();
+      expect(building.Name).toBeDefined();
+      expect(building.CompanyID).toBeDefined();
+      expect(building.Address).toBeDefined();
+    });
+  });
+
+  it('should return an array of buildings belonging to the specified company', async () => {
+    const companyId = 'company123';
+
+    // Calling the function and expecting a result
+    const result = await service.getAllBuildingsOfCompany(companyId);
+
+    // Asserting that the result contains only buildings belonging to the specified company
+    expect(
+      result.every((building) => building.CompanyID === companyId)
+    ).toBeTrue();
+  });
+
+  it('should delete the CondoFee attribute from a condo in a building successfully', async () => {
+    // Arrange: Add a building to the database
+    await service.addBuilding(building);
+
+    // Get the updated building
+    const updatedBuilding = await service.getBuilding(building.ID);
+
+    // Assert: Check if the CondoFee attribute exists in the condo and is equal to 150
+    let updatedCondoWithFee = updatedBuilding.Condos[0];
+    expect(updatedCondoWithFee).toBeTruthy();
+    expect(updatedCondoWithFee?.CondoFee).toBe(150);
+
+    // Act: Delete the CondoFee attribute from the condo in the building
+    await service.deleteCondoAttribute(
+      building.ID,
+      building.Condos[0].ID,
+      'CondoFee'
+    );
+
+    // Re-fetch the updated building
+    const updatedBuildingNoFees = await service.getBuilding(building.ID);
+
+    // Assert: Check if the CondoFee attribute is deleted from the condo in the building
+    expect(updatedBuildingNoFees).toBeTruthy();
+
+    const updatedCondo = updatedBuildingNoFees.Condos[0];
+    expect(updatedCondo).toBeTruthy();
+    expect(updatedCondo?.CondoFee).toBeUndefined();
+
     // Clean up: Delete the test building
     await service.deleteBuilding(building.ID);
   });
@@ -483,4 +631,3 @@ describe('BuildingService', () => {
     await service.deleteBuilding(building.ID);
   });
 });
-

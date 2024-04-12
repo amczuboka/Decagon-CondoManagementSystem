@@ -1,6 +1,13 @@
 import { CondoType, ParkingType } from 'src/app/models/properties';
 import { CompanyDTO } from 'src/app/models/users';
-import { addCondo, addLocker, addParking, login } from './utils.cy';
+import {
+  CreateProperty,
+  DeleteProperty,
+  addCondo,
+  addLocker,
+  addParking,
+  login,
+} from './utils.cy';
 
 describe('Add New Property', () => {
   beforeEach(() => {
@@ -34,40 +41,8 @@ describe('Add New Property', () => {
   });
 
   it('should allow user to fill in the form and submit', async () => {
-    cy.get('input[name="Name"]').type('Sample Building');
-    cy.get('input[name="Country"]').type('Sample Country');
-    cy.get('input[name="State"]').type('Sample State');
-    cy.get('input[name="City"]').type('Sample City');
-    cy.get('input[formControlName="StreetNN"]').type('Sample Street', {
-      force: true,
-    });
-    cy.get('input[name="ZipCode"]').type('H6J 7K8');
-    cy.get('input[name="Year"]').type('2022');
-    cy.get('textarea[name="Description"]').type('Sample Description');
-    cy.get('input[name="Picture"]').selectFile('./cypress/e2e/TEST.png');
-    cy.get('mat-checkbox[value="Gym"]').click();
-    cy.get('mat-checkbox[value="Pool"]').click();
-    cy.get('mat-checkbox[value="Spa"]').click();
-    cy.get('mat-checkbox[value="Playground"]').click();
-    cy.get('mat-checkbox[value="Meeting Room"]').click();
-    addCondo(CondoType.Rent);
-    addCondo(CondoType.Sale);
-    addLocker();
-    addParking(ParkingType.Standard);
-    addParking(ParkingType.Handicap);
-    cy.get('button[type="submit"]').click();
-    cy.get('.loading-indicator').should('exist');
-    cy.wait(5000);
-    cy.window().then(async (win) => {
-      const currentUser = (win as any).authService.getUser();
-      const user = (await (win as any).userService.getCompanyUser(
-        currentUser.uid
-      )) as CompanyDTO;
-      console.log('the user', user);
-      const promiseDelete = user.PropertyIds.map(async (ID) => {
-        await(win as any).buildingService.deleteBuilding(ID);
-      });
-      await Promise.all(promiseDelete);
-    });
+    CreateProperty();
+
+    DeleteProperty();
   });
 });
