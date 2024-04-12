@@ -72,9 +72,9 @@ function checkCondoDetails() {
   cy.get('.property-images img')
     .should('have.attr', 'src')
     .should('not.be.empty');
-  cy.get('.icon-favorite').should('be.visible');
-  cy.get('.icon-share').should('be.visible');
-  cy.get('.icon-refresh').should('be.visible');
+  cy.get('.icon-favorite').scrollIntoView().should('be.visible');
+  cy.get('.icon-share').scrollIntoView().should('be.visible');
+  cy.get('.icon-refresh').scrollIntoView().should('be.visible');
   cy.get('app-condo-features').scrollIntoView().should('be.visible');
   cy.get('app-description').scrollIntoView().should('be.visible');
   cy.get('app-location').scrollIntoView().should('be.visible');

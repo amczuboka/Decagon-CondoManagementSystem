@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6 col-lg-7">
-        <div class="card-body text-black">
+        <form [formGroup]="KeyReg"  class="card-body text-black">
           <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; font-size: 24px;">
             Registration Key
           </h5>
@@ -17,6 +17,7 @@
                 class="form-control form-control-lg"
                 placeholder="Enter Key"
                 #inputRef
+                name="registrationKey" 
               />
             </mat-form-field>
           </div>
@@ -25,10 +26,10 @@
           <div class="form-outline mb-2">
             <mat-form-field appearance="outline">
               <mat-label class="form-label" for="registrationType">Select Registration Type</mat-label>
-              <mat-select [(ngModel)]="registrationType">
-                <mat-option value="condo">Condo</mat-option>
-                <mat-option value="parking">Parking</mat-option>
-                <mat-option value="locker">Locker</mat-option>
+              <mat-select formControlName="registrationType" class="registrationType">
+                <mat-option class="condo" value="condo">Condo</mat-option>
+                <mat-option class="parking"value="parking">Parking</mat-option>
+                <mat-option class="locker"value="locker">Locker</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -36,14 +37,14 @@
           <div class="d-flex justify-content-between align-items-center">
             <button
               class="btn btn-dark btn-lg"
-              type="button"
+              type="submit"
               (click)="handleButtonClick()"
             >
               Register
             </button>
 
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>
