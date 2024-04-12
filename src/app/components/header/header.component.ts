@@ -89,6 +89,11 @@ export class HeaderComponent {
         path: 'key-registration',
         authority: linkAuthority.Public,
       },
+      {
+        label: 'Budget Report',
+        path: 'budget-report',
+        authority: linkAuthority.Company,
+      },
       { label: 'Log Out', path: 'out', authority: linkAuthority.Any },
     ];
     this.biglinks = this.links;
@@ -96,7 +101,6 @@ export class HeaderComponent {
     if (windowWidth < 768) {
       // Update myObject for small screens
       this.biglinks = [];
-
     } else {
       // Update myObject for large screens
       this.biglinks = this.biglinks.filter(
@@ -106,7 +110,6 @@ export class HeaderComponent {
         (slot) => slot.label == 'Profile' || slot.label == 'Log Out'
       );
     }
-
   }
 
   /**
