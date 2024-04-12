@@ -3,8 +3,8 @@ import { login } from './utils.cy';
 describe('Key Registration Component', () => {
   beforeEach(() => {
     login('pail.farid99@gmail.com', 'Mosalah99');
-    cy.visit('/key-registration');
     cy.wait(5000);
+    cy.visit('/key-registration');
   });
   
 
@@ -15,7 +15,7 @@ describe('Key Registration Component', () => {
   it('should register Condo key when input is filled and register button is clicked', () => {
     // Type a registration key
     const registrationKey = 'olxoxbbx02n1712215786582';
-    cy.get('#registrationKey')
+    cy.get('input[name="registrationKey"]')
       .type(registrationKey)
       .should('have.value', registrationKey);
 
@@ -36,7 +36,7 @@ describe('Key Registration Component', () => {
   it('should register Parking key when input is filled and register button is clicked', () => {
     // Type a registration key
     const registrationKey = 'zn9ii2r6z3p1712215786584';
-    cy.get('#registrationKey')
+    cy.get('input[name="registrationKey"]')
       .type(registrationKey)
       .should('have.value', registrationKey);
 
@@ -57,7 +57,7 @@ describe('Key Registration Component', () => {
   it('should register Locker key when input is filled and register button is clicked', () => {
     // Type a registration key
     const registrationKey = 'gfcaeu208jw1712215786583';
-    cy.get('#registrationKey')
+    cy.get('input[name="registrationKey"]')
       .type(registrationKey)
       .should('have.value', registrationKey);
 
@@ -87,7 +87,7 @@ describe('Key Registration Component', () => {
 
   it('should handle empty registration key input', () => {
     // Click the register button without entering a key
-    cy.get('#registrationKey').clear();
+    cy.get('input[name="registrationKey"]').clear();
     cy.contains('button', 'Register').click({ force: true });
 
     // Assert error message is shown
@@ -113,7 +113,7 @@ describe('Key Registration Component', () => {
   it('should display an error message if registration key is invalid for condo registration', () => {
     // Type an invalid registration key
     const registrationKey = 'invalid-key';
-    cy.get('#registrationKey').type(registrationKey);
+    cy.get('input[name="registrationKey"]').type(registrationKey);
 
     // Select condo registration type
     cy.get('.registrationType', { timeout: 10000 })
@@ -133,7 +133,7 @@ describe('Key Registration Component', () => {
   it('should display an error message if registration key is invalid for parking registration', () => {
     // Type an invalid registration key
     const registrationKey = 'invalid-key';
-    cy.get('#registrationKey').type(registrationKey);
+    cy.get('input[name="registrationKey"]').type(registrationKey);
 
     // Select parking registration type
     cy.get('.registrationType', { timeout: 10000 })
@@ -153,7 +153,7 @@ describe('Key Registration Component', () => {
   it('should display an error message if registration key is invalid for locker registration', () => {
     // Type an invalid registration key
     const registrationKey = 'invalid-key';
-    cy.get('#registrationKey').type(registrationKey);
+    cy.get('input[name="registrationKey"]').type(registrationKey);
 
     // Select locker registration type
     cy.get('.registrationType', { timeout: 10000 })
