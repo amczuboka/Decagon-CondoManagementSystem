@@ -1,9 +1,7 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { BuildingService } from 'src/app/services/building.service';
-import { User } from 'firebase/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
 
 @Component({
   selector: 'app-key-registration',
@@ -18,7 +16,6 @@ export class KeyRegistrationComponent {
   constructor(
     private buildingService: BuildingService,
     private authService: AuthService,
-    private userService: UserService,
     private formBuilder: FormBuilder
   ) {}
 
@@ -63,31 +60,6 @@ export class KeyRegistrationComponent {
     }
   }
 
-  async registerForItem(
-    itemId: string,
-    currentUserId: string,
-    itemType: 'Condos' | 'Parkings' | 'Lockers'
-  ) {
-    const buildingsWithItems =
-      await this.buildingService.getAllBuildingsWithItems(itemType);
-    for (const building of buildingsWithItems) {
-      for (const item of building[itemType]) {
-        if (item.ID === itemId) {
-          item.OccupantID = currentUserId;
-
-          await this.buildingService.updateItem(
-            building.ID,
-            itemType,
-            item.ID,
-            currentUserId
-          );
-          alert('Successfully registered!');
-          return;
-        }
-      }
-    }
-    alert(`${itemType.slice(0, -1)} not found!`);
-  }
   async registerForItem(
     itemId: string,
     currentUserId: string,
