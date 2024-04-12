@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
 import {
-  equalTo,
   get,
   getDatabase,
   onValue,
-  orderByChild,
-  query,
   ref,
   set,
   update,
