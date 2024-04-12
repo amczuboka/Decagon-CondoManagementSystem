@@ -324,22 +324,6 @@ describe('BuildingService', () => {
     await service.deleteBuilding(building.ID);
   });
 
-  // it('should subscribe to a specific building and update the buildingSubject', async () => {
-  //   // Arrange
-  //   await service.subscribeToBuildingById(building.ID);
-
-  //   // Act
-  //   expect((service as any).buildingSubject.value).toEqual(building);
-  // });
-
-  // it('should subscribe to buildings and update the buildingsSubject', async () => {
-  //   spyOn(service, 'getAllBuildings').and.returnValue(Promise.resolve(buildings));
-  //   await service.subscribeToBuildings();
-
-  //   expect(service.getAllBuildings).toHaveBeenCalled();
-  //   expect((service as any).buildingsSubject.value).toEqual(buildings);
-  // });
-
   it('should delete a building successfully', async () => {
     // Arrange
     await service.addBuilding(building);
@@ -511,5 +495,3 @@ expect(result[0].Lockers[0].Status).toBeDefined();
   });
   
 });
-////////////////////////// 2nd test //////////////////////////
-
