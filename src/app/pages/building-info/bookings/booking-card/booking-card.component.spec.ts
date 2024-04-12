@@ -1,11 +1,16 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  flush,
+} from '@angular/core/testing';
 import { AppModule } from 'src/app/app.module';
 import { MatIconModule } from '@angular/material/icon';
 import { BookingCardComponent } from './booking-card.component';
 import { BookingsService } from 'src/app/services/bookings.service';
 import { NotificationService } from 'src/app/services/notification.service';
-import { Booking, Building, Facilities } from 'src/app/models/properties';
-import { UserDTO, Authority} from 'src/app/models/users';
+import { Building } from 'src/app/models/properties';
+import { UserDTO, Authority } from 'src/app/models/users';
 
 describe('BookingCardComponent', () => {
   let bookingsService: BookingsService;
@@ -15,11 +20,8 @@ describe('BookingCardComponent', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [
-        AppModule,
-        MatIconModule,
-      ],
-      declarations: [BookingCardComponent]
+      imports: [AppModule, MatIconModule],
+      declarations: [BookingCardComponent],
     });
     fixture = TestBed.createComponent(BookingCardComponent);
     component = fixture.componentInstance;
@@ -31,7 +33,6 @@ describe('BookingCardComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
 
   it('should initialize component', () => {
     const userServiceSpy = spyOn(
@@ -46,11 +47,30 @@ describe('BookingCardComponent', () => {
       Email: '',
       ProfilePicture: '',
       PhoneNumber: '',
-      UserName: ''
+      UserName: '',
     };
     component.userService.updateUser(myUser);
     component.ngOnInit();
     expect(userServiceSpy).toHaveBeenCalledWith(myUser);
   });
 
+  it('should delete booking', fakeAsync(() => {
+    const bookingID = '123';
+    const buildingID = '456';
+    spyOn(bookingsService, 'removeBooking');
+    spyOn(notificationService, 'sendNotification');
+
+    component.building = { ID: buildingID } as Building;
+    component.deleteBooking(bookingID);
+
+    flush(); // Ensures that all microtasks are completed
+
+    expect(bookingsService.removeBooking).toHaveBeenCalledWith(
+      buildingID,
+      bookingID
+    );
+    expect(notificationService.sendNotification).toHaveBeenCalledWith(
+      'Booking successfully deleted!'
+    );
+  }));
 });

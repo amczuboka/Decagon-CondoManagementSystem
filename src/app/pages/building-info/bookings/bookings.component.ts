@@ -13,7 +13,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { BookingsService } from 'src/app/services/bookings.service';
 import { BuildingService } from 'src/app/services/building.service';
 import { NotificationService } from 'src/app/services/notification.service';
-import { UserService } from 'src/app/services/user.service';
+
 
 @Component({
   selector: 'app-bookings',
@@ -43,12 +43,11 @@ export class BookingsComponent {
   TimeSlots!: TimesAvailable[];
 
   constructor(
-    private form_builder: FormBuilder,
-    private authService: AuthService,
-    private bookingsService: BookingsService,
-    private notificationService: NotificationService,
-    private buildingService: BuildingService,
-    private userService: UserService
+    public form_builder: FormBuilder,
+    public authService: AuthService,
+    public bookingsService: BookingsService,
+    public notificationService: NotificationService,
+    public buildingService: BuildingService
   ) {
     this.TimeSlots = [
       { value: 9, time: '9:00 am' },
@@ -64,8 +63,8 @@ export class BookingsComponent {
 
   async ngOnInit() {
     //Initialize building facilities
-    this.buildingFacilities = await this.building.Facilities;
-    this.bookable = await this.bookableFacilities(this.buildingFacilities);
+    this.buildingFacilities = this.building.Facilities;
+    this.bookable = this.bookableFacilities(this.buildingFacilities);
 
     //Book Facility Form
     this.bookFacilityForm = this.form_builder.group({
@@ -80,7 +79,6 @@ export class BookingsComponent {
       .get('facility')!
       .valueChanges.subscribe((selectedFacility) => {
         this.facility = selectedFacility;
-        console.log(this.facility);
         this.updateTimeSlots();
       });
 
@@ -88,7 +86,7 @@ export class BookingsComponent {
     this.bookFacilityForm
       .get('date')!
       .valueChanges.subscribe((selectedDate) => {
-        if (selectedDate){
+        if (selectedDate) {
           const dateAsNum = selectedDate.getTime();
           this.date = dateAsNum;
           this.updateTimeSlots();
@@ -119,7 +117,6 @@ export class BookingsComponent {
    */
   async updateTimeSlots() {
     if (this.date && this.facility) {
-      console.log('Both date and facility have been selected');
       this.TimeSlots = [
         { value: 9, time: '9:00 am' },
         { value: 10, time: '10:00 am' },
@@ -134,7 +131,6 @@ export class BookingsComponent {
         (
           await this.buildingService.getBuilding(this.building.ID)
         ).Bookings.forEach((booking) => {
-          console.log(booking);
           let Bookdate = new Date(booking.Date);
           let selectedDate = new Date(this.date);
 
@@ -161,7 +157,6 @@ export class BookingsComponent {
               (slot) => slot.value !== Bookdate.getHours()
             );
           }
-          console.log(this.TimeSlots);
         });
       } catch (error) {
         console.log('Error getting building', error);
@@ -193,7 +188,7 @@ export class BookingsComponent {
     dateObject.setHours(formData['time-slot'], 0, 0);
     this.date = dateObject.valueOf();
 
-    console.log(dateObject, 'date in letters\n', this.date);
+
     const db = getDatabase();
 
     const booking: Booking = {
@@ -202,7 +197,7 @@ export class BookingsComponent {
       Facility: formData.facility,
       Date: this.date,
     };
-    console.log(formData);
+
 
     //Creating new booking
     await this.bookingsService

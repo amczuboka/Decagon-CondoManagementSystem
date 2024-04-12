@@ -18,14 +18,20 @@ export class BookingCardComponent {
   myUser!: any;
   userSubscription: Subscription = new Subscription();
   myBookings: Booking[] = [];
-
+/**
+ * 
+ * @param userService 
+ * @param authService 
+ * @param bookingsService 
+ * @param notificationService 
+ */
   constructor(
     public userService: UserService, 
     public authService: AuthService,
     public bookingsService: BookingsService,
     public notificationService: NotificationService,
   ) {}
-
+ 
   async ngOnInit() {
     this.myUser = await this.authService.getUser();
     if (this.myUser) {
@@ -38,13 +44,16 @@ export class BookingCardComponent {
     }
   }
 
-
-  deleteBooking(bookingID: string){
+/**
+ * 
+ * @param bookingID 
+ */
+  async deleteBooking(bookingID: string){
     const buildingID = this.building.ID;
-    this.bookingsService.removeBooking(buildingID, bookingID).then(() => {
+    await this.bookingsService.removeBooking(buildingID, bookingID)
       this.notificationService.sendNotification(
         'Booking successfully deleted!'
       );
-    });;
+   
   }
 }
