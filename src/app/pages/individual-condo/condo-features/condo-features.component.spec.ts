@@ -51,6 +51,7 @@ describe('CondoFeaturesComponent', () => {
       Condos: [],
       Picture: '',
       Facilities: [],
+      Operations:[]
     };
     component.condo = mockCondo;
     component.building = mockBuilding;

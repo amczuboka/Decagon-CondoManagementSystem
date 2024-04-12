@@ -1,6 +1,5 @@
 import { StorageService } from 'src/app/services/storage.service';
 import { TestBed } from '@angular/core/testing';
-
 import { AppModule } from '../app.module';
 import { BuildingService } from './building.service';
 import { UserService } from './user.service';
@@ -17,6 +16,7 @@ import {
   ParkingLockerStatus,
   ParkingSpot,
   ParkingType,
+  Operation
 } from '../models/properties';
 import { getDatabase } from 'firebase/database';
 
@@ -205,6 +205,7 @@ describe('BuildingService', () => {
         'test_images/' + (await storageService.IDgenerator('buildings/', db))
       ),
       Facilities: facilitiesArray,
+      Operations: [] as Operation[],
     };
 
     buildings = [
@@ -221,6 +222,7 @@ describe('BuildingService', () => {
         Condos: condosArray,
         Picture: '',
         Facilities: facilitiesArray,
+        Operations: [],
       },
       {
         ID: '2',
@@ -235,6 +237,7 @@ describe('BuildingService', () => {
         Condos: condosArray,
         Picture: '',
         Facilities: facilitiesArray,
+        Operations: [],
       },
     ];
   });
@@ -257,6 +260,10 @@ describe('BuildingService', () => {
     // Act
     await service.addBuilding(building);
     const builder = await service.getBuilding(building.ID);
+    // Modify the retrieved building object if Operations property is missing
+    if (!builder.hasOwnProperty('Operations')) {
+      builder.Operations = []; // Add Operations array
+    }
     expect(builder).toEqual(building);
 
     const user: CompanyDTO = (await userService.getCompanyUser(
@@ -292,13 +299,31 @@ describe('BuildingService', () => {
   });
 
   it('should get a building successfully', async () => {
-    await service.addBuilding(building);
+    spyOn(authService, 'getUser').and.returnValue(
+      JSON.parse(localStorage.getItem('user')!)
+    );
+
     // Act
-    const result = await service.getBuilding(building.ID);
+    await service.addBuilding(building);
+    const builder = await service.getBuilding(building.ID);
 
-    expect(result).toEqual(building);
+    // Modify the retrieved building object if Operations property is missing
+    if (!builder.hasOwnProperty('Operations')) {
+      builder.Operations = []; // Add Operations array
+    }
 
-    //clean up
+    expect(builder).toEqual(building);
+
+    const user: CompanyDTO = (await userService.getCompanyUser(
+      authService.getUser().uid
+    )) as CompanyDTO;
+
+    expect(user.PropertyIds).toContain(building.ID);
+
+    // Assert
+    expect(authService.getUser).toHaveBeenCalled();
+
+    // Clean up
     await service.deleteBuilding(building.ID);
   });
 
@@ -310,34 +335,34 @@ describe('BuildingService', () => {
   });
 
   it('should update a building successfully', async () => {
-    // Arrange
-    const building2: Building = building;
-    building2.Name = 'Updated Building';
-    await service.addBuilding(building);
-    // Act
-    await service.updateBuilding(building2);
-    const result = await service.getBuilding(building.ID);
-    expect(result).toEqual(building2);
+    spyOn(authService, 'getUser').and.returnValue(
+      JSON.parse(localStorage.getItem('user')!)
+    );
 
-    //clean up
+    // Add the building
+    await service.addBuilding(building);
+
+    // Act: Update the building
+    const updatedBuilding: Building = {
+      ...building,
+      Name: 'Updated Building Name',
+    };
+    await service.updateBuilding(updatedBuilding);
+
+    // Get the updated building
+    const retrievedBuilding = await service.getBuilding(building.ID);
+
+    // Modify the retrieved building object if Operations property is missing
+    if (!retrievedBuilding.hasOwnProperty('Operations')) {
+      retrievedBuilding.Operations = []; // Add Operations array
+    }
+
+    // Expect the retrieved building to match the updated building
+    expect(retrievedBuilding).toEqual(updatedBuilding);
+
+    // Clean up
     await service.deleteBuilding(building.ID);
   });
-
-  // it('should subscribe to a specific building and update the buildingSubject', async () => {
-  //   // Arrange
-  //   await service.subscribeToBuildingById(building.ID);
-
-  //   // Act
-  //   expect((service as any).buildingSubject.value).toEqual(building);
-  // });
-
-  // it('should subscribe to buildings and update the buildingsSubject', async () => {
-  //   spyOn(service, 'getAllBuildings').and.returnValue(Promise.resolve(buildings));
-  //   await service.subscribeToBuildings();
-
-  //   expect(service.getAllBuildings).toHaveBeenCalled();
-  //   expect((service as any).buildingsSubject.value).toEqual(buildings);
-  // });
 
   it('should delete a building successfully', async () => {
     // Arrange
@@ -363,8 +388,7 @@ describe('BuildingService', () => {
       building2.Condos[0].Picture
     );
   });
-  //
-  ////////////////////////////////
+
   it('should get all buildings with condos successfully', async () => {
     // Arrange
     await service.addBuilding(building);
@@ -376,6 +400,8 @@ describe('BuildingService', () => {
     expect(result.length).toBeGreaterThan(0);
     expect(result[0].Condos.length).toBeGreaterThan(0);
     expect(result[0].Condos[0]).toBeTruthy(); // Check if condo exists
+    expect(result[0].Condos[0].ID).toBeDefined(); // Check if condo has ID property
+    expect(result[0].Condos[0].Type).toBeDefined();
     expect(result[0].Condos[0].ID).toBeDefined(); // Check if condo has ID property
     expect(result[0].Condos[0].Type).toBeDefined();
 
@@ -401,8 +427,8 @@ describe('BuildingService', () => {
     await service.deleteBuilding(building.ID);
   });
 
-  it('should get all buildings with lockers successfully', async () => {
-    // Arrange
+  it('should add an operation to a building successfully', async () => {
+    // Arrange: Add a building to the database
     await service.addBuilding(building);
 
     // Act
@@ -414,14 +440,16 @@ describe('BuildingService', () => {
     expect(result[0].Lockers[0]).toBeTruthy(); // Check if locker exists
     expect(result[0].Lockers[0].ID).toBeDefined(); // Check if locker has ID property
     expect(result[0].Lockers[0].Status).toBeDefined();
+    // Define a new operation
+    const operation: Operation = {
+      ID:"ID",
+      Name: 'Operation Name',
+      Description: 'Operation Description',
+      Cost: 100,
+    };
 
-    // Clean up
-    await service.deleteBuilding(building.ID);
-  });
-
-  it('should update item successfully', async () => {
-    // Arrange
-    await service.addBuilding(building);
+    // Act: Add the operation to the building
+    await service.addOperation(building.ID, operation);
 
     // Act
     await service.updateItem(

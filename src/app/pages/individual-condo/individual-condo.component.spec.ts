@@ -118,6 +118,7 @@ describe('IndividualCondoComponent', () => {
       Condos: [],
       Picture: 'url/to/picture',
       Facilities: [],
+      Operations:[]
     };
     component.condo = testCondo;
     spyOn(component, 'isEditAllowed').and.returnValue(true);
@@ -162,6 +163,7 @@ describe('IndividualCondoComponent', () => {
       Condos: [],
       Picture: 'url/to/picture',
       Facilities: [],
+      Operations:[]
     };
     component.condo = testCondo;
     spyOn(component, 'isEditAllowed').and.returnValue(false);
@@ -200,6 +202,7 @@ describe('IndividualCondoComponent', () => {
       ],
       Picture: 'url/to/picture',
       Facilities: [],
+      Operations:[]
     };
 
     mockBuildingService.getBuilding.and.returnValue(
@@ -307,7 +310,7 @@ describe('IndividualCondoComponent', () => {
     component.proceedToPayment();
   
     expect(navigateSpy).toHaveBeenCalledWith(['/payment'], {
-      queryParams: { condo: JSON.stringify(mockCondo), buildingID: mockBuilding.ID },
+      queryParams: { condo: JSON.stringify(mockCondo), buildingID: mockBuilding.ID, returnUrl: undefined },
     });
   });
 

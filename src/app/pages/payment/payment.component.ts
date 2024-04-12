@@ -175,7 +175,7 @@ export class PaymentComponent {
       this.buildingService
         .updateCondoFee(this.buildingID, this.condo, this.balance)
         .then(() => {
-          this.NotificationService.sendAlert(
+          this.NotificationService.sendNotification(
             'Condo Fee balance has been paid!'
           );
           this.router.navigate(['my-properties']);

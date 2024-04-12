@@ -76,15 +76,15 @@ export class IndividualCondoComponent implements OnInit {
   async fetchUserInfo(): Promise<void> {
     if (this.condo?.Status === 'Vacant') {
       this.userInfo = await this.userService.getCompanyUser(
-        this.building?.CompanyID || ''
+        this.building?.CompanyID ?? ''
       );
     } else {
       this.userInfo = await this.userService.getPublicUser(
-        this.condo?.OccupantID || ''
+        this.condo?.OccupantID ?? ''
       );
       if (!this.userInfo) {
         this.userInfo = await this.userService.getEmployeeUser(
-          this.condo?.OccupantID || ''
+          this.condo?.OccupantID ?? ''
         );
       }
     }
@@ -184,8 +184,9 @@ export class IndividualCondoComponent implements OnInit {
 
   proceedToPayment() {
     //redirect to payment page and pass the condo object
+    const currentUrl = this.router.url;
     this.router.navigate(['/payment'], {
-      queryParams: { condo: JSON.stringify(this.condo), buildingID: this.building?.ID},
+      queryParams: { condo: JSON.stringify(this.condo), buildingID: this.building?.ID, returnUrl: currentUrl}
     });
   }
 }

@@ -88,6 +88,7 @@ describe('ParkingSpotComponent', () => {
       Condos: [],
       Picture: '',
       Facilities: [],
+      Operations:[]
     };
 
     myUser = {
@@ -368,16 +369,19 @@ describe('ParkingSpotComponent', () => {
     };
     const successMessage =
       'Your request for rental has been sent. You will be notified when it is approved.';
-    spyOn(component.userService, 'sendNotificationToUser').and.returnValue(
-      Promise.resolve()
-    );
+    spyOn(
+      component.userService,
+      'sendNotificationToEmployeeOfCompany'
+    ).and.returnValue(Promise.resolve());
     spyOn(component.notificationService, 'sendNotification');
 
     await component.requestRent(parkingSpot);
 
-    expect(component.userService.sendNotificationToUser).toHaveBeenCalledWith(
+    expect(
+      component.userService.sendNotificationToEmployeeOfCompany
+    ).toHaveBeenCalledWith(
       component.building.CompanyID,
-      Authority.Company,
+      component.building.ID,
       jasmine.objectContaining({
         Message: notification.Message,
         New: notification.New,
@@ -390,51 +394,4 @@ describe('ParkingSpotComponent', () => {
       successMessage
     );
   });
-
-  // it('should fetch new user information when new parkings are added', fakeAsync(() => {
-  //   component.parkings = [
-  //     {
-  //       ID: '1',
-  //       Number: '123',
-  //       Status: ParkingLockerStatus.Unavailable,
-  //       OccupantID: '',
-  //       Fee: 0,
-  //       ParkingType: ParkingType.Standard
-  //     },
-  //     {
-  //       ID: '2',
-  //       Number: '456',
-  //       Status: ParkingLockerStatus.Available,
-  //       OccupantID: '',
-  //       Fee: 0,
-  //       ParkingType: ParkingType.Standard
-  //     }
-  //   ];
-  //   component.ngOnInit();
-  //   tick();
-  //   const initialUsers = {...component.users};
-
-  //   component.parkings = [
-  //     {
-  //       ID: '1',
-  //       Number: '123',
-  //       Status: ParkingLockerStatus.Unavailable,
-  //       OccupantID: '1',
-  //       Fee: 0,
-  //       ParkingType: ParkingType.Standard
-  //     },
-  //     {
-  //       ID: '2',
-  //       Number: '456',
-  //       Status: ParkingLockerStatus.Available,
-  //       OccupantID: '2',
-  //       Fee: 0,
-  //       ParkingType: ParkingType.Standard
-  //     }
-  //   ];
-  //   component.ngOnInit();
-  //   tick();
-
-  //   expect(component.users).not.toEqual(initialUsers);
-  // }));
 });

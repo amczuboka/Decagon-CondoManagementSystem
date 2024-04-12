@@ -1,9 +1,11 @@
 {
-  "hosting": [
-    {
-      "target": "Decagon",
-      "source": ".",
-      "frameworksBackend": {}
-    }
-  ]
+  "hosting": {
+    "public": "dist\\decagon",
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
 }
