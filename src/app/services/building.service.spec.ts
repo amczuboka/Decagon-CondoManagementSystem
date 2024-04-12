@@ -600,4 +600,34 @@ describe('BuildingService', () => {
     // Clean up: Delete the test building
     await service.deleteBuilding(building.ID);
   });
+
+  it('should delete an operation from a building successfully', async () => {
+    // Arrange: Add a building to the database
+    await service.addBuilding(building);
+  
+    // Define a new operation
+    const operation: Operation = {
+      ID: "ID",
+      Name: 'Operation Name',
+      Description: 'Operation Description',
+      Cost: 100,
+    };
+  
+    // Add the operation to the building
+    await service.addOperation(building.ID, operation);
+  
+    // Act: Delete the operation from the building
+    await service.deleteOperationByName(building.ID, operation.Name);
+  
+    // Get the updated building
+    const updatedBuilding = await service.getBuilding(building.ID);
+  
+    // Assert: Check if the operation is deleted from the building
+    expect(updatedBuilding).toBeTruthy();
+  
+    expect(updatedBuilding.Operations).toBeUndefined();
+  
+    // Clean up: Delete the test building
+    await service.deleteBuilding(building.ID);
+  });
 });
