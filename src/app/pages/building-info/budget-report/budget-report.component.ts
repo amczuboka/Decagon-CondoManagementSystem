@@ -1,37 +1,82 @@
 import { Component, OnInit } from '@angular/core';
-import { BudgetReport } from 'src/app/models/properties';
+import { BudgetReport, Building, CondoStatus } from 'src/app/models/properties';
+import { BuildingService } from 'src/app/services/building.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-budget-report',
   templateUrl: './budget-report.component.html',
   styleUrls: ['./budget-report.component.scss'],
 })
+
 export class BudgetReportComponent implements OnInit {
-  fakeBudget: BudgetReport[] = [];
+  buildings: Building[] = [];
+  Budget: any[] = [];
 
-  public totalCondoFeeRevenue: number = 0;
-  public totalOperationCosts: number = 0;
-  public totalProfit: number = 0;
+  totalCondoFeeRevenue: number = 0;
+  totalOperationCosts: number = 0;
+  totalProfit: number = 0;
 
-  constructor() {}
+  constructor(
+    private buildingService: BuildingService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
-    // Generate fake budget data for 10 buildings
-    for (let i = 1; i <= 10; i++) {
-      const building: BudgetReport = {
-        BuildingName: 'Building ' + String.fromCharCode(64 + i),
-        CondoFeeRevenue: Math.floor(Math.random() * 1000) + 500,
-        OperationCosts: Math.floor(Math.random() * 500) + 200,
-      };
-
-      building.Profit = building.CondoFeeRevenue - building.OperationCosts;
-
-      // Update totals
-      this.totalCondoFeeRevenue += building.CondoFeeRevenue;
-      this.totalOperationCosts += building.OperationCosts;
-      this.totalProfit += building.Profit;
-
-      this.fakeBudget.push(building);
+    const currentUser = this.authService.getUser();
+    if (currentUser?.uid) {
+      this.buildingService.getAllBuildingsOfCompany(currentUser.uid)
+        .then((buildings: Building[]) => {
+          this.buildings = buildings;
+          this.generateBudgetReport();
+        })
+        .catch((error) => {
+          console.error('Error getting buildings:', error);
+        });
     }
+  }
+
+  generateBudgetReport() {
+    for (let building of this.buildings) {
+      const condoFeeRevenue = this.calculateCondoFeeRevenue(building);
+      const operationCosts = this.calculateOperationCosts(building);
+      const profit = condoFeeRevenue - operationCosts;
+  
+      // Create a BudgetReport object with the calculated data
+      const budgetReport: BudgetReport = {
+        BuildingName: building.Name,
+        CondoFeeRevenue: condoFeeRevenue,
+        OperationCosts: operationCosts,
+        Profit: profit,
+      };
+  
+      // Update totals
+      this.totalCondoFeeRevenue += condoFeeRevenue;
+      this.totalOperationCosts += operationCosts;
+      this.totalProfit += profit;
+  
+      // Push the BudgetReport object to the Budget array
+      this.Budget.push(budgetReport);
+    }
+  }
+
+  calculateCondoFeeRevenue(building: Building): number {
+    let condoFeeRevenue = 0;
+    for (const condo of building.Condos) {
+      if (condo.Status === CondoStatus.Owned || condo.Status === CondoStatus.Rented) {
+        condoFeeRevenue += condo.Fee;
+      }
+    }
+    return condoFeeRevenue;
+  }
+
+  calculateOperationCosts(building: Building): number {
+    let operationCosts = 0;
+    if (building.Operations){
+      for (const operation of building.Operations){
+        operationCosts += isNaN(operation.Cost) ? 0 : operation.Cost;
+      }
+    }
+    return operationCosts;
   }
 }

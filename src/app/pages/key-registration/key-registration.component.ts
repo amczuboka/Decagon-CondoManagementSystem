@@ -1,6 +1,7 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { BuildingService } from 'src/app/services/building.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-key-registration',
@@ -10,10 +11,19 @@ import { BuildingService } from 'src/app/services/building.service';
 export class KeyRegistrationComponent {
   @ViewChild('inputRef') inputElement!: ElementRef<HTMLInputElement>;
   registrationType: 'condo' | 'parking' | 'locker' = 'condo';
+  KeyReg!: FormGroup;
+
   constructor(
     private buildingService: BuildingService,
-    private authService: AuthService
+    private authService: AuthService,
+    private formBuilder: FormBuilder
   ) {}
+
+  ngOnInit(): void {
+    this.KeyReg = this.formBuilder.group({
+      registrationType: ['', Validators.required],
+    });
+  }
 
   async handleButtonClick() {
     const value = this.inputElement.nativeElement.value.trim();
@@ -29,8 +39,10 @@ export class KeyRegistrationComponent {
         return;
       }
       const currentID = user.uid;
+      console.log('this.KeyReg.value', this.KeyReg.value);
+      console.log('this.KeyReg', this.KeyReg);
 
-      switch (this.registrationType) {
+      switch (this.KeyReg.value.registrationType) {
         case 'condo':
           await this.registerForItem(value, currentID, 'Condos');
           break;

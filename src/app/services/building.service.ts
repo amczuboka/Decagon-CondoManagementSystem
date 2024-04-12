@@ -296,6 +296,57 @@ export class BuildingService {
     }
   }
 
+  async deleteCondoAttribute(buildingId: string, condoId: string, attribute: string): Promise<void> {
+    try {
+      const database = getDatabase();
+
+      // Get the building from Firebase
+      const buildingSnapshot = await get(ref(database, `buildings/${buildingId}`));
+      if (buildingSnapshot.exists()) {
+          const building = buildingSnapshot.val();
+
+          // Find the condo index with the provided condoId
+          const condoIndex = building.Condos.findIndex((condo: any) => condo.ID === condoId);
+
+          // Check if the condo exists in the building
+          if (condoIndex !== -1) {
+              // Get the reference to the condo within the building
+              const condoRef = ref(database, `buildings/${buildingId}/Condos/${condoIndex}`);
+
+              // Fetch the condo data
+              const condoSnapshot = await get(condoRef);
+              if (condoSnapshot.exists()) {
+                  const condoData = condoSnapshot.val();
+
+                  // Check if the attribute exists in the condo
+                  if (condoData.hasOwnProperty(attribute)) {
+                      // Delete the attribute from the condo data
+                      delete condoData[attribute];
+
+                      // Update the condo data in Firebase
+                      await set(condoRef, condoData);
+
+                      // Log the modified condo data locally
+                      console.log('Modified Condo Data:', condoData);
+                  } else {
+                      console.error(`Attribute '${attribute}' does not exist in the condo`);
+                  }
+              } else {
+                  console.error('Condo data not found');
+              }
+          } else {
+              console.error('Condo not found in the building');
+          }
+      } else {
+          console.error('Building not found');
+      }
+  } catch (error) {
+      console.error('Error deleting condo attribute:', error);
+      throw error;
+  }
+  }
+
+  
   /**
    * Retrieves all deliveries from the 'buildings' node and calls when with real time updatein Firebase Realtime Database.
    * @returns A callback returning an array of all Building objects.
