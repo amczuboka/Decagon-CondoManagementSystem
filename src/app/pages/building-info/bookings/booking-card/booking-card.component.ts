@@ -4,6 +4,7 @@ import { Booking, Building } from 'src/app/models/properties';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { BookingsService } from 'src/app/services/bookings.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-booking-card',
@@ -21,7 +22,8 @@ export class BookingCardComponent {
   constructor(
     public userService: UserService, 
     public authService: AuthService,
-    private bookingsService: BookingsService
+    private bookingsService: BookingsService,
+    private notificationService: NotificationService,
   ) {}
 
   async ngOnInit() {
@@ -41,6 +43,10 @@ export class BookingCardComponent {
     const buildingID = this.building.ID;
     console.log(buildingID);
     console.log(bookingID);
-    this.bookingsService.removeBooking(buildingID, bookingID);
+    this.bookingsService.removeBooking(buildingID, bookingID).then(() => {
+      this.notificationService.sendNotification(
+        'Booking successfully deleted!'
+      );
+    });;
   }
 }
