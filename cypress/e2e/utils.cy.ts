@@ -25,8 +25,11 @@ export const addCondo = (Type: CondoType) => {
     cy.get('mat-option').contains('Sale').click();
   cy.get('input[name="Fee"]').type('1000');
   cy.get('#CondoDescription').type('This is a description');
+  cy.wait(2000);
   cy.get('#CondoPicture').selectFile('./cypress/e2e/default.png');
+  cy.wait(2000);
   cy.get('button').contains('Save').click();
+  cy.wait(2000);
 };
 
 export const addLocker = () => {
@@ -43,7 +46,9 @@ export const addLocker = () => {
   cy.get('mat-select[name="LengthUnit"]').click();
   cy.get('mat-option').contains('cm').click();
   cy.get('input[name="Fee"]').type('1000');
+  cy.wait(2000);
   cy.get('button').contains('Save').click();
+  cy.wait(2000);
 };
 
 export const addParking = (Type: ParkingType) => {
@@ -56,5 +61,7 @@ export const addParking = (Type: ParkingType) => {
   else if (Type === ParkingType.Handicap)
     cy.get('mat-option').contains('Handicap').click();
   cy.get('input[name="Fee"]').type('100', { force: true });
+  cy.wait(2000);
   cy.get('button').contains('Save').click();
+  cy.wait(2000);
 };

@@ -188,10 +188,4 @@ describe('EmployeesListComponent', () => {
     expect(component.employees[1].Role).toBe(Role.Manager);
     expect(component.employees[1].PropertyIds).toEqual(component['getBuildingIds'](component.employeesTable[1]));
   });
-
-  // it('should open snack bar', () => {
-  //   spyOn(component, 'openSnackBar');
-  //   component.openSnackBar('test');
-  //   expect(component.openSnackBar).toHaveBeenCalled();
-  // });
 });

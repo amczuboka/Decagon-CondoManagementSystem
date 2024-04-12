@@ -58,6 +58,7 @@ describe('CondoComponent', () => {
       Condos: [],
       Picture: '',
       Facilities: [],
+      Operations:[]
     };
     myUser = {
       ID: '1',
@@ -145,16 +146,19 @@ describe('CondoComponent', () => {
     };
     const successMessage =
       'Your request for ownership has been sent. You will be notified when it is approved.';
-    spyOn(component.userService, 'sendNotificationToUser').and.returnValue(
-      Promise.resolve()
-    );
+    spyOn(
+      component.userService,
+      'sendNotificationToEmployeeOfCompany'
+    ).and.returnValue(Promise.resolve());
     spyOn(component.notificationService, 'sendNotification');
 
     await component.requestOwnership(condo);
 
-    expect(component.userService.sendNotificationToUser).toHaveBeenCalledWith(
+    expect(
+      component.userService.sendNotificationToEmployeeOfCompany
+    ).toHaveBeenCalledWith(
       component.building.CompanyID,
-      Authority.Company,
+      component.building.ID,
       jasmine.objectContaining({
         Message: notification.Message,
         New: notification.New,
@@ -181,16 +185,19 @@ describe('CondoComponent', () => {
     };
     const successMessage =
       'Your request for rental has been sent. You will be notified when it is approved.';
-    spyOn(component.userService, 'sendNotificationToUser').and.returnValue(
-      Promise.resolve()
-    );
+    spyOn(
+      component.userService,
+      'sendNotificationToEmployeeOfCompany'
+    ).and.returnValue(Promise.resolve());
     spyOn(component.notificationService, 'sendNotification');
 
     await component.requestRent(condo);
 
-    expect(component.userService.sendNotificationToUser).toHaveBeenCalledWith(
+    expect(
+      component.userService.sendNotificationToEmployeeOfCompany
+    ).toHaveBeenCalledWith(
       component.building.CompanyID,
-      Authority.Company,
+      component.building.ID,
       jasmine.objectContaining({
         Message: notification.Message,
         New: notification.New,

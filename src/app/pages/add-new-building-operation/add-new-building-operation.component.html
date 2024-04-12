@@ -18,7 +18,6 @@
 
     </label>
   </div>
-
   <div>
     <label for="cost">
       <p>Cost</p>
@@ -26,7 +25,7 @@
         <div *ngIf="operationForm.controls['cost'].errors['required']">Cost is required</div>
         <div *ngIf="operationForm.controls['cost'].errors['pattern']">Invalid cost format (e.g., 123.45)</div>
       </div>
-      <input type="text" placeholder="Cost" formControlName="cost">
+      <input type="number" placeholder="Cost" formControlName="cost">
 
     </label>
   </div>
@@ -36,11 +35,11 @@
       <p>Building</p>
       <div *ngIf="submitted && operationForm.controls['building'].errors && operationForm.controls['building'].errors['required']" class="error">Building is required</div>
       <mat-select placeholder="Choose a Building" formControlName="building">
-        <mat-option value="one">Building A</mat-option>
-        <mat-option value="two">Building B</mat-option>
+        <mat-option *ngFor="let building of buildings" [value]="building.ID"> Building {{ building.Name }}</mat-option>
       </mat-select>
     </label>
   </div>
+  
 
   <button type="submit">Submit</button>
 </form>

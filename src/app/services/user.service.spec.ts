@@ -5,6 +5,9 @@ import {
   Authority,
   CompanyDTO,
   EmployeeDTO,
+  NotificationType,
+  Notification,
+  RequestStatus,
   Role,
   UserDTO,
 } from '../models/users';
@@ -177,14 +180,18 @@ describe('UserService', () => {
   it('should return an array of employees belonging to the specified company', async () => {
     const companyName = 'Company A';
 
-    spyOn(service, 'getEmployeeUser').and.returnValue(Promise.resolve(EmployeeUser));
+    spyOn(service, 'getEmployeeUser').and.returnValue(
+      Promise.resolve(EmployeeUser)
+    );
 
     // Calling the function and expecting a result
     const result = await service.getEmployeesOfCompany(companyName);
 
     expect(result).toBeTruthy();
     expect(Array.isArray(result)).toBeTrue();
-    expect(result!.every(employee => employee.CompanyName === companyName)).toBeTrue();
+    expect(
+      result!.every((employee) => employee.CompanyName === companyName)
+    ).toBeTrue();
   });
 
   it('should update the employee in the database', async () => {
@@ -194,13 +201,13 @@ describe('UserService', () => {
       LastName: 'Smith',
       CompanyName: 'Company A',
       Authority: Authority.Employee,
-      Email: "jo@jomama.com",
-      ProfilePicture: "",
-      PhoneNumber: "1231231234",
-      UserName: "johnsmith",
+      Email: 'jo@jomama.com',
+      ProfilePicture: '',
+      PhoneNumber: '1231231234',
+      UserName: 'johnsmith',
       PropertyIds: [],
       Notifications: [],
-      Role: Role.Manager
+      Role: Role.Manager,
     };
 
     // Calling the function
@@ -221,33 +228,33 @@ describe('UserService', () => {
 
   it('should register a new public user', async () => {
     let path = 'public users/';
-    let userCopy = {...publicUser};
+    let userCopy = { ...publicUser };
     userCopy.PhoneNumber = '';
     userCopy.ProfilePicture = '';
     userCopy.UserName = userCopy.FirstName + ' ' + userCopy.LastName;
 
     await service.registerUser(userCopy, userCopy.ID, path);
-    
+
     expect(await service.getPublicUser(userCopy.ID)).toEqual(userCopy);
   });
 
   it('should register a new company', async () => {
     let path = 'companies/';
-    let userCopy = {...CompanyUser} as any;
+    let userCopy = { ...CompanyUser } as any;
     userCopy.PhoneNumber = '';
     userCopy.ProfilePicture = '';
     userCopy.UserName = userCopy.FirstName + ' ' + userCopy.LastName;
     delete userCopy.EmployeeIds;
     delete userCopy.PropertyIds;
-    
+
     await service.registerUser(userCopy, userCopy.ID, path);
     console.log(await service.getCompanyUser(userCopy.ID));
     expect(await service.getCompanyUser(userCopy.ID)).toEqual(userCopy);
   });
 
   it('should register a new employee', async () => {
-  let path = 'employees/';
-    let userCopy = {...EmployeeUser} as any;
+    let path = 'employees/';
+    let userCopy = { ...EmployeeUser } as any;
     userCopy.PhoneNumber = '';
     userCopy.ProfilePicture = '';
     userCopy.UserName = userCopy.FirstName + ' ' + userCopy.LastName;
@@ -255,8 +262,597 @@ describe('UserService', () => {
     delete userCopy.PropertyIds;
 
     await service.registerUser(userCopy, userCopy.ID, path);
-    
+
     expect(await service.getEmployeeUser(userCopy.ID)).toEqual(userCopy);
   });
 
+  it('should send notification to employee of company with financial role', async () => {
+    // Arrange
+    const companyID = '123';
+    const buildingID = '789';
+    const notification: Notification = {
+      Message: 'test notification',
+      New: true,
+      Date: Date.now(),
+      SenderId: '123',
+      SenderName: 'gig ffefe',
+      Type: NotificationType.FinancialRequest,
+      Status: RequestStatus.Pending,
+    };
+    const companyUser: CompanyDTO = {
+      FirstName: 'John',
+      LastName: 'Doe',
+      ID: companyID,
+      Authority: Authority.Company,
+      Email: 'test@company.com',
+      ProfilePicture: '1234567890',
+      PhoneNumber: '1234567890',
+      UserName: 'company',
+      CompanyName: 'ABC Company',
+      PropertyIds: ['456', '789'],
+      EmployeeIds: ['111', '222'],
+    };
+    const employee1: EmployeeDTO = {
+      FirstName: 'Jane',
+      LastName: 'Smith',
+      ID: '111',
+      Authority: Authority.Employee,
+      Email: 'test@employee1.com',
+      ProfilePicture: '0987654321',
+      PhoneNumber: '9876543210',
+      UserName: 'employee1',
+      CompanyName: 'ABC Company',
+      PropertyIds: ['456'],
+      Role: Role.Cleaning,
+    };
+    const employee2: EmployeeDTO = {
+      FirstName: 'Bob',
+      LastName: 'Johnson',
+      ID: '222',
+      Authority: Authority.Employee,
+      Email: 'test@employee2.com',
+      ProfilePicture: '1357924680',
+      PhoneNumber: '0123456789',
+      UserName: 'employee2',
+      CompanyName: 'ABC Company',
+      PropertyIds: ['789'],
+      Role: Role.Financial,
+    };
+
+    spyOn(service, 'getCompanyUser').and.returnValue(
+      Promise.resolve(companyUser)
+    );
+    spyOn(service, 'getEmployeesOfCompany').and.returnValue(
+      Promise.resolve([employee1, employee2])
+    );
+    spyOn(service, 'sendNotificationToUser');
+
+    // Act
+    await service.sendNotificationToEmployeeOfCompany(
+      companyID,
+      buildingID,
+      notification
+    );
+
+    // Assert
+    expect(service.sendNotificationToUser).toHaveBeenCalledTimes(1);
+    expect(service.sendNotificationToUser).toHaveBeenCalledWith(
+      employee2.ID,
+      Authority.Employee,
+      notification
+    );
+  });
+
+  it('should send notification to employee of company with cleaning role', async () => {
+    // Arrange
+    const companyID = '123';
+    const buildingID = '456';
+    const notification: Notification = {
+      Message: 'test notification',
+      New: true,
+      Date: Date.now(),
+      SenderId: '123',
+      SenderName: 'gig ffefe',
+      Type: NotificationType.CleaningRequest,
+      Status: RequestStatus.Pending,
+    };
+    const companyUser: CompanyDTO = {
+      FirstName: 'John',
+      LastName: 'Doe',
+      ID: companyID,
+      Authority: Authority.Company,
+      Email: 'test@company.com',
+      ProfilePicture: '1234567890',
+      PhoneNumber: '1234567890',
+      UserName: 'company',
+      CompanyName: 'ABC Company',
+      PropertyIds: ['456', '789'],
+      EmployeeIds: ['111', '222'],
+    };
+    const employee1: EmployeeDTO = {
+      FirstName: 'Jane',
+      LastName: 'Smith',
+      ID: '111',
+      Authority: Authority.Employee,
+      Email: 'test@employee1.com',
+      ProfilePicture: '0987654321',
+      PhoneNumber: '9876543210',
+      UserName: 'employee1',
+      CompanyName: 'ABC Company',
+      PropertyIds: ['456'],
+      Role: Role.Cleaning,
+    };
+    const employee2: EmployeeDTO = {
+      FirstName: 'Bob',
+      LastName: 'Johnson',
+      ID: '222',
+      Authority: Authority.Employee,
+      Email: 'test@employee2.com',
+      ProfilePicture: '1357924680',
+      PhoneNumber: '0123456789',
+      UserName: 'employee2',
+      CompanyName: 'ABC Company',
+      PropertyIds: ['789'],
+      Role: Role.Financial,
+    };
+
+    spyOn(service, 'getCompanyUser').and.returnValue(
+      Promise.resolve(companyUser)
+    );
+    spyOn(service, 'getEmployeesOfCompany').and.returnValue(
+      Promise.resolve([employee1, employee2])
+    );
+    spyOn(service, 'sendNotificationToUser');
+
+    // Act
+    await service.sendNotificationToEmployeeOfCompany(
+      companyID,
+      buildingID,
+      notification
+    );
+
+    // Assert
+    expect(service.sendNotificationToUser).toHaveBeenCalledTimes(1);
+    expect(service.sendNotificationToUser).toHaveBeenCalledWith(
+      employee1.ID,
+      Authority.Employee,
+      notification
+    );
+  });
+
+  it('should send notification to employee of company with manager role and general message', async () => {
+    // Arrange
+    const companyID = '123';
+    const buildingID = '456';
+    const notification: Notification = {
+      Message: 'test notification',
+      New: true,
+      Date: Date.now(),
+      SenderId: '123',
+      SenderName: 'gig ffefe',
+      Type: NotificationType.GeneralMessage,
+      Status: RequestStatus.Pending,
+    };
+    const companyUser: CompanyDTO = {
+      FirstName: 'John',
+      LastName: 'Doe',
+      ID: companyID,
+      Authority: Authority.Company,
+      Email: 'test@company.com',
+      ProfilePicture: '1234567890',
+      PhoneNumber: '1234567890',
+      UserName: 'company',
+      CompanyName: 'ABC Company',
+      PropertyIds: ['456', '789'],
+      EmployeeIds: ['111', '222'],
+    };
+    const employee1: EmployeeDTO = {
+      FirstName: 'Jane',
+      LastName: 'Smith',
+      ID: '111',
+      Authority: Authority.Employee,
+      Email: 'test@employee1.com',
+      ProfilePicture: '0987654321',
+      PhoneNumber: '9876543210',
+      UserName: 'employee1',
+      CompanyName: 'ABC Company',
+      PropertyIds: ['456'],
+      Role: Role.Manager,
+    };
+    const employee2: EmployeeDTO = {
+      FirstName: 'Bob',
+      LastName: 'Johnson',
+      ID: '222',
+      Authority: Authority.Employee,
+      Email: 'test@employee2.com',
+      ProfilePicture: '1357924680',
+      PhoneNumber: '0123456789',
+      UserName: 'employee2',
+      CompanyName: 'ABC Company',
+      PropertyIds: ['789'],
+      Role: Role.Financial,
+    };
+
+    spyOn(service, 'getCompanyUser').and.returnValue(
+      Promise.resolve(companyUser)
+    );
+    spyOn(service, 'getEmployeesOfCompany').and.returnValue(
+      Promise.resolve([employee1, employee2])
+    );
+    spyOn(service, 'sendNotificationToUser');
+
+    // Act
+    await service.sendNotificationToEmployeeOfCompany(
+      companyID,
+      buildingID,
+      notification
+    );
+
+    // Assert
+    expect(service.sendNotificationToUser).toHaveBeenCalledTimes(1);
+    expect(service.sendNotificationToUser).toHaveBeenCalledWith(
+      employee1.ID,
+      Authority.Employee,
+      notification
+    );
+  });
+
+  it('should send notification to employee of company with maintenance role', async () => {
+    // Arrange
+    const companyID = '123';
+    const buildingID = '456';
+    const notification: Notification = {
+      Message: 'test notification',
+      New: true,
+      Date: Date.now(),
+      SenderId: '123',
+      SenderName: 'gig ffefe',
+      Type: NotificationType.MaintenanceRequest,
+      Status: RequestStatus.Pending,
+    };
+    const companyUser: CompanyDTO = {
+      FirstName: 'John',
+      LastName: 'Doe',
+      ID: companyID,
+      Authority: Authority.Company,
+      Email: 'test@company.com',
+      ProfilePicture: '1234567890',
+      PhoneNumber: '1234567890',
+      UserName: 'company',
+      CompanyName: 'ABC Company',
+      PropertyIds: ['456', '789'],
+      EmployeeIds: ['111', '222'],
+    };
+    const employee1: EmployeeDTO = {
+      FirstName: 'Jane',
+      LastName: 'Smith',
+      ID: '111',
+      Authority: Authority.Employee,
+      Email: 'test@employee1.com',
+      ProfilePicture: '0987654321',
+      PhoneNumber: '9876543210',
+      UserName: 'employee1',
+      CompanyName: 'ABC Company',
+      PropertyIds: ['456'],
+      Role: Role.Maintenance,
+    };
+    const employee2: EmployeeDTO = {
+      FirstName: 'Bob',
+      LastName: 'Johnson',
+      ID: '222',
+      Authority: Authority.Employee,
+      Email: 'test@employee2.com',
+      ProfilePicture: '1357924680',
+      PhoneNumber: '0123456789',
+      UserName: 'employee2',
+      CompanyName: 'ABC Company',
+      PropertyIds: ['789'],
+      Role: Role.Financial,
+    };
+
+    spyOn(service, 'getCompanyUser').and.returnValue(
+      Promise.resolve(companyUser)
+    );
+    spyOn(service, 'getEmployeesOfCompany').and.returnValue(
+      Promise.resolve([employee1, employee2])
+    );
+    spyOn(service, 'sendNotificationToUser');
+
+    // Act
+    await service.sendNotificationToEmployeeOfCompany(
+      companyID,
+      buildingID,
+      notification
+    );
+
+    // Assert
+    expect(service.sendNotificationToUser).toHaveBeenCalledTimes(1);
+    expect(service.sendNotificationToUser).toHaveBeenCalledWith(
+      employee1.ID,
+      Authority.Employee,
+      notification
+    );
+  });
+
+  it('should send notification to employee of company with manager role and ownership request', async () => {
+    // Arrange
+    const companyID = '123';
+    const buildingID = '456';
+    const notification: Notification = {
+      Message: 'test notification',
+      New: true,
+      Date: Date.now(),
+      SenderId: '123',
+      SenderName: 'gig ffefe',
+      Type: NotificationType.OwnershipRequest,
+      Status: RequestStatus.Pending,
+    };
+    const companyUser: CompanyDTO = {
+      FirstName: 'John',
+      LastName: 'Doe',
+      ID: companyID,
+      Authority: Authority.Company,
+      Email: 'test@company.com',
+      ProfilePicture: '1234567890',
+      PhoneNumber: '1234567890',
+      UserName: 'company',
+      CompanyName: 'ABC Company',
+      PropertyIds: ['456', '789'],
+      EmployeeIds: ['111', '222'],
+    };
+    const employee1: EmployeeDTO = {
+      FirstName: 'Jane',
+      LastName: 'Smith',
+      ID: '111',
+      Authority: Authority.Employee,
+      Email: 'test@employee1.com',
+      ProfilePicture: '0987654321',
+      PhoneNumber: '9876543210',
+      UserName: 'employee1',
+      CompanyName: 'ABC Company',
+      PropertyIds: ['456'],
+      Role: Role.Manager,
+    };
+    const employee2: EmployeeDTO = {
+      FirstName: 'Bob',
+      LastName: 'Johnson',
+      ID: '222',
+      Authority: Authority.Employee,
+      Email: 'test@employee2.com',
+      ProfilePicture: '1357924680',
+      PhoneNumber: '0123456789',
+      UserName: 'employee2',
+      CompanyName: 'ABC Company',
+      PropertyIds: ['789'],
+      Role: Role.Financial,
+    };
+
+    spyOn(service, 'getCompanyUser').and.returnValue(
+      Promise.resolve(companyUser)
+    );
+    spyOn(service, 'getEmployeesOfCompany').and.returnValue(
+      Promise.resolve([employee1, employee2])
+    );
+    spyOn(service, 'sendNotificationToUser');
+
+    // Act
+    await service.sendNotificationToEmployeeOfCompany(
+      companyID,
+      buildingID,
+      notification
+    );
+
+    // Assert
+    expect(service.sendNotificationToUser).toHaveBeenCalledTimes(1);
+    expect(service.sendNotificationToUser).toHaveBeenCalledWith(
+      employee1.ID,
+      Authority.Employee,
+      notification
+    );
+  });
+
+  it('should send notification to employee of company with manager role and rent request', async () => {
+    // Arrange
+    const companyID = '123';
+    const buildingID = '456';
+    const notification: Notification = {
+      Message: 'test notification',
+      New: true,
+      Date: Date.now(),
+      SenderId: '123',
+      SenderName: 'gig ffefe',
+      Type: NotificationType.RentRequest,
+      Status: RequestStatus.Pending,
+    };
+    const companyUser: CompanyDTO = {
+      FirstName: 'John',
+      LastName: 'Doe',
+      ID: companyID,
+      Authority: Authority.Company,
+      Email: 'test@company.com',
+      ProfilePicture: '1234567890',
+      PhoneNumber: '1234567890',
+      UserName: 'company',
+      CompanyName: 'ABC Company',
+      PropertyIds: ['456', '789'],
+      EmployeeIds: ['111', '222'],
+    };
+    const employee1: EmployeeDTO = {
+      FirstName: 'Jane',
+      LastName: 'Smith',
+      ID: '111',
+      Authority: Authority.Employee,
+      Email: 'test@employee1.com',
+      ProfilePicture: '0987654321',
+      PhoneNumber: '9876543210',
+      UserName: 'employee1',
+      CompanyName: 'ABC Company',
+      PropertyIds: ['456'],
+      Role: Role.Manager,
+    };
+    const employee2: EmployeeDTO = {
+      FirstName: 'Bob',
+      LastName: 'Johnson',
+      ID: '222',
+      Authority: Authority.Employee,
+      Email: 'test@employee2.com',
+      ProfilePicture: '1357924680',
+      PhoneNumber: '0123456789',
+      UserName: 'employee2',
+      CompanyName: 'ABC Company',
+      PropertyIds: ['789'],
+      Role: Role.Financial,
+    };
+
+    spyOn(service, 'getCompanyUser').and.returnValue(
+      Promise.resolve(companyUser)
+    );
+    spyOn(service, 'getEmployeesOfCompany').and.returnValue(
+      Promise.resolve([employee1, employee2])
+    );
+    spyOn(service, 'sendNotificationToUser');
+
+    // Act
+    await service.sendNotificationToEmployeeOfCompany(
+      companyID,
+      buildingID,
+      notification
+    );
+
+    // Assert
+    expect(service.sendNotificationToUser).toHaveBeenCalledTimes(1);
+    expect(service.sendNotificationToUser).toHaveBeenCalledWith(
+      employee1.ID,
+      Authority.Employee,
+      notification
+    );
+  });
+
+  it('should send notification to employee of company with security role', async () => {
+    // Arrange
+    const companyID = '123';
+    const buildingID = '456';
+    const notification: Notification = {
+      Message: 'test notification',
+      New: true,
+      Date: Date.now(),
+      SenderId: '123',
+      SenderName: 'gig ffefe',
+      Type: NotificationType.SecurityRequest,
+      Status: RequestStatus.Pending,
+    };
+    const companyUser: CompanyDTO = {
+      FirstName: 'John',
+      LastName: 'Doe',
+      ID: companyID,
+      Authority: Authority.Company,
+      Email: 'test@company.com',
+      ProfilePicture: '1234567890',
+      PhoneNumber: '1234567890',
+      UserName: 'company',
+      CompanyName: 'ABC Company',
+      PropertyIds: ['456', '789'],
+      EmployeeIds: ['111', '222'],
+    };
+    const employee1: EmployeeDTO = {
+      FirstName: 'Jane',
+      LastName: 'Smith',
+      ID: '111',
+      Authority: Authority.Employee,
+      Email: 'test@employee1.com',
+      ProfilePicture: '0987654321',
+      PhoneNumber: '9876543210',
+      UserName: 'employee1',
+      CompanyName: 'ABC Company',
+      PropertyIds: ['456'],
+      Role: Role.Security,
+    };
+    const employee2: EmployeeDTO = {
+      FirstName: 'Bob',
+      LastName: 'Johnson',
+      ID: '222',
+      Authority: Authority.Employee,
+      Email: 'test@employee2.com',
+      ProfilePicture: '1357924680',
+      PhoneNumber: '0123456789',
+      UserName: 'employee2',
+      CompanyName: 'ABC Company',
+      PropertyIds: ['789'],
+      Role: Role.Financial,
+    };
+
+    spyOn(service, 'getCompanyUser').and.returnValue(
+      Promise.resolve(companyUser)
+    );
+    spyOn(service, 'getEmployeesOfCompany').and.returnValue(
+      Promise.resolve([employee1, employee2])
+    );
+    spyOn(service, 'sendNotificationToUser');
+
+    // Act
+    await service.sendNotificationToEmployeeOfCompany(
+      companyID,
+      buildingID,
+      notification
+    );
+
+    // Assert
+    expect(service.sendNotificationToUser).toHaveBeenCalledTimes(1);
+    expect(service.sendNotificationToUser).toHaveBeenCalledWith(
+      employee1.ID,
+      Authority.Employee,
+      notification
+    );
+  });
+
+  it('should send notification to company since it has no employees with that role', async () => {
+    // Arrange
+    const companyID = '123';
+    const buildingID = '456';
+    const notification: Notification = {
+      Message: 'test notification',
+      New: true,
+      Date: Date.now(),
+      SenderId: '123',
+      SenderName: 'gig ffefe',
+      Type: NotificationType.SecurityRequest,
+      Status: RequestStatus.Pending,
+    };
+    const companyUser: CompanyDTO = {
+      FirstName: 'John',
+      LastName: 'Doe',
+      ID: companyID,
+      Authority: Authority.Company,
+      Email: 'test@company.com',
+      ProfilePicture: '1234567890',
+      PhoneNumber: '1234567890',
+      UserName: 'company',
+      CompanyName: 'ABC Company',
+      PropertyIds: ['456', '789'],
+      EmployeeIds: [],
+    };
+
+    spyOn(service, 'getCompanyUser').and.returnValue(
+      Promise.resolve(companyUser)
+    );
+    spyOn(service, 'getEmployeesOfCompany').and.returnValue(
+      Promise.resolve([])
+    );
+    spyOn(service, 'sendNotificationToUser');
+
+    // Act
+    await service.sendNotificationToEmployeeOfCompany(
+      companyID,
+      buildingID,
+      notification
+    );
+
+    // Assert
+    expect(service.sendNotificationToUser).toHaveBeenCalledTimes(1);
+    expect(service.sendNotificationToUser).toHaveBeenCalledWith(
+      companyID,
+      Authority.Company,
+      notification
+    );
+  });
 });

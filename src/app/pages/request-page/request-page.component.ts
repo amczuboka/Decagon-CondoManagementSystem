@@ -1,8 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Building } from 'src/app/models/properties';
-import { Authority, NotificationType } from 'src/app/models/users';
+import {
+  Authority,
+  NotificationType,
+  RequestStatus,
+} from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { UserService } from 'src/app/services/user.service';
@@ -16,7 +20,6 @@ export class RequestPageComponent {
   @Input() building!: Building;
   @Input() sourcePage!: string;
   requestForm!: FormGroup;
-  //   requestTypes = ['Move In / Move Out', 'Intercome Changes', 'Report Violation / Deficiency', 'Request Access', 'General Questions'];
   requestTypes: string[] = Object.values(NotificationType);
 
   myUser!: any;
@@ -65,7 +68,7 @@ export class RequestPageComponent {
   }
 
   async onSubmit() {
-    console.warn('Your order has been submitted', this.requestForm.value);
+    console.warn('Your request has been submitted', this.requestForm.value);
     if (this.requestForm.invalid) {
       console.log('Form is invalid');
       this.notificationService.sendAlert('You must select a request type.');
@@ -88,10 +91,11 @@ export class RequestPageComponent {
       SenderId: this.myUser.ID,
       SenderName: `${this.myUser.FirstName} ${this.myUser.LastName}`,
       Type: this.requestForm.value.RequestType as NotificationType,
+      Status: RequestStatus.Pending,
     };
-    await this.userService.sendNotificationToUser(
+    await this.userService.sendNotificationToEmployeeOfCompany(
       this.building.CompanyID,
-      Authority.Company,
+      this.building.ID,
       notification
     );
   }
