@@ -22,8 +22,8 @@ export class BookingCardComponent {
   constructor(
     public userService: UserService, 
     public authService: AuthService,
-    private bookingsService: BookingsService,
-    private notificationService: NotificationService,
+    public bookingsService: BookingsService,
+    public notificationService: NotificationService,
   ) {}
 
   async ngOnInit() {
@@ -41,8 +41,6 @@ export class BookingCardComponent {
 
   deleteBooking(bookingID: string){
     const buildingID = this.building.ID;
-    console.log(buildingID);
-    console.log(bookingID);
     this.bookingsService.removeBooking(buildingID, bookingID).then(() => {
       this.notificationService.sendNotification(
         'Booking successfully deleted!'
