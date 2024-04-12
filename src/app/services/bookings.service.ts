@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Booking, Building } from '../models/properties';
-import { get, getDatabase, ref, set } from 'firebase/database';
+import { Booking } from '../models/properties';
+import { getDatabase} from 'firebase/database';
 import { StorageService } from 'src/app/services/storage.service';
 import { BuildingService } from './building.service';
-import { String } from 'cypress/types/lodash';
 import { UserService } from './user.service';
 import { AuthService } from './auth.service';
 
@@ -71,7 +70,6 @@ export class BookingsService {
    */  
   async removeBooking(buildingID: string, bookingID: string): Promise<void> {
     try {
-      const db = getDatabase();
       const building = await this.buildingService.getBuilding(buildingID);
 
       if (!building.Bookings) {

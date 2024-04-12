@@ -17,7 +17,6 @@ import {
   ParkingLockerStatus,
   ParkingSpot,
   ParkingType,
-  TimeSlots
 } from '../models/properties';
 import { getDatabase } from 'firebase/database';
 

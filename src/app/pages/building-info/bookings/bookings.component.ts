@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { getDatabase } from 'firebase/database';
 import {
   Booking,
   Building,
@@ -8,8 +7,7 @@ import {
   TimesAvailable,
 } from 'src/app/models/properties';
 import { User } from 'src/app/models/users';
-import { MyErrorStateMatcher } from 'src/app/services/auth.service';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService, MyErrorStateMatcher } from 'src/app/services/auth.service';
 import { BookingsService } from 'src/app/services/bookings.service';
 import { BuildingService } from 'src/app/services/building.service';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -189,7 +187,7 @@ export class BookingsComponent {
     this.date = dateObject.valueOf();
 
 
-    const db = getDatabase();
+
 
     const booking: Booking = {
       ID: '',
