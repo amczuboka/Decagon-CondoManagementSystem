@@ -42,7 +42,7 @@ export class BookingCardComponent {
           this.myUser = await this.authService.getUser();
           this.userService.subscribeToPublicUser(this.myUser?.uid, (user) => {
             this.myUser = user;
-            this.myBookings = Building.Bookings.filter(
+            this.myBookings = Building.Bookings?.filter(
               (booking: Booking) => booking.OccupantID === this.myUser.ID
             );
           });
