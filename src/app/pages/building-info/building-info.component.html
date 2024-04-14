@@ -5,7 +5,10 @@
     <!-------------------------------------------------------------------------------------------------------------------------------------------------------------->
     <mat-tab label="Overview"> 
         
-        <app-building-overview *ngIf="building" [building]="building" [sourcePage]="sourcePage"></app-building-overview>
+        <app-building-overview *ngIf="building" 
+          [building]="building" 
+          [sourcePage]="sourcePage">
+      </app-building-overview>
         
     </mat-tab>
 
@@ -55,21 +58,20 @@
     <!-------------------------------------------------------------------------------------------------------------------------------------------------------------->
     <!---------------------------------------------------------------------Reservations------------------------------------------------------------->
     <!-------------------------------------------------------------------------------------------------------------------------------------------------------------->
+    <mat-tab label="Reservations"  *ngIf="sourcePage === 'propertiesPage' && authority === 'Public'">
 
-    <!--TODO: Make tab visible only if they are a condo owner/renter-->
-    <mat-tab label="Reservations">
-
-        <app-bookings [building]="building" [sourcePage]="sourcePage"></app-bookings>
+        <app-bookings *ngIf="building"  
+          [building]="building"
+          [sourcePage]="sourcePage"
+        ></app-bookings>
 
     </mat-tab>
-
     <!-------------------------------------------------------------------------------------------------------------------------------------------------------------->
     <!---------------------------------------------------------------------Schedule------------------------------------------------------------->
     <!-------------------------------------------------------------------------------------------------------------------------------------------------------------->
-   <!--TODO: Make tab visible only if they are a condo owner/renter or a company user-->
-    <mat-tab label="Schedule">
+    <mat-tab label="Schedule" *ngIf="sourcePage === 'propertiesPage' && authority === 'Company'">
 
-        <app-schedule></app-schedule>
+        <app-schedule [building]="building" ></app-schedule>
 
     </mat-tab>
 

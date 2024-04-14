@@ -104,6 +104,12 @@ export enum sourcePage {
   propertiesPage = "propertiesPage"
 };
 
+
+export interface TimesAvailable {
+  value: number;
+  time: string;
+}
+
 export interface Navlinks {
   label: string;
   path: string;

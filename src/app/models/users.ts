@@ -1,3 +1,4 @@
+import { Booking } from 'src/app/models/properties';
 export interface User {
   uid: string;
   email: string;
@@ -15,6 +16,7 @@ export interface UserDTO {
   PhoneNumber: string;
   UserName: string;
   Notifications?: Notification[];
+  Bookings?: Booking[];
 }
 
 export interface CompanyDTO extends UserDTO {

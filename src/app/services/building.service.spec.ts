@@ -349,6 +349,7 @@ describe('BuildingService', () => {
     };
     await service.updateBuilding(updatedBuilding);
 
+
     // Get the updated building
     const retrievedBuilding = await service.getBuilding(building.ID);
 
@@ -363,6 +364,7 @@ describe('BuildingService', () => {
     // Clean up
     await service.deleteBuilding(building.ID);
   });
+
 
   it('should delete a building successfully', async () => {
     // Arrange
@@ -613,6 +615,7 @@ describe('BuildingService', () => {
       Cost: 100,
     };
   
+
     // Add the operation to the building
     await service.addOperation(building.ID, operation);
   
@@ -631,3 +634,4 @@ describe('BuildingService', () => {
     await service.deleteBuilding(building.ID);
   });
 });
+
