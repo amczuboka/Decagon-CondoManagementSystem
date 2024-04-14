@@ -15,11 +15,10 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     control: FormControl | null,
     form: FormGroupDirective | NgForm | null
   ): boolean {
-    const isSubmitted = form && form.submitted;
+    const isSubmitted = form?.submitted;
     return !!(
-      control &&
-      control.invalid &&
-      (control.dirty || control.touched || isSubmitted)
+      control?.invalid &&
+      (control?.dirty || control?.touched || isSubmitted)
     );
   }
 }

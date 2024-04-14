@@ -11,8 +11,14 @@ export interface Building {
   Condos: Condo[];
   Picture: string;
   Facilities: Facilities[];
+  Operations?: Operation[];
 }
-
+export interface Operation{
+ID:string;
+Name:string;
+Description:string;
+Cost:number;
+}
 export interface Condo {
     ID: string; 
     Type: CondoType;
@@ -25,6 +31,7 @@ export interface Condo {
     NumberOfBathrooms: number;
     Status: CondoStatus;
     SquareFootage: number;
+    CondoFee?: number;
 }
 
 export interface ParkingSpot {
@@ -97,7 +104,21 @@ export enum sourcePage {
   propertiesPage = "propertiesPage"
 };
 
+
 export interface TimesAvailable {
   value: number;
   time: string;
+}
+
+export interface Navlinks {
+  label: string;
+  path: string;
+  authority: linkAuthority;
+}
+
+export enum linkAuthority {
+  Any='Any',
+  Public = 'Public',
+  Company = 'Company',
+  Employee = 'Employee',
 }

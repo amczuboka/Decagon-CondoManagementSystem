@@ -11,7 +11,9 @@ import { AuthService, MyErrorStateMatcher } from 'src/app/services/auth.service'
 import { BookingsService } from 'src/app/services/bookings.service';
 import { BuildingService } from 'src/app/services/building.service';
 import { NotificationService } from 'src/app/services/notification.service';
-
+import { FormGroup, Validators, FormBuilder } from '@angular/forms'
+import { Building } from 'src/app/models/properties';
+import { MyErrorStateMatcher } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-bookings',
