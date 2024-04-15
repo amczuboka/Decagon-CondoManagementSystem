@@ -1,6 +1,12 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { Building, Locker } from 'src/app/models/properties';
-import { Authority, Notification, NotificationType, UserDTO } from 'src/app/models/users';
+import {
+  Authority,
+  Notification,
+  NotificationType,
+  RequestStatus,
+  UserDTO,
+} from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { UserService } from 'src/app/services/user.service';
@@ -26,7 +32,7 @@ export class LockerComponent {
 
   async ngOnChanges(changes: SimpleChanges) {
     if (changes['lockers']?.currentValue) {
-    // Fetch user information for each locker's occupant
+      // Fetch user information for each locker's occupant
       for (const locker of this.lockers) {
         if (locker.OccupantID) {
           try {
@@ -81,10 +87,11 @@ export class LockerComponent {
       SenderId: this.myUser.ID,
       SenderName: `${this.myUser.FirstName} ${this.myUser.LastName}`,
       Type: NotificationType.RentRequest,
+      Status: RequestStatus.Pending,
     };
-    await this.userService.sendNotificationToUser(
+    await this.userService.sendNotificationToEmployeeOfCompany(
       this.building.CompanyID,
-      Authority.Company,
+      this.building.ID,
       notification
     );
     this.notificationService.sendNotification(

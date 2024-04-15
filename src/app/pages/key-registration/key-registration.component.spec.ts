@@ -1,13 +1,11 @@
-import { ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { KeyRegistrationComponent } from './key-registration.component';
 import { AppModule } from 'src/app/app.module';
 import { BuildingService } from 'src/app/services/building.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
-import { BehaviorSubject, of } from 'rxjs';
 import { User } from 'src/app/models/users';
-import { Building, Condo, CondoStatus } from 'src/app/models/properties';
-import { CondoType } from 'src/app/models/properties';
+import { Building } from 'src/app/models/properties';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -19,7 +17,6 @@ describe('KeyRegistrationComponent', () => {
   let fixture: ComponentFixture<KeyRegistrationComponent>;
   let buildingService: BuildingService;
   let authService: AuthService;
-  let userService: UserService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -28,7 +25,6 @@ describe('KeyRegistrationComponent', () => {
       providers: [
         BuildingService,
         AuthService,
-        UserService,
         { provide: ElementRef, useValue: { nativeElement: { value: 'testKey' } } } // Mocking ElementRef
       ]
     }).compileComponents();
@@ -39,7 +35,6 @@ describe('KeyRegistrationComponent', () => {
     component = fixture.componentInstance;
     buildingService = TestBed.inject(BuildingService);
     authService = TestBed.inject(AuthService);
-    userService = TestBed.inject(UserService);
     fixture.detectChanges();
   });
 
@@ -69,7 +64,7 @@ describe('KeyRegistrationComponent', () => {
     spyOn(authService, 'getUser').and.returnValue(Promise.resolve(fakeUser));
     spyOn(component, 'registerForItem').and.callThrough(); // Use callThrough to let the method execute
   
-    component.registrationType = 'condo'; // Set registration type to condo
+    component.KeyReg.value.registrationType = 'condo'; // Set registration type to condo
     component.inputElement.nativeElement.value = 'testKey'; // Set existing item
   
     await component.handleButtonClick();
@@ -97,7 +92,8 @@ describe('KeyRegistrationComponent', () => {
         Lockers: [], 
         Condos: [], 
         Picture: 'picture1',
-        Facilities: []
+        Facilities: [],
+        Operations:[]
       },
       { 
         ID: 'building2', 
@@ -111,13 +107,14 @@ describe('KeyRegistrationComponent', () => {
         Lockers: [], 
         Condos: [], 
         Picture: 'picture2',
-        Facilities: []
+        Facilities: [],
+        Operations:[]
       }
     ];
   
     spyOn(buildingService, 'getAllBuildingsWithItems').and.returnValue(Promise.resolve(buildings));
   
-    component.registrationType = 'condo'; // Set registration type to condo
+    component.KeyReg.value.registrationType = 'condo'; // Set registration type to condo
     component.inputElement.nativeElement.value = 'nonExistingItem'; // Set non-existing item
     spyOn(window, 'alert');
     await component.handleButtonClick();

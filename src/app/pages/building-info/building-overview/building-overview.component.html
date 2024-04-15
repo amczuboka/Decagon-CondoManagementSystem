@@ -1,106 +1,110 @@
-<ng-container *ngIf="sourcePage === 'availablePage' || sourcePage === 'propertiesPage'">
-
-    <div class="tab-content">
-        
-        <!--Top of the Page -->
-        <div class="top-tab-content" id="building-title-pic">
-            <h2>{{ building.Name }}</h2>
-            <p>{{ building.Address }}</p> 
-            <img [src]="building.Picture" alt="building image not found" style="height:500px;"/>
-            
-        </div>
-        
-        <!--Building Overview Main-->
-        <div class="bottom-tab-content">
-
-            <!--Description-->
-            <div class="heading-content">
-                <h2>Description</h2>
-                <mat-divider></mat-divider>
-                <div class="sub-heading-content">
-                    {{ building.Description }}
-                </div>
-            </div>
-            
-            <!--General Information-->
-            <div class="heading-content">
-                <h2>General Information</h2>
-                <mat-divider></mat-divider>
-                <div class="sub-heading-content">
-                    <div class="gen-info">
-                        <!--Column 1-->
-                        <div class="gen-info-col">
-                            <ul>
-                                <li>Built in {{ building.Year }}</li>
-                                <li>{{ calculateTotalCondos(building) }} Condos Total</li>
-                                <li>{{ calculateTotalParkings(building) }} Parking Spaces Total</li>
-                                <li>{{ calculateTotalLockers(building) }} Lockers Total</li>
-                            </ul>
-                        </div>
-                        <!--Column 2-->
-                        <div class="gen-info-col">
-                            <ul>
-                                <li>{{ calculateAvailableCondos(building) }} Condos Available</li>
-                                <li>{{ calculateAvailableLockers(building) }} Parking Spaces Available</li>
-                                <li>{{ calculateAvailableParkings(building) }} Lockers Available</li>
-                            </ul>
-                        </div>
-
-                    </div>
-                    
-                </div>
-            </div>
-
-            <!--Facilities-->
-            <div class="heading-content">
-                <h2>Facilities</h2>
-                <mat-divider></mat-divider>
-                <div class="sub-heading-content">
-                    <div class="facility-item">
-                            <div
-                                *ngFor="let facility of building.Facilities"
-                            >
-                                <div>
-                                    {{ facility }}
-                                    <mat-icon>{{ getFacilityIcon(facility) }}</mat-icon>
-                                </div>
-                            </div>
-
-                    </div>
-                    
-                </div>
-            </div>
-
-            <!--Company Information-->
-            <div class="heading-content" *ngIf="company">
-                <h2>Company Information</h2>
-                <mat-divider></mat-divider>
-                <div class="sub-heading-content">
-                    <!--Display Information in two columns when Company has Profile Picture-->
-                    <!--Columns-->
-                    <div class="company-info" *ngIf="company.ProfilePicture">
-                        <!--Column 1-->
-                        <div class="company-info-col">
-                            <img [src]="company.ProfilePicture" height="200" width="200" alt="Company did not provide image">
-                        </div>
-                        <!--Column 2-->
-                        <div class="company-info-col">
-                            <h1>{{ company.CompanyName }}</h1>
-                            <p *ngIf="company.Email">Email: {{ company.Email }}</p>
-                            <p *ngIf="company.PhoneNumber">Phone: {{ company.PhoneNumber }}</p>
-                        </div>
-
-                    </div>
-
-                    <!--Display Information in one column when Company does not have Profile Picture-->
-                    <div class="company-info-no-pic" *ngIf="!company.ProfilePicture">
-                        <h1>{{ company.CompanyName }}</h1>
-                        <p *ngIf="company.Email">Email: {{ company.Email }}</p>
-                        <p *ngIf="company.PhoneNumber">Phone: {{ company.PhoneNumber }}</p>
-                    </div>
-                    
-                </div>
-            </div>
-        </div>
+<ng-container
+  *ngIf="sourcePage === 'availablePage' || sourcePage === 'propertiesPage'"
+>
+  <div class="tab-content">
+    <!--Top of the Page -->
+    <div class="top-tab-content" id="building-title-pic">
+      <h2>{{ building.Name }}</h2>
+      <p>{{ building.Address }}</p>
+      <img
+        [src]="building.Picture"
+        alt="building not found"
+        style="height: 500px"
+      />
     </div>
+
+    <!--Building Overview Main-->
+    <div class="bottom-tab-content">
+      <!--Description-->
+      <div class="heading-content" id="description">
+        <h2>Description</h2>
+        <mat-divider></mat-divider>
+        <div class="sub-heading-content">
+          {{ building.Description }}
+        </div>
+      </div>
+
+      <!--General Information-->
+      <div class="heading-content" id="general-info">
+        <h2>General Information</h2>
+        <mat-divider></mat-divider>
+        <div class="sub-heading-content">
+          <div class="gen-info">
+            <!--Column 1-->
+            <div class="gen-info-col">
+              <ul>
+                <li>Built in {{ building.Year }}</li>
+                <li>{{ calculateTotalCondos(building) }} Condos Total</li>
+                <li>
+                  {{ calculateTotalParkings(building) }} Parking Spaces Total
+                </li>
+                <li>{{ calculateTotalLockers(building) }} Lockers Total</li>
+              </ul>
+            </div>
+            <!--Column 2-->
+            <div class="gen-info-col">
+              <ul>
+                <li>
+                  {{ calculateAvailableCondos(building) }} Condos Available
+                </li>
+                <li>
+                  {{ calculateAvailableLockers(building) }} Parking Spaces
+                  Available
+                </li>
+                <li>
+                  {{ calculateAvailableParkings(building) }} Lockers Available
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Facilities-->
+      <div class="heading-content" id="facilities">
+        <h2>Facilities</h2>
+        <mat-divider></mat-divider>
+        <div class="sub-heading-content">
+          <div class="facility-item">
+            <div *ngFor="let facility of building.Facilities">
+              <div>
+                {{ facility }}
+                <mat-icon>{{ getFacilityIcon(facility) }}</mat-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="company-info">
+        <!--Company Information-->
+        <div class="heading-content" *ngIf="company">
+          <h2>Company Information</h2>
+          <mat-divider></mat-divider>
+          <div class="sub-heading-content">
+            <!--Display Information in two columns when Company has Profile Picture-->
+            <!--Columns-->
+            <div class="company-info">
+              <!--Column 1-->
+              <div *ngIf="company.ProfilePicture" class="company-info-col">
+                <img
+                  [src]="company.ProfilePicture"
+                  height="200"
+                  width="200"
+                  alt="Company did not provide image"
+                />
+              </div>
+              <!--Column 2-->
+              <div class="company-info-col">
+                <h1>{{ company.CompanyName }}</h1>
+                <p *ngIf="company.Email">Email: {{ company.Email }}</p>
+                <p *ngIf="company.PhoneNumber">
+                  Phone: {{ company.PhoneNumber }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </ng-container>

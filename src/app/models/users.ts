@@ -1,3 +1,4 @@
+import { Booking } from 'src/app/models/properties';
 export interface User {
   uid: string;
   email: string;
@@ -15,6 +16,7 @@ export interface UserDTO {
   PhoneNumber: string;
   UserName: string;
   Notifications?: Notification[];
+  Bookings?: Booking[];
 }
 
 export interface CompanyDTO extends UserDTO {
@@ -54,6 +56,7 @@ export interface Notification {
   SenderId: string;
   SenderName: string;
   Type: NotificationType;
+  Status?: RequestStatus;
 }
 
 export enum NotificationType {
@@ -64,6 +67,14 @@ export enum NotificationType {
   CleaningRequest = 'CleaningRequest',
   SecurityRequest = 'SecurityRequest',
   FinancialRequest = 'FinancialRequest',
+}
+
+export enum RequestStatus {
+  Pending = 'Pending',
+  Processing = 'Processing',
+  Approved = 'Approved',
+  Denied = 'Denied',
+  Closed = 'Closed',
 }
 
 export enum Authority {

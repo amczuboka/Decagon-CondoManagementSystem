@@ -17,6 +17,7 @@ import { BudgetReportComponent } from './pages/building-info/budget-report/budge
 import { PaymentComponent } from './pages/payment/payment.component';
 import { MyPropertiesComponent } from './pages/my-properties/my-properties.component';
 import { AddNewBuildingOperationComponent } from './pages/add-new-building-operation/add-new-building-operation.component';
+import { PaymentGuard } from './services/payment.guard';
 
 const routes: Routes = [
   {
@@ -35,7 +36,7 @@ const routes: Routes = [
   {
     path: 'budget-report',
     component: BudgetReportComponent,
-    canActivate: [AuthguardGuard],
+    canActivate: [AuthguardGuard, CompanyGuard],
   },
   {
     path: 'user-profile',
@@ -65,7 +66,7 @@ const routes: Routes = [
   {
     path: 'payment',
     component: PaymentComponent,
-    canActivate: [AuthguardGuard],
+    canActivate: [AuthguardGuard, PaymentGuard],
   },
   {
     path: 'my-employees',
@@ -80,7 +81,7 @@ const routes: Routes = [
   {
     path: "add-new-building-operation",
     component: AddNewBuildingOperationComponent,
-    canActivate: [AuthguardGuard],
+    canActivate: [AuthguardGuard, CompanyGuard],
   },
   //This has to be at the last path
   { path: '**', redirectTo: '', canActivate: [AuthguardGuard] },
