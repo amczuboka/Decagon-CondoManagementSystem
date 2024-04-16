@@ -53,15 +53,15 @@ describe('Test Booking a Reservation', () => {
     // Find the Spa option and click on it
     cy.get('mat-radio-button').contains('Spa').click();
 
-// Verify if the radio button has the correct CSS property
-cy.get('mat-radio-button')
-  .contains('Spa')
-  .should(($el) => {
-    // retry until the css property is applied
-    const style = window.getComputedStyle($el[0]);
-    const color = style.getPropertyValue('--mdc-radio-selected-focus-icon-color');
-    expect(color).to.equal('#ff4081');
-  });
+    // Verify if the radio button has the correct CSS property
+    cy.get('mat-radio-button')
+      .contains('Spa')
+      .should(($el) => {
+        // retry until the css property is applied
+        const style = window.getComputedStyle($el[0]);
+        const color = style.getPropertyValue('--mdc-radio-selected-focus-icon-color');
+        expect(color).to.equal('#ff4081');
+      });
 
     // Open up the calendar
     cy.get('.datepicker')
@@ -111,5 +111,12 @@ cy.get('mat-radio-button')
     cy.get('app-booking-card')
       .find('.card-header')
       .should('contain.text', 'Spa');
+
+    //Delete booking  
+    cy.get('app-booking-card')
+      .contains('.card-header', 'Spa')
+      .within(() => {
+      cy.get('button').click(); 
+    });
   });
 });
