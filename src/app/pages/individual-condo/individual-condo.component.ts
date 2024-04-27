@@ -127,17 +127,10 @@ export class IndividualCondoComponent implements OnInit {
       return null;
     }
   }
+  
   isPaymentAllowed(): boolean {
     // Check if the user is logged in and is a public user
-    if (
-      this.loggedInUserInfo &&
-      this.loggedInUserInfo.Authority === Authority.Public
-    ) {
-    }
-    if (this.condo?.Status == 'Owned' || this.condo?.Status == 'Rented')
-      if (this.condo?.OccupantID === this.loggedInUser.uid) return true;
-
-    return false;
+    return this.loggedInUser?.photoURL === Authority.Public;
   }
 
   isEditAllowed(): boolean {
