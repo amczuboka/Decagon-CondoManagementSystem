@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">decagon</string>
+    <string name="title_activity_main">decagon</string>
+    <string name="package_name">com.decagon</string>
+    <string name="custom_url_scheme">com.decagon</string>
+</resources>
