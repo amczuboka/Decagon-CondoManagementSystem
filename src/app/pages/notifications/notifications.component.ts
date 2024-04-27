@@ -1,7 +1,12 @@
 import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DeleteNotificationDialogComponent } from 'src/app/pages/notifications/delete-notification-dialog/delete-notification-dialog.component';
-import { Authority, Notification, RequestStatus, NotificationType } from 'src/app/models/users';
+import {
+  Authority,
+  Notification,
+  RequestStatus,
+  NotificationType,
+} from 'src/app/models/users';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -118,7 +123,16 @@ export class NotificationsComponent {
     });
     this.userService.editUser(this.myUser.ID, this.myUser);
     const myNotification = {
-      Message: `Request status updated to \"${notification.Status}\" for request: ${notification.Message}`,
+      Message: `Request status updated to "${
+        notification.Status
+      }" for request: ${
+        notification.Type === NotificationType.RentRequest ||
+        notification.Type === NotificationType.OwnershipRequest
+          ? notification.Status !== RequestStatus.Approved
+            ? notification.Message.replace(/\s*with ID \w+$/, '')
+            : notification.Message
+          : notification.Message
+      }`,
       New: true,
       Date: Date.now(),
       SenderId: this.myUser.ID,
