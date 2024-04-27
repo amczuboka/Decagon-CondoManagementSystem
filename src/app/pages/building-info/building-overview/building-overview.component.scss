@@ -1,4 +1,3 @@
-
 /******************************************/
 /*Facility Info */
 /******************************************/
@@ -7,14 +6,14 @@
     display: flex; 
     justify-content: space-between; 
     align-items:center;
-  }
+}
 
 /******************************************/
 /*Padding */
 /******************************************/
 
 .tab-content{
-    margin:auto;
+    margin:0 auto;
     width: 50%;
     padding: 20px;
 }
@@ -33,7 +32,7 @@
 }
 
 /******************************************/
-/*Displaying General Info in Two Columns*/
+/*Displaying General Info in Two Columns  */
 /******************************************/
 .gen-info{
     display:flex;
@@ -48,6 +47,7 @@
 .gen-info-col:first-child{
     margin-right: 20px;
 }
+
 
 /******************************************/
 /*Displaying Company Info in Two Columns*/
@@ -68,5 +68,68 @@
     width:fit-content;
 }
 
+/******************************************/
+/*Building Image*/
+/******************************************/
+
+.building-image {
+    max-height: 500px; 
+}
 
 
+/******************************************/
+/*Company Profile Picture*/
+/******************************************/
+
+.profile-pic {
+    height: 200px; 
+    width: 200px; 
+}
+
+
+/******************************************/
+/*Adding Responsiveness for Phone Sizes*/
+/******************************************/
+
+@media screen and (max-width: 788px) {
+
+    //Put facilities in one column for better visibility
+    .facility-item {
+        flex-direction: column;
+    }
+
+    //Make content take up entire screen
+    .tab-content {
+        width: 100%; 
+    }
+
+    //Put general info in one column for better visibility
+    .gen-info {
+        flex-direction: column; 
+    }
+
+    .gen-info-col:first-child {
+        margin-right: 0; 
+    }
+
+    //Put company info in one column for better visibility
+    .company-info {
+        flex-direction: column; 
+    }
+
+    .company-info-col:first-child {
+        margin-right: 0;
+    }
+
+    //Set max height for building image
+    .building-image {
+        max-height: 175px;
+    }
+
+    //Modify for company pic image
+    .profile-pic {
+        padding-bottom: 20px;
+        height: 140px; 
+        width: 140px; 
+    }
+}
