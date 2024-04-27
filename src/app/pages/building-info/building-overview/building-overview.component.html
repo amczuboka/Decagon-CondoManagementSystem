@@ -9,7 +9,8 @@
       <img
         [src]="building.Picture"
         alt="building not found"
-        style="height: 500px"
+        
+        class = "building-image"
       />
     </div>
 
@@ -88,6 +89,7 @@
               <div *ngIf="company.ProfilePicture" class="company-info-col">
                 <img
                   [src]="company.ProfilePicture"
+                  class="profile-pic"
                   height="200"
                   width="200"
                   alt="Company did not provide profile"
