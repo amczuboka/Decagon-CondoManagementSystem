@@ -141,11 +141,6 @@ cy.get('mat-toolbar .otherLinks') // Locate the parent div containing the header
     cy.contains('.diff', 'Remaining Balance: 0');
 
     // Delete Condo fee from this condo to make sure test always passes
-    
-    const buildingId = 'yourBuildingId'; // Provide a valid building ID
-    const condoId = 'yourCondoId'; // Provide a valid condo ID
-    const attributeToDelete = 'attributeName'; // Provide the name of the attribute you want to delete
-
     // Call the deleteCondoAttribute function
     cy.window().then(async (win) => {
     try {

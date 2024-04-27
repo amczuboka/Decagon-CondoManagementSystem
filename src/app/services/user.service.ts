@@ -22,7 +22,6 @@ import {
 import { Database, remove, set, update } from '@angular/fire/database';
 import { AuthService } from './auth.service';
 import { BehaviorSubject } from 'rxjs';
-import { Building } from '../models/properties';
 
 @Injectable({
   providedIn: 'root',

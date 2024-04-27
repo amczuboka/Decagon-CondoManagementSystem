@@ -1,11 +1,6 @@
-import { CondoType, ParkingType } from 'src/app/models/properties';
-import { CompanyDTO } from 'src/app/models/users';
 import {
   CreateProperty,
   DeleteProperty,
-  addCondo,
-  addLocker,
-  addParking,
   login,
 } from './utils.cy';
 

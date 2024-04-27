@@ -3,7 +3,6 @@ import { KeyRegistrationComponent } from './key-registration.component';
 import { AppModule } from 'src/app/app.module';
 import { BuildingService } from 'src/app/services/building.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/users';
 import { Building } from 'src/app/models/properties';
 import { MatSelectModule } from '@angular/material/select';

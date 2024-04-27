@@ -54,7 +54,6 @@ describe('PaymentComponent', () => {
 
     fixture = TestBed.createComponent(PaymentComponent);
     component = fixture.componentInstance;
-    authService = TestBed.inject(AuthService);
     buildingService = TestBed.inject(BuildingService);
     mockBuildingService = jasmine.createSpyObj('BuildingService', [
       'getBuilding',
