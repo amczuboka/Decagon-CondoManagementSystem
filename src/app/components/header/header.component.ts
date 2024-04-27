@@ -75,6 +75,11 @@ export class HeaderComponent {
         authority: linkAuthority.Public,
       },
       {
+        label: 'My Employees',
+        path: 'my-employees',
+        authority: linkAuthority.Company,
+      },
+      {
         label: 'Add New Property',
         path: 'add-new-property',
         authority: linkAuthority.Company,
