@@ -1,5 +1,15 @@
 # Decagon
 
+## Deployed Website
+
+This project is available at the following URL: [https://decagon-acb25.web.app/login](https://decagon-acb25.web.app/login)
+
+## Android Mobile Version
+
+This repository contains a file called `decagon-condo-management.apk` which is the Android Package Kit file for our mobile version.
+
+## Project generation
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.2.
 
 ## Development server
