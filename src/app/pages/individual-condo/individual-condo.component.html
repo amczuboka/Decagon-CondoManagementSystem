@@ -4,9 +4,13 @@
   *ngIf="building && condo; else loadingOrErrorContent"
 ></div>
 <div class="button">
-    <button (click)="proceedToPayment()" *ngIf="sourcePage === 'propertiesPage'" class="payment-button">
-      Pay Fees
-    </button>
+  <button 
+    (click)="proceedToPayment()" 
+    *ngIf="sourcePage === 'propertiesPage' && isPaymentAllowed()" 
+    class="payment-button"
+  >
+    Pay Fees
+  </button>
 </div>
 <div class="container">
   <!-- Property Header -->

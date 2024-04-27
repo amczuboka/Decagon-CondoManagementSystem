@@ -31,7 +31,7 @@ export class IndividualCondoComponent implements OnInit {
     private route: ActivatedRoute,
     private authService: AuthService,
     private location: Location,
-    private router: Router,
+    private router: Router
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -91,9 +91,9 @@ export class IndividualCondoComponent implements OnInit {
   }
 
   goBack(): void {
-   this.location.back();
+    this.location.back();
   }
-  
+
   share() {
     console.log('Functionality not implemented yet.');
   }
@@ -126,6 +126,11 @@ export class IndividualCondoComponent implements OnInit {
       console.error('Error fetching logged-in user:', error);
       return null;
     }
+  }
+  
+  isPaymentAllowed(): boolean {
+    // Check if the user is logged in and is a public user
+    return this.loggedInUser?.photoURL === Authority.Public;
   }
 
   isEditAllowed(): boolean {
@@ -186,7 +191,11 @@ export class IndividualCondoComponent implements OnInit {
     //redirect to payment page and pass the condo object
     const currentUrl = this.router.url;
     this.router.navigate(['/payment'], {
-      queryParams: { condo: JSON.stringify(this.condo), buildingID: this.building?.ID, returnUrl: currentUrl}
+      queryParams: {
+        condo: JSON.stringify(this.condo),
+        buildingID: this.building?.ID,
+        returnUrl: currentUrl,
+      },
     });
   }
 }
