@@ -6,7 +6,11 @@ This project is available at the following URL: [https://decagon-acb25.web.app/l
 
 ## Android Mobile Version
 
-This repository contains a file called `decagon-condo-management.apk` which is the Android Package Kit file for our mobile version.
+This repository contains a file called `decagon-condo-management.apk` which is the Android Package Kit file for our mobile version.  
+
+## Project Demo
+
+A walkthrough of the user interface meeting requirements can be viewed here: https://youtu.be/YtBAc4EvcW8   
 
 ## Project generation
 
