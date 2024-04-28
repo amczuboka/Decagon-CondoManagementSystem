@@ -10,7 +10,7 @@ This repository contains a file called `decagon-condo-management.apk` which is t
 
 ## Project Demo
 
-A walkthrough of the user interface meeting requirements can be viewed here: https://youtu.be/YtBAc4EvcW8   
+A walkthrough of the user interface meeting requirements can be viewed here: https://youtu.be/ODVT2vB41_w   
 
 ## Project generation
 
